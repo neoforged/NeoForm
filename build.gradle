@@ -7,7 +7,7 @@ import net.minecraftforge.mcpconfig.tasks.*
 import net.minecraftforge.srgutils.MinecraftVersion
 import uk.jamierocks.propatcher.task.*
 
-group = 'de.oceanlabs.mcp'
+group = 'net.neoforged'
 
 net.minecraftforge.mcpconfig.tasks.Utils.init()
 
@@ -763,17 +763,17 @@ subprojects {
                     artifactId rootProject.name
                     artifact makeZip
                     pom {
-                        name = 'MCPConfig'
+                        name = 'NeoForm'
                         description = 'Configuration files used for deobfuscating and modding Minecraft.'
-                        url = 'https://github.com/MinecraftForge/MCPConfig'
+                        url = 'https://github.com/NeoForged/NeoForm'
                         scm {
-                            url = 'https://github.com/MinecraftForge/MCPConfig'
-                            connection = 'scm:git:git://github.com/MinecraftForge/MCPConfig.git'
-                            developerConnection = 'scm:git:git@github.com:MinecraftForge/MCPConfig.git'
+                            url = 'https://github.com/NeoForged/NeoForm'
+                            connection = 'scm:git:git://github.com/NeoForged/NeoForm.git'
+                            developerConnection = 'scm:git:git@github.com:NeoForged/NeoForm.git'
                         }
                         issueManagement {
                             system = 'github'
-                            url = 'https://github.com/MinecraftForge/MCPConfig/issues'
+                            url = 'https://github.com/NeoForged/NeoForm/issues'
                         }
 
                         licenses {
@@ -790,17 +790,17 @@ subprojects {
                 version project.version + '-' + rootProject.TIMESTAMP
                 artifact makeZip
                 pom {
-                    name = 'MCPConfig'
+                    name = 'NeoForm'
                     description = 'Configuration files used for deobfuscating and modding Minecraft.'
-                    url = 'https://github.com/MinecraftForge/MCPConfig'
+                    url = 'https://github.com/NeoForged/NeoForm'
                     scm {
-                        url = 'https://github.com/MinecraftForge/MCPConfig'
-                        connection = 'scm:git:git://github.com/MinecraftForge/MCPConfig.git'
-                        developerConnection = 'scm:git:git@github.com:MinecraftForge/MCPConfig.git'
+                        url = 'https://github.com/NeoForged/NeoForm'
+                        connection = 'scm:git:git://github.com/NeoForged/NeoForm.git'
+                        developerConnection = 'scm:git:git@github.com:NeoForged/NeoForm.git'
                     }
                     issueManagement {
                         system = 'github'
-                        url = 'https://github.com/MinecraftForge/MCPConfig/issues'
+                        url = 'https://github.com/NeoForged/NeoForm/issues'
                     }
 
                     licenses {

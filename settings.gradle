@@ -1,4 +1,4 @@
-rootProject.name = 'mcp_config'
+rootProject.name = 'NeoForm'
 
 ext.versions = [] as Set
 
