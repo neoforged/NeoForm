@@ -23,7 +23,7 @@ public class DownloadLibraries extends DefaultTask {
             if (config?.libraries?.get(side) != null) {
                 config.libraries.get(side).each { art ->
                     download(
-                        'https://maven.minecraftforge.net/' + art.toMavenPath(),
+                        'https://maven.neoforged.net/releases/' + art.toMavenPath(),
                         new File(dest, art.toMavenPath())
                     )
                 }
