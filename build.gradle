@@ -372,7 +372,7 @@ subprojects {
         }
         
         task projectSharedReset(type: ResetSourcesTask, dependsOn: [deduplicateSources, projectSharedMakeDir]) {
-            mustRunAfter(projectRoot)
+            mustRunAfter projectRoot
             rootZip deduplicateSources.duplicates
             target project.file('projects/shared')
         }
@@ -381,6 +381,7 @@ subprojects {
             patches project.file('patches/shared')
         }
         task projectSharedMakePatches(type: MakePatchesTask, dependsOn: deduplicateSources) {
+            mustRunAfter projectRoot
             rootZip deduplicateSources.duplicates
             target projectSharedApplyPatches.target
             patches projectSharedApplyPatches.patches
@@ -459,6 +460,8 @@ subprojects {
         projectApplyAll.dependsOn(child.apply)
 
         child.makePatches = task "project${child.Name}MakePatches"(type: MakePatchesTask, dependsOn: MERGE_PATCHES ? [deduplicateSources, projectSharedMakePatches] : [child.decompile]) {
+            mustRunAfter projectRoot
+            mustRunAfter child.project
             rootZip MERGE_PATCHES ? child.slimsrc : child.decompile.dest
             target new File(project_dir, 'src/main/java')
             patches patches_dir
