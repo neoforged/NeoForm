@@ -1,5 +1,8 @@
 name: Check
 
+permissions:
+  contents: write
+
 on:
   workflow_call:
     inputs:
@@ -9,6 +12,10 @@ on:
       version:
         required: true
         type: string
+      push_changed:
+        default: true
+        required: false
+        type: boolean
   workflow_dispatch:
     inputs:
       branch:
@@ -17,6 +24,11 @@ on:
       version:
         description: 'Version'
         required: true
+      push_changed:
+        description: 'Push changed patches'
+        default: true
+        required: false
+        type: boolean
 
 jobs:
   common:
@@ -88,6 +100,7 @@ jobs:
         generate-job-summary: false
     - name: Check if patches have changed
       id: check_changes
+      if: ${{ inputs.push_changed }}
       run: |
         git add .
         git diff-index --quiet HEAD || git commit -m "Update patches" && git push

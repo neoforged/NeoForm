@@ -333,3 +333,4 @@ jobs:
     with:
       branch: ${{ inputs.new_branch || inputs.old_branch }}
       version: ${{ inputs.new_version }}
+      push_changed: true
