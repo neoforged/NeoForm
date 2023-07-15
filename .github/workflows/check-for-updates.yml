@@ -146,13 +146,13 @@ jobs:
               core.info(key + ": " + inputs[key]);
             }
             
-            /*github.rest.actions.createWorkflowDispatch({
+            github.rest.actions.createWorkflowDispatch({
               owner: context.repo.owner,
               repo: context.repo.repo,
               workflow_id: "update.yml",
               ref: "master",
               inputs: inputs
-            });*/
+            });
             
       - name: Store Latest Version
         uses: octokit/request-action@v2.1.7

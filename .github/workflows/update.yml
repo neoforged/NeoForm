@@ -11,7 +11,7 @@ on:
       old_branch:
         description: 'Old branch'
         required: true
-        default: 'upstream/master'
+        default: 'main'
       old_version:
         description: 'Old version'
         required: true
