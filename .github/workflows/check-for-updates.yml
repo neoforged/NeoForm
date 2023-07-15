@@ -1,0 +1,175 @@
+name: Check For New Snapshots
+on: 
+  schedule:
+    - cron: "*/30 6-19 * * *"
+  workflow_dispatch:
+permissions:
+  actions: write
+  
+jobs:
+  check:
+    env:
+      LATEST_VERSION: ${{ vars.LATEST_MC_VERSION }}
+      LATEST_MAINLINE: ${{ vars.LATEST_MAINLINE_VERSION }}
+    runs-on: ubuntu-latest
+    if: ${{ vars.LATEST_MC_VERSION != vars.TARGET_MC_VERSION }}
+    outputs:
+      is_new: ${{ fromJson(steps.check.outputs.result).is_new }}
+      old_version: ${{ toJson(fromJson(steps.check.outputs.result).old_version) }}
+      new_version: ${{ toJson(fromJson(steps.check.outputs.result).new_version) }}
+    steps:
+      - name: Get Version Manifest
+        id: version_manifest
+        uses: fjogeleit/http-request-action@v1
+        with:
+          url: "https://piston-meta.mojang.com/mc/game/version_manifest_v2.json"
+          method: "GET"
+      - name: Check latest snapshot
+        id: check
+        uses: actions/github-script@v6
+        env:
+          NEW_LATEST_VERSION: ${{ fromJson(steps.version_manifest.outputs.response).latest.snapshot }}
+          LATEST_RELEASE: ${{ fromJson(steps.version_manifest.outputs.response).latest.release }}
+        with:
+          script: |
+            function getInfo(name) {
+              var type = "";
+              var april = false;
+              if (/^\d+\.\d+(\.\d+)?$/.test(name)) {
+                type = "release";
+              } else if (/^\d{2}w\d{2}[a-z]$/.test(name)) {
+                type = "snapshot";
+              } else if (/^\d+\.\d+(.\d+)?-(pre|rc)\d+$/.test(name) || /^\d+\.\d+.\d+-rc\d+$/.test(name)) {
+                type = "pre";
+              } else {
+                // If it doesn't match anything guess that it's an april fools release
+                type = "snapshot";
+                april = true;
+              }
+              return {type: type, april: april, version: name}
+            }
+            
+            const latestSnapshot = process.env.NEW_LATEST_VERSION
+            
+            const newVersionInfo = getInfo(latestSnapshot);
+            const oldVersion = process.env.LATEST_MAINLINE;
+            const oldVersionInfo = getInfo(oldVersion);
+            
+            if (process.env.LATEST_VERSION === latestSnapshot) {
+              core.info("No new snapshots have been released since " + process.env.LATEST_VERSION)
+              return {old_version: oldVersionInfo, new_version: newVersionInfo, is_new: false};
+            }
+
+            core.info("Found new snapshot: " + latestSnapshot)
+            return {old_version: oldVersionInfo, new_version: newVersionInfo, is_new: true};
+  check-srgutils:
+    runs-on: ubuntu-latest
+    needs: check
+    if: ${{ needs.check.outputs.is_new == 'true' && fromJson(needs.check.outputs.new_version).april }}
+    steps:
+      - name: Setup Java
+        uses: actions/setup-java@v3
+        with: 
+          distribution: temurin
+          java-version: ${{ vars.JAVA_VERSION }}
+      - name: Download maven-metadata.xml
+        run: wget https://maven.minecraftforge.net/net/minecraftforge/srgutils/maven-metadata.xml
+      - name: Get latest version of srgutils
+        id: srgutils_version
+        uses: mavrosxristoforos/get-xml-info@1.1.1
+        with:
+          xml-file: maven-metadata.xml
+          xpath: //metadata/versioning/latest
+      - name: Download srgutils
+        run: wget https://maven.minecraftforge.net/net/minecraftforge/srgutils/${{ steps.srgutils_version.outputs.info }}/srgutils-${{ steps.srgutils_version.outputs.info }}.jar -O srgutils.jar
+      - name: Download parser
+        run: wget ${{ vars.PARSE_VERSION_JAVA }}
+      - name: Run parser
+        run: java -cp srgutils.jar Main.java ${{ fromJson(needs.check.outputs.new_version).version }}
+  run-update:
+    runs-on: ubuntu-latest
+    needs:
+      - check
+      - check-srgutils
+    if: ${{ always() && !cancelled() && !failure() && needs.check.result == 'success' && needs.check.outputs.is_new == 'true' }}
+    env:
+      TARGET_VERSION: ${{ vars.TARGET_MC_VERSION }}
+    steps:
+      - name: Run update workflow
+        id: update
+        uses: actions/github-script@v6
+        env:
+          OLD_VERSION_INFO: ${{ needs.check.outputs.old_version }}
+          NEW_VERSION_INFO: ${{ needs.check.outputs.new_version }}
+        with:
+          script: |
+            const oldVersionInfo = JSON.parse(process.env.OLD_VERSION_INFO);
+            const newVersionInfo = JSON.parse(process.env.NEW_VERSION_INFO);
+            function getVersionPrefix(info) {
+              if (info.april) {
+                return "snapshot/april/";
+              } else if (info.type === "snapshot" || info.type === "pre") {
+                const targetSplit = process.env.TARGET_VERSION.split(".")
+                return info.type + "/" + targetSplit[0] + "." + targetSplit[1] + "/";
+              } else {
+                return info.type + "/";
+              }
+            }
+             
+            function getBranch(info, newVersion) {
+              var release = info.type === "release";
+              if (release && !newVersion) {
+                return "main";
+              } else {
+                var branch = "";
+                if (info.april) {
+                  branch = info.version;
+                } else {
+                  branch = process.env.TARGET_VERSION + "-" + info.type;
+                }
+                return branch;
+              }
+            }
+
+            var inputs = {}
+            inputs.old_version = getVersionPrefix(oldVersionInfo) + oldVersionInfo.version;
+            inputs.new_version = getVersionPrefix(newVersionInfo) + newVersionInfo.version;
+            
+            inputs.old_branch = getBranch(oldVersionInfo, false);
+            var newBranch = getBranch(newVersionInfo, true);
+            if (inputs.old_branch.split("/")[1] !== newBranch) {
+              inputs.new_branch = newBranch;
+            }
+            
+            core.info("Using inputs:");
+            for (const key in inputs) {
+              core.info(key + ": " + inputs[key]);
+            }
+            
+            github.rest.actions.createWorkflowDispatch({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              workflow_id: "update.yml",
+              ref: "master",
+              inputs: inputs
+            });
+            
+      - name: Store Latest Version
+        uses: octokit/request-action@v2.1.7
+        with:
+          route: PATCH /repos/{repo}/actions/variables/{name}
+          repo: ${{ github.repository }}
+          name: LATEST_MC_VERSION
+          value: "\"${{ fromJson(needs.check.outputs.new_version).version }}\""
+        env:
+          GITHUB_TOKEN: ${{ secrets.VARIABLES_TOKEN }}
+      - name: Store Latest Version
+        if: ${{ !fromJson(needs.check.outputs.new_version).april }}
+        uses: octokit/request-action@v2.1.7
+        with:
+          route: PATCH /repos/{repo}/actions/variables/{name}
+          repo: ${{ github.repository }}
+          name: LATEST_MAINLINE_VERSION
+          value: "\"${{ fromJson(needs.check.outputs.new_version).version }}\""
+        env:
+          GITHUB_TOKEN: ${{ secrets.VARIABLES_TOKEN }}

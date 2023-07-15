@@ -1,0 +1,220 @@
+name: Check
+
+on:
+  workflow_call:
+    inputs:
+      branch:
+        required: true
+        type: string
+      version:
+        required: true
+        type: string
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: 'Branch'
+        required: true
+      version:
+        description: 'Version'
+        required: true
+
+jobs:
+  common:
+    runs-on: ubuntu-latest
+    outputs:
+      jdk_version: ${{ steps.java_version.outputs.result }}
+      version_type: ${{ fromJson(steps.split_version.outputs.result).version_type }}
+      version_name: ${{ fromJson(steps.split_version.outputs.result).version_name }}
+    steps:
+    - uses: actions/github-script@v6
+      id: split_version
+      env:
+        VERSION: ${{ inputs.version }}
+      with:
+        script: |
+          const version = process.env.VERSION.split("/");
+          var returnValue = {version_name: version[version.length - 1], version_type: version[0]}
+          return returnValue;
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+    - uses: actions/cache/restore@v3
+      name: Restore ${{ fromJson(steps.split_version.outputs.result).version_name }} cache
+      with:
+        path: |
+          build/versions/${{ fromJson(steps.split_version.outputs.result).version_name }}/**
+          versions/${{ inputs.version }}/build/download-task/**
+        key: version-${{ fromJson(steps.split_version.outputs.result).version_name }}-
+    - uses: actions/cache/restore@v3
+      name: Restore Assets cache
+      with:
+        path: build/assets/**
+        key: minecraft-assets-
+    - uses: actions/cache/restore@v3
+      name: Restore Libraries cache
+      with:
+        path: build/libraries/**
+        key: minecraft-libraries-
+    - uses: actions/cache/restore@v3
+      name: Restore Version Manifest cache
+      with:
+        path: build/versions/version_manifest.json
+        key: minecraft-version-manifest-
+    - uses: actions/cache/restore@v3
+      name: Restore BuildSrc cache
+      with:
+        path: |
+          buildSrc/build/**
+          buildSrc/.gradle/**
+        key: buildsrc-build-
+    - uses: actions/cache/restore@v3
+      name: Restore Other cache
+      with:
+        path: |
+          build/download-task/**
+          .gradle/**
+        key: gradle-other-
+    - run: git checkout ${{ inputs.branch }}
+    - run: |
+        git config --global user.name github-actions
+        git config --global user.email 41898282+github-actions[bot]@users.noreply.github.com
+    - name: Apply and Create patches
+      id: patches
+      uses: gradle/gradle-build-action@v2
+      with:
+        arguments: :${{ fromJson(steps.split_version.outputs.result).version_name }}:projectApplyAll :${{ fromJson(steps.split_version.outputs.result).version_name }}:projectMakeAll -Ptype=${{ fromJson(steps.split_version.outputs.result).version_type }}
+        generate-job-summary: false
+    - name: Check if patches have changed
+      id: check_changes
+      run: |
+        git add .
+        git diff-index --quiet HEAD || git commit -m "Update patches" && git push
+    - name: Verify mappings
+      id: verify
+      uses: gradle/gradle-build-action@v2
+      continue-on-error: true
+      with:
+        arguments: :${{ fromJson(steps.split_version.outputs.result).version_name }}:verify -Ptype=${{ fromJson(steps.split_version.outputs.result).version_type }}
+        generate-job-summary: false
+    - name: Make Zip
+      if: ${{ always() }}
+      uses: gradle/gradle-build-action@v2
+      with:
+        arguments: :${{ fromJson(steps.split_version.outputs.result).version_name }}:makeZip -Ptype=${{ fromJson(steps.split_version.outputs.result).version_type }}
+        generate-job-summary: false
+    - name: Upload Zip as Artifact
+      if: ${{ always() }}
+      uses: actions/upload-artifact@v3
+      with:
+        name: mcp_config-${{ fromJson(steps.split_version.outputs.result).version_name }}
+        path: build/distributions/*.zip
+    - name: Get Java Version
+      id: java_version
+      uses: actions/github-script@v6
+      env:
+        VERSION: ${{ inputs.version }}
+        PATCHES_OUTCOME: ${{ steps.patches.outcome }}
+      with:
+        result-encoding: "string"
+        script: |
+          if (process.env.PATCHES_OUTCOME != 'success') {
+            return Number.MAX_SAFE_INTEGER;
+          }
+          const fs = require('fs');
+          const config = JSON.parse(fs.readFileSync('versions/' + process.env.VERSION + '/config.json', 'utf8'))
+          return config.java_target;
+    - uses: actions/cache/save@v3
+      name: Save ${{ fromJson(steps.split_version.outputs.result).version_name }} cache
+      with:
+        path: |
+          build/versions/${{ fromJson(steps.split_version.outputs.result).version_name }}/**
+          versions/${{ inputs.version }}/build/download-task/**
+        key: version-${{ fromJson(steps.split_version.outputs.result).version_name }}-${{ hashFiles(format('build/versions/{0}/**', fromJson(steps.split_version.outputs.result).version_name), format('versions/{0}/build/download-task/**', inputs.version))}}
+    - uses: actions/cache/save@v3
+      name: Save Assets cache
+      with:
+        path: build/assets/**
+        key: minecraft-assets-${{ hashFiles('build/assets/**' )}}
+    - uses: actions/cache/save@v3
+      name: Save Libraries cache
+      with:
+        path: build/libraries/**
+        key: minecraft-libraries-${{ hashFiles('build/libraries/**')}}
+    - uses: actions/cache/save@v3
+      name: Save Version Manifest cache
+      with:
+        path: build/versions/version_manifest.json
+        key: minecraft-version-manifest-${{ hashFiles('build/versions/version_manifest.json')}}
+    - uses: actions/cache/save@v3
+      name: Save BuildSrc cache
+      with:
+        path: |
+          buildSrc/build/**
+          buildSrc/.gradle/**
+        key: buildsrc-build-${{ hashFiles('buildSrc/build/**', 'buildSrc/.gradle/**')}}
+    - uses: actions/cache/save@v3
+      name: Save Other cache
+      with:
+        path: |
+          build/download-task/**
+          .gradle/**
+        key: gradle-other-${{ hashFiles('build/download-task/**', '.gradle/**')}}
+  
+  testjdks:
+    name: Test Jdks on side ${{ matrix.side }} using mappings ${{ matrix.mappings }} using java version ${{ matrix.jdk_version }} 
+    runs-on: ubuntu-latest
+    needs: common
+    strategy:
+      fail-fast: false
+      matrix:
+        jdk_version: [17, 18, 19, 20]
+        mappings: [Official, HotSpot]
+        side: [Client, Joined, Server]
+    
+    steps: 
+    - uses: actions/checkout@v3
+      with:
+        ref: ${{ inputs.branch }}
+    - uses: actions/cache/restore@v3
+      name: Restore ${{ needs.common.outputs.version_name }} cache
+      with:
+        path: |
+          build/versions/${{ needs.common.outputs.version_name }}/**
+          versions/${{ inputs.version }}/build/download-task/**
+        key: version-${{ needs.common.outputs.version_name }}-
+    - uses: actions/cache/restore@v3
+      name: Restore Assets cache
+      with:
+        path: build/assets/**
+        key: minecraft-assets-
+    - uses: actions/cache/restore@v3
+      name: Restore Libraries cache
+      with:
+        path: build/libraries/**
+        key: minecraft-libraries-
+    - uses: actions/cache/restore@v3
+      name: Restore Version Manifest cache
+      with:
+        path: build/versions/version_manifest.json
+        key: minecraft-version-manifest-
+    - uses: actions/cache/restore@v3
+      name: Restore BuildSrc cache
+      with:
+        path: |
+          buildSrc/build/**
+          buildSrc/.gradle/**
+        key: buildsrc-build-
+    - uses: actions/cache/restore@v3
+      name: Restore Other cache
+      with:
+        path: |
+          build/download-task/**
+          .gradle/**
+        key: gradle-other-
+    - name: Test jdks
+      if: ${{ matrix.jdk_version >= needs.common.outputs.jdk_version}}
+      uses: gradle/gradle-build-action@v2
+      with:
+        arguments: :${{ needs.common.outputs.version_name }}:testCompile${{ matrix.side }}${{ matrix.mappings }}${{ matrix.jdk_version }} :${{ needs.common.outputs.version_name }}:testDecompile${{ matrix.side }}${{ matrix.mappings }}${{ matrix.jdk_version }}Compare -Ptype=${{ needs.common.outputs.version_type }}
+        generate-job-summary: false
+        

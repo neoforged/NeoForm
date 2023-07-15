@@ -1,0 +1,332 @@
+# This is a basic workflow that is manually triggered
+
+name: Update
+run-name: Update to ${{ inputs.new_version }} from ${{ inputs.old_version }}
+
+# Controls when the action will run. Workflow runs when manually triggered using the UI
+# or API.
+on:
+  workflow_dispatch:
+    inputs:
+      old_branch:
+        description: 'Old branch'
+        required: true
+        default: 'upstream/master'
+      old_version:
+        description: 'Old version'
+        required: true
+      patch_src:
+        description: 'Patches version'
+        required: false
+      new_branch:
+        description: 'New branch'
+        required: false
+      new_version:
+        description: 'New version'
+        required: true
+      fix-mapping-error:
+        description: 'Fix known error(s) in mapping file'
+        required: false
+        default: true
+        type: boolean
+      copy-extras:
+        description: 'Copy extras'
+        required: false
+        default: true
+        type: boolean
+
+jobs:
+  update:
+
+    name: Update
+    runs-on: ubuntu-latest
+    outputs:
+      old_version_type: ${{ fromJson(steps.split_version.outputs.result).old_version_type }}
+      old_version_name: ${{ fromJson(steps.split_version.outputs.result).old_version_name }}
+      new_version_type: ${{ fromJson(steps.split_version.outputs.result).new_version_type }}
+      new_version_name: ${{ fromJson(steps.split_version.outputs.result).new_version_name }}
+    steps:
+    - name: "Log arguments"
+      run: |
+        echo "Old branch: ${{ inputs.old_branch }}"
+        echo "Old version: ${{ inputs.old_version }}"
+        echo "Patches version: ${{ inputs.patch_src }}"
+        echo "New branch: ${{ inputs.new_branch }}"
+        echo "New version: ${{ inputs.new_version }}"
+    - uses: actions/github-script@v6
+      name: Check arguments
+      env:
+        OLD_BRANCH: ${{ inputs.old_branch }}
+        OLD_VERSION: ${{ inputs.old_version }}
+        PATCHES_VERSION: ${{ inputs.patch_src }}
+        NEW_BRANCH: ${{ inputs.new_branch }}
+        NEW_VERSION: ${{ inputs.new_version }}
+      with:
+        script: |
+          const oldBranch = process.env.OLD_BRANCH;
+          const oldVersion = process.env.OLD_VERSION;
+          const patchesVersion = process.env.PATCHES_VERSION;
+          const newBranch = process.env.NEW_BRANCH;
+          const newVersion = process.env.NEW_VERSION;
+          
+          const versionRegex = /^(release|(snapshot|pre)\/[^/]+)\/[^/]+$/;
+          var failed = 0
+          
+          if (!versionRegex.test(oldVersion)) {
+            core.error("Old version needs to be set to a version that is on the old branch and needs to be in the format of either `release/<version>`, `pre/<target>/<version>`, or `snapshot/<target>/<version>`")
+            failed++;
+          }
+          
+          if (patchesVersion == oldVersion) {
+            core.error("Patches version inputted as the same as the old version only the oldVersion is needed")
+            failed++;
+          }
+          
+          if (patchesVersion != "" && !versionRegex.test(patchesVersion)) {
+            core.error("Patches version either needs to be kept empty or needs to be set to a version that is on the old branch and needs to be in the format of either `release/<version>`, `pre/<target>/<version>`, or `snapshot/<target>/<version>`")
+            failed++;
+          }
+          
+          if (!versionRegex.test(newVersion)) {
+            core.error("New version needs to be a version that doesn't exist on the new branch and needs to be in the format of either `release/<version>`, `pre/<target>/<version>`, or `snapshot/<target>/<version>`")
+            failed++;
+          }
+          
+          if (failed > 0) {
+            core.setFailed(failed + " errors detected in arguments. Check logs for more details")
+          }
+    - name: Install fast-xml-parser
+      run: sudo npm install -g fast-xml-parser
+    - name: Get library versions
+      id: lib-versions
+      run: |
+        # $1 is name
+        # $2 is maven-metadata.xml url
+        get_version() {
+          echo "$1=$(wget -O - $2 | fxparser -c | jq .metadata.versioning.latest -r)" >> $GITHUB_OUTPUT
+        }
+
+        get_version srgutils https://maven.neoforged.net/releases/net/minecraftforge/srgutils/maven-metadata.xml
+        get_version forgeautorenamingtool https://maven.neoforged.net/releases/net/minecraftforge/ForgeAutoRenamingTool/maven-metadata.xml
+        get_version forgeflower https://maven.neoforged.net/releases/net/minecraftforge/forgeflower/maven-metadata.xml
+        get_version installertools https://maven.neoforged.net/releases/net/minecraftforge/installertools/maven-metadata.xml
+        get_version mergetool https://maven.neoforged.net/releases/net/minecraftforge/mergetool/maven-metadata.xml
+        get_version jetbrains_annotations https://repo1.maven.org/maven2/org/jetbrains/annotations/maven-metadata.xml
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+    - uses: actions/github-script@v6
+      id: split_version
+      env:
+        OLD_VERSION: ${{ inputs.old_version }}
+        NEW_VERSION: ${{ inputs.new_version }}
+        PATCH_SRC_VERSION: ${{ inputs.patch_src }}
+        OLD_BRANCH: ${{ inputs.old_branch }}
+      with:
+        script: |
+          const oldVersion = process.env.OLD_VERSION.split("/");
+          const newVersion = process.env.NEW_VERSION.split("/");
+          var returnValue = {old_version_type: oldVersion[0], old_version_name: oldVersion[oldVersion.length - 1], new_version_type: newVersion[0], new_version_name: newVersion[newVersion.length - 1]}
+          if (process.env.PATCH_SRC_VERSION) {
+            var pathSrcVersion = process.env.PATCH_SRC_VERSION.split("/");
+            returnValue.patch_src_version_name = pathSrcVersion[pathSrcVersion.length - 1]
+          }
+          return returnValue;
+    - uses: actions/cache/restore@v3
+      name: Restore BuildSrc cache
+      with:
+        path: |
+          buildSrc/build/**
+          buildSrc/.gradle/**
+        key: buildsrc-build-
+    - uses: actions/cache/restore@v3
+      name: Restore Other cache
+      with:
+        path: |
+          build/download-task/**
+          .gradle/**
+        key: gradle-other-
+    - run: |
+        git checkout ${{ inputs.old_branch }}
+    - name: Set up JDK ${{ vars.JAVA_VERSION }}
+      uses: actions/setup-java@v3
+      with:
+        java-version: '${{ vars.JAVA_VERSION }}'
+        distribution: 'temurin'
+    - id: get_versions
+      run: |
+        mkdir -p ~/.minecraft/versions/
+        wget https://piston-meta.mojang.com/mc/game/version_manifest_v2.json -O ~/.minecraft/version_manifest_v2.json
+    - uses: actions/github-script@v6
+      env:
+        OLD_VERSION: ${{ fromJson(steps.split_version.outputs.result).old_version_name }}
+        NEW_VERSION: ${{ fromJson(steps.split_version.outputs.result).new_version_name }}
+        PATCH_SRC_VERSION: ${{ fromJson(steps.split_version.outputs.result).patch_src_version_name }}
+      with:
+        script: |
+          const os = require('os')
+          const fs = require('fs')
+          const versions = JSON.parse(fs.readFileSync(os.homedir() + '/.minecraft/version_manifest_v2.json', 'utf8')).versions
+          for (var i = 0; i < versions.length; i++) {
+            var version = versions[i]
+            if (version.id == process.env.OLD_VERSION || version.id == process.env.NEW_VERSION || version.id == process.env.PATCH_SRC_VERSION) {
+                var file = os.homedir() + '/.minecraft/versions/' + version.id + '/' + version.id
+                io.mkdirP(os.homedir() + '/.minecraft/versions/' + version.id + '/')
+                await exec.exec('wget ' + version.url + ' -O '  + file + '.json')
+                var versionJson = JSON.parse(fs.readFileSync(file + '.json', 'utf8'))
+                await exec.exec('wget ' + versionJson.downloads.client.url + ' -O ' + file + '.jar')
+            }
+          }
+    - name: Update SrgUtils
+      if: ${{ vars.SRGUTILS_UPDATE == 'true' }}
+      uses: jacobtomlinson/gha-find-replace@v3
+      with:
+        find: "SRGUTILS_VERSION = '\\d+\\.\\d+\\.\\d+'"
+        replace: "SRGUTILS_VERSION = '${{ steps.lib-versions.outputs.srgutils }}'"
+        include: build.gradle
+    - name: Update buidSrc SrgUtils
+      if: ${{ vars.SRGUTILS_UPDATE == 'true' }}
+      uses: jacobtomlinson/gha-find-replace@v3
+      with:
+        find: "net.minecraftforge:srgutils:\\d+\\.\\d+\\.\\d+"
+        replace: "net.minecraftforge:srgutils:${{ steps.lib-versions.outputs.srgutils }}"
+        include: buildSrc/build.gradle
+    - if: ${{ inputs.patch_src && inputs.patch_src != inputs.new_version }}
+      uses: gradle/gradle-build-action@v2
+      with:
+        arguments: update -Pold_version=${{ inputs.patch_src }} -Pnew_version=${{ inputs.new_version }}
+        generate-job-summary: false
+    - if: ${{ inputs.patch_src }}
+      run: cp versions/${{ inputs.new_version }}/joined.tsrg ../old_joined.tsrg
+    - name: Build with Gradle
+      uses: gradle/gradle-build-action@v2
+      with:
+        arguments: update -Pold_version=${{ inputs.old_version }} -Pnew_version=${{ inputs.new_version }}
+        generate-job-summary: false
+    - name: Write summary for update
+      run: |
+        cat versions/${{ inputs.new_version }}/statistics.md >> $GITHUB_STEP_SUMMARY
+        rm -f versions/${{ inputs.new_version }}/statistics.md
+    - name: Upload metadata
+      uses: actions/upload-artifact@v3
+      with:
+        name: mapping-metadata
+        path: build/update/data/**/joined_a_meta.json
+    - if: ${{ inputs.patch_src && inputs.copy-extras }}
+      run: cp versions/${{ inputs.new_version }}/joined.tsrg ../new_joined.tsrg
+    - if: ${{ inputs.patch_src != inputs.new_version && inputs.copy-extras }}
+      run: |
+        rm -rf versions/${{ inputs.new_version}}/patches
+        cp -r versions/${{ inputs.patch_src || inputs.old_version }}/patches versions/${{ inputs.new_version}}/patches
+    - if: ${{ inputs.patch_src && inputs.copy-extras }}
+      run: |
+        cd ..
+        wget https://github.com/coehlrich/remap-patches/releases/download/1.0.6/remap-patches-all.jar
+        java -jar remap-patches-all.jar old_joined.tsrg new_joined.tsrg MCPConfig/versions/${{ inputs.new_version }}/patches
+        cd MCPConfig
+    - run: git add .
+    - name: Store other updated files
+      if: ${{ inputs.new_branch && inputs.copy-extras }}
+      run: |
+        mkdir ../tmp
+        for ITEM in buildSrc gradle templates .gitattributes .gitignore LICENSE Mojang.md README.md build.gradle gradlew gradlew.bat settings.gradle update.gradle
+        do
+          echo "Copying $ITEM"
+          cp -rv ./$ITEM ../tmp/$ITEM
+        done
+    - if: ${{ inputs.new_branch }}
+      run: |
+        git stash
+        git checkout ${{ inputs.new_branch }} || git checkout -B ${{ inputs.new_branch }} remotes/upstream/master
+        git push -u origin ${{ inputs.new_branch }}
+    - if: ${{ inputs.new_branch && inputs.copy-extras }}
+      run: rm -rf versions/${{ inputs.new_version }}
+    - if: ${{ inputs.new_branch && !inputs.copy-extras }}
+      run: |
+        rm -f versions/${{ inputs.new_version }}/joined.tsrg
+        rm -f versions/${{ inputs.new_version }}/config.json
+        rm -rf versions/${{ inputs.new_version }}/inject
+    - if: ${{ inputs.new_branch }}
+      run: |
+        git add .
+        git stash apply
+    
+    - name: Restore other updated files
+      if: ${{ inputs.new_branch && inputs.copy-extras }}
+      run: |
+        cp -rvT ../tmp .
+        git add .
+    - run: |
+        git config --global user.name github-actions
+        git config --global user.email 41898282+github-actions[bot]@users.noreply.github.com
+        git commit -m "Start ${{ inputs.new_version }}" && git push || true
+    - name: Update forgeflower
+      if: ${{ vars.FORGEFLOWER_UPDATE == 'true' }}
+      uses: jacobtomlinson/gha-find-replace@v3
+      with:
+        find: "net.minecraftforge:forgeflower:\\d+(\\.\\d+)*"
+        replace: "net.minecraftforge:forgeflower:${{ steps.lib-versions.outputs.forgeflower }}"
+        include: versions/${{ inputs.new_version }}/config.json
+    - name: Update ForgeAutoRenamingTool
+      if: ${{ vars.FORGEAUTORENAMINGTOOL_UPDATE == 'true' }}
+      uses: jacobtomlinson/gha-find-replace@v3
+      with:
+        find: "net.minecraftforge:ForgeAutoRenamingTool:\\d+(\\.\\d+)*"
+        replace: "net.minecraftforge:ForgeAutoRenamingTool:${{ steps.lib-versions.outputs.forgeautorenamingtool }}"
+        include: versions/${{ inputs.new_version }}/config.json
+    - name: Update installertools
+      if: ${{ vars.INSTALLERTOOLS_UPDATE == 'true' }}
+      uses: jacobtomlinson/gha-find-replace@v3
+      with:
+        find: "net.minecraftforge:installertools:\\d+(\\.\\d+)*"
+        replace: "net.minecraftforge:installertools:${{ steps.lib-versions.outputs.installertools }}"
+        include: versions/${{ inputs.new_version }}/config.json
+    - name: Update Jetbrains Annotations
+      if: ${{ vars.JETBRAINS_ANNOTATIONS_UPDATE == 'true' }}
+      uses: jacobtomlinson/gha-find-replace@v3
+      with:
+        find: "org.jetbrains:annotations:\\d+(\\.\\d+)*"
+        replace: "org.jetbrains:annotations:${{ steps.lib-versions.outputs.jetbrains_annotations }}"
+        include: versions/${{ inputs.new_version }}/config.json
+    - name: Update Mergetool
+      if: ${{ vars.MERGETOOL_UPDATE == 'true' }}
+      uses: jacobtomlinson/gha-find-replace@v3
+      with:
+        find: "net.minecraftforge:mergetool:\\d+(\\.\\d+)*"
+        replace: "net.minecraftforge:mergetool:${{ steps.lib-versions.outputs.mergetool }}"
+        include: versions/${{ inputs.new_version }}/config.json
+    - name: Push library changes
+      run: |
+        git add .
+        git commit -m "Update libraries" && git push || true
+    - uses: actions/cache/save@v3
+      name: Save BuildSrc cache
+      with:
+        path: |
+          buildSrc/build/**
+          buildSrc/.gradle/**
+        key: buildsrc-build-${{ hashFiles('buildSrc/build/**', 'buildSrc/.gradle/**')}}
+    - uses: actions/cache/save@v3
+      name: Save Other cache
+      with:
+        path: |
+          build/download-task/**
+          .gradle/**
+        key: gradle-other-${{ hashFiles('build/download-task/**', '.gradle/**')}}
+
+  get-diff:
+    needs: update
+    name: Get diff
+    uses: ./.github/workflows/get-diff.yml
+    with:
+      old_branch: ${{ inputs.old_branch }}
+      old_version: ${{ inputs.old_version }}
+      new_branch: ${{ inputs.new_branch }}
+      new_version: ${{ inputs.new_version }}
+
+  check:
+    needs: update
+    uses: ./.github/workflows/check.yml
+    with:
+      branch: ${{ inputs.new_branch || inputs.old_branch }}
+      version: ${{ inputs.new_version }}
