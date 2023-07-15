@@ -37,7 +37,7 @@ ext {
 
 task downloadMappingToy(type: Download) {
     ext.VER = '1.0.22'
-    src "https://maven.minecraftforge.net/net/minecraftforge/lex/MappingToy/${VER}/MappingToy-${VER}-all.jar"
+    src "https://maven.neoforged.net/releases/net/minecraftforge/lex/MappingToy/${VER}/MappingToy-${VER}-all.jar"
     dest rootProject.file("build/libraries/net/minecraftforge/lex/MappingToy/${VER}/MappingToy-${VER}-all.jar")
     overwrite false
 }
@@ -56,7 +56,7 @@ task runMappingToy(type: JavaExec, dependsOn: downloadMappingToy) {
 
 task downloadJammer(type: Download) {
     ext.VER = '2.0'
-    src "https://maven.minecraftforge.net/com/ldtteam/jam/jam-mcpconfig/${VER}/jam-mcpconfig-${VER}-all.jar"
+    src "https://maven.neoforged.net/releases/com/ldtteam/jam/jam-mcpconfig/${VER}/jam-mcpconfig-${VER}-all.jar"
     dest rootProject.file("build/libraries/com/ldtteam/jam/jam-mcpconfig/${VER}/jam-mcpconfig-${VER}-all.jar")
     overwrite false
 }
