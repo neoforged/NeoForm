@@ -237,7 +237,7 @@ jobs:
     - if: ${{ inputs.new_branch }}
       run: |
         git stash
-        git checkout ${{ inputs.new_branch }} || git checkout -B ${{ inputs.new_branch }} remotes/upstream/master
+        git checkout ${{ inputs.new_branch }} || git checkout -B ${{ inputs.new_branch }} remotes/origin/main
         git push -u origin ${{ inputs.new_branch }}
     - if: ${{ inputs.new_branch && inputs.copy-extras }}
       run: rm -rf versions/${{ inputs.new_version }}
