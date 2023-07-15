@@ -152,7 +152,7 @@ subprojects {
     task downloadLibraries(type: DownloadLibraries, dependsOn: downloadJson) {
         json = downloadJson.dest
         config = CONFIG
-        dest = file(PATH_CACHED_LIBRARIES)
+        dest = file(PATH_BUILD + "/mc-libraries/")
     }
     task downloadFernflower(type: DownloadTool) {
         config FERNFLOWER, PATH_CACHED_LIBRARIES
@@ -241,7 +241,7 @@ subprojects {
             meta = downloadJson.dest
             config = CONFIG
             side = s
-            root = PATH_CACHED_LIBRARIES
+            root = downloadLibraries.dest
             doFirst {
                 if ('server'.equals(s)) {
                     extras += [filterServer.extra]
@@ -281,7 +281,7 @@ subprojects {
         inputs.file downloadJson.dest
         dest file(PATH_CACHED_VERSION_DATA + 'inheritance.json')
         doFirst {
-            downloadJson.dest.json.libraries.stream().map{ it?.downloads?.artifact?.path }.findAll{ it != null }.each{ library(file(PATH_CACHED_LIBRARIES + it)) }
+            downloadJson.dest.json.libraries.stream().map{ it?.downloads?.artifact?.path }.findAll{ it != null }.each{ library(file(downloadLibraries.dest, it)) }
         }
     }
     task extractInheritanceNamed(type: ExtractInheritance, dependsOn: [renameJoined]) {
@@ -289,7 +289,7 @@ subprojects {
         inputs.file downloadJson.dest
         dest file(PATH_CACHED_VERSION_DATA + 'inheritance_named.json')
         doFirst {
-            downloadJson.dest.json.libraries.stream().map{ it?.downloads?.artifact?.path }.findAll{ it != null }.each{ library(file(PATH_CACHED_LIBRARIES + it)) }
+            downloadJson.dest.json.libraries.stream().map{ it?.downloads?.artifact?.path }.findAll{ it != null }.each{ library(file(downloadLibraries.dest, it)) }
         }
     }
 
@@ -308,7 +308,7 @@ subprojects {
 
     task extractNatives(type: ExtractNatives, dependsOn: [downloadJson, downloadLibraries]) {
         meta downloadJson.dest
-        cache file(PATH_CACHED_LIBRARIES)
+        cache downloadLibraries.dest
         dest file(PATH_NATIVES)
     }
     
@@ -372,6 +372,7 @@ subprojects {
         }
         
         task projectSharedReset(type: ResetSourcesTask, dependsOn: [deduplicateSources, projectSharedMakeDir]) {
+            mustRunAfter(projectRoot)
             rootZip deduplicateSources.duplicates
             target project.file('projects/shared')
         }

@@ -80,7 +80,9 @@ jobs:
     - uses: actions/cache/restore@v3
       name: Cache Libraries
       with:
-        path: build/libraries/**
+        path: |
+          build/libraries/**
+          build/mc-libraries/**
         key: minecraft-libraries-
     - uses: actions/cache/restore@v3
       name: Cache Version Manifest
@@ -146,7 +148,9 @@ jobs:
     - uses: actions/cache/save@v3
       name: Save Libraries cache
       with:
-        path: build/libraries/**
+        path: |
+          build/libraries/**
+          build/mc-libraries/**
         key: minecraft-libraries-${{ hashFiles('build/libraries/**')}}
     - uses: actions/cache/save@v3
       name: Save Version Manifest cache
