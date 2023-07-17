@@ -150,7 +150,7 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               workflow_id: "update.yml",
-              ref: "master",
+              ref: "main",
               inputs: inputs
             });
             
