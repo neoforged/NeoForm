@@ -118,16 +118,10 @@ jobs:
              
             function getBranch(info, newVersion) {
               var release = info.type === "release";
-              if (release && !newVersion) {
+              if (release || info.april) {
                 return "main";
               } else {
-                var branch = "";
-                if (info.april) {
-                  branch = info.version;
-                } else {
-                  branch = process.env.TARGET_VERSION + "-" + info.type;
-                }
-                return branch;
+                return process.env.TARGET_VERSION + "-dev";
               }
             }
 
