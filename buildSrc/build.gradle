@@ -1,7 +1,7 @@
 repositories {
     mavenLocal()
     mavenCentral()
-    maven { url = 'https://maven.minecraftforge.net/'}
+    maven { url = 'https://maven.neoforged.net/releases/'}
 }
 
 dependencies {

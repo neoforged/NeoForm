@@ -79,7 +79,7 @@ class Utils {
             args: ent?.args ?: defaults.args ?: [],
             jvmargs: ent?.jvmargs ?: defaults.jvmargs ?: [],
             path: version?.toMavenPath(),
-            repo: ent?.repo ?: defaults.repo ?: 'https://maven.minecraftforge.net/'
+            repo: ent?.repo ?: defaults.repo ?: 'https://maven.neoforged.net/'
         ]
 
         if (java_version != null)
