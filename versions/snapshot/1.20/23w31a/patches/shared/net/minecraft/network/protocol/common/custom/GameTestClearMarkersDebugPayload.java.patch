@@ -1,0 +1,36 @@
+--- a/net/minecraft/network/protocol/common/custom/GameTestClearMarkersDebugPayload.java
++++ b/net/minecraft/network/protocol/common/custom/GameTestClearMarkersDebugPayload.java
+@@ -3,32 +3,17 @@
+ import net.minecraft.network.FriendlyByteBuf;
+ import net.minecraft.resources.ResourceLocation;
+ 
+-public final class GameTestClearMarkersDebugPayload extends Record implements CustomPacketPayload {
++public record GameTestClearMarkersDebugPayload() implements CustomPacketPayload {
+    public static final ResourceLocation f_290531_ = new ResourceLocation("debug/game_test_clear");
+ 
+    public GameTestClearMarkersDebugPayload(FriendlyByteBuf p_294413_) {
+       this();
+    }
+ 
+-   public GameTestClearMarkersDebugPayload() {
+-   }
+-
+    public void m_291594_(FriendlyByteBuf p_294656_) {
+    }
+ 
+    public ResourceLocation m_291605_() {
+       return f_290531_;
+    }
+-
+-   public final String toString() {
+-      return this.toString<invokedynamic>(this);
+    }
+-
+-   public final int hashCode() {
+-      return this.hashCode<invokedynamic>(this);
+-   }
+-
+-   public final boolean equals(Object p_295959_) {
+-      return this.equals<invokedynamic>(this, p_295959_);
+-   }
+-}

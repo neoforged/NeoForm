@@ -1,6 +1,6 @@
 --- a/net/minecraft/commands/arguments/ResourceOrTagArgument.java
 +++ b/net/minecraft/commands/arguments/ResourceOrTagArgument.java
-@@ -139,7 +139,7 @@
+@@ -138,7 +138,7 @@
        }
  
        public <E> Optional<ResourceOrTagArgument.Result<E>> m_245172_(ResourceKey<? extends Registry<E>> p_250007_) {
@@ -9,7 +9,7 @@
        }
  
        public boolean test(Holder<T> p_249230_) {
-@@ -165,7 +165,7 @@
+@@ -164,7 +164,7 @@
        }
  
        public <E> Optional<ResourceOrTagArgument.Result<E>> m_245172_(ResourceKey<? extends Registry<E>> p_250945_) {

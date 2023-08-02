@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/entity/npc/Villager.java
 +++ b/net/minecraft/world/entity/npc/Villager.java
-@@ -144,7 +144,7 @@
+@@ -145,7 +145,7 @@
     }
  
     public Brain<Villager> m_6274_() {

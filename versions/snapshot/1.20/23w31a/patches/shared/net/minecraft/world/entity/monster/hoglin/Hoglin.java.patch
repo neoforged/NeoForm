@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/entity/monster/hoglin/Hoglin.java
 +++ b/net/minecraft/world/entity/monster/hoglin/Hoglin.java
-@@ -116,7 +116,7 @@
+@@ -118,7 +118,7 @@
     }
  
     public Brain<Hoglin> m_6274_() {

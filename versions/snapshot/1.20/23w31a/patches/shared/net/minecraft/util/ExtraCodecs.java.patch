@@ -1,6 +1,6 @@
 --- a/net/minecraft/util/ExtraCodecs.java
 +++ b/net/minecraft/util/ExtraCodecs.java
-@@ -246,7 +246,7 @@
+@@ -243,7 +243,7 @@
        }, (p_184459_) -> {
           return ImmutableList.of(p_184366_.apply(p_184459_), p_184367_.apply(p_184459_));
        });

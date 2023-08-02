@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/entity/monster/Zoglin.java
 +++ b/net/minecraft/world/entity/monster/Zoglin.java
-@@ -172,7 +172,7 @@
+@@ -174,7 +174,7 @@
     }
  
     public Brain<Zoglin> m_6274_() {

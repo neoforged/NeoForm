@@ -1,0 +1,34 @@
+--- a/net/minecraft/network/protocol/game/ClientboundChunkBatchStartPacket.java
++++ b/net/minecraft/network/protocol/game/ClientboundChunkBatchStartPacket.java
+@@ -3,30 +3,15 @@
+ import net.minecraft.network.FriendlyByteBuf;
+ import net.minecraft.network.protocol.Packet;
+ 
+-public final class ClientboundChunkBatchStartPacket extends Record implements Packet<ClientGamePacketListener> {
++public record ClientboundChunkBatchStartPacket() implements Packet<ClientGamePacketListener> {
+    public ClientboundChunkBatchStartPacket(FriendlyByteBuf p_295580_) {
+       this();
+    }
+ 
+-   public ClientboundChunkBatchStartPacket() {
+-   }
+-
+    public void m_5779_(FriendlyByteBuf p_295744_) {
+    }
+ 
+    public void m_5797_(ClientGamePacketListener p_295685_) {
+       p_295685_.m_291804_(this);
+    }
+-
+-   public final String toString() {
+-      return this.toString<invokedynamic>(this);
+    }
+-
+-   public final int hashCode() {
+-      return this.hashCode<invokedynamic>(this);
+-   }
+-
+-   public final boolean equals(Object p_295145_) {
+-      return this.equals<invokedynamic>(this, p_295145_);
+-   }
+-}

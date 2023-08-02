@@ -1,0 +1,30 @@
+--- a/net/minecraft/client/resources/metadata/gui/GuiSpriteScaling.java
++++ b/net/minecraft/client/resources/metadata/gui/GuiSpriteScaling.java
+@@ -48,26 +48,14 @@
+       }
+    }
+ 
+-   public static final class Stretch extends Record implements GuiSpriteScaling {
++   public static record Stretch() implements GuiSpriteScaling {
+       public static final Codec<GuiSpriteScaling.Stretch> f_291114_ = Codec.unit(GuiSpriteScaling.Stretch::new);
+ 
+       public GuiSpriteScaling.Type m_291759_() {
+          return GuiSpriteScaling.Type.STRETCH;
+       }
+-
+-      public final String toString() {
+-         return this.toString<invokedynamic>(this);
+       }
+ 
+-      public final int hashCode() {
+-         return this.hashCode<invokedynamic>(this);
+-      }
+-
+-      public final boolean equals(Object p_295129_) {
+-         return this.equals<invokedynamic>(this, p_295129_);
+-      }
+-   }
+-
+    public static record Tile(int f_290681_, int f_290867_) implements GuiSpriteScaling {
+       public static final Codec<GuiSpriteScaling.Tile> f_290783_ = RecordCodecBuilder.create((p_294311_) -> {
+          return p_294311_.group(ExtraCodecs.f_144629_.fieldOf("width").forGetter(GuiSpriteScaling.Tile::f_290681_), ExtraCodecs.f_144629_.fieldOf("height").forGetter(GuiSpriteScaling.Tile::f_290867_)).apply(p_294311_, GuiSpriteScaling.Tile::new);

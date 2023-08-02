@@ -1,0 +1,25 @@
+--- a/net/minecraft/network/protocol/login/custom/DiscardedQueryAnswerPayload.java
++++ b/net/minecraft/network/protocol/login/custom/DiscardedQueryAnswerPayload.java
+@@ -2,21 +2,9 @@
+ 
+ import net.minecraft.network.FriendlyByteBuf;
+ 
+-public final class DiscardedQueryAnswerPayload extends Record implements CustomQueryAnswerPayload {
++public record DiscardedQueryAnswerPayload() implements CustomQueryAnswerPayload {
+    public static final DiscardedQueryAnswerPayload f_290895_ = new DiscardedQueryAnswerPayload();
+ 
+    public void m_292210_(FriendlyByteBuf p_294372_) {
+    }
+-
+-   public final String toString() {
+-      return this.toString<invokedynamic>(this);
+    }
+-
+-   public final int hashCode() {
+-      return this.hashCode<invokedynamic>(this);
+-   }
+-
+-   public final boolean equals(Object p_296473_) {
+-      return this.equals<invokedynamic>(this, p_296473_);
+-   }
+-}

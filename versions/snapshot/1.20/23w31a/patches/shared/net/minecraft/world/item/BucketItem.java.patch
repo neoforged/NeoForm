@@ -1,0 +1,14 @@
+--- a/net/minecraft/world/item/BucketItem.java
++++ b/net/minecraft/world/item/BucketItem.java
+@@ -103,10 +103,10 @@
+       if (!($$6 instanceof FlowingFluid flowingfluid)) {
+          return false;
+       } else {
+-         FlowingFluid flowingfluid;
+          Block $$7;
+          boolean $$8;
+          boolean flag2;
++         BlockState blockstate;
+          label82: {
+             blockstate = p_150717_.m_8055_(p_150718_);
+             $$7 = blockstate.m_60734_();
