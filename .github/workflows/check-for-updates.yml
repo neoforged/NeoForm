@@ -73,7 +73,7 @@ jobs:
           distribution: temurin
           java-version: ${{ vars.JAVA_VERSION }}
       - name: Download maven-metadata.xml
-        run: wget https://maven.minecraftforge.net/net/minecraftforge/srgutils/maven-metadata.xml
+        run: wget https://maven.neoforged.net/releases/net/minecraftforge/srgutils/maven-metadata.xml
       - name: Get latest version of srgutils
         id: srgutils_version
         uses: mavrosxristoforos/get-xml-info@1.1.1
@@ -81,7 +81,7 @@ jobs:
           xml-file: maven-metadata.xml
           xpath: //metadata/versioning/latest
       - name: Download srgutils
-        run: wget https://maven.minecraftforge.net/net/minecraftforge/srgutils/${{ steps.srgutils_version.outputs.info }}/srgutils-${{ steps.srgutils_version.outputs.info }}.jar -O srgutils.jar
+        run: wget https://maven.neoforged.net/releases/net/minecraftforge/srgutils/${{ steps.srgutils_version.outputs.info }}/srgutils-${{ steps.srgutils_version.outputs.info }}.jar -O srgutils.jar
       - name: Download parser
         run: wget ${{ vars.PARSE_VERSION_JAVA }}
       - name: Run parser
