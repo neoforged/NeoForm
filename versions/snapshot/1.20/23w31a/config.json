@@ -4,9 +4,9 @@
     "java_target": 17,
     "encoding": "UTF-8",
     "fernflower": {
-        "version": "net.minecraftforge:forgeflower:2.0.629.0",
+        "version": "org.vineflower:vineflower:1.9.2",
         "java_version": 17,
-        "args": ["-din=1", "-rbr=1", "-dgs=1", "-asc=1", "-rsy=1", "-iec=1", "-jvn=1", "-isl=0", "-iib=1", "-bsm=1", "-dcl=1", "-log=TRACE", "-cfg", "{libraries}", "{input}", "{output}"],
+        "args": ["-din=1", "-rbr=1", "-dgs=1", "-asc=1", "-rsy=1", "-iec=1", "-jvn=1", "-iib=1", "-bsm=1", "-dcl=1", "-log=TRACE", "-cfg", "{libraries}", "{input}", "{output}"],
         "jvmargs": ["-Xmx4G"]
     },
     "merge": {
@@ -15,7 +15,7 @@
         "jvmargs": []
     },
     "rename": {
-        "version": "net.neoforged:AutoRenamingTool:1.0.6:all",
+        "version": "net.neoforged:AutoRenamingTool:1.0.7:all",
         "args": ["--input", "{input}", "--output", "{output}", "--map", "{mappings}", "--cfg", "{libraries}", "--ann-fix", "--ids-fix", "--src-fix", "--record-fix"]
     },
     "bundler_extract_jar": {

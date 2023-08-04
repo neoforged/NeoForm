@@ -1,6 +1,6 @@
 --- a/net/minecraft/network/protocol/BundlerInfo.java
 +++ b/net/minecraft/network/protocol/BundlerInfo.java
-@@ -46,7 +46,7 @@
+@@ -52,7 +52,7 @@
                    } else if (this.f_263710_.size() >= 4096) {
                       throw new IllegalStateException("Too many packets in a bundle");
                    } else {

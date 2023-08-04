@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/storage/loot/GsonAdapterFactory.java
 +++ b/net/minecraft/world/level/storage/loot/GsonAdapterFactory.java
-@@ -105,13 +105,13 @@
+@@ -116,13 +116,13 @@
        public JsonElement serialize(E p_78852_, Type p_78853_, JsonSerializationContext p_78854_) {
           T t = this.f_78832_.apply(p_78852_);
           if (this.f_164993_ != null && this.f_164993_.getFirst() == t) {

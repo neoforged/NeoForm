@@ -1,6 +1,6 @@
 --- a/net/minecraft/network/chat/LastSeenMessages.java
 +++ b/net/minecraft/network/chat/LastSeenMessages.java
-@@ -34,7 +34,7 @@
+@@ -31,7 +31,7 @@
        public static final LastSeenMessages.Packed f_244256_ = new LastSeenMessages.Packed(List.of());
  
        public Packed(FriendlyByteBuf p_249757_) {

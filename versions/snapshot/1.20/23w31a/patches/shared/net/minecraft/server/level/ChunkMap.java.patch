@@ -1,11 +1,24 @@
 --- a/net/minecraft/server/level/ChunkMap.java
 +++ b/net/minecraft/server/level/ChunkMap.java
-@@ -564,7 +564,7 @@
+@@ -490,9 +490,10 @@
+ 
+       int k = Math.max(0, this.f_140125_.size() - 2000);
+ 
+-      while((p_140354_.getAsBoolean() || k > 0) && (j = (long)this.f_140125_.poll()) != null) {
++      Runnable runnable;
++      while((p_140354_.getAsBoolean() || k > 0) && (runnable = this.f_140125_.poll()) != null) {
+          --k;
+-         j.run();
++         runnable.run();
+       }
+ 
+       int l = 0;
+@@ -577,7 +578,7 @@
+             }
  
              return flag;
-          });
--      }).thenApplyAsync((p_269770_) -> {
-+      }).<Either<ChunkAccess, ChunkHolder.ChunkLoadingFailure>>thenApplyAsync((p_269770_) -> {
+-         })).thenApplyAsync(p_269770_ -> {
++         })).<Either<ChunkAccess, ChunkHolder.ChunkLoadingFailure>>thenApplyAsync(p_269770_ -> {
           this.f_140133_.m_46473_().m_6174_("chunkLoad");
           if (p_269770_.isPresent()) {
              ChunkAccess chunkaccess = ChunkSerializer.m_188230_(this.f_140133_, this.f_140138_, p_140418_, p_269770_.get());

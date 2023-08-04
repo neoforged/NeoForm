@@ -1,8 +1,8 @@
 --- a/net/minecraft/client/multiplayer/ClientCommonPacketListenerImpl.java
 +++ b/net/minecraft/client/multiplayer/ClientCommonPacketListenerImpl.java
-@@ -190,7 +190,7 @@
-             return new IllegalStateException("Unknown registry " + p_294128_);
-          });
+@@ -199,7 +199,7 @@
+       if (!p_294666_.m_203966_()) {
+          Registry<T> registry = this.m_105152_().<T>m_6632_(p_294128_).orElseThrow(() -> new IllegalStateException("Unknown registry " + p_294128_));
           Map<TagKey<T>, List<Holder<T>>> map = new HashMap<>();
 -         TagNetworkSerialization.m_203952_(p_294128_, registry, p_294666_, map::put);
 +         TagNetworkSerialization.m_203952_((ResourceKey<? extends Registry<T>>)p_294128_, registry, p_294666_, map::put);

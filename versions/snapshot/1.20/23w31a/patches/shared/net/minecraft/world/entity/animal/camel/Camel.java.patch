@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/entity/animal/camel/Camel.java
 +++ b/net/minecraft/world/entity/animal/camel/Camel.java
-@@ -142,7 +142,7 @@
+@@ -155,7 +155,7 @@
     protected void m_8024_() {
        this.m_9236_().m_46473_().m_6180_("camelBrain");
        Brain<?> brain = this.m_6274_();

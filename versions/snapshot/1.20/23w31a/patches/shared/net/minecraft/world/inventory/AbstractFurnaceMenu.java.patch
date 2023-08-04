@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/inventory/AbstractFurnaceMenu.java
 +++ b/net/minecraft/world/inventory/AbstractFurnaceMenu.java
-@@ -143,7 +143,7 @@
+@@ -161,7 +161,7 @@
     }
  
     protected boolean m_38977_(ItemStack p_38978_) {

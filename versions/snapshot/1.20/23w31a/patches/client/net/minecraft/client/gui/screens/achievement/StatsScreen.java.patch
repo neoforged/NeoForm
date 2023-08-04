@@ -1,6 +1,6 @@
 --- a/net/minecraft/client/gui/screens/achievement/StatsScreen.java
 +++ b/net/minecraft/client/gui/screens/achievement/StatsScreen.java
-@@ -418,11 +418,11 @@
+@@ -469,11 +469,11 @@
                 i = 0;
                 j = 0;
              } else if (ItemStatisticsList.this.f_97021_.contains(ItemStatisticsList.this.f_97026_)) {

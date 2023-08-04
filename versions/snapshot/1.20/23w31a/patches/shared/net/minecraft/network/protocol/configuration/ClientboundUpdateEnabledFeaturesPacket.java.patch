@@ -8,4 +8,4 @@
 +      this(p_295459_.<ResourceLocation, Set<ResourceLocation>>m_236838_(HashSet::new, FriendlyByteBuf::m_130281_));
     }
  
-    public void m_5779_(FriendlyByteBuf p_294891_) {
+    @Override

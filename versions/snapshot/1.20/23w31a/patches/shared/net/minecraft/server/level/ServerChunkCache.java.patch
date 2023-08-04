@@ -1,9 +1,9 @@
 --- a/net/minecraft/server/level/ServerChunkCache.java
 +++ b/net/minecraft/server/level/ServerChunkCache.java
-@@ -534,7 +534,7 @@
-          super.m_6367_(p_8502_);
+@@ -557,7 +557,7 @@
        }
  
+       @Override
 -      protected boolean m_7245_() {
 +      public boolean m_7245_() {
           if (ServerChunkCache.this.m_8489_()) {

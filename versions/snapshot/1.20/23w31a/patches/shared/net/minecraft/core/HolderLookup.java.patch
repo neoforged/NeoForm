@@ -1,11 +1,11 @@
 --- a/net/minecraft/core/HolderLookup.java
 +++ b/net/minecraft/core/HolderLookup.java
-@@ -89,7 +89,7 @@
-          }));
+@@ -87,7 +87,7 @@
+          final Map<ResourceKey<? extends Registry<?>>, HolderLookup.RegistryLookup<?>> map = p_256054_.collect(
+             Collectors.toUnmodifiableMap(
+                HolderLookup.RegistryLookup::m_254879_,
+-               (Function<? super HolderLookup.RegistryLookup, ? extends HolderLookup.RegistryLookup>)(p_256335_ -> p_256335_)
++               (p_256335_ -> p_256335_)
+             )
+          );
           return new HolderLookup.Provider() {
-             public <T> Optional<HolderLookup.RegistryLookup<T>> m_254861_(ResourceKey<? extends Registry<? extends T>> p_255663_) {
--               return Optional.ofNullable(map.get(p_255663_));
-+               return Optional.ofNullable((HolderLookup.RegistryLookup<T>) map.get(p_255663_));
-             }
-          };
-       }

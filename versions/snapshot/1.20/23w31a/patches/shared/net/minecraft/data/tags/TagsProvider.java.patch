@@ -1,17 +1,29 @@
 --- a/net/minecraft/data/tags/TagsProvider.java
 +++ b/net/minecraft/data/tags/TagsProvider.java
-@@ -55,12 +55,12 @@
-    protected abstract void m_6577_(HolderLookup.Provider p_256380_);
+@@ -63,6 +63,8 @@
  
+    @Override
     public CompletableFuture<?> m_213708_(CachedOutput p_253684_) {
-+         record CombinedData<T>(HolderLookup.Provider f_273893_, TagsProvider.TagLookup<T> f_273819_) {
-+         }
-       return this.m_274574_().thenApply((p_275895_) -> {
-          this.f_275754_.complete((Void)null);
-          return p_275895_;
-       }).thenCombineAsync(this.f_273855_, (p_274778_, p_274779_) -> {
--         record CombinedData<T>(HolderLookup.Provider f_273893_, TagsProvider.TagLookup<T> f_273819_) {
--         }
++      record CombinedData<T>(HolderLookup.Provider f_273893_, TagsProvider.TagLookup<T> f_273819_) {
++      }
+       return this.m_274574_()
+          .thenApply(p_275895_ -> {
+             this.f_275754_.complete(null);
+@@ -108,8 +110,6 @@
+             }
+          );
  
-          return new CombinedData<>(p_274778_, p_274779_);
-       }).thenCompose((p_274774_) -> {
+-      record CombinedData<T>(HolderLookup.Provider f_273893_, TagsProvider.TagLookup<T> f_273819_) {
+-      }
+ 
+    }
+ 
+@@ -178,7 +178,7 @@
+       }
+ 
+       default boolean m_274455_(TagKey<T> p_275413_) {
+-         return this.apply((T)p_275413_).isPresent();
++         return this.apply(p_275413_).isPresent();
+       }
+    }
+ }

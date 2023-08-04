@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/entity/ai/behavior/VillagerCalmDown.java
++++ b/net/minecraft/world/entity/ai/behavior/VillagerCalmDown.java
+@@ -11,7 +11,7 @@
+ 
+    public static BehaviorControl<LivingEntity> m_257666_() {
+       return BehaviorBuilder.m_258034_(
+-         p_258884_ -> p_258884_.<MemoryAccessor, MemoryAccessor, MemoryAccessor>group(
++         p_258884_ -> p_258884_.group(
+                   p_258884_.m_257492_(MemoryModuleType.f_26381_),
+                   p_258884_.m_257492_(MemoryModuleType.f_26382_),
+                   p_258884_.m_257492_(MemoryModuleType.f_26323_)
