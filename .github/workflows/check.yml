@@ -70,7 +70,7 @@ jobs:
           return returnValue;
     - uses: actions/checkout@v3
       with:
-        ref: ${{ inputs.branch || "" }}
+        ref: ${{ inputs.branch || '' }}
     - uses: actions/cache/restore@v3
       name: Restore ${{ fromJson(steps.split_version.outputs.result).version_name }} cache
       with:
@@ -211,7 +211,7 @@ jobs:
     steps: 
     - uses: actions/checkout@v3
       with:
-        ref: ${{ inputs.branch || "" }}
+        ref: ${{ inputs.branch || '' }}
     - uses: actions/cache/restore@v3
       name: Restore ${{ needs.common.outputs.version_name }} cache
       with:
@@ -264,6 +264,8 @@ jobs:
     if: ${{ inputs.publish }}
     steps:
     - uses: actions/checkout@v3
+      with:
+        ref: ${{ inputs.branch || '' }}
     - name: Publish
       uses: gradle/gradle-build-action@v2
       with:
