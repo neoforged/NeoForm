@@ -31,6 +31,7 @@ on:
       MAVEN_PASSWORD:
         required: false
   workflow_dispatch:
+    inputs:
       version:
         description: 'Version'
         required: true
