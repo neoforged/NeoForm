@@ -1,9 +1,9 @@
 --- a/net/minecraft/world/level/storage/loot/LootDataType.java
 +++ b/net/minecraft/world/level/storage/loot/LootDataType.java
-@@ -74,12 +74,12 @@
-    private static <T> BiFunction<Gson, String, BiFunction<ResourceLocation, JsonElement, Optional<T>>> m_278813_(
-       Class<T> p_279337_, Function<T[], T> p_279252_
-    ) {
+@@ -72,12 +72,12 @@
+    }
+ 
+    private static <T> BiFunction<Gson, String, BiFunction<ResourceLocation, JsonElement, Optional<T>>> m_278813_(Class<T> p_279337_, Function<T[], T> p_279252_) {
 -      Class<T[]> oclass = p_279337_.arrayType();
 +      Class<T[]> oclass = (Class<T[]>)p_279337_.arrayType();
        return (p_279462_, p_279351_) -> (p_279495_, p_279409_) -> {
