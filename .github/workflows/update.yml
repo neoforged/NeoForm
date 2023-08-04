@@ -341,3 +341,4 @@ jobs:
       push_changed: true
       require_verify: true
       publish: ${{ inputs.publish }}
+    secrets: inherit

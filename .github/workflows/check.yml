@@ -272,7 +272,7 @@ jobs:
         arguments: :${{ needs.common.outputs.version_name }}:publish -Ptype=${{ needs.common.outputs.version_type }}
         generate-job-summary: false
       env:
-        MAVEN_URL: ${{ vars.MAVEN_URL }}
-        MAVEN_USER: ${{ secrets.MAVEN_USER }}
-        MAVEN_PASSWORD: ${{ secrets.MAVEN_PASSWORD }}
+        ORG_GRADLE_PROJECT_MAVEN_URL: ${{ vars.MAVEN_URL }}
+        ORG_GRADLE_PROJECT_MAVEN_USER: ${{ secrets.MAVEN_USER }}
+        ORG_GRADLE_PROJECT_MAVEN_PASSWORD: ${{ secrets.MAVEN_PASSWORD }}
       
