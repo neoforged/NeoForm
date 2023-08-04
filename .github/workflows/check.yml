@@ -1,4 +1,5 @@
 name: Check
+run-name: Check ${{ inputs.version }}
 
 permissions:
   contents: write
@@ -7,7 +8,7 @@ on:
   workflow_call:
     inputs:
       branch:
-        required: true
+        required: false
         type: string
       version:
         required: true
@@ -16,16 +17,35 @@ on:
         default: true
         required: false
         type: boolean
+      require_verify:
+        default: true
+        required: false
+        type: boolean
+      publish:
+        default: true
+        required: false
+        type: boolean
+    secrets:
+      MAVEN_USER:
+        required: false
+      MAVEN_PASSWORD:
+        required: false
   workflow_dispatch:
-    inputs:
-      branch:
-        description: 'Branch'
-        required: true
       version:
         description: 'Version'
         required: true
       push_changed:
         description: 'Push changed patches'
+        default: true
+        required: false
+        type: boolean
+      require_verify:
+        description: 'Make the verify task required to succeed'
+        default: true
+        required: false
+        type: boolean
+      publish:
+        description: 'Publish'
         default: true
         required: false
         type: boolean
@@ -49,7 +69,7 @@ jobs:
           return returnValue;
     - uses: actions/checkout@v3
       with:
-        fetch-depth: 0
+        ref: ${{ inputs.branch || "" }}
     - uses: actions/cache/restore@v3
       name: Restore ${{ fromJson(steps.split_version.outputs.result).version_name }} cache
       with:
@@ -88,7 +108,6 @@ jobs:
           build/download-task/**
           .gradle/**
         key: gradle-other-
-    - run: git checkout ${{ inputs.branch }}
     - run: |
         git config --global user.name github-actions
         git config --global user.email 41898282+github-actions[bot]@users.noreply.github.com
@@ -107,7 +126,7 @@ jobs:
     - name: Verify mappings
       id: verify
       uses: gradle/gradle-build-action@v2
-      continue-on-error: true
+      continue-on-error: ${{ !inputs.require_verify }}
       with:
         arguments: :${{ fromJson(steps.split_version.outputs.result).version_name }}:verify -Ptype=${{ fromJson(steps.split_version.outputs.result).version_type }}
         generate-job-summary: false
@@ -121,7 +140,7 @@ jobs:
       if: ${{ always() }}
       uses: actions/upload-artifact@v3
       with:
-        name: mcp_config-${{ fromJson(steps.split_version.outputs.result).version_name }}
+        name: neoform-${{ fromJson(steps.split_version.outputs.result).version_name }}
         path: build/distributions/*.zip
     - name: Get Java Version
       id: java_version
@@ -191,7 +210,7 @@ jobs:
     steps: 
     - uses: actions/checkout@v3
       with:
-        ref: ${{ inputs.branch }}
+        ref: ${{ inputs.branch || "" }}
     - uses: actions/cache/restore@v3
       name: Restore ${{ needs.common.outputs.version_name }} cache
       with:
@@ -230,10 +249,27 @@ jobs:
           build/download-task/**
           .gradle/**
         key: gradle-other-
-    - name: Test jdks
+    - name: Test jdk
       if: ${{ matrix.jdk_version >= needs.common.outputs.jdk_version}}
       uses: gradle/gradle-build-action@v2
       with:
         arguments: :${{ needs.common.outputs.version_name }}:testCompile${{ matrix.side }}${{ matrix.mappings }}${{ matrix.jdk_version }} :${{ needs.common.outputs.version_name }}:testDecompile${{ matrix.side }}${{ matrix.mappings }}${{ matrix.jdk_version }}Compare -Ptype=${{ needs.common.outputs.version_type }}
         generate-job-summary: false
-        
+
+  publish:
+    name: Publish to maven
+    runs-on: ubuntu-latest
+    needs: testjdks
+    if: ${{ inputs.publish }}
+    steps:
+    - uses: actions/checkout@v3
+    - name: Publish
+      uses: gradle/gradle-build-action@v2
+      with:
+        arguments: :${{ needs.common.outputs.version_name }}:publish -Ptype=${{ needs.common.outputs.version_type }}
+        generate-job-summary: false
+      env:
+        MAVEN_URL: ${{ vars.MAVEN_URL }}
+        MAVEN_USER: ${{ secrets.MAVEN_USER }}
+        MAVEN_PASSWORD: ${{ secrets.MAVEN_PASSWORD }}
+      
