@@ -1,6 +1,6 @@
 --- a/net/minecraft/core/RegistrySetBuilder.java
 +++ b/net/minecraft/core/RegistrySetBuilder.java
-@@ -278,8 +278,8 @@
+@@ -272,8 +272,8 @@
              ResourceKey<?> resourcekey = entry.getKey();
              if (resourcekey.m_135783_(this.f_254738_)) {
                 RegistrySetBuilder.RegisteredValue<T> registeredvalue = (RegistrySetBuilder.RegisteredValue)entry.getValue();
@@ -11,7 +11,7 @@
                 iterator.remove();
              }
           }
-@@ -301,7 +301,7 @@
+@@ -295,7 +295,7 @@
        }
  
        <T> Holder.Reference<T> m_255345_(ResourceKey<T> p_256298_) {

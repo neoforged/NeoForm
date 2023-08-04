@@ -1,6 +1,6 @@
 --- a/net/minecraft/client/gui/screens/worldselection/WorldOpenFlows.java
 +++ b/net/minecraft/client/gui/screens/worldselection/WorldOpenFlows.java
-@@ -137,7 +137,9 @@
+@@ -131,7 +131,9 @@
     public Pair<LevelSettings, WorldCreationContext> m_246225_(LevelStorageSource.LevelStorageAccess p_249540_) throws Exception {
        PackRepository packrepository = ServerPacksSource.m_247728_(p_249540_);
        WorldLoader.PackConfig worldloader$packconfig = this.m_247188_(p_249540_, false, packrepository);
@@ -11,7 +11,7 @@
           worldloader$packconfig,
           p_247857_ -> {
              DynamicOps<Tag> dynamicops = RegistryOps.m_255058_(NbtOps.f_128958_, p_247857_.f_244104_());
-@@ -162,11 +164,8 @@
+@@ -154,11 +156,8 @@
           }
        );
  
