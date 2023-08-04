@@ -37,6 +37,11 @@ on:
         required: false
         default: true
         type: boolean
+      publish:
+        description: 'Publish'
+        required: false
+        default: false
+        type: boolean
 
 jobs:
   update:
@@ -111,7 +116,7 @@ jobs:
 
         get_version srgutils https://maven.neoforged.net/releases/net/minecraftforge/srgutils/maven-metadata.xml
         get_version forgeautorenamingtool https://maven.neoforged.net/releases/net/neoforged/AutoRenamingTool/maven-metadata.xml
-        get_version forgeflower https://maven.neoforged.net/releases/net/minecraftforge/forgeflower/maven-metadata.xml
+        get_version forgeflower https://maven.neoforged.net/releases/org/vineflower/vineflower/maven-metadata.xml
         get_version installertools https://maven.neoforged.net/releases/net/minecraftforge/installertools/maven-metadata.xml
         get_version mergetool https://maven.neoforged.net/releases/net/minecraftforge/mergetool/maven-metadata.xml
         get_version jetbrains_annotations https://repo1.maven.org/maven2/org/jetbrains/annotations/maven-metadata.xml
@@ -267,8 +272,8 @@ jobs:
       if: ${{ vars.FORGEFLOWER_UPDATE == 'true' }}
       uses: jacobtomlinson/gha-find-replace@v3
       with:
-        find: "net.minecraftforge:forgeflower:\\d+(\\.\\d+)*"
-        replace: "net.minecraftforge:forgeflower:${{ steps.lib-versions.outputs.forgeflower }}"
+        find: "org.vineflower:vineflower:\\d+(\\.\\d+)*"
+        replace: "org.vineflower:vineflower:${{ steps.lib-versions.outputs.forgeflower }}"
         include: versions/${{ inputs.new_version }}/config.json
     - name: Update ForgeAutoRenamingTool
       if: ${{ vars.FORGEAUTORENAMINGTOOL_UPDATE == 'true' }}
@@ -334,3 +339,5 @@ jobs:
       branch: ${{ inputs.new_branch || inputs.old_branch }}
       version: ${{ inputs.new_version }}
       push_changed: true
+      require_verify: true
+      publish: ${{ inputs.publish }}
