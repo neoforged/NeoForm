@@ -6,6 +6,6 @@
           "pages",
 -         p_16175_ -> DataFixUtils.orElse(p_16175_.asStreamOpt().map(p_145441_ -> p_145441_.map((Function<? super Dynamic, ? extends Dynamic>)(p_145443_ -> {
 +         p_16175_ -> DataFixUtils.orElse(p_16175_.asStreamOpt().map(p_145441_ -> p_145441_.map((p_145443_ -> {
-                   if (!p_145443_.asString().result().isPresent()) {
+                   if (p_145443_.asString().result().isEmpty()) {
                       return p_145443_;
                    } else {

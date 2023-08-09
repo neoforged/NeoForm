@@ -1,6 +1,6 @@
 --- a/net/minecraft/client/multiplayer/ClientCommonPacketListenerImpl.java
 +++ b/net/minecraft/client/multiplayer/ClientCommonPacketListenerImpl.java
-@@ -196,7 +196,7 @@
+@@ -199,7 +199,7 @@
        if (!p_294666_.m_203966_()) {
           Registry<T> registry = this.m_105152_().<T>m_6632_(p_294128_).orElseThrow(() -> new IllegalStateException("Unknown registry " + p_294128_));
           Map<TagKey<T>, List<Holder<T>>> map = new HashMap<>();
