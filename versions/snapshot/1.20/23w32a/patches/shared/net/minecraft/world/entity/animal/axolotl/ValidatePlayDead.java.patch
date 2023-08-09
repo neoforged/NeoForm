@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/entity/animal/axolotl/ValidatePlayDead.java
++++ b/net/minecraft/world/entity/animal/axolotl/ValidatePlayDead.java
+@@ -10,7 +10,7 @@
+ public class ValidatePlayDead {
+    public static BehaviorControl<LivingEntity> m_257726_() {
+       return BehaviorBuilder.m_258034_(
+-         p_259464_ -> p_259464_.<MemoryAccessor, MemoryAccessor>group(
++         p_259464_ -> p_259464_.group(
+                   p_259464_.m_257495_(MemoryModuleType.f_148195_), p_259464_.m_257492_(MemoryModuleType.f_26382_)
+                )
+                .apply(p_259464_, (p_259173_, p_259591_) -> (p_260159_, p_259720_, p_259523_) -> {

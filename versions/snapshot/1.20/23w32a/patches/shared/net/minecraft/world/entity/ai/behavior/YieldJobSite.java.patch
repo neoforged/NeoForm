@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/entity/ai/behavior/YieldJobSite.java
++++ b/net/minecraft/world/entity/ai/behavior/YieldJobSite.java
+@@ -20,7 +20,7 @@
+ public class YieldJobSite {
+    public static BehaviorControl<Villager> m_257788_(float p_259768_) {
+       return BehaviorBuilder.m_258034_(
+-         p_258916_ -> p_258916_.<MemoryAccessor, MemoryAccessor, MemoryAccessor, MemoryAccessor, MemoryAccessor>group(
++         p_258916_ -> p_258916_.group(
+                   p_258916_.m_257495_(MemoryModuleType.f_26361_),
+                   p_258916_.m_258080_(MemoryModuleType.f_26360_),
+                   p_258916_.m_257495_(MemoryModuleType.f_148204_),

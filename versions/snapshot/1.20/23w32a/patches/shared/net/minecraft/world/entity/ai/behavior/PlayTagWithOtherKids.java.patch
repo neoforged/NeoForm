@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/entity/ai/behavior/PlayTagWithOtherKids.java
++++ b/net/minecraft/world/entity/ai/behavior/PlayTagWithOtherKids.java
+@@ -27,7 +27,7 @@
+ 
+    public static BehaviorControl<PathfinderMob> m_257585_() {
+       return BehaviorBuilder.m_258034_(
+-         p_258563_ -> p_258563_.<MemoryAccessor, MemoryAccessor, MemoryAccessor, MemoryAccessor>group(
++         p_258563_ -> p_258563_.group(
+                   p_258563_.m_257495_(MemoryModuleType.f_26366_),
+                   p_258563_.m_258080_(MemoryModuleType.f_26370_),
+                   p_258563_.m_257492_(MemoryModuleType.f_26371_),

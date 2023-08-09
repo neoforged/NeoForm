@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/entity/ai/behavior/Mount.java
++++ b/net/minecraft/world/entity/ai/behavior/Mount.java
+@@ -13,7 +13,7 @@
+ 
+    public static BehaviorControl<LivingEntity> m_257518_(float p_259363_) {
+       return BehaviorBuilder.m_258034_(
+-         p_259880_ -> p_259880_.<MemoryAccessor, MemoryAccessor, MemoryAccessor>group(
++         p_259880_ -> p_259880_.group(
+                   p_259880_.m_257492_(MemoryModuleType.f_26371_),
+                   p_259880_.m_258080_(MemoryModuleType.f_26370_),
+                   p_259880_.m_257495_(MemoryModuleType.f_26376_)

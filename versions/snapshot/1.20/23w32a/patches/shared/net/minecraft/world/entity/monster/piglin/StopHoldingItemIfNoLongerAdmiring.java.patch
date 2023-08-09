@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/entity/monster/piglin/StopHoldingItemIfNoLongerAdmiring.java
++++ b/net/minecraft/world/entity/monster/piglin/StopHoldingItemIfNoLongerAdmiring.java
+@@ -10,7 +10,7 @@
+ public class StopHoldingItemIfNoLongerAdmiring {
+    public static BehaviorControl<Piglin> m_257718_() {
+       return BehaviorBuilder.m_258034_(
+-         p_259197_ -> p_259197_.<MemoryAccessor>group(p_259197_.m_258080_(MemoryModuleType.f_26336_))
++         p_259197_ -> p_259197_.group(p_259197_.m_258080_(MemoryModuleType.f_26336_))
+                .apply(p_259197_, p_259512_ -> (p_294023_, p_294024_, p_294025_) -> {
+                      if (!p_294024_.m_21206_().m_41619_() && !p_294024_.m_21206_().m_150930_(Items.f_42740_)) {
+                         PiglinAi.m_34867_(p_294024_, true);

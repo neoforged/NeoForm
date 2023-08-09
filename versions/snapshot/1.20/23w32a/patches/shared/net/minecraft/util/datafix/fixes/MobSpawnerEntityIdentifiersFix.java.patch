@@ -1,0 +1,11 @@
+--- a/net/minecraft/util/datafix/fixes/MobSpawnerEntityIdentifiersFix.java
++++ b/net/minecraft/util/datafix/fixes/MobSpawnerEntityIdentifiersFix.java
+@@ -64,7 +64,7 @@
+          Dynamic<?> dynamic = p_16455_.get(DSL.remainderFinder());
+          dynamic = dynamic.set("id", dynamic.createString("MobSpawner"));
+          DataResult<? extends Pair<? extends Typed<?>, ?>> dataresult = type.readTyped(this.m_16456_(dynamic));
+-         return !dataresult.result().isPresent() ? p_16455_ : ((Pair)dataresult.result().get()).getFirst();
++         return !dataresult.result().isPresent() ? p_16455_ : (dataresult.result().get()).getFirst();
+       });
+    }
+ }
