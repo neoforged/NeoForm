@@ -1,0 +1,11 @@
+--- a/net/minecraft/nbt/CompoundTag.java
++++ b/net/minecraft/nbt/CompoundTag.java
+@@ -87,7 +87,7 @@
+          }
+ 
+          if (b0 != 0) {
+-            while((b0 = p_197446_.readByte()) != false) {
++            while((b0 = p_197446_.readByte()) != 0) {
+                StringTag.m_197563_(p_197446_);
+                TagTypes.m_129397_(b0).m_196159_(p_197446_);
+             }

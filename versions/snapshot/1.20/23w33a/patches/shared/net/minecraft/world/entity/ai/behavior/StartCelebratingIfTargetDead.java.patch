@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/entity/ai/behavior/StartCelebratingIfTargetDead.java
++++ b/net/minecraft/world/entity/ai/behavior/StartCelebratingIfTargetDead.java
+@@ -12,7 +12,7 @@
+ public class StartCelebratingIfTargetDead {
+    public static BehaviorControl<LivingEntity> m_257496_(int p_259238_, BiPredicate<LivingEntity, LivingEntity> p_259102_) {
+       return BehaviorBuilder.m_258034_(
+-         p_259600_ -> p_259600_.<MemoryAccessor, MemoryAccessor, MemoryAccessor, MemoryAccessor>group(
++         p_259600_ -> p_259600_.group(
+                   p_259600_.m_257495_(MemoryModuleType.f_26372_),
+                   p_259600_.m_257492_(MemoryModuleType.f_26334_),
+                   p_259600_.m_258080_(MemoryModuleType.f_26341_),

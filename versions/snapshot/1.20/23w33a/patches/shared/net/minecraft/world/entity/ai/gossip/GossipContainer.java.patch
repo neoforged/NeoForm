@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/entity/ai/gossip/GossipContainer.java
++++ b/net/minecraft/world/entity/ai/gossip/GossipContainer.java
+@@ -161,7 +161,7 @@
+          .decode(p_26178_)
+          .resultOrPartial(p_262901_ -> f_262760_.warn("Failed to deserialize gossips: {}", p_262901_))
+          .stream()
+-         .flatMap(p_262899_ -> ((List)p_262899_.getFirst()).stream())
++         .flatMap(p_262899_ -> (p_262899_.getFirst()).stream())
+          .forEach(p_26162_ -> this.m_26189_(p_26162_.f_26228_).f_26204_.put(p_26162_.f_26229_, p_26162_.f_26230_));
+    }
+ 

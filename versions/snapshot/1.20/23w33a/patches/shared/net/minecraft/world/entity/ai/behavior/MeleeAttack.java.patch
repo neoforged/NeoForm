@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/entity/ai/behavior/MeleeAttack.java
++++ b/net/minecraft/world/entity/ai/behavior/MeleeAttack.java
+@@ -15,7 +15,7 @@
+ public class MeleeAttack {
+    public static OneShot<Mob> m_257733_(int p_259758_) {
+       return BehaviorBuilder.m_258034_(
+-         p_258526_ -> p_258526_.<MemoryAccessor, MemoryAccessor, MemoryAccessor, MemoryAccessor>group(
++         p_258526_ -> p_258526_.group(
+                   p_258526_.m_257492_(MemoryModuleType.f_26371_),
+                   p_258526_.m_257495_(MemoryModuleType.f_26372_),
+                   p_258526_.m_258080_(MemoryModuleType.f_26373_),

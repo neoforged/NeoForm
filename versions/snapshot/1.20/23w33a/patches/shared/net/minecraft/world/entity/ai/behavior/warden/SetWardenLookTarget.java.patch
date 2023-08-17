@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/entity/ai/behavior/warden/SetWardenLookTarget.java
++++ b/net/minecraft/world/entity/ai/behavior/warden/SetWardenLookTarget.java
+@@ -14,7 +14,7 @@
+ public class SetWardenLookTarget {
+    public static BehaviorControl<LivingEntity> m_257897_() {
+       return BehaviorBuilder.m_258034_(
+-         p_258946_ -> p_258946_.<MemoryAccessor, MemoryAccessor, MemoryAccessor, MemoryAccessor>group(
++         p_258946_ -> p_258946_.group(
+                   p_258946_.m_257492_(MemoryModuleType.f_26371_),
+                   p_258946_.m_257492_(MemoryModuleType.f_217783_),
+                   p_258946_.m_257492_(MemoryModuleType.f_217782_),
