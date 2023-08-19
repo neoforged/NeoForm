@@ -762,33 +762,6 @@ subprojects {
 
     publishing {
         publications {
-            if (!rootProject.hasProperty('timed_only') && (MC_VERSION.compareTo(MC_1_16_5) > 0 || !CONFIG.official)) {
-                normal(MavenPublication) {
-                    artifactId rootProject.name
-                    artifact makeZip
-                    pom {
-                        name = 'NeoForm'
-                        description = 'Configuration files used for deobfuscating and modding Minecraft.'
-                        url = 'https://github.com/NeoForged/NeoForm'
-                        scm {
-                            url = 'https://github.com/NeoForged/NeoForm'
-                            connection = 'scm:git:git://github.com/NeoForged/NeoForm.git'
-                            developerConnection = 'scm:git:git@github.com:NeoForged/NeoForm.git'
-                        }
-                        issueManagement {
-                            system = 'github'
-                            url = 'https://github.com/NeoForged/NeoForm/issues'
-                        }
-
-                        licenses {
-                            license {
-                                name = 'All Rights Reserved, No redistribution.'
-                                url = ''
-                            }
-                        }
-                    }
-                }
-            }
             timed(MavenPublication) {
                 artifactId rootProject.name
                 version project.version + '-' + rootProject.TIMESTAMP
