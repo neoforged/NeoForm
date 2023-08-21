@@ -29,7 +29,7 @@ public class FernflowerTask extends ToolJarExec {
         new ZipFile(dest).withCloseable{ zip -> 
             zip.entries().findAll{ !it.directory && it.name.endsWith('.java') }.each { e ->
                 def data = zip.getInputStream(e).text
-                if (data.isEmpty() || data.contains("\$FF: Couldn't be decompiled"))
+                if (data.isEmpty() || data.contains("\$VF: Couldn't be decompiled"))
                     failed.add(e.name)
             }
         }
