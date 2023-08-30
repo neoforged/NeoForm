@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/block/entity/SkullBlockEntity.java
 +++ b/net/minecraft/world/level/block/entity/SkullBlockEntity.java
-@@ -177,7 +177,7 @@
+@@ -178,7 +178,7 @@
           ? CompletableFuture.completedFuture(Optional.empty())
           : gameprofilecache.m_143967_(p_295932_)
              .thenCompose(p_294079_ -> p_294079_.isPresent() ? m_291766_(p_294079_.get()) : CompletableFuture.completedFuture(Optional.empty()))

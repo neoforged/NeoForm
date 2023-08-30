@@ -1,6 +1,6 @@
 --- a/com/mojang/realmsclient/gui/screens/RealmsUploadScreen.java
 +++ b/com/mojang/realmsclient/gui/screens/RealmsUploadScreen.java
-@@ -268,8 +268,8 @@
+@@ -266,8 +266,8 @@
                             } else if (this.f_90080_) {
                                this.m_90130_();
                             } else {
@@ -11,7 +11,7 @@
                                if (this.f_90080_) {
                                   this.m_90130_();
                                } else if (this.m_90105_(file1)) {
-@@ -330,13 +330,10 @@
+@@ -328,13 +328,10 @@
                          }
                       }
                    } catch (IOException ioexception) {
