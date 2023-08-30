@@ -1,0 +1,11 @@
+--- a/net/minecraft/resources/RegistryOps.java
++++ b/net/minecraft/resources/RegistryOps.java
+@@ -23,7 +23,7 @@
+ 
+          @Override
+          public <T> Optional<RegistryOps.RegistryInfo<T>> m_254838_(ResourceKey<? extends Registry<? extends T>> p_256043_) {
+-            return this.f_254621_.computeIfAbsent(p_256043_, p_255769_::m_254838_);
++            return (Optional<RegistryOps.RegistryInfo<T>>)this.f_254621_.computeIfAbsent(p_256043_, p_255769_::m_254838_);
+          }
+       };
+    }
