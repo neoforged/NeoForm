@@ -260,7 +260,7 @@ jobs:
   publish:
     name: Publish to maven
     runs-on: ubuntu-latest
-    needs: testjdks
+    needs: [common, testjdks]
     if: ${{ inputs.publish }}
     steps:
     - uses: actions/checkout@v3
