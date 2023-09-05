@@ -75,6 +75,6 @@
              PacketFlow.SERVERBOUND,
 -            new ConnectionProtocol.PacketSet()
 +            new ConnectionProtocol.PacketSet<net.minecraft.network.protocol.configuration.ServerConfigurationPacketListener>()
+                .m_178330_(ServerboundClientInformationPacket.class, ServerboundClientInformationPacket::new)
                 .m_178330_(ServerboundCustomPayloadPacket.class, ServerboundCustomPayloadPacket::new)
                 .m_178330_(ServerboundFinishConfigurationPacket.class, ServerboundFinishConfigurationPacket::new)
-                .m_178330_(ServerboundKeepAlivePacket.class, ServerboundKeepAlivePacket::new)
