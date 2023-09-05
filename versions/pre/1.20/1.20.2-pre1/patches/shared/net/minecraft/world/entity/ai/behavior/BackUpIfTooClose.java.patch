@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/entity/ai/behavior/BackUpIfTooClose.java
++++ b/net/minecraft/world/entity/ai/behavior/BackUpIfTooClose.java
+@@ -12,7 +12,7 @@
+ public class BackUpIfTooClose {
+    public static OneShot<Mob> m_257698_(int p_259782_, float p_259071_) {
+       return BehaviorBuilder.m_258034_(
+-         p_260278_ -> p_260278_.<MemoryAccessor, MemoryAccessor, MemoryAccessor, MemoryAccessor>group(
++         p_260278_ -> p_260278_.group(
+                   p_260278_.m_258080_(MemoryModuleType.f_26370_),
+                   p_260278_.m_257492_(MemoryModuleType.f_26371_),
+                   p_260278_.m_257495_(MemoryModuleType.f_26372_),

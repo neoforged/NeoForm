@@ -1,0 +1,27 @@
+--- a/com/mojang/realmsclient/gui/screens/RealmsUploadScreen.java
++++ b/com/mojang/realmsclient/gui/screens/RealmsUploadScreen.java
+@@ -266,8 +266,8 @@
+                            } else if (this.f_90080_) {
+                               this.m_90130_();
+                            } else {
+-                              j = (int)(new File(this.f_96541_.f_91069_.getAbsolutePath(), "saves"));
+-                              file1 = this.m_90119_(new File(j, this.f_90072_.m_78358_()));
++                              File file = (new File(this.f_96541_.f_91069_.getAbsolutePath(), "saves"));
++                              file1 = this.m_90119_(new File(file, this.f_90072_.m_78358_()));
+                               if (this.f_90080_) {
+                                  this.m_90130_();
+                               } else if (this.m_90105_(file1)) {
+@@ -328,13 +328,10 @@
+                         }
+                      }
+                   } catch (IOException ioexception) {
+-                     uploadinfo = ioexception;
+                      this.m_90112_(Component.m_237110_("mco.upload.failed", ioexception.getMessage()));
+                   } catch (RealmsServiceException realmsserviceexception) {
+-                     uploadinfo = realmsserviceexception;
+                      this.m_90112_(Component.m_237110_("mco.upload.failed", realmsserviceexception.f_200941_.m_292550_()));
+                   } catch (InterruptedException interruptedexception1) {
+-                     uploadinfo = interruptedexception1;
+                      f_90067_.error("Could not acquire upload lock");
+                   }
+                } finally {

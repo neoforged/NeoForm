@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/entity/ai/behavior/SetHiddenState.java
++++ b/net/minecraft/world/entity/ai/behavior/SetHiddenState.java
+@@ -16,7 +16,7 @@
+       int i = p_259244_ * 20;
+       MutableInt mutableint = new MutableInt(0);
+       return BehaviorBuilder.m_258034_(
+-         p_259055_ -> p_259055_.<MemoryAccessor, MemoryAccessor>group(
++         p_259055_ -> p_259055_.group(
+                   p_259055_.m_257495_(MemoryModuleType.f_26324_), p_259055_.m_257495_(MemoryModuleType.f_26325_)
+                )
+                .apply(p_259055_, (p_260296_, p_260145_) -> (p_288844_, p_288845_, p_288846_) -> {

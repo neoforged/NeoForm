@@ -1,0 +1,22 @@
+--- a/net/minecraft/core/RegistrySetBuilder.java
++++ b/net/minecraft/core/RegistrySetBuilder.java
+@@ -272,8 +272,8 @@
+             ResourceKey<?> resourcekey = entry.getKey();
+             if (resourcekey.m_135783_(this.f_254738_)) {
+                RegistrySetBuilder.RegisteredValue<T> registeredvalue = (RegistrySetBuilder.RegisteredValue)entry.getValue();
+-               Holder.Reference<T> reference = p_256416_.f_254749_.f_254730_.remove(resourcekey);
+-               map.put(resourcekey, new RegistrySetBuilder.ValueAndHolder<>(registeredvalue, Optional.ofNullable(reference)));
++               Holder.Reference<T> reference = (Holder.Reference<T>)p_256416_.f_254749_.f_254730_.remove(resourcekey);
++               map.put((ResourceKey<T>)resourcekey, new RegistrySetBuilder.ValueAndHolder<>(registeredvalue, Optional.ofNullable(reference)));
+                iterator.remove();
+             }
+          }
+@@ -295,7 +295,7 @@
+       }
+ 
+       <T> Holder.Reference<T> m_255345_(ResourceKey<T> p_256298_) {
+-         return this.f_254730_.computeIfAbsent(p_256298_, p_256154_ -> Holder.Reference.m_254896_(this.f_254742_, p_256154_));
++         return (Holder.Reference<T>)this.f_254730_.computeIfAbsent((ResourceKey<Object>)p_256298_, p_256154_ -> Holder.Reference.m_254896_(this.f_254742_, p_256154_));
+       }
+    }
+ 
