@@ -1,0 +1,11 @@
+--- a/net/minecraft/advancements/critereon/InventoryChangeTrigger.java
++++ b/net/minecraft/advancements/critereon/InventoryChangeTrigger.java
+@@ -69,7 +69,7 @@
+       }
+ 
+       public static Criterion<InventoryChangeTrigger.TriggerInstance> m_297078_(ItemPredicate.Builder... p_298231_) {
+-         return m_43197_(Stream.of(p_298231_).map(ItemPredicate.Builder::m_45077_).toArray(p_297901_ -> new ItemPredicate[p_297901_]));
++         return m_43197_(Stream.of(p_298231_).map(ItemPredicate.Builder::m_45077_).<ItemPredicate>toArray(p_297901_ -> new ItemPredicate[p_297901_]));
+       }
+ 
+       public static Criterion<InventoryChangeTrigger.TriggerInstance> m_43197_(ItemPredicate... p_43198_) {

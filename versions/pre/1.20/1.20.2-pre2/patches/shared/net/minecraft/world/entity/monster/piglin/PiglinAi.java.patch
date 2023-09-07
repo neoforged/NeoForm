@@ -1,0 +1,49 @@
+--- a/net/minecraft/world/entity/monster/piglin/PiglinAi.java
++++ b/net/minecraft/world/entity/monster/piglin/PiglinAi.java
+@@ -169,8 +169,8 @@
+       p_34905_.m_21895_(
+          Activity.f_37988_,
+          10,
+-         ImmutableList.of(
+-            StopAttackingIfTargetInvalid.m_257990_(p_34981_ -> !m_34900_(p_34904_, p_34981_)),
++         ImmutableList.<net.minecraft.world.entity.ai.behavior.BehaviorControl<? super Piglin>>of(
++            StopAttackingIfTargetInvalid.<Piglin>m_257990_(p_34981_ -> !m_34900_(p_34904_, p_34981_)),
+             BehaviorBuilder.m_257845_(PiglinAi::m_34918_, BackUpIfTooClose.m_257698_(5, 0.75F)),
+             SetWalkTargetFromAttackTargetIfTargetOutOfReach.m_257469_(1.0F),
+             MeleeAttack.m_257733_(20),
+@@ -186,13 +186,13 @@
+       p_34921_.m_21895_(
+          Activity.f_37989_,
+          10,
+-         ImmutableList.of(
++         ImmutableList.<net.minecraft.world.entity.ai.behavior.BehaviorControl<? super Piglin>>of(
+             m_257691_(),
+             SetEntityLookTarget.m_257836_(PiglinAi::m_34883_, 14.0F),
+             StartAttacking.<Piglin>m_257741_(AbstractPiglin::m_34667_, PiglinAi::m_35000_),
+-            BehaviorBuilder.m_257845_(p_34804_ -> !p_34804_.m_34771_(), GoToTargetLocation.m_257680_(MemoryModuleType.f_26341_, 2, 1.0F)),
+-            BehaviorBuilder.m_257845_(Piglin::m_34771_, GoToTargetLocation.m_257680_(MemoryModuleType.f_26341_, 4, 0.6F)),
+-            new RunOne<LivingEntity>(
++            BehaviorBuilder.<Piglin>m_257845_(p_34804_ -> !p_34804_.m_34771_(), GoToTargetLocation.m_257680_(MemoryModuleType.f_26341_, 2, 1.0F)),
++            BehaviorBuilder.<Piglin>m_257845_(Piglin::m_34771_, GoToTargetLocation.m_257680_(MemoryModuleType.f_26341_, 4, 0.6F)),
++            new RunOne<Piglin>(
+                ImmutableList.of(
+                   Pair.of(SetEntityLookTarget.m_258096_(EntityType.f_20511_, 8.0F), 1),
+                   Pair.of(RandomStroll.m_257960_(0.6F, 2, 1), 1),
+@@ -225,7 +225,7 @@
+             SetWalkTargetAwayFrom.m_257370_(MemoryModuleType.f_26383_, 1.0F, 12, true),
+             m_34805_(),
+             m_34882_(),
+-            EraseMemoryIf.<PathfinderMob>m_258093_(PiglinAi::m_35008_, MemoryModuleType.f_26383_)
++            EraseMemoryIf.<Piglin>m_258093_(PiglinAi::m_35008_, MemoryModuleType.f_26383_)
+          ),
+          MemoryModuleType.f_26383_
+       );
+@@ -247,7 +247,7 @@
+                      .build()
+                )
+             ),
+-            DismountOrSkipMounting.<LivingEntity>m_257459_(8, PiglinAi::m_34834_)
++            DismountOrSkipMounting.<Piglin>m_257459_(8, PiglinAi::m_34834_)
+          ),
+          MemoryModuleType.f_26376_
+       );

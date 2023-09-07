@@ -1,0 +1,11 @@
+--- a/net/minecraft/client/searchtree/SearchRegistry.java
++++ b/net/minecraft/client/searchtree/SearchRegistry.java
+@@ -62,7 +62,7 @@
+       }
+ 
+       void m_235245_(List<T> p_235246_) {
+-         this.f_235241_ = this.f_235240_.apply((T)p_235246_);
++         this.f_235241_ = this.f_235240_.apply(p_235246_);
+          this.f_235241_.m_214078_();
+       }
+ 

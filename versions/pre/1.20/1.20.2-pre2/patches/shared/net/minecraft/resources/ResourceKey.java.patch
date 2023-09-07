@@ -1,0 +1,11 @@
+--- a/net/minecraft/resources/ResourceKey.java
++++ b/net/minecraft/resources/ResourceKey.java
+@@ -45,7 +45,7 @@
+    }
+ 
+    public <E> Optional<ResourceKey<E>> m_195975_(ResourceKey<? extends Registry<E>> p_195976_) {
+-      return this.m_135783_(p_195976_) ? Optional.of(this) : Optional.empty();
++      return this.m_135783_(p_195976_) ? Optional.of((ResourceKey<E>)this) : Optional.empty();
+    }
+ 
+    public ResourceLocation m_135782_() {

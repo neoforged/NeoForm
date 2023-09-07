@@ -1,0 +1,24 @@
+--- a/net/minecraft/world/flag/FeatureFlags.java
++++ b/net/minecraft/world/flag/FeatureFlags.java
+@@ -10,9 +10,9 @@
+    public static final FeatureFlag f_244112_;
+    public static final FeatureFlag f_290857_;
+    public static final FeatureFlagRegistry f_244280_;
+-   public static final Codec<FeatureFlagSet> f_244298_ = f_244280_.m_245213_();
+-   public static final FeatureFlagSet f_244377_ = FeatureFlagSet.m_247091_(f_244571_);
+-   public static final FeatureFlagSet f_244332_ = f_244377_;
++   public static final Codec<FeatureFlagSet> f_244298_;
++   public static final FeatureFlagSet f_244377_;
++   public static final FeatureFlagSet f_244332_;
+ 
+    public static String m_245229_(FeatureFlagSet p_250581_, FeatureFlagSet p_250326_) {
+       return m_247250_(f_244280_, p_250581_, p_250326_);
+@@ -34,5 +34,8 @@
+       f_244112_ = featureflagregistry$builder.m_246015_("bundle");
+       f_290857_ = featureflagregistry$builder.m_246015_("trade_rebalance");
+       f_244280_ = featureflagregistry$builder.m_245707_();
++      f_244298_ = f_244280_.m_245213_();
++      f_244377_ = FeatureFlagSet.m_247091_(f_244571_);
++      f_244332_ = f_244377_;
+    }
+ }

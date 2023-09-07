@@ -1,0 +1,11 @@
+--- a/net/minecraft/network/chat/HoverEvent.java
++++ b/net/minecraft/network/chat/HoverEvent.java
+@@ -106,7 +106,7 @@
+       private static final Map<String, HoverEvent.Action<?>> f_130834_ = Stream.of(f_130831_, f_130832_, f_130833_)
+          .collect(
+             ImmutableMap.toImmutableMap(
+-               HoverEvent.Action::m_130861_, (Function<? super HoverEvent.Action, ? extends HoverEvent.Action>)(p_178444_ -> p_178444_)
++               HoverEvent.Action::m_130861_, (p_178444_ -> p_178444_)
+             )
+          );
+       private final String f_130835_;
