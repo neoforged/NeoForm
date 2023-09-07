@@ -1,6 +1,6 @@
 --- a/net/minecraft/client/searchtree/SearchRegistry.java
 +++ b/net/minecraft/client/searchtree/SearchRegistry.java
-@@ -62,7 +62,7 @@
+@@ -64,7 +64,7 @@
        }
  
        void m_235245_(List<T> p_235246_) {
