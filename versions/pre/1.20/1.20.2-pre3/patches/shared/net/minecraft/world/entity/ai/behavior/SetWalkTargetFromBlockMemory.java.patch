@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/entity/ai/behavior/SetWalkTargetFromBlockMemory.java
++++ b/net/minecraft/world/entity/ai/behavior/SetWalkTargetFromBlockMemory.java
+@@ -15,7 +15,7 @@
+ public class SetWalkTargetFromBlockMemory {
+    public static OneShot<Villager> m_257972_(MemoryModuleType<GlobalPos> p_259685_, float p_259842_, int p_259530_, int p_260360_, int p_259504_) {
+       return BehaviorBuilder.m_258034_(
+-         p_258717_ -> p_258717_.<MemoryAccessor, MemoryAccessor, MemoryAccessor>group(
++         p_258717_ -> p_258717_.group(
+                   p_258717_.m_257492_(MemoryModuleType.f_26326_), p_258717_.m_258080_(MemoryModuleType.f_26370_), p_258717_.m_257495_(p_259685_)
+                )
+                .apply(p_258717_, (p_258709_, p_258710_, p_258711_) -> (p_275056_, p_275057_, p_275058_) -> {

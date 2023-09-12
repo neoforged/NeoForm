@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/entity/ai/behavior/StrollAroundPoi.java
++++ b/net/minecraft/world/entity/ai/behavior/StrollAroundPoi.java
+@@ -20,7 +20,7 @@
+    public static OneShot<PathfinderMob> m_257894_(MemoryModuleType<GlobalPos> p_259159_, float p_260182_, int p_260102_) {
+       MutableLong mutablelong = new MutableLong(0L);
+       return BehaviorBuilder.m_258034_(
+-         p_258827_ -> p_258827_.<MemoryAccessor, MemoryAccessor>group(p_258827_.m_257492_(MemoryModuleType.f_26370_), p_258827_.m_257495_(p_259159_))
++         p_258827_ -> p_258827_.group(p_258827_.m_257492_(MemoryModuleType.f_26370_), p_258827_.m_257495_(p_259159_))
+                .apply(p_258827_, (p_258821_, p_258822_) -> (p_258834_, p_258835_, p_258836_) -> {
+                      GlobalPos globalpos = p_258827_.m_258051_(p_258822_);
+                      if (p_258834_.m_46472_() != globalpos.m_122640_() || !globalpos.m_122646_().m_203195_(p_258835_.m_20182_(), (double)p_260102_)) {

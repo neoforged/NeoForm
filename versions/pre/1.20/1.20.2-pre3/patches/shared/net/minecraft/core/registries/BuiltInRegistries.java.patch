@@ -1,0 +1,39 @@
+--- a/net/minecraft/core/registries/BuiltInRegistries.java
++++ b/net/minecraft/core/registries/BuiltInRegistries.java
+@@ -133,7 +133,7 @@
+    public static final Registry<RecipeSerializer<?>> f_256769_ = m_258002_(Registries.f_256764_, p_260230_ -> RecipeSerializer.f_44077_);
+    public static final Registry<Attribute> f_256951_ = m_258002_(Registries.f_256728_, p_260300_ -> Attributes.f_22286_);
+    public static final Registry<PositionSourceType<?>> f_256972_ = m_258002_(Registries.f_256792_, p_259113_ -> PositionSourceType.f_157871_);
+-   public static final Registry<ArgumentTypeInfo<?, ?>> f_256979_ = m_258002_(Registries.f_256982_, ArgumentTypeInfos::m_235384_);
++   public static final Registry<ArgumentTypeInfo<?, ?>> f_256979_ = m_258002_(Registries.f_256982_, (RegistryBootstrap)ArgumentTypeInfos::m_235384_);
+    public static final Registry<StatType<?>> f_256899_ = m_258002_(Registries.f_256849_, p_259967_ -> Stats.f_12982_);
+    public static final DefaultedRegistry<VillagerType> f_256934_ = m_257988_(Registries.f_257019_, "plains", p_259473_ -> VillagerType.f_35821_);
+    public static final DefaultedRegistry<VillagerProfession> f_256735_ = m_257988_(Registries.f_256749_, "none", p_259037_ -> VillagerProfession.f_35585_);
+@@ -164,13 +164,13 @@
+    public static final Registry<RootPlacerType<?>> f_256742_ = m_258002_(Registries.f_256768_, p_259493_ -> RootPlacerType.f_225898_);
+    public static final Registry<TreeDecoratorType<?>> f_256987_ = m_258002_(Registries.f_256845_, p_259122_ -> TreeDecoratorType.f_70043_);
+    public static final Registry<FeatureSizeType<?>> f_256958_ = m_258002_(Registries.f_256720_, p_259370_ -> FeatureSizeType.f_68296_);
+-   public static final Registry<Codec<? extends BiomeSource>> f_256737_ = m_258073_(Registries.f_256826_, Lifecycle.stable(), BiomeSources::m_220586_);
+-   public static final Registry<Codec<? extends ChunkGenerator>> f_256914_ = m_258073_(Registries.f_256783_, Lifecycle.stable(), ChunkGenerators::m_223242_);
++   public static final Registry<Codec<? extends BiomeSource>> f_256737_ = m_258073_(Registries.f_256826_, Lifecycle.stable(), (RegistryBootstrap)BiomeSources::m_220586_);
++   public static final Registry<Codec<? extends ChunkGenerator>> f_256914_ = m_258073_(Registries.f_256783_, Lifecycle.stable(), (RegistryBootstrap)ChunkGenerators::m_223242_);
+    public static final Registry<Codec<? extends SurfaceRules.ConditionSource>> f_256885_ = m_258002_(
+-      Registries.f_256793_, SurfaceRules.ConditionSource::m_204624_
++      Registries.f_256793_, (RegistryBootstrap)SurfaceRules.ConditionSource::m_204624_
+    );
+-   public static final Registry<Codec<? extends SurfaceRules.RuleSource>> f_256898_ = m_258002_(Registries.f_256815_, SurfaceRules.RuleSource::m_204630_);
+-   public static final Registry<Codec<? extends DensityFunction>> f_257002_ = m_258002_(Registries.f_256746_, DensityFunctions::m_208342_);
++   public static final Registry<Codec<? extends SurfaceRules.RuleSource>> f_256898_ = m_258002_(Registries.f_256815_, (RegistryBootstrap)SurfaceRules.RuleSource::m_204630_);
++   public static final Registry<Codec<? extends DensityFunction>> f_257002_ = m_258002_(Registries.f_256746_, (RegistryBootstrap)DensityFunctions::m_208342_);
+    public static final Registry<StructureProcessorType<?>> f_256897_ = m_258002_(Registries.f_256983_, p_259305_ -> StructureProcessorType.f_74456_);
+    public static final Registry<StructurePoolElementType<?>> f_256846_ = m_258002_(Registries.f_257024_, p_259361_ -> StructurePoolElementType.f_210545_);
+    public static final Registry<CatVariant> f_256754_ = m_258002_(Registries.f_257006_, CatVariant::m_255364_);
+@@ -222,7 +222,7 @@
+    ) {
+       ResourceLocation resourcelocation = p_259230_.m_135782_();
+       f_256751_.put(resourcelocation, () -> p_259210_.m_257957_(p_260327_));
+-      f_256935_.m_255290_(p_259230_, p_260327_, p_259258_);
++      f_256935_.m_255290_((ResourceKey)p_259230_, p_260327_, p_259258_);
+       return p_260327_;
+    }
+ 

@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/entity/ai/behavior/MoveToSkySeeingSpot.java
++++ b/net/minecraft/world/entity/ai/behavior/MoveToSkySeeingSpot.java
+@@ -16,7 +16,7 @@
+ public class MoveToSkySeeingSpot {
+    public static OneShot<LivingEntity> m_257507_(float p_259860_) {
+       return BehaviorBuilder.m_258034_(
+-         p_258543_ -> p_258543_.<MemoryAccessor>group(p_258543_.m_258080_(MemoryModuleType.f_26370_))
++         p_258543_ -> p_258543_.group(p_258543_.m_258080_(MemoryModuleType.f_26370_))
+                .apply(p_258543_, p_258545_ -> (p_301797_, p_301798_, p_301799_) -> {
+                      if (p_301797_.m_45527_(p_301798_.m_20183_())) {
+                         return false;

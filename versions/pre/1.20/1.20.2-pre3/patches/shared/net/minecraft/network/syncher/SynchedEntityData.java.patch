@@ -1,0 +1,11 @@
+--- a/net/minecraft/network/syncher/SynchedEntityData.java
++++ b/net/minecraft/network/syncher/SynchedEntityData.java
+@@ -212,7 +212,7 @@
+             )
+          );
+       } else {
+-         p_135376_.m_135397_(p_254484_.f_252525_);
++         p_135376_.m_135397_((T)p_254484_.f_252525_);
+       }
+    }
+ 

@@ -1,0 +1,11 @@
+--- a/net/minecraft/server/dedicated/DedicatedServerProperties.java
++++ b/net/minecraft/server/dedicated/DedicatedServerProperties.java
+@@ -186,7 +186,7 @@
+    }
+ 
+    private static FeatureFlagSet m_246391_(String p_251025_) {
+-      return FeatureFlags.f_244280_.m_247416_(f_243988_.splitToStream(p_251025_).mapMulti((p_248197_, p_248198_) -> {
++      return FeatureFlags.f_244280_.m_247416_(f_243988_.splitToStream(p_251025_).<ResourceLocation>mapMulti((p_248197_, p_248198_) -> {
+          ResourceLocation resourcelocation = ResourceLocation.m_135820_(p_248197_);
+          if (resourcelocation == null) {
+             f_214805_.warn("Invalid resource location {}, ignoring", p_248197_);

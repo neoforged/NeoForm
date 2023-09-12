@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/entity/ai/behavior/InsideBrownianWalk.java
++++ b/net/minecraft/world/entity/ai/behavior/InsideBrownianWalk.java
+@@ -14,7 +14,7 @@
+ public class InsideBrownianWalk {
+    public static BehaviorControl<PathfinderMob> m_258053_(float p_259775_) {
+       return BehaviorBuilder.m_258034_(
+-         p_258399_ -> p_258399_.<MemoryAccessor>group(p_258399_.m_258080_(MemoryModuleType.f_26370_))
++         p_258399_ -> p_258399_.group(p_258399_.m_258080_(MemoryModuleType.f_26370_))
+                .apply(
+                   p_258399_,
+                   p_258397_ -> (p_258393_, p_258394_, p_258395_) -> {

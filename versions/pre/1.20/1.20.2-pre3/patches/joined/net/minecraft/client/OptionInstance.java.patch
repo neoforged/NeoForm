@@ -1,0 +1,11 @@
+--- a/net/minecraft/client/OptionInstance.java
++++ b/net/minecraft/client/OptionInstance.java
+@@ -319,7 +319,7 @@
+          return new OptionInstance.SliderableValueSet<R>() {
+             @Override
+             public Optional<R> m_214064_(R p_231674_) {
+-               return IntRangeBase.this.m_214064_((T)Integer.valueOf(p_231659_.applyAsInt(p_231674_))).map(p_231658_::apply);
++               return IntRangeBase.this.m_214064_(Integer.valueOf(p_231659_.applyAsInt(p_231674_))).map(p_231658_::apply);
+             }
+ 
+             @Override

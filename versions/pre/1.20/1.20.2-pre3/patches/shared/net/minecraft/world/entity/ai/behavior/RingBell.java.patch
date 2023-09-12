@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/entity/ai/behavior/RingBell.java
++++ b/net/minecraft/world/entity/ai/behavior/RingBell.java
+@@ -17,7 +17,7 @@
+ 
+    public static BehaviorControl<LivingEntity> m_257471_() {
+       return BehaviorBuilder.m_258034_(
+-         p_259094_ -> p_259094_.<MemoryAccessor>group(p_259094_.m_257495_(MemoryModuleType.f_26362_))
++         p_259094_ -> p_259094_.group(p_259094_.m_257495_(MemoryModuleType.f_26362_))
+                .apply(p_259094_, p_259028_ -> (p_259026_, p_260317_, p_260205_) -> {
+                      if (p_259026_.f_46441_.m_188501_() <= 0.95F) {
+                         return false;
