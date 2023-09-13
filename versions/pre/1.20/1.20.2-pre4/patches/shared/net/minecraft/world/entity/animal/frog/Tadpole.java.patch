@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/entity/animal/frog/Tadpole.java
++++ b/net/minecraft/world/entity/animal/frog/Tadpole.java
+@@ -80,7 +80,7 @@
+ 
+    @Override
+    public Brain<Tadpole> m_6274_() {
+-      return super.m_6274_();
++      return (Brain<Tadpole>)super.m_6274_();
+    }
+ 
+    @Override

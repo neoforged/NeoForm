@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/entity/monster/warden/WardenAi.java
++++ b/net/minecraft/world/entity/monster/warden/WardenAi.java
+@@ -84,7 +84,7 @@
+       MemoryModuleType.f_217777_
+    );
+    private static final BehaviorControl<Warden> f_219502_ = BehaviorBuilder.m_258034_(
+-      p_258953_ -> p_258953_.<MemoryAccessor>group(p_258953_.m_257492_(MemoryModuleType.f_217770_))
++      p_258953_ -> p_258953_.group(p_258953_.m_257492_(MemoryModuleType.f_217770_))
+             .apply(p_258953_, p_258960_ -> (p_258956_, p_258957_, p_258958_) -> {
+                   if (p_258953_.m_257828_(p_258960_).isPresent()) {
+                      p_258960_.m_257465_(Unit.INSTANCE, 1200L);

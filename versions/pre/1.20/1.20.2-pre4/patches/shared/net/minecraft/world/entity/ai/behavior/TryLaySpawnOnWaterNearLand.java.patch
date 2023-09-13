@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/entity/ai/behavior/TryLaySpawnOnWaterNearLand.java
++++ b/net/minecraft/world/entity/ai/behavior/TryLaySpawnOnWaterNearLand.java
+@@ -17,7 +17,7 @@
+ public class TryLaySpawnOnWaterNearLand {
+    public static BehaviorControl<LivingEntity> m_257849_(Block p_259207_) {
+       return BehaviorBuilder.m_258034_(
+-         p_259781_ -> p_259781_.<MemoryAccessor, MemoryAccessor, MemoryAccessor>group(
++         p_259781_ -> p_259781_.group(
+                   p_259781_.m_258080_(MemoryModuleType.f_26372_),
+                   p_259781_.m_257495_(MemoryModuleType.f_26370_),
+                   p_259781_.m_257495_(MemoryModuleType.f_217767_)

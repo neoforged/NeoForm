@@ -1,0 +1,22 @@
+--- a/net/minecraft/world/level/levelgen/SurfaceRules.java
++++ b/net/minecraft/world/level/levelgen/SurfaceRules.java
+@@ -756,14 +756,14 @@
+ 
+             @Override
+             protected boolean m_183479_() {
+-               int i = this.f_189616_.f_189557_;
+-               if (i <= i) {
++               int k = this.f_189616_.f_189557_;
++               if (k <= i) {
+                   return true;
+-               } else if (i >= j) {
++               } else if (k >= j) {
+                   return false;
+                } else {
+-                  double d0 = Mth.m_144914_((double)i, (double)i, (double)j, 1.0, 0.0);
+-                  RandomSource randomsource = positionalrandomfactory.m_213715_(this.f_189616_.f_189546_, i, this.f_189616_.f_189547_);
++                  double d0 = Mth.m_144914_((double)k, (double)i, (double)j, 1.0, 0.0);
++                  RandomSource randomsource = positionalrandomfactory.m_213715_(this.f_189616_.f_189546_, k, this.f_189616_.f_189547_);
+                   return (double)randomsource.m_188501_() < d0;
+                }
+             }

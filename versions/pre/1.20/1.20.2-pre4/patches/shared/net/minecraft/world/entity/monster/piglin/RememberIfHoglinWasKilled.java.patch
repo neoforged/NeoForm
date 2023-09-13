@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/entity/monster/piglin/RememberIfHoglinWasKilled.java
++++ b/net/minecraft/world/entity/monster/piglin/RememberIfHoglinWasKilled.java
+@@ -11,7 +11,7 @@
+ public class RememberIfHoglinWasKilled {
+    public static BehaviorControl<LivingEntity> m_257745_() {
+       return BehaviorBuilder.m_258034_(
+-         p_260168_ -> p_260168_.<MemoryAccessor, MemoryAccessor>group(
++         p_260168_ -> p_260168_.group(
+                   p_260168_.m_257495_(MemoryModuleType.f_26372_), p_260168_.m_257492_(MemoryModuleType.f_26340_)
+                )
+                .apply(p_260168_, (p_259214_, p_260031_) -> (p_302211_, p_302212_, p_302213_) -> {
