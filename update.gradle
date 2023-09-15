@@ -64,7 +64,7 @@ task downloadJammer(type: Download) {
 task runJammer(type: JavaExec, dependsOn: [downloadJammer, runMappingToy]) {
     inputs.file("${MAP_DATA}/${OLD_VERSION}/client.txt")
     inputs.file("${MAP_DATA}/${NEW_VERSION}/client.txt")
-    mainClass = 'com.ldtteam.jam.mcpconfig.Main'
+    mainClass = 'com.ldtteam.jam.neoform.Main'
     classpath.from configurations.jarDeps
     classpath.from files(downloadJammer.dest)
     args = ['-en', OLD_VERSION, '-ej', "${MAP_DATA}/${OLD_VERSION}/client.jar", '-em', "${MAP_DATA}/${OLD_VERSION}/client.txt", '-emd', "${MAP_DATA}/${OLD_VERSION}/joined_a_meta.json", '-ei', "${OLD_PATH}joined.tsrg", '-in', NEW_VERSION, '-ij', "${MAP_DATA}/${NEW_VERSION}/client.jar", '-imd', "${MAP_DATA}/${NEW_VERSION}/joined_a_meta.json", '-im', "${MAP_DATA}/${NEW_VERSION}/client.txt", '-o', NEW_PATH]
