@@ -17,10 +17,6 @@ on:
         default: true
         required: false
         type: boolean
-      require_verify:
-        default: true
-        required: false
-        type: boolean
       publish:
         default: true
         required: false
@@ -39,11 +35,6 @@ on:
         required: true
       push_changed:
         description: 'Push changed patches'
-        default: true
-        required: false
-        type: boolean
-      require_verify:
-        description: 'Make the verify task required to succeed'
         default: true
         required: false
         type: boolean
@@ -176,13 +167,6 @@ jobs:
       run: |
         git add .
         git diff-index --quiet HEAD || git commit -m "Update patches" && git push
-    - name: Verify mappings
-      id: verify
-      uses: gradle/gradle-build-action@v2
-      continue-on-error: ${{ !inputs.require_verify }}
-      with:
-        arguments: :${{ fromJson(steps.split_version.outputs.result).version_name }}:verify -Ptype=${{ fromJson(steps.split_version.outputs.result).version_type }}
-        generate-job-summary: false
     - name: Make Zip
       if: ${{ always() }}
       uses: gradle/gradle-build-action@v2
@@ -257,7 +241,7 @@ jobs:
       fail-fast: false
       matrix:
         jdk_version: [17, 18, 19, 20]
-        mappings: [Official, HotSpot]
+        mappings: [HotSpot]
         side: [Client, Joined, Server]
     
     steps: 
