@@ -257,7 +257,7 @@ jobs:
       fail-fast: false
       matrix:
         jdk_version: [17, 18, 19, 20]
-        mappings: [Official, HotSpot]
+        mappings: [HotSpot]
         side: [Client, Joined, Server]
     
     steps: 
