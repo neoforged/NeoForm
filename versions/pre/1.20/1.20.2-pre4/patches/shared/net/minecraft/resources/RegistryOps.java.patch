@@ -3,9 +3,9 @@
 @@ -23,7 +23,7 @@
  
           @Override
-          public <T> Optional<RegistryOps.RegistryInfo<T>> m_254838_(ResourceKey<? extends Registry<? extends T>> p_256043_) {
--            return this.f_254621_.computeIfAbsent(p_256043_, p_255769_::m_254838_);
-+            return (Optional<RegistryOps.RegistryInfo<T>>)this.f_254621_.computeIfAbsent(p_256043_, p_255769_::m_254838_);
+          public <T> Optional<RegistryOps.RegistryInfo<T>> lookup(ResourceKey<? extends Registry<? extends T>> p_256043_) {
+-            return this.lookups.computeIfAbsent(p_256043_, p_255769_::lookup);
++            return (Optional<RegistryOps.RegistryInfo<T>>)this.lookups.computeIfAbsent(p_256043_, p_255769_::lookup);
           }
        };
     }

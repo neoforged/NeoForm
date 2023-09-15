@@ -3,9 +3,9 @@
 @@ -13,7 +13,7 @@
     }
  
-    public void m_6951_(boolean p_40119_, RecipeHolder<?> p_300860_, ServerPlayer p_40121_) {
--      new ServerPlaceRecipe<>(this).m_135434_(p_40121_, p_300860_, p_40119_);
-+      new ServerPlaceRecipe<>(this).m_135434_(p_40121_, (RecipeHolder<? extends Recipe<C>>)p_300860_, p_40119_);
+    public void handlePlacement(boolean p_40119_, RecipeHolder<?> p_300860_, ServerPlayer p_40121_) {
+-      new ServerPlaceRecipe<>(this).recipeClicked(p_40121_, p_300860_, p_40119_);
++      new ServerPlaceRecipe<>(this).recipeClicked(p_40121_, (RecipeHolder<? extends Recipe<C>>)p_300860_, p_40119_);
     }
  
-    public abstract void m_5816_(StackedContents p_40117_);
+    public abstract void fillCraftSlotsStackedContents(StackedContents p_40117_);

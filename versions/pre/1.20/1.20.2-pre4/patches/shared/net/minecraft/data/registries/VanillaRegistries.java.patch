@@ -2,12 +2,12 @@
 +++ b/net/minecraft/data/registries/VanillaRegistries.java
 @@ -38,8 +38,8 @@
  public class VanillaRegistries {
-    private static final RegistrySetBuilder f_254635_ = new RegistrySetBuilder()
-       .m_254916_(Registries.f_256787_, DimensionTypes::m_236473_)
--      .m_254916_(Registries.f_257003_, Carvers::m_254873_)
--      .m_254916_(Registries.f_256911_, FeatureUtils::m_254925_)
-+      .m_254916_(Registries.f_257003_, (RegistrySetBuilder.RegistryBootstrap)Carvers::m_254873_)
-+      .m_254916_(Registries.f_256911_, (RegistrySetBuilder.RegistryBootstrap)FeatureUtils::m_254925_)
-       .m_254916_(Registries.f_256988_, PlacementUtils::m_255199_)
-       .m_254916_(Registries.f_256944_, Structures::m_255324_)
-       .m_254916_(Registries.f_256998_, StructureSets::m_255117_)
+    private static final RegistrySetBuilder BUILDER = new RegistrySetBuilder()
+       .add(Registries.DIMENSION_TYPE, DimensionTypes::bootstrap)
+-      .add(Registries.CONFIGURED_CARVER, Carvers::bootstrap)
+-      .add(Registries.CONFIGURED_FEATURE, FeatureUtils::bootstrap)
++      .add(Registries.CONFIGURED_CARVER, (RegistrySetBuilder.RegistryBootstrap)Carvers::bootstrap)
++      .add(Registries.CONFIGURED_FEATURE, (RegistrySetBuilder.RegistryBootstrap)FeatureUtils::bootstrap)
+       .add(Registries.PLACED_FEATURE, PlacementUtils::bootstrap)
+       .add(Registries.STRUCTURE, Structures::bootstrap)
+       .add(Registries.STRUCTURE_SET, StructureSets::bootstrap)

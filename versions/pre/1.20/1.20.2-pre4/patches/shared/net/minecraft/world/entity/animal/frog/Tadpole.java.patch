@@ -3,9 +3,9 @@
 @@ -80,7 +80,7 @@
  
     @Override
-    public Brain<Tadpole> m_6274_() {
--      return super.m_6274_();
-+      return (Brain<Tadpole>)super.m_6274_();
+    public Brain<Tadpole> getBrain() {
+-      return super.getBrain();
++      return (Brain<Tadpole>)super.getBrain();
     }
  
     @Override

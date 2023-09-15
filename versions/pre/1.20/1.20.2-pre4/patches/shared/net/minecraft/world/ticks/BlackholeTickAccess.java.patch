@@ -3,13 +3,13 @@
 @@ -40,10 +40,10 @@
     };
  
-    public static <T> TickContainerAccess<T> m_193144_() {
--      return f_193140_;
-+      return (TickContainerAccess<T>)f_193140_;
+    public static <T> TickContainerAccess<T> emptyContainer() {
+-      return CONTAINER_BLACKHOLE;
++      return (TickContainerAccess<T>)CONTAINER_BLACKHOLE;
     }
  
-    public static <T> LevelTickAccess<T> m_193145_() {
--      return f_193141_;
-+      return (LevelTickAccess<T>)f_193141_;
+    public static <T> LevelTickAccess<T> emptyLevelList() {
+-      return LEVEL_BLACKHOLE;
++      return (LevelTickAccess<T>)LEVEL_BLACKHOLE;
     }
  }

@@ -4,8 +4,8 @@
                                Dynamic<?> dynamic = p_145746_.get(DSL.remainderFinder());
                                int k = dynamic.get("xPos").asInt(0);
                                int l = dynamic.get("zPos").asInt(0);
--                              TaggedChoiceType<String> taggedchoicetype = this.getInputSchema().findChoiceType(References.f_16781_);
-+                              TaggedChoiceType<String> taggedchoicetype = (TaggedChoiceType<String>)this.getInputSchema().findChoiceType(References.f_16781_);
+-                              TaggedChoiceType<String> taggedchoicetype = this.getInputSchema().findChoiceType(References.BLOCK_ENTITY);
++                              TaggedChoiceType<String> taggedchoicetype = (TaggedChoiceType<String>)this.getInputSchema().findChoiceType(References.BLOCK_ENTITY);
                                return p_145746_.updateTyped(
                                   opticfinder,
                                   p_145752_ -> p_145752_.updateTyped(

@@ -1,27 +1,27 @@
 --- a/com/mojang/realmsclient/gui/screens/RealmsUploadScreen.java
 +++ b/com/mojang/realmsclient/gui/screens/RealmsUploadScreen.java
-@@ -265,8 +265,8 @@
-                            } else if (this.f_90080_) {
-                               this.m_90130_();
+@@ -261,8 +261,8 @@
+                            } else if (this.cancelled) {
+                               this.uploadCancelled();
                             } else {
--                              j = (int)(new File(this.f_96541_.f_91069_.getAbsolutePath(), "saves"));
--                              file1 = this.m_90119_(new File(j, this.f_90072_.m_78358_()));
-+                              File file = (new File(this.f_96541_.f_91069_.getAbsolutePath(), "saves"));
-+                              file1 = this.m_90119_(new File(file, this.f_90072_.m_78358_()));
-                               if (this.f_90080_) {
-                                  this.m_90130_();
-                               } else if (this.m_90105_(file1)) {
+-                              j = (int)(new File(this.minecraft.gameDirectory.getAbsolutePath(), "saves"));
+-                              file1 = this.tarGzipArchive(new File(j, this.selectedLevel.getLevelId()));
++                              File file = (new File(this.minecraft.gameDirectory.getAbsolutePath(), "saves"));
++                              file1 = this.tarGzipArchive(new File(file, this.selectedLevel.getLevelId()));
+                               if (this.cancelled) {
+                                  this.uploadCancelled();
+                               } else if (this.verify(file1)) {
 @@ -327,13 +327,10 @@
                          }
                       }
                    } catch (IOException ioexception) {
 -                     uploadinfo = ioexception;
-                      this.m_90112_(Component.m_237110_("mco.upload.failed", ioexception.getMessage()));
+                      this.setErrorMessage(Component.translatable("mco.upload.failed", ioexception.getMessage()));
                    } catch (RealmsServiceException realmsserviceexception) {
 -                     uploadinfo = realmsserviceexception;
-                      this.m_90112_(Component.m_237110_("mco.upload.failed", realmsserviceexception.f_200941_.m_292550_()));
+                      this.setErrorMessage(Component.translatable("mco.upload.failed", realmsserviceexception.realmsError.errorMessage()));
                    } catch (InterruptedException interruptedexception1) {
 -                     uploadinfo = interruptedexception1;
-                      f_90067_.error("Could not acquire upload lock");
+                      LOGGER.error("Could not acquire upload lock");
                    }
                 } finally {

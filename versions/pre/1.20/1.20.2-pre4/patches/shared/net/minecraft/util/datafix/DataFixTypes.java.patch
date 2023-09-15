@@ -3,9 +3,9 @@
 @@ -72,7 +72,7 @@
     }
  
-    public CompoundTag m_264226_(DataFixer p_265128_, CompoundTag p_265422_, int p_265549_, int p_265304_) {
--      return this.m_264080_(p_265128_, new Dynamic<>(NbtOps.f_128958_, p_265422_), p_265549_, p_265304_).getValue();
-+      return (CompoundTag)this.m_264080_(p_265128_, new Dynamic<>(NbtOps.f_128958_, p_265422_), p_265549_, p_265304_).getValue();
+    public CompoundTag update(DataFixer p_265128_, CompoundTag p_265422_, int p_265549_, int p_265304_) {
+-      return this.update(p_265128_, new Dynamic<>(NbtOps.INSTANCE, p_265422_), p_265549_, p_265304_).getValue();
++      return (CompoundTag)this.update(p_265128_, new Dynamic<>(NbtOps.INSTANCE, p_265422_), p_265549_, p_265304_).getValue();
     }
  
-    public CompoundTag m_264218_(DataFixer p_265583_, CompoundTag p_265401_, int p_265111_) {
+    public CompoundTag updateToCurrentVersion(DataFixer p_265583_, CompoundTag p_265401_, int p_265111_) {

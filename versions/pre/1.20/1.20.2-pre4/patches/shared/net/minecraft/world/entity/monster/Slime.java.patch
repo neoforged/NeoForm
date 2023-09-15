@@ -1,11 +1,11 @@
 --- a/net/minecraft/world/entity/monster/Slime.java
 +++ b/net/minecraft/world/entity/monster/Slime.java
-@@ -189,7 +189,7 @@
+@@ -187,7 +187,7 @@
  
     @Override
-    public EntityType<? extends Slime> m_6095_() {
--      return super.m_6095_();
-+      return (EntityType<? extends Slime>)super.m_6095_();
+    public EntityType<? extends Slime> getType() {
+-      return super.getType();
++      return (EntityType<? extends Slime>)super.getType();
     }
  
     @Override

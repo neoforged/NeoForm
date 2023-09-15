@@ -3,9 +3,9 @@
 @@ -152,7 +152,7 @@
  
     @Override
-    public Brain<Hoglin> m_6274_() {
--      return super.m_6274_();
-+      return (Brain<Hoglin>)super.m_6274_();
+    public Brain<Hoglin> getBrain() {
+-      return super.getBrain();
++      return (Brain<Hoglin>)super.getBrain();
     }
  
     @Override

@@ -3,14 +3,14 @@
 @@ -482,11 +482,11 @@
                 i = 0;
                 j = 0;
-             } else if (ItemStatisticsList.this.f_97021_.contains(ItemStatisticsList.this.f_97026_)) {
--               StatType<Block> stattype = ItemStatisticsList.this.f_97026_;
-+               StatType<Block> stattype = (StatType<Block>)ItemStatisticsList.this.f_97026_;
-                i = item instanceof BlockItem ? StatsScreen.this.f_96901_.m_13017_(stattype, ((BlockItem)item).m_40614_()) : -1;
-                j = item1 instanceof BlockItem ? StatsScreen.this.f_96901_.m_13017_(stattype, ((BlockItem)item1).m_40614_()) : -1;
+             } else if (ItemStatisticsList.this.blockColumns.contains(ItemStatisticsList.this.sortColumn)) {
+-               StatType<Block> stattype = ItemStatisticsList.this.sortColumn;
++               StatType<Block> stattype = (StatType<Block>)ItemStatisticsList.this.sortColumn;
+                i = item instanceof BlockItem ? StatsScreen.this.stats.getValue(stattype, ((BlockItem)item).getBlock()) : -1;
+                j = item1 instanceof BlockItem ? StatsScreen.this.stats.getValue(stattype, ((BlockItem)item1).getBlock()) : -1;
              } else {
--               StatType<Item> stattype1 = ItemStatisticsList.this.f_97026_;
-+               StatType<Item> stattype1 = (StatType<Item>)ItemStatisticsList.this.f_97026_;
-                i = StatsScreen.this.f_96901_.m_13017_(stattype1, item);
-                j = StatsScreen.this.f_96901_.m_13017_(stattype1, item1);
+-               StatType<Item> stattype1 = ItemStatisticsList.this.sortColumn;
++               StatType<Item> stattype1 = (StatType<Item>)ItemStatisticsList.this.sortColumn;
+                i = StatsScreen.this.stats.getValue(stattype1, item);
+                j = StatsScreen.this.stats.getValue(stattype1, item1);
              }

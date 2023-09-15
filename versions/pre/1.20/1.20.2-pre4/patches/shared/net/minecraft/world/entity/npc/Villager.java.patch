@@ -3,9 +3,9 @@
 @@ -191,7 +191,7 @@
  
     @Override
-    public Brain<Villager> m_6274_() {
--      return super.m_6274_();
-+      return (Brain<Villager>)super.m_6274_();
+    public Brain<Villager> getBrain() {
+-      return super.getBrain();
++      return (Brain<Villager>)super.getBrain();
     }
  
     @Override

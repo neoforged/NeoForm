@@ -2,10 +2,10 @@
 +++ b/net/minecraft/world/entity/ai/behavior/VillagerCalmDown.java
 @@ -11,7 +11,7 @@
  
-    public static BehaviorControl<LivingEntity> m_257666_() {
-       return BehaviorBuilder.m_258034_(
+    public static BehaviorControl<LivingEntity> create() {
+       return BehaviorBuilder.create(
 -         p_258884_ -> p_258884_.<MemoryAccessor, MemoryAccessor, MemoryAccessor>group(
 +         p_258884_ -> p_258884_.group(
-                   p_258884_.m_257492_(MemoryModuleType.f_26381_),
-                   p_258884_.m_257492_(MemoryModuleType.f_26382_),
-                   p_258884_.m_257492_(MemoryModuleType.f_26323_)
+                   p_258884_.registered(MemoryModuleType.HURT_BY),
+                   p_258884_.registered(MemoryModuleType.HURT_BY_ENTITY),
+                   p_258884_.registered(MemoryModuleType.NEAREST_HOSTILE)

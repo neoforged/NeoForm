@@ -18,7 +18,7 @@
 -                              return Pair.of((Dynamic)p_145580_.getKey(), ((Dynamic)p_145580_.getValue()).createString(s1));
 +                              return Pair.of(p_145580_.getKey(), (p_145580_.getValue()).createString(s1));
                             } else {
-                               String s = f_16627_.getOrDefault(i, "key.unknown");
+                               String s = MAP.getOrDefault(i, "key.unknown");
 -                              return Pair.of((Dynamic)p_145580_.getKey(), ((Dynamic)p_145580_.getValue()).createString(s));
 +                              return Pair.of(p_145580_.getKey(), (p_145580_.getValue()).createString(s));
                             }

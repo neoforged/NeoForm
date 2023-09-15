@@ -3,9 +3,9 @@
 @@ -471,7 +471,7 @@
  
     @Override
-    public Brain<Axolotl> m_6274_() {
--      return super.m_6274_();
-+      return (Brain<Axolotl>)super.m_6274_();
+    public Brain<Axolotl> getBrain() {
+-      return super.getBrain();
++      return (Brain<Axolotl>)super.getBrain();
     }
  
     @Override

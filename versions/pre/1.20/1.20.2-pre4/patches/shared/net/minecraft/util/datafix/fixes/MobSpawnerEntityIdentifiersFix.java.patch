@@ -3,7 +3,7 @@
 @@ -64,7 +64,7 @@
           Dynamic<?> dynamic = p_297969_.get(DSL.remainderFinder());
           dynamic = dynamic.set("id", dynamic.createString("MobSpawner"));
-          DataResult<? extends Pair<? extends Typed<?>, ?>> dataresult = type.readTyped(this.m_16456_(dynamic));
+          DataResult<? extends Pair<? extends Typed<?>, ?>> dataresult = type.readTyped(this.fix(dynamic));
 -         return dataresult.result().isEmpty() ? p_297969_ : ((Pair)dataresult.result().get()).getFirst();
 +         return dataresult.result().isEmpty() ? p_297969_ : (dataresult.result().get()).getFirst();
        });

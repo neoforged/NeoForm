@@ -3,9 +3,9 @@
 @@ -85,7 +85,7 @@
           @Nullable
           @Override
-          public T m_213619_(ResourceLocation p_216039_) {
--            return TagLoader.this.f_13448_.apply(p_216039_).orElse((T)null);
-+            return TagLoader.this.f_13448_.apply(p_216039_).orElse(null);
+          public T element(ResourceLocation p_216039_) {
+-            return TagLoader.this.idToValue.apply(p_216039_).orElse((T)null);
++            return TagLoader.this.idToValue.apply(p_216039_).orElse(null);
           }
  
           @Nullable

@@ -110,12 +110,26 @@ subprojects {
         BUNDLE_EXTRACT_LIBS = null
         if (CONFIG.containsKey('bundler_extract_libs'))
             BUNDLE_EXTRACT_LIBS = Utils.readConfig(CONFIG, 'bundler_extract_libs', [:])
+        TOOLS = [FERNFLOWER, MERGETOOL, RENAMETOOL, MERGEMAPTOOL, MCINJECTOR, BUNDLE_EXTRACT_JAR, BUNDLE_EXTRACT_LIBS].findAll {it != null}
     }
 
     java.toolchain.languageVersion = JavaLanguageVersion.of(JAVA_TARGET)
 
     configurations {
         srgutilsJar
+        fernflower
+        mergetool
+        renametool
+        mergemaptool
+        if (MCINJECTOR) {
+            mcinjector
+        }
+        if (BUNDLE_EXTRACT_JAR) {
+            bundleExtractJar
+        }
+        if (BUNDLE_EXTRACT_LIBS) {
+            bundleExtractLibs
+        }
     }
 
     repositories {
@@ -123,10 +137,45 @@ subprojects {
             name 'forge'
             url 'https://maven.neoforged.net/releases'
         }
+        for (tool in TOOLS) {
+            if (tool.repo) {
+                maven {
+                    name tool.name
+                    url tool.repo
+                }
+            }
+        }
     }
 
     dependencies {
         srgutilsJar "net.minecraftforge:srgutils:${SRGUTILS_VERSION}"
+        if (FERNFLOWER.version) {
+            fernflower FERNFLOWER.version
+        }
+        mergetool(MERGETOOL.version) {
+            transitive = false
+        }
+        renametool(RENAMETOOL.version) {
+            transitive = false
+        }
+        mergemaptool(MERGEMAPTOOL.version) {
+            transitive = false
+        }
+        if (MCINJECTOR) {
+            mcinjector(MCINJECTOR.version) {
+                transitive = false
+            }
+        }
+        if (BUNDLE_EXTRACT_JAR) {
+            bundleExtractJar(BUNDLE_EXTRACT_JAR.version) {
+                transitive = false
+            }
+        }
+        if (BUNDLE_EXTRACT_LIBS) {
+            bundleExtractLibs(BUNDLE_EXTRACT_LIBS.version) {
+                transitive = false
+            }
+        }
     }
 
     task downloadJson(type: Download, dependsOn: rootProject.downloadVersionManifest) {
@@ -154,23 +203,11 @@ subprojects {
         config = CONFIG
         dest = file(PATH_BUILD + "/mc-libraries/")
     }
-    task downloadFernflower(type: DownloadTool) {
-        config FERNFLOWER, PATH_CACHED_LIBRARIES
-    }
-    task downloadMergeTool(type: DownloadTool) {
-        config MERGETOOL, PATH_CACHED_LIBRARIES
-    }
-    task downloadRenameTool(type: DownloadTool) {
-        config RENAMETOOL, PATH_CACHED_LIBRARIES
-    }
     task downloadAssets(type: DownloadAssets, dependsOn: downloadJson) {
         json = downloadJson.dest
         dest = file(PATH_BUILD + '/assets/')
     }
     if (MCINJECTOR != null) {
-        task downloadMCInjector(type: DownloadTool) {
-            config MCINJECTOR, PATH_CACHED_LIBRARIES
-        }
         task makeEmptyFile(type: SingleFileOutput) {
             dest file(PATH_BUILD + '/empty.txt')
             doLast {
@@ -180,19 +217,13 @@ subprojects {
     }
     
     if (BUNDLE_EXTRACT_JAR != null) {
-        task downloadBundleExtractorJar(type: DownloadTool) {
-            config BUNDLE_EXTRACT_JAR, PATH_CACHED_LIBRARIES
-        }
-        task downloadBundleExtractorLibs(type: DownloadTool) {
-            config BUNDLE_EXTRACT_LIBS, PATH_CACHED_LIBRARIES
-        }
-        task extractServer(type: ExtractBundleJar, dependsOn: [downloadBundleExtractorJar, downloadBundleExtractorLibs, downloadServer]) {
-            config BUNDLE_EXTRACT_JAR, downloadBundleExtractorJar
+        task extractServer(type: ExtractBundleJar, dependsOn: [downloadServer]) {
+            config BUNDLE_EXTRACT_JAR, configurations.bundleExtractJar
             input = downloadServer.dest
             dest = file(PATH_CACHED_VERSION + 'server.extracted.jar')
         }
-        task extractServerLibraries(type: ExtractBundleLibs, dependsOn: [downloadBundleExtractorJar, downloadBundleExtractorLibs, downloadServer]) {
-            config BUNDLE_EXTRACT_LIBS, downloadBundleExtractorLibs
+        task extractServerLibraries(type: ExtractBundleLibs, dependsOn: [downloadServer]) {
+            config BUNDLE_EXTRACT_LIBS, configurations.bundleExtractLibs
             input = downloadServer.dest
             dest = file(PATH_CACHED_VERSION + 'server_libraries')
         }
@@ -212,19 +243,22 @@ subprojects {
         extra = file(PATH_CACHED_VERSION + 'server.extra.jar')
     }
 
-    task mergeJars(type: MergeJar, dependsOn: [downloadMergeTool, filterClient, filterServer]) {
-        config MERGETOOL, downloadMergeTool
-        classpath = configurations.srgutilsJar
-        classpath.from project.files(downloadMergeTool)
+    task mergeJars(type: MergeJar, dependsOn: [filterClient, filterServer]) {
+        config MERGETOOL, configurations.mergetool
         mainClass = 'net.minecraftforge.mergetool.ConsoleMerger'
         client filterClient.slim
         server filterServer.slim
         version project.version
         dest file(PATH_CACHED_VERSION + 'joined.jar')
     }
-    
-    task makeObfToIntermediate(type: RenameMappings, dependsOn: [downloadClientMappings]) {
-        intermediate = file('joined.tsrg')
+
+    task makeObfToIntermediate(type: CONFIG.mergemap ? MergeMappings : RenameMappings, dependsOn: [downloadClientMappings]) {
+        if (CONFIG.mergemap) {
+            config MERGEMAPTOOL, configurations.mergemaptool
+            mappings = file('joined.tsrg')
+        }
+        else
+            intermediate = file('joined.tsrg')
         if (CONFIG.official)
             official = downloadClientMappings.dest
         dest = file(PATH_CACHED_VERSION + 'obf_to_intermediate.tsrg')
@@ -252,8 +286,8 @@ subprojects {
             dest file(PATH_CACHED_VERSION + s + '.fernflower.libs.txt')
         }
         
-        child.rename = task "rename${child.Name}"(type: RemapJar, dependsOn: [downloadRenameTool, child.slim, makeObfToIntermediate, child.libraries]) {
-            config RENAMETOOL, downloadRenameTool
+        child.rename = task "rename${child.Name}"(type: RemapJar, dependsOn: [child.slim, makeObfToIntermediate, child.libraries]) {
+            config RENAMETOOL, configurations.renametool
             input = 'joined'.equals(s) ? child.slim.dest : child.slim.slim
             mappings = makeObfToIntermediate.dest
             libraries = child.libraries.dest
@@ -262,8 +296,8 @@ subprojects {
         }
         
         if (MCINJECTOR != null) {
-            child.mcinject = task "mcinject${child.Name}"(type: MCInjectTask, dependsOn: [downloadMCInjector, child.rename, makeEmptyFile/*, makeExceptions, fixAccessLevels*/]) {
-                config MCINJECTOR, downloadMCInjector
+            child.mcinject = task "mcinject${child.Name}"(type: MCInjectTask, dependsOn: [child.rename, makeEmptyFile/*, makeExceptions, fixAccessLevels*/]) {
+                config MCINJECTOR, configurations.mcinjector
                 access makeEmptyFile.dest //fixAccessLevels.dest
                 constructors project.file('constructors.txt')
                 exceptions makeEmptyFile.dest //makeExceptions.dest
@@ -332,8 +366,9 @@ subprojects {
     
     sides.each{ side, child ->
         // Normal workflow tasks
-        child.decompile = task "decompile${child.Name}"(type: FernflowerTask, dependsOn: [/*verify,*/ downloadFernflower, child.rename, child.libraries] + (MCINJECTOR == null ? [] : [child.mcinject])) {
-            config FERNFLOWER, downloadFernflower
+        child.decompile = task "decompile${child.Name}"(type: FernflowerTask, dependsOn: [/*verify,*/ child.rename, child.libraries] + (MCINJECTOR == null ? [] : [child.mcinject])) {
+            config FERNFLOWER, configurations.fernflower
+            classpath = configurations.fernflower
             libraries = child.libraries.dest
             input = MCINJECTOR != null ? child.mcinject.dest : child.rename.dest
             log = file(PATH_CACHED_VERSION + side + '.decompile.log')
@@ -502,10 +537,12 @@ subprojects {
             [name: 'official20', Name: 'Official20', version: 20, official: true ]
         ]
         jdks.findAll{ it.version >= JAVA_TARGET }.each{ jdk ->
+            if (jdk.official && CONFIG.test_remap_official != null && !CONFIG.test_remap_official)
+                return
             def testPath = project.file(PATH_CACHED_VERSION + 'test/' + jdk.name + '/')
             
-            def tstDecompile = task "testDecompile${child.Name}${jdk.Name}"(type: FernflowerTask, dependsOn: [downloadFernflower, child.rename, child.libraries]) {
-                config FERNFLOWER, downloadFernflower
+            def tstDecompile = task "testDecompile${child.Name}${jdk.Name}"(type: FernflowerTask, dependsOn: [child.rename, child.libraries]) {
+                config FERNFLOWER, configurations.fernflower
                 javaLauncher = javaToolchains.launcherFor {
                     languageVersion = JavaLanguageVersion.of(jdk.version)
                 }

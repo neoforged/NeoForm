@@ -9,6 +9,10 @@ public class FernflowerTask extends ToolJarExec {
     @OutputFile File log
     @OutputFile File dest
     
+    FernflowerTask() {
+        mainClass.set "org.jetbrains.java.decompiler.main.decompiler.ConsoleDecompiler"
+    }
+    
     @Override
     protected void preExec() {
         def logStream = log.newOutputStream()

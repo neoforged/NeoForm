@@ -3,9 +3,9 @@
 @@ -16,7 +16,7 @@
     ) {
        MutableLong mutablelong = new MutableLong(0L);
-       return BehaviorBuilder.m_258034_(
+       return BehaviorBuilder.create(
 -         p_259612_ -> p_259612_.<MemoryAccessor, MemoryAccessor, MemoryAccessor>group(
 +         p_259612_ -> p_259612_.group(
-                   p_259612_.m_257492_(MemoryModuleType.f_26370_), p_259612_.m_257495_(p_259573_), p_259612_.m_257495_(p_259706_)
+                   p_259612_.registered(MemoryModuleType.WALK_TARGET), p_259612_.present(p_259573_), p_259612_.present(p_259706_)
                 )
                 .apply(

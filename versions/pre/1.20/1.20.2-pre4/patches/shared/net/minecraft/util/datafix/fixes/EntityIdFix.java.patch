@@ -4,10 +4,10 @@
  
     @Override
     public TypeRewriteRule makeRule() {
--      TaggedChoiceType<String> taggedchoicetype = this.getInputSchema().findChoiceType(References.f_16786_);
--      TaggedChoiceType<String> taggedchoicetype1 = this.getOutputSchema().findChoiceType(References.f_16786_);
-+      TaggedChoiceType<String> taggedchoicetype = (TaggedChoiceType<String>)this.getInputSchema().findChoiceType(References.f_16786_);
-+      TaggedChoiceType<String> taggedchoicetype1 = (TaggedChoiceType<String>)this.getOutputSchema().findChoiceType(References.f_16786_);
-       Type<?> type = this.getInputSchema().getType(References.f_16782_);
-       Type<?> type1 = this.getOutputSchema().getType(References.f_16782_);
+-      TaggedChoiceType<String> taggedchoicetype = this.getInputSchema().findChoiceType(References.ENTITY);
+-      TaggedChoiceType<String> taggedchoicetype1 = this.getOutputSchema().findChoiceType(References.ENTITY);
++      TaggedChoiceType<String> taggedchoicetype = (TaggedChoiceType<String>)this.getInputSchema().findChoiceType(References.ENTITY);
++      TaggedChoiceType<String> taggedchoicetype1 = (TaggedChoiceType<String>)this.getOutputSchema().findChoiceType(References.ENTITY);
+       Type<?> type = this.getInputSchema().getType(References.ITEM_STACK);
+       Type<?> type1 = this.getOutputSchema().getType(References.ITEM_STACK);
        return TypeRewriteRule.seq(

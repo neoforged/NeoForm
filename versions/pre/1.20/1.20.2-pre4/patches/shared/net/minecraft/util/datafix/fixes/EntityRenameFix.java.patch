@@ -4,10 +4,10 @@
  
     @Override
     public TypeRewriteRule makeRule() {
--      TaggedChoiceType<String> taggedchoicetype = this.getInputSchema().findChoiceType(References.f_16786_);
--      TaggedChoiceType<String> taggedchoicetype1 = this.getOutputSchema().findChoiceType(References.f_16786_);
-+      TaggedChoiceType<String> taggedchoicetype = (TaggedChoiceType<String>)this.getInputSchema().findChoiceType(References.f_16786_);
-+      TaggedChoiceType<String> taggedchoicetype1 = (TaggedChoiceType<String>)this.getOutputSchema().findChoiceType(References.f_16786_);
-       return this.fixTypeEverywhere(this.f_15616_, taggedchoicetype, taggedchoicetype1, p_15624_ -> p_145311_ -> {
+-      TaggedChoiceType<String> taggedchoicetype = this.getInputSchema().findChoiceType(References.ENTITY);
+-      TaggedChoiceType<String> taggedchoicetype1 = this.getOutputSchema().findChoiceType(References.ENTITY);
++      TaggedChoiceType<String> taggedchoicetype = (TaggedChoiceType<String>)this.getInputSchema().findChoiceType(References.ENTITY);
++      TaggedChoiceType<String> taggedchoicetype1 = (TaggedChoiceType<String>)this.getOutputSchema().findChoiceType(References.ENTITY);
+       return this.fixTypeEverywhere(this.name, taggedchoicetype, taggedchoicetype1, p_15624_ -> p_145311_ -> {
              String s = p_145311_.getFirst();
              Type<?> type = taggedchoicetype.types().get(s);

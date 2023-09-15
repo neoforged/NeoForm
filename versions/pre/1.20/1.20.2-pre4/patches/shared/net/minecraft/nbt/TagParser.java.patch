@@ -3,15 +3,15 @@
 @@ -252,11 +252,11 @@
           }
  
-          if (p_129363_ == ByteTag.f_128255_) {
--            list.add((T)((NumericTag)tag).m_7063_());
-+            list.add((T)(Byte)((NumericTag)tag).m_7063_());
-          } else if (p_129363_ == LongTag.f_128873_) {
--            list.add((T)((NumericTag)tag).m_7046_());
-+            list.add((T)(Long)((NumericTag)tag).m_7046_());
+          if (p_129363_ == ByteTag.TYPE) {
+-            list.add((T)((NumericTag)tag).getAsByte());
++            list.add((T)(Byte)((NumericTag)tag).getAsByte());
+          } else if (p_129363_ == LongTag.TYPE) {
+-            list.add((T)((NumericTag)tag).getAsLong());
++            list.add((T)(Long)((NumericTag)tag).getAsLong());
           } else {
--            list.add((T)((NumericTag)tag).m_7047_());
-+            list.add((T)(Integer)((NumericTag)tag).m_7047_());
+-            list.add((T)((NumericTag)tag).getAsInt());
++            list.add((T)(Integer)((NumericTag)tag).getAsInt());
           }
  
-          if (!this.m_129376_()) {
+          if (!this.hasElementSeparator()) {

@@ -3,8 +3,8 @@
 @@ -56,6 +56,6 @@
     }
  
-    private String m_235284_() {
--      return this.f_120973_.m_203543_().map(ResourceKey::m_135782_).orElseGet(() -> "unknown[" + this.f_120973_ + "]").toString();
-+      return this.f_120973_.m_203543_().<Object>map(ResourceKey::m_135782_).orElseGet(() -> "unknown[" + this.f_120973_ + "]").toString();
+    private String getItemName() {
+-      return this.item.unwrapKey().map(ResourceKey::location).orElseGet(() -> "unknown[" + this.item + "]").toString();
++      return this.item.unwrapKey().<Object>map(ResourceKey::location).orElseGet(() -> "unknown[" + this.item + "]").toString();
     }
  }

@@ -3,9 +3,9 @@
 @@ -94,7 +94,7 @@
  
     @Override
-    public Brain<PiglinBrute> m_6274_() {
--      return super.m_6274_();
-+      return (Brain<PiglinBrute>)super.m_6274_();
+    public Brain<PiglinBrute> getBrain() {
+-      return super.getBrain();
++      return (Brain<PiglinBrute>)super.getBrain();
     }
  
     @Override

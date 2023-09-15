@@ -1,7 +1,7 @@
 --- a/net/minecraft/util/datafix/fixes/ItemWrittenBookPagesStrictJsonFix.java
 +++ b/net/minecraft/util/datafix/fixes/ItemWrittenBookPagesStrictJsonFix.java
 @@ -24,7 +24,7 @@
-    public Dynamic<?> m_16171_(Dynamic<?> p_16172_) {
+    public Dynamic<?> fixTag(Dynamic<?> p_16172_) {
        return p_16172_.update(
           "pages",
 -         p_16175_ -> DataFixUtils.orElse(p_16175_.asStreamOpt().map(p_145441_ -> p_145441_.map((Function<? super Dynamic, ? extends Dynamic>)(p_145443_ -> {
