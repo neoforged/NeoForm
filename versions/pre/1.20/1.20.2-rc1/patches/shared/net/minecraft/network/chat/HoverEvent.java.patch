@@ -1,0 +1,11 @@
+--- a/net/minecraft/network/chat/HoverEvent.java
++++ b/net/minecraft/network/chat/HoverEvent.java
+@@ -105,7 +105,7 @@
+       );
+       private static final Map<String, HoverEvent.Action<?>> LOOKUP = Stream.of(SHOW_TEXT, SHOW_ITEM, SHOW_ENTITY)
+          .collect(
+-            ImmutableMap.toImmutableMap(HoverEvent.Action::getName, (Function<? super HoverEvent.Action, ? extends HoverEvent.Action>)(p_178444_ -> p_178444_))
++            ImmutableMap.toImmutableMap(HoverEvent.Action::getName, (p_178444_ -> p_178444_))
+          );
+       private final String name;
+       private final boolean allowFromServer;
