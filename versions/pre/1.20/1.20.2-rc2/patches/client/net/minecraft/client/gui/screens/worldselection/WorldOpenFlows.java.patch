@@ -1,0 +1,25 @@
+--- a/net/minecraft/client/gui/screens/worldselection/WorldOpenFlows.java
++++ b/net/minecraft/client/gui/screens/worldselection/WorldOpenFlows.java
+@@ -156,7 +156,9 @@
+    public Pair<LevelSettings, WorldCreationContext> recreateWorldData(LevelStorageSource.LevelStorageAccess p_249540_) throws Exception {
+       PackRepository packrepository = ServerPacksSource.createPackRepository(p_249540_);
+       WorldLoader.PackConfig worldloader$packconfig = this.getPackConfigFromLevelData(p_249540_, false, packrepository);
+-      return this.loadWorldDataBlocking(
++      record Data(LevelSettings levelSettings, WorldOptions options, Registry<LevelStem> existingDimensions) {
++      }
++      return this.<Data, Pair<LevelSettings, WorldCreationContext>>loadWorldDataBlocking(
+          worldloader$packconfig,
+          p_247857_ -> {
+             DynamicOps<Tag> dynamicops = RegistryOps.create(NbtOps.INSTANCE, p_247857_.datapackWorldgen());
+@@ -184,11 +186,8 @@
+          }
+       );
+ 
+-      record Data(LevelSettings levelSettings, WorldOptions options, Registry<LevelStem> existingDimensions) {
+       }
+ 
+-   }
+-
+    private WorldLoader.PackConfig getPackConfigFromLevelData(LevelStorageSource.LevelStorageAccess p_249986_, boolean p_248615_, PackRepository p_249167_) {
+       WorldDataConfiguration worlddataconfiguration = p_249986_.getDataConfiguration();
+       if (worlddataconfiguration == null) {
