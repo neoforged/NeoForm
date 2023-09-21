@@ -9,6 +9,10 @@ public class FernflowerTask extends ToolJarExec {
     @OutputFile File log
     @OutputFile File dest
     
+    FernflowerTask() {
+        mainClass.set "org.jetbrains.java.decompiler.main.decompiler.ConsoleDecompiler"
+    }
+    
     @Override
     protected void preExec() {
         def logStream = log.newOutputStream()
@@ -29,7 +33,7 @@ public class FernflowerTask extends ToolJarExec {
         new ZipFile(dest).withCloseable{ zip -> 
             zip.entries().findAll{ !it.directory && it.name.endsWith('.java') }.each { e ->
                 def data = zip.getInputStream(e).text
-                if (data.isEmpty() || data.contains("\$FF: Couldn't be decompiled"))
+                if (data.isEmpty() || data.contains("\$VF: Couldn't be decompiled"))
                     failed.add(e.name)
             }
         }

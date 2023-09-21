@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/level/block/entity/SkullBlockEntity.java
++++ b/net/minecraft/world/level/block/entity/SkullBlockEntity.java
+@@ -178,7 +178,7 @@
+          ? CompletableFuture.completedFuture(Optional.empty())
+          : gameprofilecache.getAsync(p_295932_)
+             .thenCompose(p_294079_ -> p_294079_.isPresent() ? fillProfileTextures(p_294079_.get()) : CompletableFuture.completedFuture(Optional.empty()))
+-            .thenApplyAsync((Function<? super Optional, ? extends Optional<GameProfile>>)(p_294080_ -> {
++            .thenApplyAsync((p_294080_ -> {
+                GameProfileCache gameprofilecache1 = profileCache;
+                if (gameprofilecache1 != null) {
+                   p_294080_.ifPresent(gameprofilecache1::add);

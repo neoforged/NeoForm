@@ -1,0 +1,11 @@
+--- a/net/minecraft/util/StringRepresentable.java
++++ b/net/minecraft/util/StringRepresentable.java
+@@ -32,7 +32,7 @@
+             .collect(
+                Collectors.toMap(
+                   p_274905_ -> p_275259_.apply(((StringRepresentable)p_274905_).getSerializedName()),
+-                  (Function<? super Enum, ? extends Enum>)(p_274903_ -> p_274903_)
++                  p_274903_ -> p_274903_
+                )
+             );
+          return new StringRepresentable.EnumCodec<>(ae, p_216438_ -> p_216438_ == null ? null : map.get(p_216438_));
