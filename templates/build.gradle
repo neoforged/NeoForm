@@ -3,6 +3,7 @@ apply plugin: 'eclipse'
 apply plugin: 'idea'
 
 import groovy.xml.*
+import java.nio.file.Files
 
 repositories {
     mavenCentral()
@@ -30,6 +31,7 @@ ext {
     ASSETS = {assets}
     NATIVES = {natives}
     MERGED = {merged_src}
+    INTELLIJ = Boolean.getBoolean('idea.active')
 }
 
 if (file(INJECT).exists()) {
@@ -38,7 +40,16 @@ if (file(INJECT).exists()) {
     }
     sourceSets.create('inject') {
         java {
-            srcDir INJECT
+            if (INTELLIJ) {
+                def inject = file(INJECT)
+                def symlink = file(inject.name)
+                if (!symlink.exists()) {
+                    Files.createSymbolicLink(symlink.toPath(), inject.toPath())
+                }
+                sourceSets.main.java.srcDirs symlink
+            } else {
+                srcDir INJECT
+            }
             exclude 'package-info-template.java'
             if (DISTRO == 'server')
                 exclude '**/client/**/*'
@@ -50,8 +61,18 @@ if (file(INJECT).exists()) {
     }
 }
 
-if (MERGED != null) 
-    sourceSets.main.java.srcDirs MERGED
+if (MERGED != null) {
+    if (INTELLIJ) {
+        def merged = file(MERGED)
+        def symlink = file(merged.name)
+        if (!symlink.exists()) {
+            Files.createSymbolicLink(symlink.toPath(), merged.toPath())
+        }
+        sourceSets.main.java.srcDirs symlink
+    } else {
+        sourceSets.main.java.srcDirs MERGED
+    }
+}
 
 java.toolchain.languageVersion = JavaLanguageVersion.of({java_target})
 
