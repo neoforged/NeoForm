@@ -85,7 +85,7 @@ public abstract class CreateProjectTemplate extends DefaultTask {
             def json = new JsonSlurper().parse(meta.get().getAsFile())
             libs += json.libraries.findAll { Utils.testJsonRules(it.rules) }.collect { lib -> "'${lib.name}' " }.unique { a, b -> a <=> b }
         }
-        libs += libraries
+        libs += libraries.get()
 
         data = data.replace('{libraries}', 'implementation ' + libs.join('\n    implementation '))
         data = data.replace('{distro}', distro.get())
