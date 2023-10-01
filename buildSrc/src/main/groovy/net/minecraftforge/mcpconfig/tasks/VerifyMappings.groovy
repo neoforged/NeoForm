@@ -4,6 +4,7 @@ import net.minecraftforge.mappingverifier.IVerifier
 import net.minecraftforge.mappingverifier.SimpleVerifier
 import net.minecraftforge.srgutils.INamedMappingFile
 import org.gradle.api.*
+import org.gradle.api.file.*
 import org.gradle.api.tasks.*
 import org.gradle.internal.MutableBoolean
 
@@ -11,18 +12,18 @@ import java.util.function.Predicate
 
 import net.minecraftforge.mappingverifier.MappingVerifier
 
-public class VerifyMappings extends DefaultTask {
-    @InputFile mappings
-    @InputFile joined
-    @InputFile o2s2idMappings
+public abstract class VerifyMappings extends DefaultTask {
+    @InputFile abstract RegularFileProperty getMappings()
+    @InputFile abstract RegularFileProperty getJoined()
+    @InputFile abstract RegularFileProperty getO2s2idMappings()
     
     @TaskAction
     def exec() {
         Utils.init()
 
         MappingVerifier mv = new MappingVerifier()
-        mv.loadMap(mappings)
-        mv.loadJar(joined)
+        mv.loadMap(mappings.get().getAsFile())
+        mv.loadJar(joined.get().getAsFile())
         mv.addDefaultTasks()
 
         def die = false
@@ -37,7 +38,7 @@ public class VerifyMappings extends DefaultTask {
         }
 
         mv.getTasks().clear()
-        mv.setMap(INamedMappingFile.load(o2s2idMappings).getMap('srg', 'id'))
+        mv.setMap(INamedMappingFile.load(o2s2idMappings.get().getAsFile()).getMap('srg', 'id'))
         IVerifier intIdVerifier = new UniqueIntIdVerifier(mv)
         mv.addTask(intIdVerifier)
         if (!mv.verify()) {

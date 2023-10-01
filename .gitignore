@@ -1,4 +1,4 @@
-gradle.properties
+local.properties
 /**/.gradle/
 /.idea/
 /eclipse/

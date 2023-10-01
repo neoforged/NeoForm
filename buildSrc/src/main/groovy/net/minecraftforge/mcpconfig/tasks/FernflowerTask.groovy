@@ -1,13 +1,14 @@
 package net.minecraftforge.mcpconfig.tasks
 
+import org.gradle.api.file.*
 import org.gradle.api.tasks.*
 import java.util.zip.*
 
-public class FernflowerTask extends ToolJarExec {
-    @InputFile File libraries
-    @InputFile File input
-    @OutputFile File log
-    @OutputFile File dest
+public abstract class FernflowerTask extends ToolJarExec {
+    @InputFile abstract RegularFileProperty getLibraries()
+    @InputFile abstract RegularFileProperty getInput()
+    @OutputFile abstract RegularFileProperty getLog()
+    @OutputFile abstract RegularFileProperty getDest()
     
     FernflowerTask() {
         mainClass.set "org.jetbrains.java.decompiler.main.decompiler.ConsoleDecompiler"
@@ -15,22 +16,22 @@ public class FernflowerTask extends ToolJarExec {
     
     @Override
     protected void preExec() {
-        def logStream = log.newOutputStream()
+        def logStream = log.get().getAsFile().newOutputStream()
         standardOutput logStream
         errorOutput logStream
         setArgs(Utils.fillVariables(args, [
-            'libraries': libraries,
-            'input': input,
-            'output': dest
+            'libraries': libraries.get().getAsFile(),
+            'input': input.get().getAsFile(),
+            'output': dest.get().getAsFile()
         ]))
     }
     
     @Override
     protected void postExec() {
-        if (!dest.exists())
+        if (!dest.get().getAsFile().exists())
             throw new IllegalStateException('Could not find fernflower output: ' + dest)
         def failed = []
-        new ZipFile(dest).withCloseable{ zip -> 
+        new ZipFile(dest.get().getAsFile()).withCloseable{ zip -> 
             zip.entries().findAll{ !it.directory && it.name.endsWith('.java') }.each { e ->
                 def data = zip.getInputStream(e).text
                 if (data.isEmpty() || data.contains("\$VF: Couldn't be decompiled"))

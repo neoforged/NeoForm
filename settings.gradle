@@ -15,21 +15,34 @@ def addDirectory(path) {
     }
 }
 
-def type = hasProperty('type') ? getProperty('type').toLowerCase() : 'release'
+ext.local = new Properties()
+if (file('local.properties').exists()) {
+    local.load(file('local.properties').newDataInputStream())
+}
+
+def hasLocalProperty(name) {
+    return local.containsKey(name) || hasProperty(name)
+}
+
+def getLocalProperty(name) {
+    return local.getProperty(name) ?: getProperty(name)
+}
+
+def type = hasLocalProperty('type') ? getLocalProperty('type').toLowerCase() : 'release'
 
 if ('release'.equals(type)) {
     addDirectory(new File(rootDir, 'versions/release/'))
 } else if ('snapshot'.equals(type)) {
-    if (hasProperty('ver')) {
-        addDirectory(new File(rootDir, 'versions/snapshot/' + getProperty('ver')))
+    if (hasLocalProperty('ver')) {
+        addDirectory(new File(rootDir, 'versions/snapshot/' + getLocalProperty('ver')))
     } else {
         new File(rootDir, 'versions/snapshot/').eachDir() {
             addDirectory(it)
         }
     }
 } else if ('pre'.equals(type)) {
-    if (hasProperty('ver')) {
-        addDirectory(new File(rootDir, 'versions/pre/' + getProperty('ver')))
+    if (hasLocalProperty('ver')) {
+        addDirectory(new File(rootDir, 'versions/pre/' + getLocalProperty('ver')))
     } else {
         new File(rootDir, 'versions/pre/').eachDir() {
             addDirectory(it)

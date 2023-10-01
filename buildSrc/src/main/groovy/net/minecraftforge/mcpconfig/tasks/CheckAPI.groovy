@@ -10,7 +10,7 @@ import groovy.io.FileType
 import groovy.json.JsonBuilder
 import groovy.json.JsonSlurper
 
-public class CheckAPI extends SingleFileOutput {
+public abstract class CheckAPI extends SingleFileOutput {
     @InputFiles Set<File> apis = new HashSet<>()
     @InputFiles File input
     

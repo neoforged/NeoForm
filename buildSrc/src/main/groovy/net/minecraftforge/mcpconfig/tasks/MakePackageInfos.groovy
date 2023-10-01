@@ -1,20 +1,21 @@
 package net.minecraftforge.mcpconfig.tasks
 
 import org.gradle.api.*
+import org.gradle.api.file.*
 import org.gradle.api.tasks.*
 import java.util.zip.*
 import java.nio.charset.StandardCharsets
 import java.nio.file.attribute.FileTime
 
-public class MakePackageInfos extends SingleFileOutput {
-    @InputFile input
-    @InputFile @Optional template
+public abstract class MakePackageInfos extends SingleFileOutput {
+    @InputFile abstract RegularFileProperty getInput()
+    @InputFile @Optional abstract RegularFileProperty getTemplate()
     
     @TaskAction
     def exec() {
         Utils.init()
-        new ZipInputStream(input.newInputStream()).withCloseable{ jin ->
-            new ZipOutputStream(dest.newOutputStream()).withCloseable{ jout ->
+        new ZipInputStream(input.get().getAsFile().newInputStream()).withCloseable{ jin ->
+            new ZipOutputStream(dest.get().getAsFile().newOutputStream()).withCloseable{ jout ->
                 def packages = [] as HashSet
 
                 for (def entry = jin.nextEntry; entry != null; entry = jin.nextEntry) {
@@ -24,9 +25,9 @@ public class MakePackageInfos extends SingleFileOutput {
                     packages.add(folder)
                 }
                 
-                if (template != null) {
+                if (template.isPresent()) {
                     packages.removeAll(['', 'net', 'net/minecraft', 'com', 'com/mojang'])
-                    def templateD = template.text
+                    def templateD = template.get().getAsFile().text
                     def timestamp = FileTime.fromMillis(1000)
                     packages.each{ pkg ->
                         def oentry = new ZipEntry(pkg + '/package-info.java')

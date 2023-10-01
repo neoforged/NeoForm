@@ -1,6 +1,7 @@
 package net.minecraftforge.mcpconfig.tasks
 
 import org.gradle.api.DefaultTask
+import org.gradle.api.file.*
 import org.gradle.api.tasks.*
 
 import java.lang.reflect.*
@@ -13,9 +14,9 @@ import org.objectweb.asm.tree.*
 
 import static org.objectweb.asm.Opcodes.*
 
-public class ExtractInheritance extends SingleFileOutput {
-    @InputFile def input
-    @InputFiles def libraries = []
+public abstract class ExtractInheritance extends SingleFileOutput {
+    @InputFile abstract RegularFileProperty getInput()
+    @InputFiles abstract ConfigurableFileCollection getLibraries()
     
     def library(def lib){ libraries.add(lib) }
     
@@ -44,10 +45,10 @@ public class ExtractInheritance extends SingleFileOutput {
         }
         
         
-        readJar(input, inClasses)
+        readJar(input.get().getAsFile(), inClasses)
         libraries.each{ readJar(it, libClasses) }
         inClasses.values().each{ resolveClass(getClassInfo, it) }
-        dest.json = inClasses
+        dest.get().getAsFile().json = inClasses
     }
 
     def readJar(def input, def classes) {

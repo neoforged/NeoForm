@@ -1,6 +1,7 @@
 package net.minecraftforge.mcpconfig.tasks
 
 import java.util.HashSet
+import org.gradle.api.file.*
 import org.gradle.api.tasks.*
 import groovy.io.FileType
 import groovy.json.JsonSlurper
@@ -8,18 +9,18 @@ import net.minecraftforge.srgutils.IMappingFile
 
 import static org.objectweb.asm.Opcodes.*
 
-public class DumpOverrides extends SingleFileOutput {
-    @InputFile File srg
-    @InputFile File meta
+public abstract class DumpOverrides extends SingleFileOutput {
+    @InputFile abstract RegularFileProperty getSrg()
+    @InputFile abstract RegularFileProperty getMeta()
     
     @TaskAction
     protected void exec() {
         Utils.init()
-        def srgO = IMappingFile.load(srg)
+        def srgO = IMappingFile.load(srg.get().getAsFile())
         
         def methods = [] as HashSet
 
-        meta.json.each{ k,v ->
+        meta.get().getAsFile().json.each{ k,v ->
             v.methods?.each{ sig,data ->
                 if (data['override']) {
                     def (name, desc) = sig.split('\\(')
@@ -34,7 +35,7 @@ public class DumpOverrides extends SingleFileOutput {
             }
         }
 
-        dest.withWriter('UTF-8') { writer ->
+        dest.get().getAsFile().withWriter('UTF-8') { writer ->
             methods = methods.sort{it}
             methods.each{ writer.write(it + '\n') }
         }

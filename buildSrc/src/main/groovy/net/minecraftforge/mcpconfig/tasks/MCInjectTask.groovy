@@ -1,25 +1,26 @@
 package net.minecraftforge.mcpconfig.tasks
 
+import org.gradle.api.file.*
 import org.gradle.api.tasks.*
 
 //Deprecated.. Only here until we migrate all the old versions to not use MCInject
-public class MCInjectTask extends ToolJarExec {
-    @InputFile File access
-    @InputFile File constructors
-    @InputFile File exceptions
-    @InputFile File input
-    @OutputFile File log
-    @OutputFile File dest
+public abstract class MCInjectTask extends ToolJarExec {
+    @InputFile abstract RegularFileProperty getAccess()
+    @InputFile abstract RegularFileProperty getConstructors()
+    @InputFile abstract RegularFileProperty getExceptions()
+    @InputFile abstract RegularFileProperty getInput()
+    @OutputFile abstract RegularFileProperty getLog()
+    @OutputFile abstract RegularFileProperty getDest()
     
     @Override
     protected void preExec() {
         setArgs(Utils.fillVariables(args, [
-            'access': access,
-            'constructors': constructors,
-            'exceptions': exceptions,
-            'log': log,
-            'input': input,
-            'output': dest
+            'access': access.get().getAsFile(),
+            'constructors': constructors.get().getAsFile(),
+            'exceptions': exceptions.get().getAsFile(),
+            'log': log.get().getAsFile(),
+            'input': input.get().getAsFile(),
+            'output': dest.get().getAsFile()
         ]))
     }
 }

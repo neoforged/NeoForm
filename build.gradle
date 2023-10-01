@@ -5,6 +5,9 @@ plugins {
 
 import net.minecraftforge.mcpconfig.tasks.*
 import net.minecraftforge.srgutils.MinecraftVersion
+import java.nio.file.Files
+import java.util.function.BiFunction
+import java.util.stream.Collectors
 import uk.jamierocks.propatcher.task.*
 
 group = 'net.neoforged'
@@ -179,8 +182,13 @@ subprojects {
     }
 
     task downloadJson(type: Download, dependsOn: rootProject.downloadVersionManifest) {
-        inputs.file rootProject.downloadVersionManifest.dest
-        src { downloadVersionManifest.dest.json.versions.find{ it.id == project.name }.url }
+        def manifest = rootProject.downloadVersionManifest.dest
+        inputs.file manifest
+        def id = version
+        src { 
+            Utils.init()
+            manifest.json.versions.find{ it.id == id }.url
+        }
         dest file(PATH_CACHED_VERSION + 'version.json')
         useETag 'all'
         onlyIfModified true
@@ -189,8 +197,9 @@ subprojects {
     ['client', 'server', 'client_mappings', 'server_mappings'].each { id ->
         def name = 'download' + id.replace('_m', 'M').capitalize()
         task "${name}"(type: Download, dependsOn: downloadJson) {
-            inputs.file downloadJson.dest
-            src { downloadJson.dest.json.downloads.get(id).url }
+            def json = downloadJson.dest
+            inputs.file json
+            src { json.json.downloads.get(id).url }
             dest file(PATH_CACHED_VERSION + id + (id.contains('_') ? '.txt' : '.jar'))
             useETag 'all'
             onlyIfModified true
@@ -209,9 +218,9 @@ subprojects {
     }
     if (MCINJECTOR != null) {
         task makeEmptyFile(type: SingleFileOutput) {
-            dest file(PATH_BUILD + '/empty.txt')
+            dest = file(PATH_BUILD + '/empty.txt')
             doLast {
-                dest.text = ''
+                dest.get().getAsFile().text = ''
             }
         }
     }
@@ -246,10 +255,10 @@ subprojects {
     task mergeJars(type: MergeJar, dependsOn: [filterClient, filterServer]) {
         config MERGETOOL, configurations.mergetool
         mainClass = 'net.minecraftforge.mergetool.ConsoleMerger'
-        client filterClient.slim
-        server filterServer.slim
-        version project.version
-        dest file(PATH_CACHED_VERSION + 'joined.jar')
+        client = filterClient.slim
+        server = filterServer.slim
+        version = project.version
+        dest = file(PATH_CACHED_VERSION + 'joined.jar')
     }
 
     task makeObfToIntermediate(type: CONFIG.mergemap ? MergeMappings : RenameMappings, dependsOn: [downloadClientMappings]) {
@@ -276,14 +285,13 @@ subprojects {
             config = CONFIG
             side = s
             root = downloadLibraries.dest
-            doFirst {
-                if ('server'.equals(s)) {
-                    extras += [filterServer.extra]
-                    if (BUNDLE_EXTRACT_LIBS != null)
-                        extractServerLibraries.dest.eachFileRecurse(groovy.io.FileType.FILES) { file -> extras += [file] }
+            if ('server'.equals(s)) {
+                extras.from(files(filterServer.extra))
+                if (BUNDLE_EXTRACT_LIBS != null) {
+                    extras.from(extractServerLibraries.dest.map { Files.walk(it.getAsFile().toPath()).filter { Files.isRegularFile(it) }.collect(Collectors.toList()) } )
                 }
             }
-            dest file(PATH_CACHED_VERSION + s + '.fernflower.libs.txt')
+            dest = file(PATH_CACHED_VERSION + s + '.fernflower.libs.txt')
         }
         
         child.rename = task "rename${child.Name}"(type: RemapJar, dependsOn: [child.slim, makeObfToIntermediate, child.libraries]) {
@@ -298,39 +306,37 @@ subprojects {
         if (MCINJECTOR != null) {
             child.mcinject = task "mcinject${child.Name}"(type: MCInjectTask, dependsOn: [child.rename, makeEmptyFile/*, makeExceptions, fixAccessLevels*/]) {
                 config MCINJECTOR, configurations.mcinjector
-                access makeEmptyFile.dest //fixAccessLevels.dest
-                constructors project.file('constructors.txt')
-                exceptions makeEmptyFile.dest //makeExceptions.dest
-                standardOutput rootProject.NULL_OUTPUT
-                log file(PATH_CACHED_VERSION + s + '.mci.log')
-                input child.rename.dest
-                dest file(PATH_CACHED_VERSION + s + '.mci.jar')
+                access = makeEmptyFile.dest //fixAccessLevels.dest
+                constructors = project.file('constructors.txt')
+                exceptions = makeEmptyFile.dest //makeExceptions.dest
+                doFirst {
+                    standardOutput = JarExec.NULL_OUTPUT
+                }
+                log = file(PATH_CACHED_VERSION + s + '.mci.log')
+                input = child.rename.dest
+                dest = file(PATH_CACHED_VERSION + s + '.mci.jar')
             }
         }
     }
     task renameJars(dependsOn: [renameClient, renameServer, renameJoined]){}
 
     task extractInheritance(type: ExtractInheritance, dependsOn: [downloadLibraries, mergeJars]) {
-        input mergeJars.dest
+        input = mergeJars.dest
         inputs.file downloadJson.dest
-        dest file(PATH_CACHED_VERSION_DATA + 'inheritance.json')
-        doFirst {
-            downloadJson.dest.json.libraries.stream().map{ it?.downloads?.artifact?.path }.findAll{ it != null }.each{ library(file(downloadLibraries.dest, it)) }
-        }
+        dest = file(PATH_CACHED_VERSION_DATA + 'inheritance.json')
+        libraries.from(providers.provider { downloadJson.dest }.zip(downloadLibraries.dest, {downloadJson, libraries -> downloadJson.json.libraries.stream().map{ it?.downloads?.artifact?.path }.findAll{ it != null }.collect{ new File(libraries.getAsFile(), it) } }))
     }
     task extractInheritanceNamed(type: ExtractInheritance, dependsOn: [renameJoined]) {
-        input renameJoined.dest
+        input = renameJoined.dest
         inputs.file downloadJson.dest
-        dest file(PATH_CACHED_VERSION_DATA + 'inheritance_named.json')
-        doFirst {
-            downloadJson.dest.json.libraries.stream().map{ it?.downloads?.artifact?.path }.findAll{ it != null }.each{ library(file(downloadLibraries.dest, it)) }
-        }
+        dest = file(PATH_CACHED_VERSION_DATA + 'inheritance_named.json')
+        libraries.from(providers.provider { downloadJson.dest }.zip(downloadLibraries.dest, {downloadJson, libraries -> downloadJson.json.libraries.stream().map{ it?.downloads?.artifact?.path }.findAll{ it != null }.collect{ new File(libraries.getAsFile(), it) } }))
     }
 
     task dumpOverrides(type: DumpOverrides, dependsOn: [extractInheritance, makeObfToIntermediate]) {
-        srg makeObfToIntermediate.dest
-        meta extractInheritance.dest
-        dest file(PATH_CACHED_VERSION_DATA + 'overrides.txt')
+        srg = makeObfToIntermediate.dest
+        meta = extractInheritance.dest
+        dest = file(PATH_CACHED_VERSION_DATA + 'overrides.txt')
     }
     
     task projectRoot(type: Copy) {
@@ -341,9 +347,9 @@ subprojects {
     }
 
     task extractNatives(type: ExtractNatives, dependsOn: [downloadJson, downloadLibraries]) {
-        meta downloadJson.dest
-        cache downloadLibraries.dest
-        dest file(PATH_NATIVES)
+        meta = downloadJson.dest
+        cache = downloadLibraries.dest
+        dest = file(PATH_NATIVES)
     }
     
     task verify(type: VerifyMappings, dependsOn: [mergeJars, makeObfToIntermediate]) {
@@ -395,29 +401,25 @@ subprojects {
             sides.joined.slimsrc = joinedOut = file(PATH_CACHED_VERSION + 'joined.decompile.slim.jar')
         }
         
-        task projectSharedMakeDir() {
-            doLast {
-                mkdir projectSharedReset.target
-            }
+        task projectSharedMakeDir(type: MakeDir, dependsOn: [projectRoot]) {
+            folder = project.file('projects/shared')
         }
-        task projectSharedMakePatchesDir() {
-            doLast {
-                mkdir projectSharedApplyPatches.patches
-            }
+        task projectSharedMakePatchesDir(type: MakeDir) {
+            folder = project.file('patches/shared')
         }
         
         task projectSharedReset(type: ResetSourcesTask, dependsOn: [deduplicateSources, projectSharedMakeDir]) {
             mustRunAfter projectRoot
-            rootZip deduplicateSources.duplicates
-            target project.file('projects/shared')
+            rootZip deduplicateSources.duplicates.get().getAsFile()
+            target projectSharedMakeDir.folder.get().getAsFile()
         }
         task projectSharedApplyPatches(type: ApplyPatchesTask, dependsOn: [projectSharedReset, projectSharedMakePatchesDir]) {
             target projectSharedReset.target
-            patches project.file('patches/shared')
+            patches projectSharedMakePatchesDir.folder.get().getAsFile()
         }
         task projectSharedMakePatches(type: MakePatchesTask, dependsOn: deduplicateSources) {
             mustRunAfter projectRoot
-            rootZip deduplicateSources.duplicates
+            rootZip deduplicateSources.duplicates.get().getAsFile()
             target projectSharedApplyPatches.target
             patches projectSharedApplyPatches.patches
         }
@@ -444,15 +446,16 @@ subprojects {
                 (child.bundle != null ? [child.bundle] : [])
         ) {
             mustRunAfter child.delete
-            dest project_dir
-            distro side
-            template rootProject.file('templates/build.gradle')
+            dest = project_dir
+            distro = side
+            template = rootProject.file('templates/build.gradle')
             if (child.jsonlibs)
-                meta downloadJson.dest
+                meta = downloadJson.dest
             if (child.bundle != null)
                 bundle = child.bundle.dest
             CONFIG?.libraries?.get(side)?.each { library "'${it}'" }
-            libraryFile child.extra.extra
+            version = name
+            libraryFile child.extra.extra.get().getAsFile()
             replace '{java_target}', JAVA_TARGET + ''
             replaceFile '{inject}', PATH_INJECT
             replaceFile '{assets}', child.assets ? downloadAssets.dest : null
@@ -461,32 +464,27 @@ subprojects {
         }
         projectAll.dependsOn(child.project)
 
-        child.makePkgsDir = task "project${child.Name}MakePkgsDir"() {
-            doLast {
-                mkdir child.resetPkgs.target
-            }
+        child.makePkgsDir = task "project${child.Name}MakePkgsDir"(type: MakeDir, dependsOn: [projectRoot, child.project]) {
+            folder = new File(project_dir, 'src/pkginfo/java')
         }
         child.resetPkgs = task "project${child.Name}ResetPackages"(type: ResetSourcesTask, dependsOn: [child.makePkgsDir, child.pkgs]) {
             mustRunAfter child.project
-            rootZip child.pkgs.dest
-            target new File(project_dir, 'src/pkginfo/java')
+            rootZip child.pkgs.dest.get().getAsFile()
+            target child.makePkgsDir.folder.get().getAsFile()
         }
-        child.makeSrcDir = task "project${child.Name}MakeSrcDir"() {
-            doLast {
-                mkdir child.reset.target
-            }
+
+        child.makeSrcDir = task "project${child.Name}MakeSrcDir"(type: MakeDir, dependsOn: [projectRoot, child.project]) {
+            folder = new File(project_dir, 'src/main/java')
         }
         child.reset = task "project${child.Name}Reset"(type: ResetSourcesTask, dependsOn: [child.resetPkgs, child.makeSrcDir, child.project, child.decompile] + (MERGE_PATCHES ? [projectSharedReset] : [])) {
             mustRunAfter child.project
-            rootZip MERGE_PATCHES ? child.slimsrc : child.decompile.dest
-            target new File(project_dir, 'src/main/java')
+            rootZip MERGE_PATCHES ? child.slimsrc : child.decompile.dest.get().getAsFile()
+            target child.makeSrcDir.folder.get().getAsFile()
         }
         projectResetAll.dependsOn(child.reset)
         
-        child.makePatchesDir = task "project${child.Name}MakePatchesDir"() {
-            doLast {
-                mkdir patches_dir
-            }
+        child.makePatchesDir = task "project${child.Name}MakePatchesDir"(type: MakeDir) {
+            folder = patches_dir
         }
         child.apply = task "project${child.Name}ApplyPatches"(type: ApplyPatchesTask, dependsOn: [child.reset, child.makePatchesDir] + (MERGE_PATCHES ? [projectSharedApplyPatches] : [])) {
             target new File(project_dir, 'src/main/java')
@@ -497,7 +495,7 @@ subprojects {
         child.makePatches = task "project${child.Name}MakePatches"(type: MakePatchesTask, dependsOn: MERGE_PATCHES ? [deduplicateSources, projectSharedMakePatches] : [child.decompile]) {
             mustRunAfter projectRoot
             mustRunAfter child.project
-            rootZip MERGE_PATCHES ? child.slimsrc : child.decompile.dest
+            rootZip MERGE_PATCHES ? child.slimsrc : child.decompile.dest.get().getAsFile()
             target new File(project_dir, 'src/main/java')
             patches patches_dir
         }
@@ -541,7 +539,7 @@ subprojects {
         jdks.findAll{ it.version >= JAVA_TARGET }.each{ jdk ->
             if (jdk.official && CONFIG.test_remap_official != null && !CONFIG.test_remap_official)
                 return
-            def testPath = project.file(PATH_CACHED_VERSION + 'test/' + jdk.name + '/')
+            def testPath = project.file(PATH_CACHED_VERSION + 'test/' + side + '-' + jdk.name + '/')
             
             def tstDecompile = task "testDecompile${child.Name}${jdk.Name}"(type: FernflowerTask, dependsOn: [child.rename, child.libraries]) {
                 config FERNFLOWER, configurations.fernflower
@@ -581,10 +579,8 @@ subprojects {
                 // JavaCompile task type requires classpath to be specified before the task begins execution
                 // but the data isn't generated yet, so instead - inject the classpath as the first thing done when it begins
                 classpath = files()
+                classpath.from child.libraries.dest.map { java.nio.file.Files.readAllLines(it.getAsFile().toPath()).collect { new File(it.substring(3)) }} // skip "-e="
                 getOptions().setFork(true)
-                doFirst {
-                    classpath = files(java.nio.file.Files.readAllLines(child.libraries.dest.toPath()).collect { file(it.substring(3)) }) // skip "-e="
-                }
             }
             testCompileSide.dependsOn(tstCompile)
             
@@ -601,7 +597,7 @@ subprojects {
 
     task generateConfiguration(type: SingleFileOutput) {
         inputs.property('config', CONFIG)
-        dest file(PATH_CACHED_VERSION_DATA + 'config.json')
+        dest = file(PATH_CACHED_VERSION_DATA + 'config.json')
 
         doLast {
             def json = new groovy.json.JsonBuilder()

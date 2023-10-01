@@ -120,7 +120,7 @@ jobs:
         get_version installertools https://maven.neoforged.net/releases/net/minecraftforge/installertools/maven-metadata.xml
         get_version mergetool https://maven.neoforged.net/releases/net/minecraftforge/mergetool/maven-metadata.xml
         get_version jetbrains_annotations https://repo1.maven.org/maven2/org/jetbrains/annotations/maven-metadata.xml
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
       with:
         fetch-depth: 0
     - uses: actions/github-script@v6

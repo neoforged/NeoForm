@@ -40,9 +40,10 @@ jobs:
     name: Get diff
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
       with:
         fetch-depth: 0
+        ref: ${{ inputs.old_branch }}
     - name: Get Time
       id: time
       run: echo "time=$(date -Isecond -u)" >> $GITHUB_OUTPUT
@@ -103,9 +104,6 @@ jobs:
           build/download-task/**
           .gradle/**
         key: gradle-other-
-    - name: Checkout old branch
-      run: |
-        git checkout ${{ inputs.old_branch }}
     - name: Get old joined src
       uses: gradle/gradle-build-action@v2
       with:

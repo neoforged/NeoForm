@@ -17,7 +17,7 @@ Whelp this is fucked, Java changed to a propritary format so there is no way to 
 
 https://stackoverflow.com/questions/46438557/how-to-extract-the-file-jre-9-lib-modules
 */
-public class ExtractAPI extends SingleFileOutput {
+public abstract class ExtractAPI extends SingleFileOutput {
     @InputFiles Map<String, File> roots = new HashMap<>()
     @OutputFiles Map<String, File> apis = new HashMap<>()
     

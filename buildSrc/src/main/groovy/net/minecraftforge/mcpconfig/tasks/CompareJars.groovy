@@ -1,19 +1,20 @@
 package net.minecraftforge.mcpconfig.tasks
 
 import org.gradle.api.*
+import org.gradle.api.file.*
 import org.gradle.api.tasks.*
 import java.util.zip.*
 
-public class CompareJars extends DefaultTask {
-    @InputFile expected
-    @InputFile actual
+public abstract class CompareJars extends DefaultTask {
+    @InputFile abstract RegularFileProperty getExpected()
+    @InputFile abstract RegularFileProperty getActual()
     
     @TaskAction
     def exec() {
         Utils.init()
         def failed = false
-        def expectedData = loadJar(expected)
-        def actualData = loadJar(actual)
+        def expectedData = loadJar(expected.get().getAsFile())
+        def actualData = loadJar(actual.get().getAsFile())
         
         def tmp = [] as HashSet
         tmp.addAll(expectedData.keySet())

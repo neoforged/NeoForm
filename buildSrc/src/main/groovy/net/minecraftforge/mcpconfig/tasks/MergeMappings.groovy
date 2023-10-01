@@ -1,23 +1,24 @@
 package net.minecraftforge.mcpconfig.tasks;
 
 import org.gradle.api.*
+import org.gradle.api.file.*
 import org.gradle.api.tasks.*
 
-class MergeMappings extends ToolJarExec {
-    @InputFile File mappings
-    @InputFile File official
-    @OutputFile File dest
-    @OutputFile @Optional File log = null
+abstract class MergeMappings extends ToolJarExec {
+    @InputFile abstract RegularFileProperty getMappings()
+    @InputFile abstract RegularFileProperty getOfficial()
+    @OutputFile abstract RegularFileProperty getDest()
+    @OutputFile @Optional abstract RegularFileProperty getLog()
     
     @Override
     protected void preExec() {
-        def logStream = log == null ? JarExec.NULL_OUTPUT : log.newOutputStream()
+        def logStream = log.isPresent() ? log.get().getAsFile().newOutputStream() : JarExec.NULL_OUTPUT 
         standardOutput logStream
         errorOutput logStream
         setArgs(Utils.fillVariables(args, [
-            'mappings': mappings.absolutePath,
-            'official': official.absolutePath,
-            'output': dest.absolutePath
+            'mappings': mappings.get().getAsFile().absolutePath,
+            'official': official.get().getAsFile().absolutePath,
+            'output': dest.get().getAsFile().absolutePath
         ]))
     }
 }

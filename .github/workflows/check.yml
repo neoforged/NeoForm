@@ -111,7 +111,7 @@ jobs:
         DISCORD_USERNAME: GitHub Actions
         DISCORD_AVATAR: https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png
         DISCORD_EMBEDS: ${{ steps.discord_embed_start.outputs.discord_embed }}
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
       with:
         ref: ${{ inputs.branch || '' }}
     - uses: actions/cache/restore@v3
@@ -245,7 +245,7 @@ jobs:
         side: [Client, Joined, Server]
     
     steps: 
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
       with:
         ref: ${{ inputs.branch || '' }}
     - uses: actions/cache/restore@v3
@@ -301,7 +301,7 @@ jobs:
       timestamp: ${{ env.GRADLE_TIMESTAMP }}
     if: ${{ inputs.publish }}
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
       with:
         ref: ${{ inputs.branch || '' }}
     - name: Publish
