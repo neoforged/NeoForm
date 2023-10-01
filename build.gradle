@@ -417,7 +417,7 @@ subprojects {
             target projectSharedReset.target
             patches projectSharedMakePatchesDir.folder.get().getAsFile()
         }
-        task projectSharedMakePatches(type: MakePatchesTask, dependsOn: deduplicateSources) {
+        task projectSharedMakePatches(type: MakePatchesTask, dependsOn: [deduplicateSources, projectSharedMakePatchesDir, projectSharedMakeDir]) {
             mustRunAfter projectRoot
             rootZip deduplicateSources.duplicates.get().getAsFile()
             target projectSharedApplyPatches.target
@@ -597,12 +597,21 @@ subprojects {
 
     task generateConfiguration(type: SingleFileOutput) {
         inputs.property('config', CONFIG)
+        inputs.property('version', version)
+        inputs.property('fernflower', FERNFLOWER)
+        inputs.property('mergetool', MERGETOOL)
+        inputs.property('renametool', RENAMETOOL)
+        inputs.property('mergemaptool', MERGEMAPTOOL)
+        inputs.property('bundle_extract_jar', BUNDLE_EXTRACT_JAR)
+        inputs.property('java_target', JAVA_TARGET)
+        inputs.property('encoding', ENCODING)
         dest = file(PATH_CACHED_VERSION_DATA + 'config.json')
 
         doLast {
             def json = new groovy.json.JsonBuilder()
+            def config = inputs.properties.config
             
-            if (CONFIG.official) {
+            if (config.official) {
                 def steps_def = [
                     joined: [
                         [type: 'downloadManifest'],
@@ -613,7 +622,7 @@ subprojects {
                         [type: 'mergeMappings', official: '{downloadClientMappingsOutput}'],
                         [type: 'strip', name: 'stripClient', input: '{downloadClientOutput}'],
                         [type: 'strip', name: 'stripServer', input: '{downloadServerOutput}'],
-                        [type: 'merge', client: '{stripClientOutput}', server: '{stripServerOutput}', version: project.version],
+                        [type: 'merge', client: '{stripClientOutput}', server: '{stripServerOutput}', version: inputs.properties.version],
                         [type: 'listLibraries'],
                         [type: 'rename', input: '{mergeOutput}', libraries: '{listLibrariesOutput}', mappings: '{mergeMappingsOutput}'],
                         [type: 'decompile', libraries: '{listLibrariesOutput}', input: '{renameOutput}'],
@@ -648,16 +657,16 @@ subprojects {
                     ]
                 ]
                 def functions_def = [
-                    decompile: FERNFLOWER.findAll {it.key != 'path'},
-                    merge:     MERGETOOL .findAll {it.key != 'path'},
-                    rename:    RENAMETOOL.findAll {it.key != 'path'},
-                    mergeMappings: MERGEMAPTOOL.findAll {it.key != 'path'}
+                    decompile: inputs.properties.fernflower.findAll {it.key != 'path'},
+                    merge:     inputs.properties.mergetool.findAll {it.key != 'path'},
+                    rename:    inputs.properties.renametool.findAll {it.key != 'path'},
+                    mergeMappings: inputs.properties.mergemaptool.findAll {it.key != 'path'}
                 ]
                 def specVer = 2
                 
-                if (BUNDLE_EXTRACT_JAR != null) {
+                if (inputs.properties.bundle_extract_jar != null) {
                     specVer = 3 // Spec v3 adds 'bundle' to the listLibraries task. 
-                    functions_def['bundleExtractJar'] = BUNDLE_EXTRACT_JAR.findAll {it.key != 'path'}
+                    functions_def['bundleExtractJar'] = inputs.properties.bundle_extract_jar.findAll {it.key != 'path'}
                     steps_def['joined'].add(4, [name: 'extractServer', type: 'bundleExtractJar', input: '{downloadServerOutput}'])
                     steps_def['joined'].find{'stripServer'.equals(it.name) }['input'] = '{extractServerOutput}'
                     
@@ -672,10 +681,10 @@ subprojects {
                 
                 json {
                     spec specVer
-                    version project.version
-                    official CONFIG.official
-                    java_target JAVA_TARGET
-                    encoding ENCODING
+                    version inputs.properties.version
+                    official config.official
+                    java_target inputs.properties.java_target
+                    encoding inputs.properties.encoding
                     data {
                         mappings 'config/joined.tsrg'
                         inject 'config/inject/'
@@ -687,7 +696,7 @@ subprojects {
                     }
                     steps steps_def
                     functions functions_def
-                    libraries CONFIG.libraries
+                    libraries config.libraries
                 }
             } else {
                 def steps_def = [
@@ -733,7 +742,7 @@ subprojects {
                 ]
                 json {
                     spec 1
-                    version project.version
+                    version inputs.properties.version
                     data {
                         access 'config/access.txt'
                         constructors 'config/constructors.txt'
@@ -749,15 +758,15 @@ subprojects {
                     }
                     steps steps_def
                     functions {
-                        decompile CONFIG.fernflower
-                        mcinject CONFIG.mcinjector
-                        merge CONFIG.merge
-                        rename CONFIG.rename
+                        decompile config.fernflower
+                        mcinject config.mcinjector
+                        merge config.merge
+                        rename config.rename
                     }
-                    libraries CONFIG.libraries
+                    libraries config.libraries
                 }
             }
-            dest.text = groovy.json.JsonOutput.prettyPrint(json.toString())
+            dest.get().getAsFile().text = groovy.json.JsonOutput.prettyPrint(json.toString())
         }
     }
 
