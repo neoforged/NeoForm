@@ -492,7 +492,7 @@ subprojects {
         }
         projectApplyAll.dependsOn(child.apply)
 
-        child.makePatches = task "project${child.Name}MakePatches"(type: MakePatchesTask, dependsOn: MERGE_PATCHES ? [deduplicateSources, projectSharedMakePatches] : [child.decompile]) {
+        child.makePatches = task "project${child.Name}MakePatches"(type: MakePatchesTask, dependsOn: [child.makePatchesDir, child.makeSrcDir] + (MERGE_PATCHES ? [deduplicateSources, projectSharedMakePatches] : [child.decompile])) {
             mustRunAfter projectRoot
             mustRunAfter child.project
             rootZip MERGE_PATCHES ? child.slimsrc : child.decompile.dest.get().getAsFile()
