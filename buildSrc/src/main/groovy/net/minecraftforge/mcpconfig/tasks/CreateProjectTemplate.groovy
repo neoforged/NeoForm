@@ -64,10 +64,6 @@ public abstract class CreateProjectTemplate extends DefaultTask {
             if (!dir.exists())
                 dir.mkdirs()
         }
-
-        new File(dest.get().getAsFile(), 'settings.gradle').withWriter('UTF-8') { 
-            it.write("rootProject.name = '${version}-${distro}'")
-        }
         
         def data = template.get().getAsFile().text
         def libs = []

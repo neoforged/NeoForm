@@ -454,7 +454,7 @@ subprojects {
             if (child.bundle != null)
                 bundle = child.bundle.dest
             CONFIG?.libraries?.get(side)?.each { library "'${it}'" }
-            version = name
+            version = project.name
             libraryFile child.extra.extra.get().getAsFile()
             replace '{java_target}', JAVA_TARGET + ''
             replaceFile '{inject}', PATH_INJECT
