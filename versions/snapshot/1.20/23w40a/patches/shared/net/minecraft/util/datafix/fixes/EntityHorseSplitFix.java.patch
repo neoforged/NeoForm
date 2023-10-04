@@ -1,0 +1,11 @@
+--- a/net/minecraft/util/datafix/fixes/EntityHorseSplitFix.java
++++ b/net/minecraft/util/datafix/fixes/EntityHorseSplitFix.java
+@@ -30,7 +30,7 @@
+          Type<?> type = (Type)this.getOutputSchema().findChoiceType(References.ENTITY).types().get($$8);
+          return Pair.of(
+             $$8,
+-            (Typed<?>)((Pair)p_15452_.write().flatMap(type::readTyped).result().orElseThrow(() -> new IllegalStateException("Could not parse the new horse")))
++            (Typed<?>)((Pair)((com.mojang.serialization.DataResult<Dynamic<?>>)p_15452_.write()).flatMap(type::readTyped).result().orElseThrow(() -> new IllegalStateException("Could not parse the new horse")))
+                .getFirst()
+          );
+       } else {
