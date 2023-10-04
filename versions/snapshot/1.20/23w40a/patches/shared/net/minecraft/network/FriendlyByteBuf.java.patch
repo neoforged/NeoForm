@@ -1,6 +1,6 @@
 --- a/net/minecraft/network/FriendlyByteBuf.java
 +++ b/net/minecraft/network/FriendlyByteBuf.java
-@@ -144,7 +144,7 @@
+@@ -146,7 +146,7 @@
              break;
           case DIRECT:
              this.writeVarInt(0);
@@ -9,7 +9,7 @@
        }
     }
  
-@@ -157,7 +157,7 @@
+@@ -159,7 +159,7 @@
     public <T> Holder<T> readById(IdMap<Holder<T>> p_263401_, FriendlyByteBuf.Reader<T> p_263374_) {
        int i = this.readVarInt();
        if (i == 0) {
@@ -18,7 +18,7 @@
        } else {
           Holder<T> holder = p_263401_.byId(i - 1);
           if (holder == null) {
-@@ -183,7 +183,7 @@
+@@ -185,7 +185,7 @@
        C c = p_236839_.apply(i);
  
        for(int j = 0; j < i; ++j) {
@@ -27,7 +27,7 @@
        }
  
        return c;
-@@ -193,7 +193,7 @@
+@@ -195,7 +195,7 @@
        this.writeVarInt(p_236829_.size());
  
        for(T t : p_236829_) {
@@ -36,7 +36,7 @@
        }
     }
  
-@@ -222,8 +222,8 @@
+@@ -224,8 +224,8 @@
        M m = p_236842_.apply(i);
  
        for(int j = 0; j < i; ++j) {
@@ -47,7 +47,7 @@
           m.put(k, v);
        }
  
-@@ -237,8 +237,8 @@
+@@ -239,8 +239,8 @@
     public <K, V> void writeMap(Map<K, V> p_236832_, FriendlyByteBuf.Writer<K> p_236833_, FriendlyByteBuf.Writer<V> p_236834_) {
        this.writeVarInt(p_236832_.size());
        p_236832_.forEach((p_236856_, p_236857_) -> {
@@ -58,7 +58,7 @@
        });
     }
  
-@@ -278,25 +278,25 @@
+@@ -280,25 +280,25 @@
     public <T> void writeOptional(Optional<T> p_236836_, FriendlyByteBuf.Writer<T> p_236837_) {
        if (p_236836_.isPresent()) {
           this.writeBoolean(true);
@@ -88,7 +88,7 @@
        } else {
           this.writeBoolean(false);
        }
-@@ -305,15 +305,15 @@
+@@ -307,15 +307,15 @@
     public <L, R> void writeEither(Either<L, R> p_236811_, FriendlyByteBuf.Writer<L> p_236812_, FriendlyByteBuf.Writer<R> p_236813_) {
        p_236811_.ifLeft(p_293716_ -> {
           this.writeBoolean(true);
