@@ -16,7 +16,7 @@
         "jvmargs": []
     },
     "rename": {
-        "version": "net.neoforged:AutoRenamingTool:1.0.7:all",
+        "version": "net.neoforged:AutoRenamingTool:1.0.8:all",
         "args": ["--input", "{input}", "--output", "{output}", "--map", "{mappings}", "--cfg", "{libraries}", "--ann-fix", "--ids-fix", "--src-fix", "--record-fix"]
     },
     "bundler_extract_jar": {
