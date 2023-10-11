@@ -1,0 +1,24 @@
+--- a/net/minecraft/server/level/ChunkMap.java
++++ b/net/minecraft/server/level/ChunkMap.java
+@@ -498,9 +498,10 @@
+ 
+       int k = Math.max(0, this.unloadQueue.size() - 2000);
+ 
+-      while((p_140354_.getAsBoolean() || k > 0) && (j = (long)this.unloadQueue.poll()) != null) {
++      Runnable runnable;
++      while((p_140354_.getAsBoolean() || k > 0) && (runnable = this.unloadQueue.poll()) != null) {
+          --k;
+-         j.run();
++         runnable.run();
+       }
+ 
+       int l = 0;
+@@ -585,7 +586,7 @@
+             }
+ 
+             return flag;
+-         })).thenApplyAsync(p_269770_ -> {
++         })).<Either<ChunkAccess, ChunkHolder.ChunkLoadingFailure>>thenApplyAsync(p_269770_ -> {
+          this.level.getProfiler().incrementCounter("chunkLoad");
+          if (p_269770_.isPresent()) {
+             ChunkAccess chunkaccess = ChunkSerializer.read(this.level, this.poiManager, p_140418_, p_269770_.get());
