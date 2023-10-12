@@ -29,7 +29,7 @@ public abstract class DownloadAssets extends DefaultTask {
         if (index.sha1 != dl.sha1) {
             indexAction.src dl.url
             indexAction.dest index
-            indexAction.execute()
+            indexAction.execute().join()
         }
         
         def assets = [] as Set // Some assets are copies of other assets
