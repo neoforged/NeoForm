@@ -286,6 +286,12 @@ jobs:
           build/download-task/**
           .gradle/**
         key: gradle-other-
+    - name: Prepare test jdk
+      if: ${{ matrix.jdk_version >= needs.common.outputs.jdk_version}}
+      uses: gradle/gradle-build-action@v2
+      with:
+        arguments: :${{ needs.common.outputs.version_name }}:testCompile${{ matrix.side }}${{ matrix.mappings }}${{ matrix.jdk_version }}
+        generate-job-summary: false
     - name: Test jdk
       if: ${{ matrix.jdk_version >= needs.common.outputs.jdk_version}}
       uses: gradle/gradle-build-action@v2
