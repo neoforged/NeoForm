@@ -11,7 +11,7 @@
         "jvmargs": ["-Xmx4G"]
     },
     "merge": {
-        "version": "net.minecraftforge:mergetool:1.1.7:fatjar",
+        "version": "net.neoforged:mergetool:2.0.0:fatjar",
         "args": ["--client", "{client}", "--server", "{server}", "--ann", "{version}", "--output", "{output}", "--inject", "false"],
         "jvmargs": []
     },
@@ -34,6 +34,6 @@
     "libraries": {
         "client": ["com.google.code.findbugs:jsr305:3.0.2", "ca.weblite:java-objc-bridge:1.1", "org.jetbrains:annotations:24.0.1"],
         "server": ["com.google.code.findbugs:jsr305:3.0.2", "org.jetbrains:annotations:24.0.1"],
-        "joined": ["com.google.code.findbugs:jsr305:3.0.2", "ca.weblite:java-objc-bridge:1.1", "net.minecraftforge:mergetool:1.1.7:api", "org.jetbrains:annotations:24.0.1"]
+        "joined": ["com.google.code.findbugs:jsr305:3.0.2", "ca.weblite:java-objc-bridge:1.1", "net.neoforged:mergetool:2.0.0:api", "org.jetbrains:annotations:24.0.1"]
     }
 }
