@@ -1,6 +1,5 @@
 plugins {
     id 'de.undercouch.download'
-    id 'uk.jamierocks.propatcher' version '2.0.1' apply false
 }
 
 import net.minecraftforge.mcpconfig.tasks.*
@@ -8,7 +7,6 @@ import net.minecraftforge.srgutils.MinecraftVersion
 import java.nio.file.Files
 import java.util.function.BiFunction
 import java.util.stream.Collectors
-import uk.jamierocks.propatcher.task.*
 
 group = 'net.neoforged'
 
@@ -400,31 +398,24 @@ subprojects {
             sides.server.slimsrc = serverOut = file(PATH_CACHED_VERSION + 'server.decompile.slim.jar')
             sides.joined.slimsrc = joinedOut = file(PATH_CACHED_VERSION + 'joined.decompile.slim.jar')
         }
-        
-        task projectSharedMakeDir(type: MakeDir, dependsOn: [projectRoot]) {
-            folder = project.file('projects/shared')
+
+        task projectSharedApplyPatches(type: ApplyPatches, dependsOn: [deduplicateSources, projectRoot]) {
+            baseZip = deduplicateSources.duplicates
+            output = project.file('projects/shared')
+            patches = project.file('patches/shared')
         }
-        task projectSharedMakePatchesDir(type: MakeDir) {
-            folder = project.file('patches/shared')
+        task projectSharedMakePatches(type: MakePatches, dependsOn: [deduplicateSources, projectRoot]) {
+            mustRunAfter projectSharedApplyPatches
+            baseZip = deduplicateSources.duplicates
+            modified = project.file('projects/shared')
+            patches = project.file('patches/shared')
         }
-        
-        task projectSharedReset(type: ResetSourcesTask, dependsOn: [deduplicateSources, projectSharedMakeDir]) {
-            mustRunAfter projectRoot
-            rootZip deduplicateSources.duplicates.get().getAsFile()
-            target projectSharedMakeDir.folder.get().getAsFile()
-        }
-        task projectSharedApplyPatches(type: ApplyPatchesTask, dependsOn: [projectSharedReset, projectSharedMakePatchesDir]) {
-            target projectSharedReset.target
-            patches projectSharedMakePatchesDir.folder.get().getAsFile()
-        }
-        task projectSharedMakePatches(type: MakePatchesTask, dependsOn: [deduplicateSources, projectSharedMakePatchesDir, projectSharedMakeDir]) {
-            mustRunAfter projectRoot
-            rootZip deduplicateSources.duplicates.get().getAsFile()
-            target projectSharedApplyPatches.target
-            patches projectSharedApplyPatches.patches
+        task projectSharedReset(type: Copy, dependsOn: [deduplicateSources, projectRoot]) {
+            from zipTree(deduplicateSources.duplicates)
+            into project.file('projects/shared')
         }
         task renameSourcesShared(type: RenameSources, dependsOn: [projectSharedApplyPatches, makeObfToIntermediate, downloadClientMappings]) {
-            input = projectSharedApplyPatches.target
+            input = projectSharedApplyPatches.output
             srg = makeObfToIntermediate.dest
             official = downloadClientMappings.dest
             dest = project.file(PATH_CACHED_VERSION + "test/official/shared/src/")
@@ -460,44 +451,37 @@ subprojects {
             replaceFile '{inject}', PATH_INJECT
             replaceFile '{assets}', child.assets ? downloadAssets.dest : null
             replaceFile '{natives}', child.jsonlibs ? extractNatives.dest : null
-            replaceFile '{merged_src}', MERGE_PATCHES ? projectSharedReset.target : null
+            replaceFile '{merged_src}', MERGE_PATCHES ? project.file('projects/shared') : null
         }
         projectAll.dependsOn(child.project)
 
-        child.makePkgsDir = task "project${child.Name}MakePkgsDir"(type: MakeDir, dependsOn: [projectRoot, child.project]) {
-            folder = new File(project_dir, 'src/pkginfo/java')
-        }
-        child.resetPkgs = task "project${child.Name}ResetPackages"(type: ResetSourcesTask, dependsOn: [child.makePkgsDir, child.pkgs]) {
-            mustRunAfter child.project
-            rootZip child.pkgs.dest.get().getAsFile()
-            target child.makePkgsDir.folder.get().getAsFile()
+        child.resetPkgs = task "project${child.Name}ResetPackages"(type: Copy, dependsOn: [child.pkgs, child.project]) {
+            from zipTree(child.pkgs.dest)
+            into new File(project_dir, 'src/pkginfo/java')
         }
 
-        child.makeSrcDir = task "project${child.Name}MakeSrcDir"(type: MakeDir, dependsOn: [projectRoot, child.project]) {
-            folder = new File(project_dir, 'src/main/java')
-        }
-        child.reset = task "project${child.Name}Reset"(type: ResetSourcesTask, dependsOn: [child.resetPkgs, child.makeSrcDir, child.project, child.decompile] + (MERGE_PATCHES ? [projectSharedReset] : [])) {
+        child.reset = task "project${child.Name}Reset"(type: Copy, dependsOn: [child.resetPkgs, child.project, child.decompile] + (MERGE_PATCHES ? [projectSharedReset] : [])) {
             mustRunAfter child.project
-            rootZip MERGE_PATCHES ? child.slimsrc : child.decompile.dest.get().getAsFile()
-            target child.makeSrcDir.folder.get().getAsFile()
+            from zipTree(MERGE_PATCHES ? child.slimsrc : child.decompile.dest)
+            into new File(project_dir, 'src/main/java')
         }
         projectResetAll.dependsOn(child.reset)
         
         child.makePatchesDir = task "project${child.Name}MakePatchesDir"(type: MakeDir) {
             folder = patches_dir
         }
-        child.apply = task "project${child.Name}ApplyPatches"(type: ApplyPatchesTask, dependsOn: [child.reset, child.makePatchesDir] + (MERGE_PATCHES ? [projectSharedApplyPatches] : [])) {
-            target new File(project_dir, 'src/main/java')
-            patches patches_dir
+        child.apply = task "project${child.Name}ApplyPatches"(type: ApplyPatches, dependsOn: [child.resetPkgs, child.project, child.decompile, child.makePatchesDir] + (MERGE_PATCHES ? [projectSharedApplyPatches] : [])) {
+            baseZip = MERGE_PATCHES ? child.slimsrc : child.decompile.dest
+            output = new File(project_dir, 'src/main/java')
+            patches = patches_dir
         }
         projectApplyAll.dependsOn(child.apply)
 
-        child.makePatches = task "project${child.Name}MakePatches"(type: MakePatchesTask, dependsOn: [child.makePatchesDir, child.makeSrcDir] + (MERGE_PATCHES ? [deduplicateSources, projectSharedMakePatches] : [child.decompile])) {
-            mustRunAfter projectRoot
-            mustRunAfter child.project
-            rootZip MERGE_PATCHES ? child.slimsrc : child.decompile.dest.get().getAsFile()
-            target new File(project_dir, 'src/main/java')
-            patches patches_dir
+        child.makePatches = task "project${child.Name}MakePatches"(type: MakePatches, dependsOn: [projectRoot, child.project] + (MERGE_PATCHES ? [deduplicateSources, projectSharedMakePatches] : [child.decompile])) {
+            mustRunAfter child.apply
+            baseZip = MERGE_PATCHES ? child.slimsrc : child.decompile.dest
+            modified = new File(project_dir, 'src/main/java')
+            patches = patches_dir
         }
         projectMakeAll.dependsOn child.makePatches
         

@@ -12,16 +12,15 @@
           worldloader$packconfig,
           p_247857_ -> {
              DynamicOps<Tag> dynamicops = RegistryOps.create(NbtOps.INSTANCE, p_247857_.datapackWorldgen());
-@@ -187,12 +190,8 @@
+@@ -187,11 +190,7 @@
           }
        );
  
 -      @OnlyIn(Dist.CLIENT)
 -      record Data(LevelSettings levelSettings, WorldOptions options, Registry<LevelStem> existingDimensions) {
        }
- 
--   }
 -
+-   }
+ 
     private WorldLoader.PackConfig getPackConfigFromLevelData(LevelStorageSource.LevelStorageAccess p_249986_, boolean p_248615_, PackRepository p_249167_) {
        WorldDataConfiguration worlddataconfiguration = p_249986_.getDataConfiguration();
-       if (worlddataconfiguration == null) {
