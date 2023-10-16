@@ -252,7 +252,7 @@ subprojects {
 
     task mergeJars(type: MergeJar, dependsOn: [filterClient, filterServer]) {
         config MERGETOOL, configurations.mergetool
-        mainClass = 'net.minecraftforge.mergetool.ConsoleMerger'
+        mainClass = 'net.neoforged.mergetool.ConsoleMerger'
         client = filterClient.slim
         server = filterServer.slim
         version = project.version
