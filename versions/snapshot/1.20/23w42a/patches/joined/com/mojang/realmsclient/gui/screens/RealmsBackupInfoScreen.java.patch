@@ -1,0 +1,12 @@
+--- a/com/mojang/realmsclient/gui/screens/RealmsBackupInfoScreen.java
++++ b/com/mojang/realmsclient/gui/screens/RealmsBackupInfoScreen.java
+@@ -38,8 +38,7 @@
+       this.addRenderableWidget(this.backupInfoList);
+       this.layout.addToFooter(Button.builder(CommonComponents.GUI_BACK, p_299754_ -> this.onClose()).build());
+       this.layout.arrangeElements();
+-      this.layout.visitWidgets(p_299756_ -> {
+-      });
++      this.layout.visitWidgets(this::addRenderableWidget);
+    }
+ 
+    @Override
