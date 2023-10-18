@@ -1,33 +1,6 @@
 --- a/net/minecraft/commands/execution/tasks/BuildContexts.java
 +++ b/net/minecraft/commands/execution/tasks/BuildContexts.java
-@@ -8,20 +8,15 @@
- import com.mojang.brigadier.context.ContextChain.Stage;
- import com.mojang.brigadier.exceptions.CommandSyntaxException;
- import com.mojang.brigadier.exceptions.DynamicCommandExceptionType;
--import java.util.ArrayList;
--import java.util.List;
--import javax.annotation.Nullable;
- import net.minecraft.commands.ExecutionCommandSource;
--import net.minecraft.commands.execution.CommandQueueEntry;
--import net.minecraft.commands.execution.CustomCommandExecutor;
--import net.minecraft.commands.execution.CustomModifierExecutor;
--import net.minecraft.commands.execution.EntryAction;
--import net.minecraft.commands.execution.ExecutionContext;
--import net.minecraft.commands.execution.ExecutionControl;
--import net.minecraft.commands.execution.TraceCallbacks;
--import net.minecraft.commands.execution.UnboundEntryAction;
-+import net.minecraft.commands.execution.*;
- import net.minecraft.network.chat.Component;
- 
-+import javax.annotation.Nullable;
-+
-+import java.util.ArrayList;
-+import java.util.List;
-+
- public class BuildContexts<T extends ExecutionCommandSource<T>> {
-    @VisibleForTesting
-    public static final DynamicCommandExceptionType ERROR_FORK_LIMIT_REACHED = new DynamicCommandExceptionType(
-@@ -54,7 +49,7 @@
+@@ -54,7 +54,7 @@
  
                 if (redirectmodifier != null) {
                    p_305977_.incrementCost();
