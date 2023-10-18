@@ -1,6 +1,6 @@
 --- a/com/mojang/realmsclient/gui/screens/RealmsSelectWorldTemplateScreen.java
 +++ b/com/mojang/realmsclient/gui/screens/RealmsSelectWorldTemplateScreen.java
-@@ -163,9 +163,9 @@
+@@ -157,9 +157,9 @@
              public void run() {
                 WorldTemplatePaginatedList worldtemplatepaginatedlist = p_89654_;
     
@@ -13,7 +13,7 @@
                    worldtemplatepaginatedlist = RealmsSelectWorldTemplateScreen.this.minecraft
                       .submit(
                          () -> {
-@@ -199,9 +199,7 @@
+@@ -193,9 +193,7 @@
                             }
                          }
                       )

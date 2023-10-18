@@ -1,6 +1,6 @@
 --- a/net/minecraft/network/ConnectionProtocol.java
 +++ b/net/minecraft/network/ConnectionProtocol.java
-@@ -206,14 +206,14 @@
+@@ -207,14 +207,14 @@
        "handshake",
        protocol()
           .addFlow(PacketFlow.CLIENTBOUND, new ConnectionProtocol.PacketSet())
@@ -17,7 +17,7 @@
                 .withBundlePacket(ClientboundBundlePacket.class, ClientboundBundlePacket::new)
                 .addPacket(ClientboundAddEntityPacket.class, ClientboundAddEntityPacket::new)
                 .addPacket(ClientboundAddExperienceOrbPacket.class, ClientboundAddExperienceOrbPacket::new)
-@@ -330,7 +330,7 @@
+@@ -331,7 +331,7 @@
           )
           .addFlow(
              PacketFlow.SERVERBOUND,
@@ -26,7 +26,7 @@
                 .addPacket(ServerboundAcceptTeleportationPacket.class, ServerboundAcceptTeleportationPacket::new)
                 .addPacket(ServerboundBlockEntityTagQuery.class, ServerboundBlockEntityTagQuery::new)
                 .addPacket(ServerboundChangeDifficultyPacket.class, ServerboundChangeDifficultyPacket::new)
-@@ -392,13 +392,13 @@
+@@ -394,13 +394,13 @@
        protocol()
           .addFlow(
              PacketFlow.SERVERBOUND,
@@ -42,7 +42,7 @@
                 .addPacket(ClientboundStatusResponsePacket.class, ClientboundStatusResponsePacket::new)
                 .addPacket(ClientboundPongResponsePacket.class, ClientboundPongResponsePacket::new)
           )
-@@ -408,7 +408,7 @@
+@@ -410,7 +410,7 @@
        protocol()
           .addFlow(
              PacketFlow.CLIENTBOUND,
@@ -51,7 +51,7 @@
                 .addPacket(ClientboundLoginDisconnectPacket.class, ClientboundLoginDisconnectPacket::new)
                 .addPacket(ClientboundHelloPacket.class, ClientboundHelloPacket::new)
                 .addPacket(ClientboundGameProfilePacket.class, ClientboundGameProfilePacket::new)
-@@ -417,7 +417,7 @@
+@@ -419,7 +419,7 @@
           )
           .addFlow(
              PacketFlow.SERVERBOUND,
@@ -60,7 +60,7 @@
                 .addPacket(ServerboundHelloPacket.class, ServerboundHelloPacket::new)
                 .addPacket(ServerboundKeyPacket.class, ServerboundKeyPacket::new)
                 .addPacket(ServerboundCustomQueryAnswerPacket.class, ServerboundCustomQueryAnswerPacket::read)
-@@ -429,7 +429,7 @@
+@@ -431,7 +431,7 @@
        protocol()
           .addFlow(
              PacketFlow.CLIENTBOUND,
@@ -69,7 +69,7 @@
                 .addPacket(ClientboundCustomPayloadPacket.class, ClientboundCustomPayloadPacket::new)
                 .addPacket(ClientboundDisconnectPacket.class, ClientboundDisconnectPacket::new)
                 .addPacket(ClientboundFinishConfigurationPacket.class, ClientboundFinishConfigurationPacket::new)
-@@ -442,7 +442,7 @@
+@@ -444,7 +444,7 @@
           )
           .addFlow(
              PacketFlow.SERVERBOUND,

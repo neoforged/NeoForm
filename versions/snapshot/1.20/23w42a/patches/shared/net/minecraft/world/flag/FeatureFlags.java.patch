@@ -1,7 +1,7 @@
 --- a/net/minecraft/world/flag/FeatureFlags.java
 +++ b/net/minecraft/world/flag/FeatureFlags.java
-@@ -10,9 +10,9 @@
-    public static final FeatureFlag BUNDLE;
+@@ -11,9 +11,9 @@
+    public static final FeatureFlag UPDATE_1_21;
     public static final FeatureFlag TRADE_REBALANCE;
     public static final FeatureFlagRegistry REGISTRY;
 -   public static final Codec<FeatureFlagSet> CODEC = REGISTRY.codec();
@@ -13,9 +13,9 @@
  
     public static String printMissingFlags(FeatureFlagSet p_250581_, FeatureFlagSet p_250326_) {
        return printMissingFlags(REGISTRY, p_250581_, p_250326_);
-@@ -34,5 +34,8 @@
-       BUNDLE = featureflagregistry$builder.createVanilla("bundle");
+@@ -36,5 +36,8 @@
        TRADE_REBALANCE = featureflagregistry$builder.createVanilla("trade_rebalance");
+       UPDATE_1_21 = featureflagregistry$builder.createVanilla("update_1_21");
        REGISTRY = featureflagregistry$builder.build();
 +      CODEC = REGISTRY.codec();
 +      VANILLA_SET = FeatureFlagSet.of(VANILLA);

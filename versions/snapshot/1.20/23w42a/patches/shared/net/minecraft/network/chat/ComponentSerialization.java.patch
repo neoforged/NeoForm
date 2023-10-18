@@ -1,6 +1,6 @@
 --- a/net/minecraft/network/chat/ComponentSerialization.java
 +++ b/net/minecraft/network/chat/ComponentSerialization.java
-@@ -90,7 +90,7 @@
+@@ -89,7 +89,7 @@
           for(MapDecoder<? extends T> mapdecoder : this.codecs) {
              DataResult<? extends T> dataresult = mapdecoder.decode(p_304922_, p_304447_);
              if (dataresult.result().isPresent()) {
@@ -9,7 +9,7 @@
              }
           }
  
-@@ -99,7 +99,7 @@
+@@ -98,7 +98,7 @@
  
        @Override
        public <S> RecordBuilder<S> encode(T p_304409_, DynamicOps<S> p_304945_, RecordBuilder<S> p_304823_) {
