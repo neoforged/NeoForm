@@ -1,0 +1,12 @@
+--- a/com/mojang/realmsclient/RealmsMainScreen.java
++++ b/com/mojang/realmsclient/RealmsMainScreen.java
+@@ -207,8 +207,7 @@
+ 
+          this.layout = this.createLayout(p_294474_);
+          this.activeLayoutState = p_294474_;
+-         this.layout.visitWidgets(p_272289_ -> {
+-         });
++         this.layout.visitWidgets(this::addRenderableWidget);
+          this.repositionElements();
+       }
+    }
