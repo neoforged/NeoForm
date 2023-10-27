@@ -1,0 +1,11 @@
+--- a/net/minecraft/commands/execution/tasks/BuildContexts.java
++++ b/net/minecraft/commands/execution/tasks/BuildContexts.java
+@@ -54,7 +54,7 @@
+ 
+                if (redirectmodifier != null) {
+                   p_305977_.incrementCost();
+-                  custommodifierexecutor = new ArrayList<T>();
++                  List<T> custommodifierexecutor = new ArrayList<T>();
+ 
+                   for(T t : list) {
+                      try {
