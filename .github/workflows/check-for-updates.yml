@@ -20,16 +20,12 @@ jobs:
     steps:
       - name: Get Version Manifest
         id: version_manifest
-        uses: fjogeleit/http-request-action@v1
-        with:
-          url: "https://piston-meta.mojang.com/mc/game/version_manifest_v2.json"
-          method: "GET"
+        run: echo "latest_snapshot=$(wget -O - https://piston-meta.mojang.com/mc/game/version_manifest_v2.json | jq -r .latest.snapshot) >> $GITHUB_OUTPUT
       - name: Check latest snapshot
         id: check
         uses: actions/github-script@v6
         env:
-          NEW_LATEST_VERSION: ${{ fromJson(steps.version_manifest.outputs.response).latest.snapshot }}
-          LATEST_RELEASE: ${{ fromJson(steps.version_manifest.outputs.response).latest.release }}
+          NEW_LATEST_VERSION: ${{ steps.version_manifest.outputs.latest_snapshot }}
         with:
           script: |
             function getInfo(name) {
@@ -72,16 +68,13 @@ jobs:
         with: 
           distribution: temurin
           java-version: ${{ vars.JAVA_VERSION }}
-      - name: Download maven-metadata.xml
-        run: wget https://maven.neoforged.net/releases/net/minecraftforge/srgutils/maven-metadata.xml
+      - name: Install fast-xml-parser
+        run: sudo npm install -g fast-xml-parser
       - name: Get latest version of srgutils
         id: srgutils_version
-        uses: mavrosxristoforos/get-xml-info@1.1.1
-        with:
-          xml-file: maven-metadata.xml
-          xpath: //metadata/versioning/latest
+        run: echo "srgutils_version=$(wget -O - https://maven.neoforged.net/releases/net/minecraftforge/srgutils/maven-metadata.xml | fxparser -c | jq .metadata.versioning.latest -r)" >> $GITHUB_OUTPUT
       - name: Download srgutils
-        run: wget https://maven.neoforged.net/releases/net/minecraftforge/srgutils/${{ steps.srgutils_version.outputs.info }}/srgutils-${{ steps.srgutils_version.outputs.info }}.jar -O srgutils.jar
+        run: wget https://maven.neoforged.net/releases/net/minecraftforge/srgutils/${{ steps.srgutils_version.outputs.srgutils_version }}/srgutils-${{ steps.srgutils_version.outputs.srgutils_version }}.jar -O srgutils.jar
       - name: Download parser
         run: wget ${{ vars.PARSE_VERSION_JAVA }}
       - name: Run parser
