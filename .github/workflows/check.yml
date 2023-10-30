@@ -48,7 +48,7 @@ jobs:
   common:
     runs-on: ubuntu-latest
     outputs:
-      discord_embed: ${{ steps.discord_embed.outputs.discord_embed }}
+      discord_fields: ${{ steps.discord_fields.outputs.discord_fields }}
       jdk_version: ${{ steps.java_version.outputs.result }}
       version_type: ${{ fromJson(steps.split_version.outputs.result).version_type }}
       version_name: ${{ fromJson(steps.split_version.outputs.result).version_name }}
@@ -62,55 +62,28 @@ jobs:
           const version = process.env.VERSION.split("/");
           var returnValue = {version_name: version[version.length - 1], version_type: version[0]}
           return returnValue;
-    - name: Create discord embed json
-      id: discord_embed
+    - name: Create discord fields json
+      id: discord_fields
       run: |
-        echo "discord_embed<<EOF" >> $GITHUB_OUTPUT
+        echo "discord_fields<<EOF" >> $GITHUB_OUTPUT
         jq -n '[
           {
-            "author": {
-              "name": $ENV.REPO_NAME,
-              "url": $ENV.REPO_URL,
-              "icon_url": "https://avatars.githubusercontent.com/u/138629134"
-            },
-            "url": $ENV.RUN_URL,
-            "fields": [
-              {
-                "name": "Build Branch",
-                "value": $ENV.BRANCH,
-                "inline": true
-              },
-              {
-                "name": "Minecraft Version",
-                "value": $ENV.MC_VERSION,
-                "inline": true
-              }
-            ]
+            "name": "Minecraft Version",
+            "value": $ENV.MC_VERSION,
+            "inline": true
           }
         ]' >> $GITHUB_OUTPUT
         echo "EOF" >> $GITHUB_OUTPUT
       env:
-        REPO_NAME: ${{ github.event.repository.name }}
-        REPO_URL: ${{ github.server_url }}/${{ github.repository }}
-        RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
-        BRANCH: ${{ inputs.branch || github.ref_name }}
         MC_VERSION: ${{ fromJson(steps.split_version.outputs.result).version_name }}
-    - name: Create start discord embed json
-      id: discord_embed_start
-      run: |
-        echo "discord_embed<<EOF" >> $GITHUB_OUTPUT
-        echo "$DISCORD_EMBED" | jq 'map(. + {"title": "Started", "color": 3224808})' >> $GITHUB_OUTPUT
-        echo "EOF" >> $GITHUB_OUTPUT
-      env:
-        DISCORD_EMBED: ${{ steps.discord_embed.outputs.discord_embed }}
     - name: Notify discord of start
       if: ${{ inputs.publish }}
-      uses: Ilshidur/action-discord@0.3.2
-      env:
-        DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK_URL }}
-        DISCORD_USERNAME: GitHub Actions
-        DISCORD_AVATAR: https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png
-        DISCORD_EMBEDS: ${{ steps.discord_embed_start.outputs.discord_embed }}
+      uses: neoforged/action-webhooks@v1
+      with:
+        webhook_url: ${{ secrets.DISCORD_WEBHOOK }}
+        status: started
+        include_commit_message: 'false'
+        fields: ${{ steps.discord_fields.outputs.discord_fields }}
     - uses: actions/checkout@v4
       with:
         ref: ${{ inputs.branch || '' }}
@@ -319,21 +292,12 @@ jobs:
     needs: [common, testjdks, publish]
     if: ${{ always() && inputs.publish }}
     steps:
-    - name: Create finish discord embed json
-      id: discord_embed_finish
-      run: |
-        echo "discord_embed<<EOF" >> $GITHUB_OUTPUT
-        echo "$DISCORD_EMBED" | jq 'map(. + {"title": $ENV.RESULT, "color": $ENV.COLOR}) | map(.fields += if $ENV.VERSION != "false" then [{"name": "Version", "value": $ENV.VERSION}] else [] end)' >> $GITHUB_OUTPUT
-        echo "EOF" >> $GITHUB_OUTPUT
-      env:
-        RESULT: ${{ needs.common.result == 'success' && needs.testjdks.result == 'success' && needs.publish.result == 'success' && 'Success' || 'Failed' }}
-        COLOR: ${{ needs.common.result == 'success' && needs.testjdks.result == 'success' && needs.publish.result == 'success' && 0x28F65A || 0xF53B27 }}
-        VERSION: ${{ needs.publish.result == 'success' && format('{0}-{1}', needs.common.outputs.version_name, needs.publish.outputs.timestamp) }}
-        DISCORD_EMBED: ${{ needs.common.outputs.discord_embed }}
     - name: Notify discord of finish
-      uses: Ilshidur/action-discord@0.3.2
-      env:
-        DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK_URL }}
-        DISCORD_USERNAME: GitHub Actions
-        DISCORD_AVATAR: https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png
-        DISCORD_EMBEDS: ${{ steps.discord_embed_finish.outputs.discord_embed }}
+      if: ${{ inputs.publish }}
+      uses: neoforged/action-webhooks@v1
+      with:
+        webhook_url: ${{ secrets.DISCORD_WEBHOOK }}
+        status: ${{ needs.common.result == 'success' && needs.testjdks.result == 'success' && needs.publish.result || needs.common.result == 'success' && needs.testjdks.result || needs.common.result }}
+        include_commit_message: 'false'
+        version: ${{ needs.publish.result == 'success' && format('{0}-{1}', needs.common.outputs.version_name, needs.publish.outputs.timestamp) || '?' }}
+        fields: ${{ needs.common.outputs.discord_fields }}
