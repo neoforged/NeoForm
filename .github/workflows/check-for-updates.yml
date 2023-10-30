@@ -20,7 +20,7 @@ jobs:
     steps:
       - name: Get Version Manifest
         id: version_manifest
-        run: echo "latest_snapshot=$(wget -O - https://piston-meta.mojang.com/mc/game/version_manifest_v2.json | jq -r .latest.snapshot) >> $GITHUB_OUTPUT
+        run: echo "latest_snapshot=$(wget -O - https://piston-meta.mojang.com/mc/game/version_manifest_v2.json | jq -r .latest.snapshot)" >> $GITHUB_OUTPUT
       - name: Check latest snapshot
         id: check
         uses: actions/github-script@v6
