@@ -1,11 +1,20 @@
 --- a/net/minecraft/commands/execution/tasks/BuildContexts.java
 +++ b/net/minecraft/commands/execution/tasks/BuildContexts.java
-@@ -54,7 +54,7 @@
+@@ -60,7 +60,7 @@
  
                 if (redirectmodifier != null) {
                    p_305977_.incrementCost();
--                  custommodifierexecutor = new ArrayList<T>();
-+                  List<T> custommodifierexecutor = new ArrayList<T>();
+-                  custommodifierexecutor = chainmodifiers.isForked();
++                  boolean custommodifierexecutor = chainmodifiers.isForked();
+                   List<T> list1 = new ArrayList<>();
  
                    for(T t : list) {
-                      try {
+@@ -91,7 +91,7 @@
+ 
+       if (list.isEmpty()) {
+          if (chainmodifiers.isReturn()) {
+-            p_305977_.queueNext(new CommandQueueEntry<>(p_309603_, FallthroughTask.instance()));
++            p_305977_.queueNext(new CommandQueueEntry<T>(p_309603_, FallthroughTask.instance()));
+          }
+       } else {
+          CommandContext<T> commandcontext1 = contextchain.getTopContext();
