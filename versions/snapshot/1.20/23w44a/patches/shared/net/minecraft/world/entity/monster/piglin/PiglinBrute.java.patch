@@ -2,10 +2,10 @@
 +++ b/net/minecraft/world/entity/monster/piglin/PiglinBrute.java
 @@ -94,7 +94,7 @@
  
-    @Override
-    public Brain<PiglinBrute> getBrain() {
--      return super.getBrain();
-+      return (Brain<PiglinBrute>)super.getBrain();
-    }
+     @Override
+     public Brain<PiglinBrute> getBrain() {
+-        return super.getBrain();
++        return (Brain<PiglinBrute>)super.getBrain();
+     }
  
-    @Override
+     @Override

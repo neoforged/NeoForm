@@ -2,10 +2,10 @@
 +++ b/net/minecraft/resources/RegistryOps.java
 @@ -23,7 +23,7 @@
  
-          @Override
-          public <T> Optional<RegistryOps.RegistryInfo<T>> lookup(ResourceKey<? extends Registry<? extends T>> p_256043_) {
--            return this.lookups.computeIfAbsent(p_256043_, p_255769_::lookup);
-+            return (Optional<RegistryOps.RegistryInfo<T>>)this.lookups.computeIfAbsent(p_256043_, p_255769_::lookup);
-          }
-       };
-    }
+             @Override
+             public <T> Optional<RegistryOps.RegistryInfo<T>> lookup(ResourceKey<? extends Registry<? extends T>> p_256043_) {
+-                return this.lookups.computeIfAbsent(p_256043_, p_255769_::lookup);
++                return (Optional<RegistryOps.RegistryInfo<T>>)this.lookups.computeIfAbsent(p_256043_, p_255769_::lookup);
+             }
+         };
+     }

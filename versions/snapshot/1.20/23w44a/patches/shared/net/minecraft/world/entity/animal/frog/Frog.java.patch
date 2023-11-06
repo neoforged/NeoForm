@@ -2,10 +2,10 @@
 +++ b/net/minecraft/world/entity/animal/frog/Frog.java
 @@ -126,7 +126,7 @@
  
-    @Override
-    public Brain<Frog> getBrain() {
--      return super.getBrain();
-+      return (Brain<Frog>)super.getBrain();
-    }
+     @Override
+     public Brain<Frog> getBrain() {
+-        return super.getBrain();
++        return (Brain<Frog>)super.getBrain();
+     }
  
-    @Override
+     @Override

@@ -2,10 +2,10 @@
 +++ b/net/minecraft/world/entity/animal/goat/Goat.java
 @@ -176,7 +176,7 @@
  
-    @Override
-    public Brain<Goat> getBrain() {
--      return super.getBrain();
-+      return (Brain<Goat>)super.getBrain();
-    }
+     @Override
+     public Brain<Goat> getBrain() {
+-        return super.getBrain();
++        return (Brain<Goat>)super.getBrain();
+     }
  
-    @Override
+     @Override
