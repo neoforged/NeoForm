@@ -1,0 +1,11 @@
+--- a/net/minecraft/util/datafix/fixes/NamedEntityWriteReadFix.java
++++ b/net/minecraft/util/datafix/fixes/NamedEntityWriteReadFix.java
+@@ -38,7 +38,7 @@
+                     opticfinder,
+                     type3,
+                     p_307284_ -> (Typed<?>)Util.getOrThrow(
+-                                p_307284_.write().map(this::fix).flatMap(type3::readTyped),
++                                p_307284_.write().<Dynamic<?>>map(this::fix).flatMap(type3::readTyped),
+                                 p_307587_ -> new IllegalStateException("Could not parse the value " + p_307587_)
+                             )
+                             .getFirst()

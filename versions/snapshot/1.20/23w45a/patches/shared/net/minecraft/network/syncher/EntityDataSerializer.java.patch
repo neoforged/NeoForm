@@ -1,0 +1,17 @@
+--- a/net/minecraft/network/syncher/EntityDataSerializer.java
++++ b/net/minecraft/network/syncher/EntityDataSerializer.java
+@@ -19,12 +19,12 @@
+         return new EntityDataSerializer.ForValueType<T>() {
+             @Override
+             public void write(FriendlyByteBuf p_238109_, T p_238110_) {
+-                p_238096_.accept((T)p_238109_, p_238110_);
++                p_238096_.accept(p_238109_, p_238110_);
+             }
+ 
+             @Override
+             public T read(FriendlyByteBuf p_238107_) {
+-                return p_238097_.apply((T)p_238107_);
++                return p_238097_.apply(p_238107_);
+             }
+         };
+     }
