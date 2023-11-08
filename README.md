@@ -1,23 +1,43 @@
-# MCPConfig
-Public facing repo for MCP SRG mappings.
+# NeoForm
+NeoForm provides steps to create reproducible and recompilable Minecraft source code.
 
-This is NOT intended for end users to use. 
-This is NOT a replacement for MCP.
-This will NOT allow you to make Mods. DO NOT ASK.
-This is ONLY intended for making part of the process of updating MC obfuscation mappings public. As well as publishing those mappings to the [Forge Maven](http://files.minecraftforge.net/de/oceanlabs/mcp/mcp_config/) so that others may access them in a standard way.
+# How to Use
+Development versions of Minecraft for a release version will be on a branch named `<version>-dev`
 
-# License
-The data contained here is released under a [modified zlib license](https://github.com/MinecraftForge/MCPConfig/blob/master/LICENSE).
-The brands and names of the project and packages are still reserved.
-This means you are allowed to create and publish derivative works.
-However, those publications must be done under a different group and name.
-This is intended to prevent conflicting mappings from being published as that does nothing but hurt stability.
-We also appreciate if you give acknowledgement or credits in someway. But this is not required.
+Definitions:
+* `type` can be either
+    * `release` (release versions)
+    * `pre` (pre-releases and release candidates)
+    * `snapshot` (snapshots)
+* `ver` is a major version of Minecraft without the ending `.0`
+* `version` is a specific version of Minecraft
 
+options in `local.properties` can be set to filter for which versions are loaded by gradle:
+* `type` (defaults to `release`)
+* `ver` (defaults to all major versions)
+
+Gradle tasks:
+* `:<version>:projectApplyAll` - Creates Minecraft source code of that version with patches applied
+* `:<version>:projectMakeAll` - Generates patches for the specified version
+* `update` - Requires `old_version` and `new_version` to be specified in `gradle.properties` in the format of `<type>/<ver>/<version>`.
+* `:<version>:testJdks` - Checks that the generated source code is consistant across java versions along with compilation 
+Sets up the new version based on the old version without the patches from the old version
+
+# GitHub Actions Workflows
+* `Check For New Snapshots` - Runs every 30 minutes from 6am to 7pm UTC and checks for when Mojang releases a new version and runs the `Update` workflow
+* `Update` - Runs the `update` task and checks for any library updates along with copying over the patches from the old version to the new version then attempts to run the `Check` workflow. Parameters:
+    * `Old branch` - The branch name where the old version is
+    * `Old version` - `<type>/<ver>/<version>` of the old version
+    * `Patches version` (deprecated) - `<type>/<ver>/<version>` of the version to take the patches from (defaults to `Old version`)
+    * `New branch` - The branch name of where the new version will be (defaults to `Old branch`)
+    * `New version` - `<type>/<ver>/<version>` of the new version
+    * `Fix known error(s) in mapping file` (deprecated) - Was used for when Jammer would generate incorrect names for fields or methods
+    * `Copy extras` - When changing branches copy over files outside of the `versions` and `.github` directories
+    * `Publish` - Passed to `Check` workflow
+* `Check` - Required to run from the branch with the version being checked and checks if patches successfully apply and runs `:<version>:testJdks` and optionally publishes to the [NeoForge maven](https://maven.neoforged.net/). Parameters:
+    * `Version` - `<type>/<ver>/<version>` of the version
+    * `Push changed patches` - If enabled and running `:<version>:projectApplyAll` then `:<version>:projectMakeAll` changes patches then it pushes the updated patches
+    * `Publish` whether to publish to the [NeoForge maven](https://maven.neoforged.net/)
 
 # Mojang Mappings
-This project uses the obfuscation logs provided by Mojang for Minecraft in order to generate its data. That means that the data here could be considered a derivative work of those mappings. So you should be fully versed in the license associated with those official mappings. You can read more about our interpretation of them [here.](https://github.com/MinecraftForge/MCPConfig/blob/master/Mojang.md)
-
-# How to Use:
-
-This is INTENTIONALLY not holding your hand because this is a powerful tool that if used incorrectly can cause a lot of issues. Spend a few minutes reading the gradle and you can figure things out. If you wish to work on MCPConfig, and know what you are doing. You are free to join the #mcpconfig channel in the Forge discord and discuss it there.
+This project uses the obfuscation logs provided by Mojang for Minecraft in order to generate its data. That means that the data here could be considered a derivative work of those mappings. So you should be fully versed in the license associated with those official mappings. You can read more about our interpretation of them [here.](https://github.com/neoforged/NeoForm/blob/main/Mojang.md)
