@@ -1,6 +1,6 @@
 --- a/net/minecraft/core/RegistryAccess.java
 +++ b/net/minecraft/core/RegistryAccess.java
-@@ -34,8 +34,8 @@
+@@ -39,8 +39,8 @@
          return new RegistryAccess.Frozen() {
              @Override
              public <T> Optional<Registry<T>> registry(ResourceKey<? extends Registry<? extends T>> p_206220_) {
@@ -11,7 +11,7 @@
              }
  
              @Override
-@@ -72,7 +72,7 @@
+@@ -77,7 +77,7 @@
  
          public ImmutableRegistryAccess(List<? extends Registry<?>> p_248540_) {
              this.registries = p_248540_.stream()
@@ -20,7 +20,7 @@
          }
  
          public ImmutableRegistryAccess(Map<? extends ResourceKey<? extends Registry<?>>, ? extends Registry<?>> p_206225_) {
-@@ -85,7 +85,7 @@
+@@ -90,7 +90,7 @@
  
          @Override
          public <E> Optional<Registry<E>> registry(ResourceKey<? extends Registry<? extends E>> p_206229_) {
@@ -29,7 +29,7 @@
          }
  
          @Override
-@@ -102,7 +102,7 @@
+@@ -107,7 +107,7 @@
          }
  
          private static <T> RegistryAccess.RegistryEntry<T> fromUntyped(ResourceKey<? extends Registry<?>> p_206244_, Registry<?> p_206245_) {

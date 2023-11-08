@@ -1,6 +1,6 @@
 --- a/net/minecraft/nbt/CompoundTag.java
 +++ b/net/minecraft/nbt/CompoundTag.java
-@@ -111,7 +111,7 @@
+@@ -117,7 +117,7 @@
              }
  
              if (b0 != 0) {

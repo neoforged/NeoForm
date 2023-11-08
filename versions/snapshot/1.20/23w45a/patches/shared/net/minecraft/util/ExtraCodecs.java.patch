@@ -9,3 +9,14 @@
                  p_184360_ -> p_184360_.group(p_184362_.fieldOf(p_184363_).forGetter(Pair::getFirst), p_184362_.fieldOf(p_184364_).forGetter(Pair::getSecond))
                          .apply(p_184360_, Pair::of)
              )
+@@ -556,8 +556,8 @@
+                 return p_312297_;
+             }
+ 
+-            private <T, V2 extends V> DataResult<T> encode(Codec<V2> p_312014_, V p_312190_, DynamicOps<T> p_312075_) {
+-                return p_312014_.encodeStart(p_312075_, p_312190_);
++            private <T, V2 extends V> DataResult<T> encode(Codec<? extends V> p_312014_, V p_312190_, DynamicOps<T> p_312075_) {
++                return ((Codec<V2>)p_312014_).encodeStart(p_312075_, (V2)p_312190_);
+             }
+         };
+     }

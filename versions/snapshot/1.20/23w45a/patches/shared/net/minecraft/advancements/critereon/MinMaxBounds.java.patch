@@ -1,6 +1,6 @@
 --- a/net/minecraft/advancements/critereon/MinMaxBounds.java
 +++ b/net/minecraft/advancements/critereon/MinMaxBounds.java
-@@ -143,7 +143,7 @@
+@@ -137,7 +137,7 @@
  
      public static record Doubles(Optional<Double> min, Optional<Double> max, Optional<Double> minSq, Optional<Double> maxSq) implements MinMaxBounds<Double> {
          public static final MinMaxBounds.Doubles ANY = new MinMaxBounds.Doubles(Optional.empty(), Optional.empty());
@@ -9,7 +9,7 @@
  
          private Doubles(Optional<Double> p_298243_, Optional<Double> p_299159_) {
              this(p_298243_, p_299159_, squareOpt(p_298243_), squareOpt(p_299159_));
-@@ -214,7 +214,7 @@
+@@ -200,7 +200,7 @@
  
      public static record Ints(Optional<Integer> min, Optional<Integer> max, Optional<Long> minSq, Optional<Long> maxSq) implements MinMaxBounds<Integer> {
          public static final MinMaxBounds.Ints ANY = new MinMaxBounds.Ints(Optional.empty(), Optional.empty());

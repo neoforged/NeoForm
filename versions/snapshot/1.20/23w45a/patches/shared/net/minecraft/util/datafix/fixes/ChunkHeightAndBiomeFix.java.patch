@@ -1,6 +1,6 @@
 --- a/net/minecraft/util/datafix/fixes/ChunkHeightAndBiomeFix.java
 +++ b/net/minecraft/util/datafix/fixes/ChunkHeightAndBiomeFix.java
-@@ -221,12 +221,14 @@
+@@ -215,12 +215,14 @@
              p_184910_.setValue(true);
  
              for(int l = 0; l < 24; ++l) {
