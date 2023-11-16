@@ -1,0 +1,12 @@
+--- a/net/minecraft/client/gui/screens/reporting/ReportPlayerScreen.java
++++ b/net/minecraft/client/gui/screens/reporting/ReportPlayerScreen.java
+@@ -78,8 +78,7 @@
+             );
+         this.layout.addChild(SpacerElement.height(20));
+         this.layout.addChild(Button.builder(CommonComponents.GUI_CANCEL, p_299992_ -> this.onClose()).build());
+-        this.layout.visitWidgets(p_299910_ -> {
+-        });
++        this.layout.visitWidgets(this::addRenderableWidget);
+         this.repositionElements();
+     }
+ 
