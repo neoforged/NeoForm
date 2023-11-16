@@ -1,6 +1,6 @@
 --- a/net/minecraft/client/gui/screens/PresetFlatWorldScreen.java
 +++ b/net/minecraft/client/gui/screens/PresetFlatWorldScreen.java
-@@ -303,7 +303,7 @@
+@@ -294,7 +294,7 @@
              public Entry(Holder<FlatLevelGeneratorPreset> p_232758_) {
                  this.preset = p_232758_.value();
                  this.name = p_232758_.unwrapKey()

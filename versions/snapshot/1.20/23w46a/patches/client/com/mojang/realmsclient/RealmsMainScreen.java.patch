@@ -1,6 +1,6 @@
 --- a/com/mojang/realmsclient/RealmsMainScreen.java
 +++ b/com/mojang/realmsclient/RealmsMainScreen.java
-@@ -549,8 +549,7 @@
+@@ -552,8 +552,7 @@
  
      @Nullable
      private RealmsServer getSelectedServer() {

@@ -1,6 +1,6 @@
 --- a/net/minecraft/client/gui/screens/achievement/StatsScreen.java
 +++ b/net/minecraft/client/gui/screens/achievement/StatsScreen.java
-@@ -485,11 +485,11 @@
+@@ -479,11 +479,11 @@
                      i = 0;
                      j = 0;
                  } else if (ItemStatisticsList.this.blockColumns.contains(ItemStatisticsList.this.sortColumn)) {
