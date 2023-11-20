@@ -1,0 +1,16 @@
+--- a/net/minecraft/client/gui/screens/achievement/StatsScreen.java
++++ b/net/minecraft/client/gui/screens/achievement/StatsScreen.java
+@@ -479,11 +479,11 @@
+                     i = 0;
+                     j = 0;
+                 } else if (ItemStatisticsList.this.blockColumns.contains(ItemStatisticsList.this.sortColumn)) {
+-                    StatType<Block> stattype = ItemStatisticsList.this.sortColumn;
++                    StatType<Block> stattype = (StatType<Block>)ItemStatisticsList.this.sortColumn;
+                     i = item instanceof BlockItem ? StatsScreen.this.stats.getValue(stattype, ((BlockItem)item).getBlock()) : -1;
+                     j = item1 instanceof BlockItem ? StatsScreen.this.stats.getValue(stattype, ((BlockItem)item1).getBlock()) : -1;
+                 } else {
+-                    StatType<Item> stattype1 = ItemStatisticsList.this.sortColumn;
++                    StatType<Item> stattype1 = (StatType<Item>)ItemStatisticsList.this.sortColumn;
+                     i = StatsScreen.this.stats.getValue(stattype1, item);
+                     j = StatsScreen.this.stats.getValue(stattype1, item1);
+                 }

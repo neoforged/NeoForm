@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/entity/ai/behavior/SetWalkTargetAwayFrom.java
++++ b/net/minecraft/world/entity/ai/behavior/SetWalkTargetAwayFrom.java
+@@ -26,7 +26,7 @@
+         MemoryModuleType<T> p_260057_, float p_259672_, int p_259866_, boolean p_259232_, Function<T, Vec3> p_259355_
+     ) {
+         return BehaviorBuilder.create(
+-            p_259292_ -> p_259292_.<MemoryAccessor, MemoryAccessor>group(p_259292_.registered(MemoryModuleType.WALK_TARGET), p_259292_.present(p_260057_))
++            p_259292_ -> p_259292_.group(p_259292_.registered(MemoryModuleType.WALK_TARGET), p_259292_.present(p_260057_))
+                     .apply(p_259292_, (p_260063_, p_260053_) -> (p_259973_, p_259323_, p_259275_) -> {
+                             Optional<WalkTarget> optional = p_259292_.tryGet(p_260063_);
+                             if (optional.isPresent() && !p_259232_) {

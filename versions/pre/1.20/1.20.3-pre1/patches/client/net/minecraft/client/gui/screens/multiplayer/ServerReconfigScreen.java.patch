@@ -1,0 +1,12 @@
+--- a/net/minecraft/client/gui/screens/multiplayer/ServerReconfigScreen.java
++++ b/net/minecraft/client/gui/screens/multiplayer/ServerReconfigScreen.java
+@@ -36,8 +36,7 @@
+             .addChild(Button.builder(CommonComponents.GUI_DISCONNECT, p_295623_ -> this.connection.disconnect(ConnectScreen.ABORT_CONNECTION)).build());
+         this.disconnectButton.active = false;
+         this.layout.arrangeElements();
+-        this.layout.visitWidgets(p_295135_ -> {
+-        });
++        this.layout.visitWidgets(this::addRenderableWidget);
+         this.repositionElements();
+     }
+ 
