@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/entity/ai/behavior/StrollToPoi.java
++++ b/net/minecraft/world/entity/ai/behavior/StrollToPoi.java
+@@ -13,7 +13,7 @@
+     public static BehaviorControl<PathfinderMob> create(MemoryModuleType<GlobalPos> p_259919_, float p_259285_, int p_259332_, int p_259904_) {
+         MutableLong mutablelong = new MutableLong(0L);
+         return BehaviorBuilder.create(
+-            p_258859_ -> p_258859_.<MemoryAccessor, MemoryAccessor>group(p_258859_.registered(MemoryModuleType.WALK_TARGET), p_258859_.present(p_259919_))
++            p_258859_ -> p_258859_.group(p_258859_.registered(MemoryModuleType.WALK_TARGET), p_258859_.present(p_259919_))
+                     .apply(p_258859_, (p_258842_, p_258843_) -> (p_258851_, p_258852_, p_258853_) -> {
+                             GlobalPos globalpos = p_258859_.get(p_258843_);
+                             if (p_258851_.dimension() != globalpos.dimension() || !globalpos.pos().closerToCenterThan(p_258852_.position(), (double)p_259904_)) {

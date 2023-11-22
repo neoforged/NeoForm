@@ -1,0 +1,29 @@
+--- a/net/minecraft/data/tags/TagsProvider.java
++++ b/net/minecraft/data/tags/TagsProvider.java
+@@ -63,6 +63,8 @@
+ 
+     @Override
+     public CompletableFuture<?> run(CachedOutput p_253684_) {
++        record CombinedData<T>(HolderLookup.Provider contents, TagsProvider.TagLookup<T> parent) {
++        }
+         return this.createContentsProvider()
+             .thenApply(p_275895_ -> {
+                 this.contentsDone.complete(null);
+@@ -108,8 +110,6 @@
+                 }
+             );
+ 
+-        record CombinedData<T>(HolderLookup.Provider contents, TagsProvider.TagLookup<T> parent) {
+-        }
+ 
+     }
+ 
+@@ -178,7 +178,7 @@
+         }
+ 
+         default boolean contains(TagKey<T> p_275413_) {
+-            return this.apply((T)p_275413_).isPresent();
++            return this.apply(p_275413_).isPresent();
+         }
+     }
+ }

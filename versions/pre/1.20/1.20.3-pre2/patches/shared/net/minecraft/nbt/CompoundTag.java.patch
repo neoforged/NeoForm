@@ -1,0 +1,11 @@
+--- a/net/minecraft/nbt/CompoundTag.java
++++ b/net/minecraft/nbt/CompoundTag.java
+@@ -117,7 +117,7 @@
+             }
+ 
+             if (b0 != 0) {
+-                while((b0 = p_302325_.readByte()) != false) {
++                while((b0 = p_302325_.readByte()) != 0) {
+                     StringTag.skipString(p_302325_);
+                     TagTypes.getType(b0).skip(p_302325_, p_302355_);
+                 }

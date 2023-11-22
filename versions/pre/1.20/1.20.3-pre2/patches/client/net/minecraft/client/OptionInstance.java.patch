@@ -1,0 +1,11 @@
+--- a/net/minecraft/client/OptionInstance.java
++++ b/net/minecraft/client/OptionInstance.java
+@@ -278,7 +278,7 @@
+             return new OptionInstance.SliderableValueSet<R>() {
+                 @Override
+                 public Optional<R> validateValue(R p_231674_) {
+-                    return IntRangeBase.this.validateValue((T)Integer.valueOf(p_231659_.applyAsInt(p_231674_))).map(p_231658_::apply);
++                    return IntRangeBase.this.validateValue(Integer.valueOf(p_231659_.applyAsInt(p_231674_))).map(p_231658_::apply);
+                 }
+ 
+                 @Override
