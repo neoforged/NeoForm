@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/entity/ai/behavior/SetEntityLookTarget.java
++++ b/net/minecraft/world/entity/ai/behavior/SetEntityLookTarget.java
+@@ -27,7 +27,7 @@
+     public static OneShot<LivingEntity> create(Predicate<LivingEntity> p_260088_, float p_259747_) {
+         float f = p_259747_ * p_259747_;
+         return BehaviorBuilder.create(
+-            p_258663_ -> p_258663_.<MemoryAccessor, MemoryAccessor>group(
++            p_258663_ -> p_258663_.group(
+                         p_258663_.absent(MemoryModuleType.LOOK_TARGET), p_258663_.present(MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES)
+                     )
+                     .apply(

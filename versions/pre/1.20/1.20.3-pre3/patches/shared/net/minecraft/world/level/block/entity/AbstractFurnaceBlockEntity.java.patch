@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/level/block/entity/AbstractFurnaceBlockEntity.java
++++ b/net/minecraft/world/level/block/entity/AbstractFurnaceBlockEntity.java
+@@ -110,7 +110,7 @@
+         BlockEntityType<?> p_154991_, BlockPos p_154992_, BlockState p_154993_, RecipeType<? extends AbstractCookingRecipe> p_154994_
+     ) {
+         super(p_154991_, p_154992_, p_154993_);
+-        this.quickCheck = RecipeManager.createCheck(p_154994_);
++        this.quickCheck = RecipeManager.createCheck((RecipeType<AbstractCookingRecipe>)p_154994_);
+     }
+ 
+     public static Map<Item, Integer> getFuel() {

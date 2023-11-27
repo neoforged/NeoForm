@@ -1,0 +1,12 @@
+--- a/com/mojang/realmsclient/gui/screens/RealmsLongRunningMcoTaskScreen.java
++++ b/com/mojang/realmsclient/gui/screens/RealmsLongRunningMcoTaskScreen.java
+@@ -78,8 +78,7 @@
+         this.loadingDotsWidget = new LoadingDotsWidget(this.font, this.title);
+         this.layout.addChild(this.loadingDotsWidget, p_300631_ -> p_300631_.paddingBottom(30));
+         this.layout.addChild(Button.builder(CommonComponents.GUI_CANCEL, p_300632_ -> this.cancel()).build());
+-        this.layout.visitWidgets(p_300634_ -> {
+-        });
++        this.layout.visitWidgets(this::addRenderableWidget);
+         this.repositionElements();
+     }
+ 

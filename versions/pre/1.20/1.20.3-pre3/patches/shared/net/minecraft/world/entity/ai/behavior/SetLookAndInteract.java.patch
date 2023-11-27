@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/entity/ai/behavior/SetLookAndInteract.java
++++ b/net/minecraft/world/entity/ai/behavior/SetLookAndInteract.java
+@@ -13,7 +13,7 @@
+     public static BehaviorControl<LivingEntity> create(EntityType<?> p_259642_, int p_259805_) {
+         int i = p_259805_ * p_259805_;
+         return BehaviorBuilder.create(
+-            p_258685_ -> p_258685_.<MemoryAccessor, MemoryAccessor, MemoryAccessor>group(
++            p_258685_ -> p_258685_.group(
+                         p_258685_.registered(MemoryModuleType.LOOK_TARGET),
+                         p_258685_.absent(MemoryModuleType.INTERACTION_TARGET),
+                         p_258685_.present(MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES)

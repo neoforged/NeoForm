@@ -1,0 +1,11 @@
+--- a/net/minecraft/network/chat/numbers/NumberFormatTypes.java
++++ b/net/minecraft/network/chat/numbers/NumberFormatTypes.java
+@@ -20,7 +20,7 @@
+     }
+ 
+     public static <T extends NumberFormat> void writeToStream(FriendlyByteBuf p_313772_, T p_313732_) {
+-        NumberFormatType<T> numberformattype = p_313732_.type();
++        NumberFormatType<T> numberformattype = (NumberFormatType<T>)p_313732_.type();
+         p_313772_.writeId(BuiltInRegistries.NUMBER_FORMAT_TYPE, numberformattype);
+         numberformattype.writeToStream(p_313772_, p_313732_);
+     }

@@ -1,0 +1,11 @@
+--- a/com/mojang/blaze3d/platform/MacosUtil.java
++++ b/com/mojang/blaze3d/platform/MacosUtil.java
+@@ -35,7 +35,7 @@
+     }
+ 
+     private static long getStyleMask(NSObject p_304421_) {
+-        return p_304421_.sendRaw("styleMask", new Object[0]);
++        return (long)p_304421_.sendRaw("styleMask", new Object[0]);
+     }
+ 
+     private static void toggleNativeFullscreen(NSObject p_182524_) {

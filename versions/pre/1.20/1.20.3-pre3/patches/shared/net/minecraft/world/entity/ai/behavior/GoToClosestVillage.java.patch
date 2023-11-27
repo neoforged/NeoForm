@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/entity/ai/behavior/GoToClosestVillage.java
++++ b/net/minecraft/world/entity/ai/behavior/GoToClosestVillage.java
+@@ -15,7 +15,7 @@
+ public class GoToClosestVillage {
+     public static BehaviorControl<Villager> create(float p_260342_, int p_259691_) {
+         return BehaviorBuilder.create(
+-            p_258357_ -> p_258357_.<MemoryAccessor>group(p_258357_.absent(MemoryModuleType.WALK_TARGET))
++            p_258357_ -> p_258357_.group(p_258357_.absent(MemoryModuleType.WALK_TARGET))
+                     .apply(
+                         p_258357_,
+                         p_258366_ -> (p_274970_, p_274971_, p_274972_) -> {

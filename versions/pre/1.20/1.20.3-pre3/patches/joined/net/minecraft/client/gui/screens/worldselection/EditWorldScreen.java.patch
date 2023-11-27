@@ -1,0 +1,12 @@
+--- a/net/minecraft/client/gui/screens/worldselection/EditWorldScreen.java
++++ b/net/minecraft/client/gui/screens/worldselection/EditWorldScreen.java
+@@ -112,8 +112,7 @@
+         this.layout.addChild(new SpacerElement(200, 20));
+         this.layout.addChild(linearlayout);
+         this.setInitialFocus(editbox);
+-        this.layout.visitWidgets(p_307064_ -> {
+-        });
++        this.layout.visitWidgets(this::addRenderableWidget);
+     }
+ 
+     @Override
