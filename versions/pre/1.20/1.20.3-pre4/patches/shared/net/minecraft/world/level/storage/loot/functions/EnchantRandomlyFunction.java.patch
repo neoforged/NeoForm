@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/level/storage/loot/functions/EnchantRandomlyFunction.java
++++ b/net/minecraft/world/level/storage/loot/functions/EnchantRandomlyFunction.java
+@@ -50,7 +50,7 @@
+     public ItemStack run(ItemStack p_80429_, LootContext p_80430_) {
+         RandomSource randomsource = p_80430_.getRandom();
+         Optional<Holder<Enchantment>> optional = this.enchantments
+-            .<Holder.Reference<Enchantment>>flatMap(p_298077_ -> p_298077_.getRandomElement(randomsource))
++            .flatMap(p_298077_ -> p_298077_.getRandomElement(randomsource))
+             .or(
+                 () -> {
+                     boolean flag = p_80429_.is(Items.BOOK);
