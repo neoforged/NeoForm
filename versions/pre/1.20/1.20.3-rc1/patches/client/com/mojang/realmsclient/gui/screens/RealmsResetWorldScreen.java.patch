@@ -1,0 +1,12 @@
+--- a/com/mojang/realmsclient/gui/screens/RealmsResetWorldScreen.java
++++ b/com/mojang/realmsclient/gui/screens/RealmsResetWorldScreen.java
+@@ -223,8 +223,7 @@
+             )
+         );
+         this.layout.addToFooter(Button.builder(CommonComponents.GUI_BACK, p_300644_ -> this.onClose()).build());
+-        this.layout.visitWidgets(p_300642_ -> {
+-        });
++        this.layout.visitWidgets(this::addRenderableWidget);
+         this.layout.arrangeElements();
+     }
+ 

@@ -1,0 +1,12 @@
+--- a/net/minecraft/client/gui/screens/reporting/ChatReportScreen.java
++++ b/net/minecraft/client/gui/screens/reporting/ChatReportScreen.java
+@@ -74,8 +74,7 @@
+         LinearLayout linearlayout = this.layout.addChild(LinearLayout.horizontal().spacing(8));
+         linearlayout.addChild(Button.builder(CommonComponents.GUI_BACK, p_313439_ -> this.onClose()).width(120).build());
+         this.sendButton = linearlayout.addChild(Button.builder(SEND_REPORT, p_313438_ -> this.sendReport()).width(120).build());
+-        this.layout.visitWidgets(p_299794_ -> {
+-        });
++        this.layout.visitWidgets(this::addRenderableWidget);
+         this.repositionElements();
+         this.onReportChanged();
+     }
