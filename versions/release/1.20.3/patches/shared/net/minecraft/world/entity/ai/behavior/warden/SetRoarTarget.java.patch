@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/entity/ai/behavior/warden/SetRoarTarget.java
++++ b/net/minecraft/world/entity/ai/behavior/warden/SetRoarTarget.java
+@@ -13,7 +13,7 @@
+ public class SetRoarTarget {
+     public static <E extends Warden> BehaviorControl<E> create(Function<E, Optional<? extends LivingEntity>> p_260275_) {
+         return BehaviorBuilder.create(
+-            p_258921_ -> p_258921_.<MemoryAccessor, MemoryAccessor, MemoryAccessor>group(
++            p_258921_ -> p_258921_.group(
+                         p_258921_.absent(MemoryModuleType.ROAR_TARGET),
+                         p_258921_.absent(MemoryModuleType.ATTACK_TARGET),
+                         p_258921_.registered(MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE)

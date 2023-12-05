@@ -1,0 +1,26 @@
+--- a/net/minecraft/commands/synchronization/ArgumentTypeInfos.java
++++ b/net/minecraft/commands/synchronization/ArgumentTypeInfos.java
+@@ -116,10 +116,10 @@
+         register(p_235385_, "dimension", DimensionArgument.class, SingletonArgumentInfo.contextFree(DimensionArgument::dimension));
+         register(p_235385_, "gamemode", GameModeArgument.class, SingletonArgumentInfo.contextFree(GameModeArgument::gameMode));
+         register(p_235385_, "time", TimeArgument.class, new TimeArgument.Info());
+-        register(p_235385_, "resource_or_tag", fixClassType(ResourceOrTagArgument.class), new ResourceOrTagArgument.Info());
+-        register(p_235385_, "resource_or_tag_key", fixClassType(ResourceOrTagKeyArgument.class), new ResourceOrTagKeyArgument.Info());
+-        register(p_235385_, "resource", fixClassType(ResourceArgument.class), new ResourceArgument.Info());
+-        register(p_235385_, "resource_key", fixClassType(ResourceKeyArgument.class), new ResourceKeyArgument.Info());
++        register(p_235385_, "resource_or_tag", fixClassType(ResourceOrTagArgument.class), new ResourceOrTagArgument.Info<Object>());
++        register(p_235385_, "resource_or_tag_key", fixClassType(ResourceOrTagKeyArgument.class), new ResourceOrTagKeyArgument.Info<Object>());
++        register(p_235385_, "resource", fixClassType(ResourceArgument.class), new ResourceArgument.Info<Object>());
++        register(p_235385_, "resource_key", fixClassType(ResourceKeyArgument.class), new ResourceKeyArgument.Info<Object>());
+         register(p_235385_, "template_mirror", TemplateMirrorArgument.class, SingletonArgumentInfo.contextFree(TemplateMirrorArgument::templateMirror));
+         register(p_235385_, "template_rotation", TemplateRotationArgument.class, SingletonArgumentInfo.contextFree(TemplateRotationArgument::templateRotation));
+         register(p_235385_, "heightmap", HeightmapTypeArgument.class, SingletonArgumentInfo.contextFree(HeightmapTypeArgument::heightmap));
+@@ -144,7 +144,7 @@
+         if (argumenttypeinfo == null) {
+             throw new IllegalArgumentException(String.format(Locale.ROOT, "Unrecognized argument type %s (%s)", p_235383_, p_235383_.getClass()));
+         } else {
+-            return argumenttypeinfo;
++            return (ArgumentTypeInfo<A, ?>)argumenttypeinfo;
+         }
+     }
+ 

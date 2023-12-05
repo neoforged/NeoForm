@@ -1,0 +1,29 @@
+--- a/net/minecraft/data/loot/BlockLootSubProvider.java
++++ b/net/minecraft/data/loot/BlockLootSubProvider.java
+@@ -360,7 +360,7 @@
+             p_252139_,
+             this.applyExplosionDecay(
+                 p_252139_,
+-                ((LootPoolSingletonContainer.Builder)LootItem.lootTableItem(Items.WHEAT_SEEDS).when(LootItemRandomChanceCondition.randomChance(0.125F)))
++                LootItem.lootTableItem(Items.WHEAT_SEEDS).when(LootItemRandomChanceCondition.randomChance(0.125F))
+                     .apply(ApplyBonusCount.addUniformBonusCount(Enchantments.BLOCK_FORTUNE, 2))
+             )
+         );
+@@ -414,7 +414,7 @@
+                     .add(
+                         this.applyExplosionDecay(
+                             p_249088_,
+-                            ((LootPoolSingletonContainer.Builder)((LootPoolSingletonContainer.Builder)LootItem.lootTableItem(p_249088_).when(p_251535_))
++                            LootItem.lootTableItem(p_249088_).when(p_251535_)
+                                     .apply(
+                                         Direction.values(),
+                                         p_251536_ -> SetItemCountFunction.setCount(ConstantValue.exactly(1.0F), true)
+@@ -425,7 +425,7 @@
+                                                                 .hasProperty(MultifaceBlock.getFaceProperty(p_251536_), true)
+                                                         )
+                                                 )
+-                                    ))
++                                    )
+                                 .apply(SetItemCountFunction.setCount(ConstantValue.exactly(-1.0F), true))
+                         )
+                     )

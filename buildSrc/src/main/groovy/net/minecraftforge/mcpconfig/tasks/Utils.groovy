@@ -26,7 +26,7 @@ class Utils {
         }
         File.metaClass.getSha1 = { !delegate.exists() ? null : MessageDigest.getInstance('SHA-1').digest(delegate.bytes).encodeHex().toString() }
         
-        File.metaClass.getJson = { return delegate.exists() ? new JsonSlurper().parse(delegate) : [:] }
+        File.metaClass.getJson = { return delegate.exists() ? new JsonSlurper().parseText(delegate.text) : [:] }
         File.metaClass.setJson = { json -> delegate.text = new JsonBuilder(json).toPrettyString() }
     }
     

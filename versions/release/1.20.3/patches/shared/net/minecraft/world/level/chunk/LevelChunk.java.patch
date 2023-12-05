@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/level/chunk/LevelChunk.java
++++ b/net/minecraft/world/level/chunk/LevelChunk.java
+@@ -616,7 +616,7 @@
+ 
+     private <T extends BlockEntity> void updateBlockEntityTicker(T p_156407_) {
+         BlockState blockstate = p_156407_.getBlockState();
+-        BlockEntityTicker<T> blockentityticker = blockstate.getTicker(this.level, p_156407_.getType());
++        BlockEntityTicker<T> blockentityticker = (BlockEntityTicker<T>)blockstate.getTicker(this.level, p_156407_.getType());
+         if (blockentityticker == null) {
+             this.removeBlockEntityTicker(p_156407_.getBlockPos());
+         } else {
