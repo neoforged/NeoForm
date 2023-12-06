@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/entity/ai/behavior/StartAttacking.java
++++ b/net/minecraft/world/entity/ai/behavior/StartAttacking.java
+@@ -17,7 +17,7 @@
+ 
+     public static <E extends Mob> BehaviorControl<E> create(Predicate<E> p_259618_, Function<E, Optional<? extends LivingEntity>> p_259435_) {
+         return BehaviorBuilder.create(
+-            p_258782_ -> p_258782_.<MemoryAccessor, MemoryAccessor>group(
++            p_258782_ -> p_258782_.group(
+                         p_258782_.absent(MemoryModuleType.ATTACK_TARGET), p_258782_.registered(MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE)
+                     )
+                     .apply(p_258782_, (p_258778_, p_258779_) -> (p_258773_, p_258774_, p_258775_) -> {
