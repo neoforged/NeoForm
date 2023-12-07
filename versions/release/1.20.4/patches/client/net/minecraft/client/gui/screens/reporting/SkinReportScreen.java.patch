@@ -1,0 +1,12 @@
+--- a/net/minecraft/client/gui/screens/reporting/SkinReportScreen.java
++++ b/net/minecraft/client/gui/screens/reporting/SkinReportScreen.java
+@@ -68,8 +68,7 @@
+         LinearLayout linearlayout2 = this.layout.addChild(LinearLayout.horizontal().spacing(8));
+         linearlayout2.addChild(Button.builder(CommonComponents.GUI_BACK, p_313444_ -> this.onClose()).width(120).build());
+         this.sendButton = linearlayout2.addChild(Button.builder(SEND_REPORT, p_313443_ -> this.sendReport()).width(120).build());
+-        this.layout.visitWidgets(p_299974_ -> {
+-        });
++        this.layout.visitWidgets(this::addRenderableWidget);
+         this.repositionElements();
+         this.onReportChanged();
+     }

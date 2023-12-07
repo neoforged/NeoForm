@@ -1,0 +1,31 @@
+--- a/net/minecraft/core/RegistrySetBuilder.java
++++ b/net/minecraft/core/RegistrySetBuilder.java
+@@ -256,7 +256,7 @@
+         }
+ 
+         public <T> HolderOwner<T> cast() {
+-            return this;
++            return (HolderOwner<T>)this;
+         }
+     }
+ 
+@@ -347,8 +347,8 @@
+                 ResourceKey<?> resourcekey = entry.getKey();
+                 if (resourcekey.isFor(this.key)) {
+                     RegistrySetBuilder.RegisteredValue<T> registeredvalue = (RegistrySetBuilder.RegisteredValue)entry.getValue();
+-                    Holder.Reference<T> reference = p_256416_.lookup.holders.remove(resourcekey);
+-                    map.put(resourcekey, new RegistrySetBuilder.ValueAndHolder<>(registeredvalue, Optional.ofNullable(reference)));
++                    Holder.Reference<T> reference = (Holder.Reference<T>)p_256416_.lookup.holders.remove(resourcekey);
++                    map.put((ResourceKey<T>)resourcekey, new RegistrySetBuilder.ValueAndHolder<>(registeredvalue, Optional.ofNullable(reference)));
+                     iterator.remove();
+                 }
+             }
+@@ -370,7 +370,7 @@
+         }
+ 
+         <T> Holder.Reference<T> getOrCreate(ResourceKey<T> p_256298_) {
+-            return this.holders.computeIfAbsent(p_256298_, p_256154_ -> Holder.Reference.createStandAlone(this.owner, p_256154_));
++            return (Holder.Reference<T>)this.holders.computeIfAbsent((ResourceKey<Object>)p_256298_, p_256154_ -> Holder.Reference.createStandAlone(this.owner, p_256154_));
+         }
+     }
+ 
