@@ -295,6 +295,7 @@ jobs:
         ORG_GRADLE_PROJECT_MAVEN_URL: ${{ inputs.snapshot && vars.SNAPSHOT_MAVEN_URL || vars.MAVEN_URL }}
         ORG_GRADLE_PROJECT_MAVEN_USER: ${{ secrets.MAVEN_USER }}
         ORG_GRADLE_PROJECT_MAVEN_PASSWORD: ${{ secrets.MAVEN_PASSWORD }}
+        VERSION_APPEND: ${{ inputs.snapshot && (inputs.branch || github.ref_name)}}
   discord:
     name: Send status to discord
     runs-on: ubuntu-latest

@@ -832,6 +832,9 @@ subprojects {
             timed(MavenPublication) {
                 artifactId rootProject.name
                 version project.version + '-' + rootProject.TIMESTAMP
+                if (System.getenv('VERSION_APPEND')) {
+                    version += '-' + System.getenv('VERSION_APPEND')
+                }
                 artifact makeZip
                 pom {
                     name = 'NeoForm'
