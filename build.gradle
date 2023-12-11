@@ -876,16 +876,17 @@ subprojects {
             }
         }
     }
-}
-
-if (System.getenv("GITHUB_ENV")) {
-    task getTimestamp() {
-        doLast {
-            File envFile = new File(System.getenv("GITHUB_ENV"))
-            if (!envFile.exists()) {
-                envFile.createNewFile()
+    
+    if (System.getenv("GITHUB_ENV")) {
+        task getVersion() {
+            inputs.property("version", publishing.publications.timed.version)
+            doLast {
+                File envFile = new File(System.getenv("GITHUB_ENV"))
+                if (!envFile.exists()) {
+                    envFile.createNewFile()
+                }
+                envFile.text += "GRADLE_VERSION=" + inputs.properties.version + "\n"
             }
-            envFile.text += "GRADLE_TIMESTAMP=$TIMESTAMP\n"
         }
     }
 }

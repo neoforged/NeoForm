@@ -280,7 +280,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: [common, testjdks]
     outputs:
-      timestamp: ${{ env.GRADLE_TIMESTAMP }}
+      version: ${{ env.GRADLE_VERSION }}
     if: ${{ inputs.publish }}
     steps:
     - uses: actions/checkout@v4
@@ -289,7 +289,7 @@ jobs:
     - name: Publish
       uses: gradle/gradle-build-action@v2
       with:
-        arguments: getTimestamp :${{ needs.common.outputs.version_name }}:publish -Ptype=${{ needs.common.outputs.version_type }}
+        arguments: :${{ needs.common.outputs.version_name }}:getVersion :${{ needs.common.outputs.version_name }}:publish -Ptype=${{ needs.common.outputs.version_type }}
         generate-job-summary: false
       env:
         ORG_GRADLE_PROJECT_MAVEN_URL: ${{ inputs.snapshot && vars.SNAPSHOT_MAVEN_URL || vars.MAVEN_URL }}
@@ -309,5 +309,5 @@ jobs:
         webhook_url: ${{ secrets.DISCORD_WEBHOOK }}
         status: ${{ needs.common.result == 'success' && needs.testjdks.result == 'success' && needs.publish.result || needs.common.result == 'success' && needs.testjdks.result || needs.common.result }}
         include_commit_message: 'false'
-        version: ${{ needs.publish.result == 'success' && format('{0}-{1}', needs.common.outputs.version_name, needs.publish.outputs.timestamp) || '?' }}
+        version: ${{ needs.publish.result == 'success' && needs.publish.outputs.version || '?' }}
         fields: ${{ needs.common.outputs.discord_fields }}
