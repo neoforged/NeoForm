@@ -21,6 +21,10 @@ on:
         default: true
         required: false
         type: boolean
+      snapshot:
+        default: false
+        required: false
+        type: boolean
     secrets:
       MAVEN_USER:
         required: false
@@ -41,6 +45,11 @@ on:
       publish:
         description: 'Publish'
         default: true
+        required: false
+        type: boolean
+      snapshot:
+        description: 'Snapshot'
+        default: false
         required: false
         type: boolean
 
@@ -283,7 +292,7 @@ jobs:
         arguments: getTimestamp :${{ needs.common.outputs.version_name }}:publish -Ptype=${{ needs.common.outputs.version_type }}
         generate-job-summary: false
       env:
-        ORG_GRADLE_PROJECT_MAVEN_URL: ${{ vars.MAVEN_URL }}
+        ORG_GRADLE_PROJECT_MAVEN_URL: ${{ inputs.snapshot && vars.SNAPSHOT_MAVEN_URL || vars.MAVEN_URL }}
         ORG_GRADLE_PROJECT_MAVEN_USER: ${{ secrets.MAVEN_USER }}
         ORG_GRADLE_PROJECT_MAVEN_PASSWORD: ${{ secrets.MAVEN_PASSWORD }}
   discord:

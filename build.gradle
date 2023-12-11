@@ -111,7 +111,10 @@ subprojects {
         BUNDLE_EXTRACT_LIBS = null
         if (CONFIG.containsKey('bundler_extract_libs'))
             BUNDLE_EXTRACT_LIBS = Utils.readConfig(CONFIG, 'bundler_extract_libs', [:])
-        TOOLS = [FERNFLOWER, MERGETOOL, RENAMETOOL, MERGEMAPTOOL, MCINJECTOR, BUNDLE_EXTRACT_JAR, BUNDLE_EXTRACT_LIBS].findAll {it != null}
+        UNPICK = null
+        if (CONFIG.containsKey('unpick'))
+            UNPICK = Utils.readConfig(CONFIG, 'unpick', [:])
+        TOOLS = [FERNFLOWER, MERGETOOL, RENAMETOOL, MERGEMAPTOOL, MCINJECTOR, BUNDLE_EXTRACT_JAR, BUNDLE_EXTRACT_LIBS, UNPICK].findAll {it != null}
     }
 
     java.toolchain.languageVersion = JavaLanguageVersion.of(JAVA_TARGET)
@@ -130,6 +133,9 @@ subprojects {
         }
         if (BUNDLE_EXTRACT_LIBS) {
             bundleExtractLibs
+        }
+        if (UNPICK) {
+            unpick
         }
     }
 
@@ -176,6 +182,9 @@ subprojects {
             bundleExtractLibs(BUNDLE_EXTRACT_LIBS.version) {
                 transitive = false
             }
+        }
+        if (UNPICK) {
+            unpick UNPICK.version
         }
     }
 
@@ -315,6 +324,16 @@ subprojects {
                 dest = file(PATH_CACHED_VERSION + s + '.mci.jar')
             }
         }
+        
+        if (UNPICK != null) {
+            child.unpick = task "unpick${child.Name}"(type: UnpickTask, dependsOn: [child.rename]) {
+                config UNPICK, configurations.unpick
+                unpick = project.file('definitions.unpick')
+                input = child.rename.dest
+                dest = file(PATH_CACHED_VERSION + s + '.unpick.jar')
+                log = file(PATH_CACHED_VERSION + s + '.unpick.log')
+            }
+        }
     }
     task renameJars(dependsOn: [renameClient, renameServer, renameJoined]){}
 
@@ -370,11 +389,11 @@ subprojects {
     
     sides.each{ side, child ->
         // Normal workflow tasks
-        child.decompile = task "decompile${child.Name}"(type: FernflowerTask, dependsOn: [/*verify,*/ child.rename, child.libraries] + (MCINJECTOR == null ? [] : [child.mcinject])) {
+        child.decompile = task "decompile${child.Name}"(type: FernflowerTask, dependsOn: [/*verify,*/ child.rename, child.libraries] + (MCINJECTOR == null ? [] : [child.mcinject]) + (UNPICK == null ? [] : [child.unpick])) {
             config FERNFLOWER, configurations.fernflower
             classpath = configurations.fernflower
             libraries = child.libraries.dest
-            input = MCINJECTOR != null ? child.mcinject.dest : child.rename.dest
+            input = UNPICK != null ? child.unpick.dest : MCINJECTOR != null ? child.mcinject.dest : child.rename.dest
             log = file(PATH_CACHED_VERSION + side + '.decompile.log')
             dest = file(PATH_CACHED_VERSION + side + '.decompile.jar')
             
@@ -589,6 +608,7 @@ subprojects {
         inputs.property('bundle_extract_jar', BUNDLE_EXTRACT_JAR)
         inputs.property('java_target', JAVA_TARGET)
         inputs.property('encoding', ENCODING)
+        inputs.property('unpick', UNPICK)
         dest = file(PATH_CACHED_VERSION_DATA + 'config.json')
 
         doLast {
@@ -663,6 +683,15 @@ subprojects {
                     specVer = 4 // Spec v4 adds the ability to set a java version to run a tool with
                 }
                 
+                if (inputs.properties.unpick) {
+                    functions_def['unpick'] = inputs.properties.unpick.findAll {it.key != 'path'}
+                    for (def steps : steps_def.values()) {
+                        def decompile = steps.findIndexOf{'decompile'.equals(it.type)}
+                        steps.add(decompile, [type: 'unpick', input: '{renameOutput}'])
+                        steps[decompile + 1]['input'] = '{unpickOutput}'
+                    }
+                }
+                
                 json {
                     spec specVer
                     version inputs.properties.version
@@ -670,6 +699,9 @@ subprojects {
                     java_target inputs.properties.java_target
                     encoding inputs.properties.encoding
                     data {
+                        if (inputs.properties.unpick) {
+                            unpick 'config/definitions.unpick'
+                        }
                         mappings 'config/joined.tsrg'
                         inject 'config/inject/'
                         patches {
@@ -784,6 +816,13 @@ subprojects {
         if (PATH_INJECT != null && PATH_INJECT.exists()) {
             from(PATH_INJECT) {
                 into 'config/inject/'
+            }
+        }
+        
+        def unpick = file('definitions.unpick')
+        if (unpick.exists()) {
+            from(unpick) {
+                into 'config/'
             }
         }
     }

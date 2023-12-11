@@ -6,6 +6,6 @@
          p_282091_.register(
 -            LiteralArgumentBuilder.<ExecutionCommandSource>literal("return")
 +            LiteralArgumentBuilder.<T>literal("return")
-                 .requires(p_305728_ -> p_305728_.hasPermission(2))
+                 .requires(p_305728_ -> p_305728_.hasPermission(Commands.LEVEL_GAMEMASTERS))
                  .then(
                      RequiredArgumentBuilder.<T, Integer>argument("value", IntegerArgumentType.integer())
