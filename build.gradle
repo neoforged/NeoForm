@@ -836,6 +836,7 @@ subprojects {
                     version += '-' + System.getenv('VERSION_APPEND')
                 }
                 artifact makeZip
+                artifact source: generateConfiguration.dest, classifier: 'cfg', extension: 'json'
                 pom {
                     name = 'NeoForm'
                     description = 'Configuration files used for deobfuscating and modding Minecraft.'
