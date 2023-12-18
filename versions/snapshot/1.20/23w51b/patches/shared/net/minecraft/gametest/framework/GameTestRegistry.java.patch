@@ -1,0 +1,20 @@
+--- a/net/minecraft/gametest/framework/GameTestRegistry.java
++++ b/net/minecraft/gametest/framework/GameTestRegistry.java
+@@ -54,7 +54,7 @@
+         T t = p_177506_.getAnnotation(p_177507_);
+         if (t != null) {
+             String s = p_177508_.apply(t);
+-            Consumer<ServerLevel> consumer = p_177509_.putIfAbsent(s, turnMethodIntoConsumer(p_177506_));
++            Consumer<ServerLevel> consumer = p_177509_.putIfAbsent(s, (Consumer<ServerLevel>)turnMethodIntoConsumer(p_177506_));
+             if (consumer != null) {
+                 throw new RuntimeException("Hey, there should only be one " + p_177507_ + " method per batch. Batch '" + s + "' has more than one!");
+             }
+@@ -127,7 +127,7 @@
+             gametest.required(),
+             gametest.requiredSuccesses(),
+             gametest.attempts(),
+-            turnMethodIntoConsumer(p_177516_)
++            (Consumer<net.minecraft.gametest.framework.GameTestHelper>)turnMethodIntoConsumer(p_177516_)
+         );
+     }
+ 
