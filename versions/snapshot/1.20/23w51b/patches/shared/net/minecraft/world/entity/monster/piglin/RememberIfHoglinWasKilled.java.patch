@@ -8,4 +8,4 @@
 +            p_260168_ -> p_260168_.group(
                          p_260168_.present(MemoryModuleType.ATTACK_TARGET), p_260168_.registered(MemoryModuleType.HUNTED_RECENTLY)
                      )
-                     .apply(p_260168_, (p_259214_, p_260031_) -> (p_311692_, p_311693_, p_311694_) -> {
+                     .apply(p_260168_, (p_259214_, p_260031_) -> (p_316040_, p_316041_, p_316042_) -> {

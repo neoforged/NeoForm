@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/entity/animal/armadillo/ArmadilloAi.java
++++ b/net/minecraft/world/entity/animal/armadillo/ArmadilloAi.java
+@@ -68,7 +68,7 @@
+         MemoryModuleType.DANGER_DETECTED_RECENTLY
+     );
+     private static final OneShot<Armadillo> ARMADILLO_ROLLING_OUT = BehaviorBuilder.create(
+-        p_316587_ -> p_316587_.<MemoryAccessor>group(p_316587_.absent(MemoryModuleType.DANGER_DETECTED_RECENTLY))
++        p_316587_ -> p_316587_.group(p_316587_.absent(MemoryModuleType.DANGER_DETECTED_RECENTLY))
+                 .apply(p_316587_, p_316348_ -> (p_316713_, p_316794_, p_316234_) -> {
+                         if (p_316794_.isScared()) {
+                             p_316794_.rollOut(p_316794_.canStayRolledUp());
