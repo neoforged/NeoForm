@@ -1,0 +1,80 @@
+--- a/net/minecraft/network/ConnectionProtocol.java
++++ b/net/minecraft/network/ConnectionProtocol.java
+@@ -211,14 +211,14 @@
+         "handshake",
+         protocol()
+             .addFlow(PacketFlow.CLIENTBOUND, new ConnectionProtocol.PacketSet())
+-            .addFlow(PacketFlow.SERVERBOUND, new ConnectionProtocol.PacketSet().addPacket(ClientIntentionPacket.class, ClientIntentionPacket::new))
++            .addFlow(PacketFlow.SERVERBOUND, new ConnectionProtocol.PacketSet<net.minecraft.network.protocol.handshake.ServerHandshakePacketListener>().addPacket(ClientIntentionPacket.class, ClientIntentionPacket::new))
+     ),
+     PLAY(
+         "play",
+         protocol()
+             .addFlow(
+                 PacketFlow.CLIENTBOUND,
+-                new ConnectionProtocol.PacketSet()
++                new ConnectionProtocol.PacketSet<net.minecraft.network.protocol.game.ClientGamePacketListener>()
+                     .withBundlePacket(ClientboundBundlePacket.class, ClientboundBundlePacket::new)
+                     .addPacket(ClientboundAddEntityPacket.class, ClientboundAddEntityPacket::new)
+                     .addPacket(ClientboundAddExperienceOrbPacket.class, ClientboundAddExperienceOrbPacket::new)
+@@ -339,7 +339,7 @@
+             )
+             .addFlow(
+                 PacketFlow.SERVERBOUND,
+-                new ConnectionProtocol.PacketSet()
++                new ConnectionProtocol.PacketSet<net.minecraft.network.protocol.game.ServerGamePacketListener>()
+                     .addPacket(ServerboundAcceptTeleportationPacket.class, ServerboundAcceptTeleportationPacket::new)
+                     .addPacket(ServerboundBlockEntityTagQuery.class, ServerboundBlockEntityTagQuery::new)
+                     .addPacket(ServerboundChangeDifficultyPacket.class, ServerboundChangeDifficultyPacket::new)
+@@ -402,13 +402,13 @@
+         protocol()
+             .addFlow(
+                 PacketFlow.SERVERBOUND,
+-                new ConnectionProtocol.PacketSet()
++                new ConnectionProtocol.PacketSet<net.minecraft.network.protocol.status.ServerStatusPacketListener>()
+                     .addPacket(ServerboundStatusRequestPacket.class, ServerboundStatusRequestPacket::new)
+                     .addPacket(ServerboundPingRequestPacket.class, ServerboundPingRequestPacket::new)
+             )
+             .addFlow(
+                 PacketFlow.CLIENTBOUND,
+-                new ConnectionProtocol.PacketSet()
++                new ConnectionProtocol.PacketSet<net.minecraft.network.protocol.status.ClientStatusPacketListener>()
+                     .addPacket(ClientboundStatusResponsePacket.class, ClientboundStatusResponsePacket::new)
+                     .addPacket(ClientboundPongResponsePacket.class, ClientboundPongResponsePacket::new)
+             )
+@@ -418,7 +418,7 @@
+         protocol()
+             .addFlow(
+                 PacketFlow.CLIENTBOUND,
+-                new ConnectionProtocol.PacketSet()
++                new ConnectionProtocol.PacketSet<net.minecraft.network.protocol.login.ClientLoginPacketListener>()
+                     .addPacket(ClientboundLoginDisconnectPacket.class, ClientboundLoginDisconnectPacket::new)
+                     .addPacket(ClientboundHelloPacket.class, ClientboundHelloPacket::new)
+                     .addPacket(ClientboundGameProfilePacket.class, ClientboundGameProfilePacket::new)
+@@ -427,7 +427,7 @@
+             )
+             .addFlow(
+                 PacketFlow.SERVERBOUND,
+-                new ConnectionProtocol.PacketSet()
++                new ConnectionProtocol.PacketSet<net.minecraft.network.protocol.login.ServerLoginPacketListener>()
+                     .addPacket(ServerboundHelloPacket.class, ServerboundHelloPacket::new)
+                     .addPacket(ServerboundKeyPacket.class, ServerboundKeyPacket::new)
+                     .addPacket(ServerboundCustomQueryAnswerPacket.class, ServerboundCustomQueryAnswerPacket::read)
+@@ -439,7 +439,7 @@
+         protocol()
+             .addFlow(
+                 PacketFlow.CLIENTBOUND,
+-                new ConnectionProtocol.PacketSet()
++                new ConnectionProtocol.PacketSet<net.minecraft.network.protocol.configuration.ClientConfigurationPacketListener>()
+                     .addPacket(ClientboundCustomPayloadPacket.class, ClientboundCustomPayloadPacket::new)
+                     .addPacket(ClientboundDisconnectPacket.class, ClientboundDisconnectPacket::new)
+                     .addPacket(ClientboundFinishConfigurationPacket.class, ClientboundFinishConfigurationPacket::new)
+@@ -453,7 +453,7 @@
+             )
+             .addFlow(
+                 PacketFlow.SERVERBOUND,
+-                new ConnectionProtocol.PacketSet()
++                new ConnectionProtocol.PacketSet<net.minecraft.network.protocol.configuration.ServerConfigurationPacketListener>()
+                     .addPacket(ServerboundClientInformationPacket.class, ServerboundClientInformationPacket::new)
+                     .addPacket(ServerboundCustomPayloadPacket.class, ServerboundCustomPayloadPacket::new)
+                     .addPacket(ServerboundFinishConfigurationPacket.class, ServerboundFinishConfigurationPacket::new)

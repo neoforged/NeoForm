@@ -1,0 +1,28 @@
+--- a/net/minecraft/world/entity/monster/piglin/StartHuntingHoglin.java
++++ b/net/minecraft/world/entity/monster/piglin/StartHuntingHoglin.java
+@@ -11,7 +11,7 @@
+ public class StartHuntingHoglin {
+     public static OneShot<Piglin> create() {
+         return BehaviorBuilder.create(
+-            p_259791_ -> p_259791_.<MemoryAccessor, MemoryAccessor, MemoryAccessor, MemoryAccessor>group(
++            p_259791_ -> p_259791_.group(
+                         p_259791_.present(MemoryModuleType.NEAREST_VISIBLE_HUNTABLE_HOGLIN),
+                         p_259791_.absent(MemoryModuleType.ANGRY_AT),
+                         p_259791_.absent(MemoryModuleType.HUNTED_RECENTLY),
+@@ -21,14 +21,14 @@
+                         p_259791_,
+                         (p_259255_, p_260214_, p_259562_, p_259156_) -> (p_259918_, p_259191_, p_259772_) -> {
+                                 if (!p_259191_.isBaby()
+-                                    && !p_259791_.<List>tryGet(p_259156_)
++                                    && !p_259791_.tryGet(p_259156_)
+                                         .map(p_259958_ -> p_259958_.stream().anyMatch(StartHuntingHoglin::hasHuntedRecently))
+                                         .isPresent()) {
+                                     Hoglin hoglin = p_259791_.get(p_259255_);
+                                     PiglinAi.setAngerTarget(p_259191_, hoglin);
+                                     PiglinAi.dontKillAnyMoreHoglinsForAWhile(p_259191_);
+                                     PiglinAi.broadcastAngerTarget(p_259191_, hoglin);
+-                                    p_259791_.<List>tryGet(p_259156_).ifPresent(p_259760_ -> p_259760_.forEach(PiglinAi::dontKillAnyMoreHoglinsForAWhile));
++                                    p_259791_.tryGet(p_259156_).ifPresent(p_259760_ -> p_259760_.forEach(PiglinAi::dontKillAnyMoreHoglinsForAWhile));
+                                     return true;
+                                 } else {
+                                     return false;

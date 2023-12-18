@@ -1,0 +1,11 @@
+--- a/net/minecraft/client/multiplayer/ClientCommonPacketListenerImpl.java
++++ b/net/minecraft/client/multiplayer/ClientCommonPacketListenerImpl.java
+@@ -161,7 +161,7 @@
+         if (!p_294666_.isEmpty()) {
+             Registry<T> registry = this.registryAccess().<T>registry(p_294128_).orElseThrow(() -> new IllegalStateException("Unknown registry " + p_294128_));
+             Map<TagKey<T>, List<Holder<T>>> map = new HashMap<>();
+-            TagNetworkSerialization.deserializeTagsFromNetwork(p_294128_, registry, p_294666_, map::put);
++            TagNetworkSerialization.deserializeTagsFromNetwork((ResourceKey<? extends Registry<T>>)p_294128_, registry, p_294666_, map::put);
+             registry.bindTags(map);
+         }
+     }

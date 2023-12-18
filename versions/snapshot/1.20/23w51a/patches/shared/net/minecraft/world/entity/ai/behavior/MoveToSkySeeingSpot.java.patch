@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/entity/ai/behavior/MoveToSkySeeingSpot.java
++++ b/net/minecraft/world/entity/ai/behavior/MoveToSkySeeingSpot.java
+@@ -16,7 +16,7 @@
+ public class MoveToSkySeeingSpot {
+     public static OneShot<LivingEntity> create(float p_259860_) {
+         return BehaviorBuilder.create(
+-            p_258543_ -> p_258543_.<MemoryAccessor>group(p_258543_.absent(MemoryModuleType.WALK_TARGET))
++            p_258543_ -> p_258543_.group(p_258543_.absent(MemoryModuleType.WALK_TARGET))
+                     .apply(p_258543_, p_258545_ -> (p_313618_, p_313619_, p_313620_) -> {
+                             if (p_313618_.canSeeSky(p_313619_.blockPosition())) {
+                                 return false;
