@@ -32,7 +32,7 @@
         "args": ["--task", "MERGE_MAPPING", "--left", "{mappings}", "--right", "{official}", "--right-names", "right,left", "--classes", "--fields", "--methods", "--output", "{output}"]
     },
     "unpick": {
-        "version": "net.fabricmc.unpick:unpick-cli:2.3.0",
+        "version": "net.fabricmc.unpick:unpick-cli:2.3.1:all",
         "args": ["{input}", "{output}", "{unpick}", "{input}"],
         "repo": "https://maven.fabricmc.net/"
     },
