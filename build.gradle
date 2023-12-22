@@ -550,7 +550,7 @@ subprojects {
                     languageVersion = JavaLanguageVersion.of(jdk.version)
                 }
                 libraries = child.libraries.dest
-                input = child.rename.dest
+                input = UNPICK != null ? child.unpick.dest : child.rename.dest
                 log = new File(testPath, side + '.decompile.log')
                 dest = new File(testPath, side + '.decompile.jar')
                 
