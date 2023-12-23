@@ -134,6 +134,7 @@ jobs:
       with:
         arguments: :${{ fromJson(steps.split_version.outputs.result).version_name }}:projectApplyAll :${{ fromJson(steps.split_version.outputs.result).version_name }}:projectMakeAll -Ptype=${{ fromJson(steps.split_version.outputs.result).version_type }}
         generate-job-summary: false
+        cache-read-only: false
     - name: Check if patches have changed
       id: check_changes
       if: ${{ inputs.push_changed }}
@@ -146,6 +147,7 @@ jobs:
       with:
         arguments: :${{ fromJson(steps.split_version.outputs.result).version_name }}:makeZip -Ptype=${{ fromJson(steps.split_version.outputs.result).version_type }}
         generate-job-summary: false
+        cache-read-only: false
     - name: Upload Zip as Artifact
       if: ${{ always() }}
       uses: actions/upload-artifact@v3
@@ -265,6 +267,7 @@ jobs:
       with:
         arguments: :${{ needs.common.outputs.version_name }}:testCompile${{ matrix.side }}${{ matrix.mappings }}${{ matrix.jdk_version }} :${{ needs.common.outputs.version_name }}:testDecompile${{ matrix.side }}${{ matrix.mappings }}${{ matrix.jdk_version }}Compare -Ptype=${{ needs.common.outputs.version_type }}
         generate-job-summary: false
+        cache-read-only: true
 
   publish:
     name: Publish to maven
@@ -282,6 +285,7 @@ jobs:
       with:
         arguments: getTimestamp :${{ needs.common.outputs.version_name }}:publish -Ptype=${{ needs.common.outputs.version_type }}
         generate-job-summary: false
+        cache-read-only: false
       env:
         ORG_GRADLE_PROJECT_MAVEN_URL: ${{ vars.MAVEN_URL }}
         ORG_GRADLE_PROJECT_MAVEN_USER: ${{ secrets.MAVEN_USER }}
