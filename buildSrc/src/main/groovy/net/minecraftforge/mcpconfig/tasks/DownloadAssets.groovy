@@ -13,7 +13,7 @@ public abstract class DownloadAssets extends DefaultTask {
 
     DownloadAssets() {
         indexAction = new DownloadAction(project, this)
-        indexAction.overwrite(false)
+        indexAction.onlyIfModified(true)
         indexAction.useETag('all')
         assetAction = new DownloadAction(project, this)
         assetAction.overwrite(false)
