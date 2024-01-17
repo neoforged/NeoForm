@@ -1,0 +1,11 @@
+--- a/net/minecraft/server/level/Ticket.java
++++ b/net/minecraft/server/level/Ticket.java
+@@ -20,7 +20,7 @@
+             return i;
+         } else {
+             int j = Integer.compare(System.identityHashCode(this.type), System.identityHashCode(p_9432_.type));
+-            return j != 0 ? j : this.type.getComparator().compare(this.key, p_9432_.key);
++            return j != 0 ? j : this.type.getComparator().compare(this.key, (T)p_9432_.key);
+         }
+     }
+ 

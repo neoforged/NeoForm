@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/entity/ai/behavior/SetWalkTargetFromLookTarget.java
++++ b/net/minecraft/world/entity/ai/behavior/SetWalkTargetFromLookTarget.java
+@@ -16,7 +16,7 @@
+ 
+     public static OneShot<LivingEntity> create(Predicate<LivingEntity> p_260341_, Function<LivingEntity, Float> p_260269_, int p_259192_) {
+         return BehaviorBuilder.create(
+-            p_258748_ -> p_258748_.<MemoryAccessor, MemoryAccessor>group(
++            p_258748_ -> p_258748_.group(
+                         p_258748_.absent(MemoryModuleType.WALK_TARGET), p_258748_.present(MemoryModuleType.LOOK_TARGET)
+                     )
+                     .apply(p_258748_, (p_258743_, p_258744_) -> (p_258736_, p_258737_, p_258738_) -> {
