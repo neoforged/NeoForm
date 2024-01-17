@@ -8,8 +8,8 @@
 +        return DataFixUtils.orElse(this.getTag(p_206059_), List.of());
      }
  
-     HolderSet.Named<T> getOrCreateTag(TagKey<T> p_206045_);
-@@ -173,7 +173,7 @@
+     default Optional<Holder<T>> getRandomElementOf(TagKey<T> p_320357_, RandomSource p_320935_) {
+@@ -177,7 +177,7 @@
  
              @Nullable
              public Holder<T> byId(int p_259972_) {
@@ -18,7 +18,7 @@
              }
  
              @Override
-@@ -183,7 +183,7 @@
+@@ -187,7 +187,7 @@
  
              @Override
              public Iterator<Holder<T>> iterator() {

@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/entity/monster/breeze/Breeze.java
 +++ b/net/minecraft/world/entity/monster/breeze/Breeze.java
-@@ -68,7 +68,7 @@
+@@ -76,7 +76,7 @@
  
      @Override
      public Brain<Breeze> getBrain() {

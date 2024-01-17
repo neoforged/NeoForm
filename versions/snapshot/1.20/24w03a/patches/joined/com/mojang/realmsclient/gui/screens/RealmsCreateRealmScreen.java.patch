@@ -8,5 +8,5 @@
 -        });
 +        this.layout.visitWidgets(this::addRenderableWidget);
          this.repositionElements();
-         this.setInitialFocus(this.nameBox);
      }
+ 

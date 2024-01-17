@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/entity/animal/axolotl/Axolotl.java
 +++ b/net/minecraft/world/entity/animal/axolotl/Axolotl.java
-@@ -468,7 +468,7 @@
+@@ -462,7 +462,7 @@
  
      @Override
      public Brain<Axolotl> getBrain() {

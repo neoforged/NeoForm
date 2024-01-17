@@ -1,6 +1,6 @@
 --- a/net/minecraft/client/multiplayer/ClientCommonPacketListenerImpl.java
 +++ b/net/minecraft/client/multiplayer/ClientCommonPacketListenerImpl.java
-@@ -164,7 +164,7 @@
+@@ -208,7 +208,7 @@
          if (!p_294666_.isEmpty()) {
              Registry<T> registry = this.registryAccess().<T>registry(p_294128_).orElseThrow(() -> new IllegalStateException("Unknown registry " + p_294128_));
              Map<TagKey<T>, List<Holder<T>>> map = new HashMap<>();

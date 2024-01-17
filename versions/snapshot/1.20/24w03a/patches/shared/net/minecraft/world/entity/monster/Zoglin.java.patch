@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/entity/monster/Zoglin.java
 +++ b/net/minecraft/world/entity/monster/Zoglin.java
-@@ -217,7 +217,7 @@
+@@ -216,7 +216,7 @@
  
      @Override
      public Brain<Zoglin> getBrain() {
