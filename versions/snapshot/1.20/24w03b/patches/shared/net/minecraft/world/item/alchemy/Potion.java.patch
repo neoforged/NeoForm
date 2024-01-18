@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/item/alchemy/Potion.java
++++ b/net/minecraft/world/item/alchemy/Potion.java
+@@ -16,7 +16,7 @@
+ 
+     public static Holder<Potion> byName(String p_43490_) {
+         ResourceLocation resourcelocation = ResourceLocation.tryParse(p_43490_);
+-        return resourcelocation == null ? Potions.EMPTY : BuiltInRegistries.POTION.getHolder(resourcelocation).map(Function.identity()).orElse(Potions.EMPTY);
++        return resourcelocation == null ? Potions.EMPTY : BuiltInRegistries.POTION.getHolder(resourcelocation).<Holder<Potion>>map(Function.identity()).orElse(Potions.EMPTY);
+     }
+ 
+     public Potion(MobEffectInstance... p_43487_) {

@@ -1,0 +1,20 @@
+--- a/net/minecraft/world/entity/ai/behavior/AcquirePoi.java
++++ b/net/minecraft/world/entity/ai/behavior/AcquirePoi.java
+@@ -47,7 +47,7 @@
+         MutableLong mutablelong = new MutableLong(0L);
+         Long2ObjectMap<AcquirePoi.JitteredLinearRetry> long2objectmap = new Long2ObjectOpenHashMap<>();
+         OneShot<PathfinderMob> oneshot = BehaviorBuilder.create(
+-            p_258276_ -> p_258276_.<MemoryAccessor>group(p_258276_.absent(p_260194_))
++            p_258276_ -> p_258276_.group(p_258276_.absent(p_260194_))
+                     .apply(
+                         p_258276_,
+                         p_258300_ -> (p_258292_, p_258293_, p_258294_) -> {
+@@ -103,7 +103,7 @@
+         );
+         return p_260194_ == p_259129_
+             ? oneshot
+-            : BehaviorBuilder.create(p_258269_ -> p_258269_.<MemoryAccessor>group(p_258269_.absent(p_259129_)).apply(p_258269_, p_258302_ -> oneshot));
++            : BehaviorBuilder.create(p_258269_ -> p_258269_.group(p_258269_.absent(p_259129_)).apply(p_258269_, p_258302_ -> oneshot));
+     }
+ 
+     @Nullable

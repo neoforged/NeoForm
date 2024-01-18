@@ -1,0 +1,12 @@
+--- a/net/minecraft/client/gui/components/PopupScreen.java
++++ b/net/minecraft/client/gui/components/PopupScreen.java
+@@ -72,8 +72,7 @@
+ 
+         this.layout.addChild(new MultiLineTextWidget(this.message, this.font).setMaxWidth(this.contentWidth).setCentered(true));
+         this.layout.addChild(this.buildButtonRow());
+-        this.layout.visitWidgets(p_304694_ -> {
+-        });
++        this.layout.visitWidgets(this::addRenderableWidget);
+         this.repositionElements();
+     }
+ 
