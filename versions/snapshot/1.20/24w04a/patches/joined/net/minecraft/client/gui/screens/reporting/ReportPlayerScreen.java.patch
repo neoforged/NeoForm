@@ -4,7 +4,7 @@
              );
          this.layout.addChild(SpacerElement.height(20));
          this.layout.addChild(Button.builder(CommonComponents.GUI_CANCEL, p_299992_ -> this.onClose()).build());
--        this.layout.visitWidgets(p_299910_ -> {
+-        this.layout.visitWidgets(p_321362_ -> {
 -        });
 +        this.layout.visitWidgets(this::addRenderableWidget);
          this.repositionElements();

@@ -4,7 +4,7 @@
          GridLayout.RowHelper gridlayout$rowhelper = this.layout.addToFooter(new GridLayout().columnSpacing(10)).createRowHelper(2);
          gridlayout$rowhelper.addChild(Button.builder(CommonComponents.GUI_DONE, p_270336_ -> this.onDone()).build());
          gridlayout$rowhelper.addChild(Button.builder(CommonComponents.GUI_CANCEL, p_274702_ -> this.onClose()).build());
--        this.layout.visitWidgets(p_270313_ -> {
+-        this.layout.visitWidgets(p_321381_ -> {
 -        });
 +        this.layout.visitWidgets(this::addRenderableWidget);
          this.repositionElements();

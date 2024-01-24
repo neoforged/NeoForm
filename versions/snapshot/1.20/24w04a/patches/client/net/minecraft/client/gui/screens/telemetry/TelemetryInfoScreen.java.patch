@@ -4,7 +4,7 @@
          linearlayout.addChild(layout);
          framelayout.arrangeElements();
          FrameLayout.alignInRectangle(framelayout, 0, 0, this.width, this.height, 0.5F, 0.0F);
--        framelayout.visitWidgets(p_264696_ -> {
+-        framelayout.visitWidgets(p_321366_ -> {
 -        });
 +        framelayout.visitWidgets(this::addRenderableWidget);
      }

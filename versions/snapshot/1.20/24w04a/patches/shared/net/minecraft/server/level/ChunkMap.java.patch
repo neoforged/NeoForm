@@ -17,8 +17,8 @@
                  }
  
                  return flag;
--            })).thenApplyAsync(p_313584_ -> {
-+            })).<Either<ChunkAccess, ChunkHolder.ChunkLoadingFailure>>thenApplyAsync(p_313584_ -> {
+-            })).thenApplyAsync(p_321434_ -> {
++            })).<Either<ChunkAccess, ChunkHolder.ChunkLoadingFailure>>thenApplyAsync(p_321434_ -> {
              this.level.getProfiler().incrementCounter("chunkLoad");
-             if (p_313584_.isPresent()) {
-                 ChunkAccess chunkaccess = ChunkSerializer.read(this.level, this.poiManager, p_140418_, p_313584_.get());
+             if (p_321434_.isPresent()) {
+                 ChunkAccess chunkaccess = ChunkSerializer.read(this.level, this.poiManager, p_140418_, p_321434_.get());

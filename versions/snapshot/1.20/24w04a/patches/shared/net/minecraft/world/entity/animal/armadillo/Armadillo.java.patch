@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/entity/animal/armadillo/Armadillo.java
 +++ b/net/minecraft/world/entity/animal/armadillo/Armadillo.java
-@@ -135,7 +135,7 @@
+@@ -136,7 +136,7 @@
      @Override
      protected void customServerAiStep() {
          this.level().getProfiler().push("armadilloBrain");

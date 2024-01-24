@@ -4,7 +4,7 @@
              );
          this.layout.addChild(new SpacerElement(200, 20));
          this.layout.addChild(linearlayout);
--        this.layout.visitWidgets(p_307064_ -> {
+-        this.layout.visitWidgets(p_321379_ -> {
 -        });
 +        this.layout.visitWidgets(this::addRenderableWidget);
      }
