@@ -1,0 +1,20 @@
+--- a/net/minecraft/core/RegistrySynchronization.java
++++ b/net/minecraft/core/RegistrySynchronization.java
+@@ -48,7 +48,7 @@
+ 
+     private static <E> DataResult<? extends Codec<E>> getNetworkCodec(ResourceKey<? extends Registry<E>> p_252190_) {
+         return (DataResult<? extends Codec<E>>)Optional.ofNullable(NETWORKABLE_REGISTRIES.get(p_252190_))
+-            .map(p_250582_ -> p_250582_.networkCodec())
++            .map(p_250582_ -> (Codec<E>)p_250582_.networkCodec())
+             .map(DataResult::success)
+             .orElseGet(() -> DataResult.error(() -> "Unknown or not serializable registry: " + p_252190_));
+     }
+@@ -68,7 +68,7 @@
+         return p_249934_.xmap(
+             RegistryAccess.ImmutableRegistryAccess::new,
+             p_251578_ -> ownedNetworkableRegistries(p_251578_)
+-                    .collect(ImmutableMap.toImmutableMap(p_250395_ -> p_250395_.key(), p_248951_ -> p_248951_.value()))
++                    .collect(ImmutableMap.toImmutableMap(p_250395_ -> (K)p_250395_.key(), p_248951_ -> (V)p_248951_.value()))
+         );
+     }
+ 

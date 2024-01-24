@@ -1,0 +1,26 @@
+--- a/com/mojang/realmsclient/gui/screens/RealmsSelectWorldTemplateScreen.java
++++ b/com/mojang/realmsclient/gui/screens/RealmsSelectWorldTemplateScreen.java
+@@ -151,9 +151,9 @@
+                 public void run() {
+                     WorldTemplatePaginatedList worldtemplatepaginatedlist = p_89654_;
+     
+-                    Either<WorldTemplatePaginatedList, Exception> either;
+-                    for(RealmsClient realmsclient = RealmsClient.create();
+-                        worldtemplatepaginatedlist != null;
++                    RealmsClient realmsclient = RealmsClient.create();
++                    while(worldtemplatepaginatedlist != null) {
++                        Either<WorldTemplatePaginatedList, Exception> either = RealmsSelectWorldTemplateScreen.this.fetchTemplates(worldtemplatepaginatedlist, realmsclient);
+                         worldtemplatepaginatedlist = RealmsSelectWorldTemplateScreen.this.minecraft
+                             .submit(
+                                 () -> {
+@@ -191,9 +191,7 @@
+                                     }
+                                 }
+                             )
+-                            .join()
+-                    ) {
+-                        either = RealmsSelectWorldTemplateScreen.this.fetchTemplates(worldtemplatepaginatedlist, realmsclient);
++                            .join();
+                     }
+                 }
+             })
