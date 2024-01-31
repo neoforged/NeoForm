@@ -1,6 +1,6 @@
 --- a/net/minecraft/client/renderer/entity/EntityRenderDispatcher.java
 +++ b/net/minecraft/client/renderer/entity/EntityRenderDispatcher.java
-@@ -100,7 +100,7 @@
+@@ -98,7 +98,7 @@
          if (p_114383_ instanceof AbstractClientPlayer abstractclientplayer) {
              PlayerSkin.Model playerskin$model = abstractclientplayer.getSkin().model();
              EntityRenderer<? extends Player> entityrenderer = this.playerRenderers.get(playerskin$model);

@@ -1,6 +1,6 @@
 --- a/net/minecraft/data/tags/TagsProvider.java
 +++ b/net/minecraft/data/tags/TagsProvider.java
-@@ -64,6 +64,8 @@
+@@ -62,6 +62,8 @@
  
      @Override
      public CompletableFuture<?> run(CachedOutput p_253684_) {
@@ -9,7 +9,7 @@
          return this.createContentsProvider()
              .thenApply(p_275895_ -> {
                  this.contentsDone.complete(null);
-@@ -109,8 +111,6 @@
+@@ -104,8 +106,6 @@
                  }
              );
  
@@ -18,7 +18,7 @@
  
      }
  
-@@ -187,7 +187,7 @@
+@@ -182,7 +182,7 @@
          }
  
          default boolean contains(TagKey<T> p_275413_) {

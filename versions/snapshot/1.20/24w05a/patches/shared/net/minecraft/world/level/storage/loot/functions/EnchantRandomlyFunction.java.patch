@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/storage/loot/functions/EnchantRandomlyFunction.java
 +++ b/net/minecraft/world/level/storage/loot/functions/EnchantRandomlyFunction.java
-@@ -50,7 +50,7 @@
+@@ -48,7 +48,7 @@
      public ItemStack run(ItemStack p_80429_, LootContext p_80430_) {
          RandomSource randomsource = p_80430_.getRandom();
          Optional<Holder<Enchantment>> optional = this.enchantments
