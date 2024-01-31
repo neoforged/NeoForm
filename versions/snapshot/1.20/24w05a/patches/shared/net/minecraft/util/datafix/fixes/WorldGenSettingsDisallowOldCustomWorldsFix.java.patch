@@ -1,0 +1,11 @@
+--- a/net/minecraft/util/datafix/fixes/WorldGenSettingsDisallowOldCustomWorldsFix.java
++++ b/net/minecraft/util/datafix/fixes/WorldGenSettingsDisallowOldCustomWorldsFix.java
+@@ -23,7 +23,7 @@
+             "WorldGenSettingsDisallowOldCustomWorldsFix_" + this.getOutputSchema().getVersionKey(),
+             type,
+             p_185160_ -> p_185160_.updateTyped(opticfinder, p_185162_ -> {
+-                    p_185162_.write().map(p_185164_ -> p_185164_.getMapValues().map((Function<? super Map, ? extends Map>)(p_185169_ -> {
++                    p_185162_.write().map(p_185164_ -> p_185164_.getMapValues().map((p_185169_ -> {
+                             p_185169_.forEach((p_185166_, p_185167_) -> {
+                                 if (p_185167_.get("type").asString().result().isEmpty()) {
+                                     throw new IllegalStateException("Unable load old custom worlds.");
