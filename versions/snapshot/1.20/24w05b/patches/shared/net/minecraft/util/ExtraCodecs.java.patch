@@ -1,6 +1,6 @@
 --- a/net/minecraft/util/ExtraCodecs.java
 +++ b/net/minecraft/util/ExtraCodecs.java
-@@ -224,7 +224,7 @@
+@@ -232,7 +232,7 @@
                  P p1 = p_184445_.get(1);
                  return p_184365_.apply(p, p1);
              }), p_184459_ -> ImmutableList.of(p_184366_.apply(p_184459_), p_184367_.apply(p_184459_)));
@@ -9,7 +9,7 @@
                  p_184360_ -> p_184360_.group(p_184362_.fieldOf(p_184363_).forGetter(Pair::getFirst), p_184362_.fieldOf(p_184364_).forGetter(Pair::getSecond))
                          .apply(p_184360_, Pair::of)
              )
-@@ -560,8 +560,8 @@
+@@ -568,8 +568,8 @@
                  return p_312297_;
              }
  
