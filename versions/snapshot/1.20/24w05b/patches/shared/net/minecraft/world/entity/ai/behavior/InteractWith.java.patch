@@ -1,0 +1,20 @@
+--- a/net/minecraft/world/entity/ai/behavior/InteractWith.java
++++ b/net/minecraft/world/entity/ai/behavior/InteractWith.java
+@@ -30,7 +30,7 @@
+         int i = p_259564_ * p_259564_;
+         Predicate<LivingEntity> predicate = p_308599_ -> p_259366_.equals(p_308599_.getType()) && p_260254_.test((T)p_308599_);
+         return BehaviorBuilder.create(
+-            p_258426_ -> p_258426_.<MemoryAccessor, MemoryAccessor, MemoryAccessor, MemoryAccessor>group(
++            p_258426_ -> p_258426_.group(
+                         p_258426_.registered(p_260229_),
+                         p_258426_.registered(MemoryModuleType.LOOK_TARGET),
+                         p_258426_.absent(MemoryModuleType.WALK_TARGET),
+@@ -45,7 +45,7 @@
+                                         p_258419_ -> p_258419_.distanceToSqr(p_258414_) <= (double)i && predicate.test(p_258419_)
+                                     );
+                                     optional.ifPresent(p_258432_ -> {
+-                                        p_258439_.set(p_258432_);
++                                        p_258439_.set((T)p_258432_);
+                                         p_258440_.set(new EntityTracker(p_258432_, true));
+                                         p_258441_.set(new WalkTarget(new EntityTracker(p_258432_, false), p_259369_, p_259065_));
+                                     });

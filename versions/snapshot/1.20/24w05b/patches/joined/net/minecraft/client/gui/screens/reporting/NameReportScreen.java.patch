@@ -1,0 +1,12 @@
+--- a/net/minecraft/client/gui/screens/reporting/NameReportScreen.java
++++ b/net/minecraft/client/gui/screens/reporting/NameReportScreen.java
+@@ -59,8 +59,7 @@
+         linearlayout.addChild(Button.builder(CommonComponents.GUI_BACK, p_315827_ -> this.onClose()).width(120).build());
+         this.sendButton = linearlayout.addChild(Button.builder(SEND_REPORT, p_315828_ -> this.sendReport()).width(120).build());
+         this.onReportChanged();
+-        this.layout.visitWidgets(p_321360_ -> {
+-        });
++        this.layout.visitWidgets(this::addRenderableWidget);
+         this.repositionElements();
+     }
+ 

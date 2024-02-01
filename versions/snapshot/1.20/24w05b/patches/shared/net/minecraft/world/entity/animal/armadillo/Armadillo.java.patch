@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/entity/animal/armadillo/Armadillo.java
++++ b/net/minecraft/world/entity/animal/armadillo/Armadillo.java
+@@ -136,7 +136,7 @@
+     @Override
+     protected void customServerAiStep() {
+         this.level().getProfiler().push("armadilloBrain");
+-        this.brain.tick((ServerLevel)this.level(), this);
++        ((Brain<Armadillo>)this.brain).tick((ServerLevel)this.level(), this);
+         this.level().getProfiler().pop();
+         this.level().getProfiler().push("armadilloActivityUpdate");
+         ArmadilloAi.updateActivity(this);

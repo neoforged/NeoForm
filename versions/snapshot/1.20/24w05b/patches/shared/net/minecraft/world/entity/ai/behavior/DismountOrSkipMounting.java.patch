@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/entity/ai/behavior/DismountOrSkipMounting.java
++++ b/net/minecraft/world/entity/ai/behavior/DismountOrSkipMounting.java
+@@ -11,7 +11,7 @@
+ public class DismountOrSkipMounting {
+     public static <E extends LivingEntity> BehaviorControl<E> create(int p_259945_, BiPredicate<E, Entity> p_259837_) {
+         return BehaviorBuilder.create(
+-            p_259780_ -> p_259780_.<MemoryAccessor>group(p_259780_.registered(MemoryModuleType.RIDE_TARGET))
++            p_259780_ -> p_259780_.group(p_259780_.registered(MemoryModuleType.RIDE_TARGET))
+                     .apply(p_259780_, p_259326_ -> (p_259287_, p_259246_, p_259462_) -> {
+                             Entity entity = p_259246_.getVehicle();
+                             Entity entity1 = p_259780_.<Entity>tryGet(p_259326_).orElse(null);
