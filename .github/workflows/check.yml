@@ -187,7 +187,7 @@ jobs:
         path: |
           build/libraries/**
           build/mc-libraries/**
-        key: minecraft-libraries-${{ hashFiles('build/libraries/**')}}
+        key: minecraft-libraries-${{ hashFiles('build/libraries/**', 'build/mc-libraries/**')}}
     - uses: actions/cache/save@v3
       name: Save Version Manifest cache
       with:
