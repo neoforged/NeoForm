@@ -10,7 +10,7 @@
                          p_258426_.registered(MemoryModuleType.LOOK_TARGET),
                          p_258426_.absent(MemoryModuleType.WALK_TARGET),
 @@ -45,7 +45,7 @@
-                                         p_258419_ -> p_258419_.distanceToSqr(p_258414_) <= (double)i && predicate.test(p_258419_)
+                                         p_325690_ -> p_325690_.distanceToSqr(p_258414_) <= (double)i && predicate.test(p_325690_)
                                      );
                                      optional.ifPresent(p_258432_ -> {
 -                                        p_258439_.set(p_258432_);

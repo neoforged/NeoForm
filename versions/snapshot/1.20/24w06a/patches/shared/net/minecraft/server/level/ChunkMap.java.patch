@@ -1,6 +1,6 @@
 --- a/net/minecraft/server/level/ChunkMap.java
 +++ b/net/minecraft/server/level/ChunkMap.java
-@@ -502,9 +502,10 @@
+@@ -511,9 +511,10 @@
  
          int k = Math.max(0, this.unloadQueue.size() - 2000);
  
@@ -13,7 +13,7 @@
          }
  
          int l = 0;
-@@ -589,7 +590,7 @@
+@@ -598,7 +599,7 @@
                  }
  
                  return flag;

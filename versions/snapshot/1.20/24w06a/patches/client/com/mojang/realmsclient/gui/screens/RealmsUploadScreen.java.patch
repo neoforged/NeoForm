@@ -11,7 +11,7 @@
                                          if (this.cancelled) {
                                              this.uploadCancelled();
                                          } else if (this.verify(file1)) {
-@@ -356,13 +356,10 @@
+@@ -357,13 +357,10 @@
                                  }
                              }
                          } catch (IOException ioexception) {
