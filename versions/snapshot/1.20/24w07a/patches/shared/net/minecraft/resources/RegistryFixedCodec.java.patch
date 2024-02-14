@@ -1,0 +1,11 @@
+--- a/net/minecraft/resources/RegistryFixedCodec.java
++++ b/net/minecraft/resources/RegistryFixedCodec.java
+@@ -55,7 +55,7 @@
+                                 .get(ResourceKey.create(this.registryKey, resourcelocation))
+                                 .map(DataResult::success)
+                                 .orElseGet(() -> DataResult.error(() -> "Failed to get element " + resourcelocation))
+-                                .<Pair<? super Holder.Reference<E>, T>>map(p_256041_ -> Pair.of(p_256041_, (T)p_255515_.getSecond()))
++                                .<Pair<Holder<E>, T>>map(p_256041_ -> Pair.of(p_256041_, (T)p_255515_.getSecond()))
+                                 .setLifecycle(Lifecycle.stable());
+                         }
+                     );
