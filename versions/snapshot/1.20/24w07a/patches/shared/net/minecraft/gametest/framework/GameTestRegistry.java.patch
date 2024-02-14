@@ -9,10 +9,10 @@
              if (consumer != null) {
                  throw new RuntimeException("Hey, there should only be one " + p_177507_ + " method per batch. Batch '" + s + "' has more than one!");
              }
-@@ -126,7 +126,7 @@
-             gametest.required(),
+@@ -127,7 +127,7 @@
              gametest.requiredSuccesses(),
              gametest.attempts(),
+             gametest.skyAccess(),
 -            turnMethodIntoConsumer(p_177516_)
 +            (Consumer<net.minecraft.gametest.framework.GameTestHelper>)turnMethodIntoConsumer(p_177516_)
          );

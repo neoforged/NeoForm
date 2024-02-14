@@ -9,3 +9,12 @@
              }
          };
      }
+@@ -33,7 +33,7 @@
+         return create(p_256342_, memoizeLookup(new RegistryOps.RegistryInfoLookup() {
+             @Override
+             public <E> Optional<RegistryOps.RegistryInfo<E>> lookup(ResourceKey<? extends Registry<? extends E>> p_256323_) {
+-                return p_255950_.<T>lookup(p_256323_).map(RegistryOps.RegistryInfo::fromRegistryLookup);
++                return p_255950_.lookup(p_256323_).map(RegistryOps.RegistryInfo::fromRegistryLookup);
+             }
+         }));
+     }

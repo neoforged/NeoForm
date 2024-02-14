@@ -1,6 +1,6 @@
 --- a/net/minecraft/core/HolderLookup.java
 +++ b/net/minecraft/core/HolderLookup.java
-@@ -47,7 +47,7 @@
+@@ -53,7 +53,7 @@
              final Map<ResourceKey<? extends Registry<?>>, HolderLookup.RegistryLookup<?>> map = p_256054_.collect(
                  Collectors.toUnmodifiableMap(
                      HolderLookup.RegistryLookup::key,
