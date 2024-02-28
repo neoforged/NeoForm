@@ -18,3 +18,12 @@
              }
          }));
      }
+@@ -52,7 +52,7 @@
+     }
+ 
+     public <U> RegistryOps<U> withParent(DynamicOps<U> p_330654_) {
+-        return p_330654_ == this.delegate ? this : new RegistryOps<>(p_330654_, this.lookupProvider);
++        return p_330654_ == this.delegate ? (RegistryOps<U>)this : new RegistryOps<>(p_330654_, this.lookupProvider);
+     }
+ 
+     public <E> Optional<HolderOwner<E>> owner(ResourceKey<? extends Registry<? extends E>> p_255757_) {

@@ -3,7 +3,7 @@
 @@ -68,8 +68,7 @@
          LinearLayout linearlayout2 = this.layout.addChild(LinearLayout.horizontal().spacing(8));
          linearlayout2.addChild(Button.builder(CommonComponents.GUI_BACK, p_315829_ -> this.onClose()).width(120).build());
-         this.sendButton = linearlayout2.addChild(Button.builder(SEND_REPORT, p_315830_ -> this.sendReport()).width(120).build());
+         this.sendButton = linearlayout2.addChild(Button.builder(SEND_REPORT, p_329742_ -> this.sendReport()).width(120).build());
 -        this.layout.visitWidgets(p_321364_ -> {
 -        });
 +        this.layout.visitWidgets(this::addRenderableWidget);

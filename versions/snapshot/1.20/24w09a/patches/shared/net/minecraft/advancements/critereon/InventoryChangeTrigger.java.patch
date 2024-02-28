@@ -1,6 +1,6 @@
 --- a/net/minecraft/advancements/critereon/InventoryChangeTrigger.java
 +++ b/net/minecraft/advancements/critereon/InventoryChangeTrigger.java
-@@ -62,7 +62,7 @@
+@@ -63,7 +63,7 @@
          );
  
          public static Criterion<InventoryChangeTrigger.TriggerInstance> hasItems(ItemPredicate.Builder... p_298231_) {

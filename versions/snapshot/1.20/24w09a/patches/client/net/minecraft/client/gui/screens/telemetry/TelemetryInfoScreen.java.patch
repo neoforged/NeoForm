@@ -1,12 +1,12 @@
 --- a/net/minecraft/client/gui/screens/telemetry/TelemetryInfoScreen.java
 +++ b/net/minecraft/client/gui/screens/telemetry/TelemetryInfoScreen.java
-@@ -74,8 +74,7 @@
-         linearlayout.addChild(layout);
-         framelayout.arrangeElements();
-         FrameLayout.alignInRectangle(framelayout, 0, 0, this.width, this.height, 0.5F, 0.0F);
--        framelayout.visitWidgets(p_321366_ -> {
+@@ -71,8 +71,7 @@
+         LinearLayout linearlayout4 = this.layout.addToContents(LinearLayout.vertical().spacing(8));
+         this.telemetryEventWidget = linearlayout4.addChild(new TelemetryEventWidget(0, 0, this.width - 40, this.layout.getContentHeight(), this.font));
+         this.telemetryEventWidget.setOnScrolledListener(p_262168_ -> this.savedScroll = p_262168_);
+-        this.layout.visitWidgets(p_321366_ -> {
 -        });
-+        framelayout.visitWidgets(this::addRenderableWidget);
++        this.layout.visitWidgets(this::addRenderableWidget);
+         this.repositionElements();
      }
  
-     @Override

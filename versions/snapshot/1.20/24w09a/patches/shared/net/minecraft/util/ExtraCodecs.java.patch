@@ -1,6 +1,6 @@
 --- a/net/minecraft/util/ExtraCodecs.java
 +++ b/net/minecraft/util/ExtraCodecs.java
-@@ -232,7 +232,7 @@
+@@ -222,7 +222,7 @@
                  P p1 = p_184445_.get(1);
                  return p_184365_.apply(p, p1);
              }), p_184459_ -> ImmutableList.of(p_184366_.apply(p_184459_), p_184367_.apply(p_184459_)));
@@ -9,7 +9,7 @@
                  p_184360_ -> p_184360_.group(p_184362_.fieldOf(p_184363_).forGetter(Pair::getFirst), p_184362_.fieldOf(p_184364_).forGetter(Pair::getSecond))
                          .apply(p_184360_, Pair::of)
              )
-@@ -572,8 +572,8 @@
+@@ -580,8 +580,8 @@
                  return p_312297_;
              }
  
@@ -20,3 +20,12 @@
              }
          };
      }
+@@ -601,7 +601,7 @@
+             }
+ 
+             private <T, V2 extends V> DataResult<T> encodeValue(Codec<V2> p_331770_, V p_331859_, DynamicOps<T> p_331717_) {
+-                return p_331770_.encodeStart(p_331717_, p_331859_);
++                return p_331770_.encodeStart(p_331717_, (V2)p_331859_);
+             }
+ 
+             @Override

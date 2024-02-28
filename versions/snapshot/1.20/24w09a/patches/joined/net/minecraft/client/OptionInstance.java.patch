@@ -1,6 +1,6 @@
 --- a/net/minecraft/client/OptionInstance.java
 +++ b/net/minecraft/client/OptionInstance.java
-@@ -289,7 +289,7 @@
+@@ -293,7 +293,7 @@
              return new OptionInstance.SliderableValueSet<R>() {
                  @Override
                  public Optional<R> validateValue(R p_231674_) {
