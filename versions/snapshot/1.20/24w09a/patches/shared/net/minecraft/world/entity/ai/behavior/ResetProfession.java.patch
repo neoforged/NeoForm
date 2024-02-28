@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/entity/ai/behavior/ResetProfession.java
++++ b/net/minecraft/world/entity/ai/behavior/ResetProfession.java
+@@ -11,7 +11,7 @@
+ public class ResetProfession {
+     public static BehaviorControl<Villager> create() {
+         return BehaviorBuilder.create(
+-            p_259684_ -> p_259684_.<MemoryAccessor>group(p_259684_.absent(MemoryModuleType.JOB_SITE))
++            p_259684_ -> p_259684_.group(p_259684_.absent(MemoryModuleType.JOB_SITE))
+                     .apply(
+                         p_259684_,
+                         p_260035_ -> (p_260244_, p_260084_, p_259597_) -> {

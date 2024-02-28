@@ -1,0 +1,20 @@
+--- a/net/minecraft/world/entity/ai/behavior/InteractWithDoor.java
++++ b/net/minecraft/world/entity/ai/behavior/InteractWithDoor.java
+@@ -35,7 +35,7 @@
+         MutableObject<Node> mutableobject = new MutableObject<>(null);
+         MutableInt mutableint = new MutableInt(0);
+         return BehaviorBuilder.create(
+-            p_258474_ -> p_258474_.<MemoryAccessor, MemoryAccessor, MemoryAccessor>group(
++            p_258474_ -> p_258474_.group(
+                         p_258474_.present(MemoryModuleType.PATH),
+                         p_258474_.registered(MemoryModuleType.DOORS_TO_CLOSE),
+                         p_258474_.registered(MemoryModuleType.NEAREST_LIVING_ENTITIES)
+@@ -163,7 +163,7 @@
+         MemoryAccessor<Mu, Set<GlobalPos>> p_262178_, Optional<Set<GlobalPos>> p_261639_, ServerLevel p_261528_, BlockPos p_261874_
+     ) {
+         GlobalPos globalpos = GlobalPos.of(p_261528_.dimension(), p_261874_);
+-        return Optional.of(p_261639_.map((Function<? super Set<GlobalPos>, ? extends Set<GlobalPos>>)(p_261437_ -> {
++        return Optional.of(p_261639_.map((p_261437_ -> {
+             p_261437_.add(globalpos);
+             return p_261437_;
+         })).orElseGet(() -> {
