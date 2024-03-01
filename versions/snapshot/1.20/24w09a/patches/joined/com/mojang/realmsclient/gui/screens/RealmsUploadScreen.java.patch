@@ -1,6 +1,16 @@
 --- a/com/mojang/realmsclient/gui/screens/RealmsUploadScreen.java
 +++ b/com/mojang/realmsclient/gui/screens/RealmsUploadScreen.java
-@@ -290,8 +290,8 @@
+@@ -124,8 +124,7 @@
+             }
+         }
+ 
+-        this.layout.visitWidgets(p_321350_ -> {
+-        });
++        this.layout.visitWidgets(this::addRenderableWidget);
+         this.repositionElements();
+     }
+ 
+@@ -290,8 +289,8 @@
                                      } else if (this.cancelled) {
                                          this.uploadCancelled();
                                      } else {
@@ -11,7 +21,7 @@
                                          if (this.cancelled) {
                                              this.uploadCancelled();
                                          } else if (this.verify(file1)) {
-@@ -360,13 +360,10 @@
+@@ -360,13 +359,10 @@
                                  }
                              }
                          } catch (IOException ioexception) {

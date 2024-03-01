@@ -1,6 +1,16 @@
 --- a/net/minecraft/client/gui/screens/achievement/StatsScreen.java
 +++ b/net/minecraft/client/gui/screens/achievement/StatsScreen.java
-@@ -456,11 +456,11 @@
+@@ -98,8 +98,7 @@
+         }
+ 
+         this.layout = headerandfooterlayout;
+-        this.layout.visitWidgets(p_329726_ -> {
+-        });
++        this.layout.visitWidgets(this::addRenderableWidget);
+         this.repositionElements();
+     }
+ 
+@@ -456,11 +455,11 @@
                      i = 0;
                      j = 0;
                  } else if (ItemStatisticsList.this.blockColumns.contains(ItemStatisticsList.this.sortColumn)) {

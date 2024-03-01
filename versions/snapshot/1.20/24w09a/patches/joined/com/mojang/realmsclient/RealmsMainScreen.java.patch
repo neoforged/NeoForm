@@ -1,6 +1,16 @@
 --- a/com/mojang/realmsclient/RealmsMainScreen.java
 +++ b/com/mojang/realmsclient/RealmsMainScreen.java
-@@ -561,8 +561,7 @@
+@@ -249,8 +249,7 @@
+ 
+             this.layout = this.createLayout(p_294474_);
+             this.activeLayoutState = p_294474_;
+-            this.layout.visitWidgets(p_321334_ -> {
+-            });
++            this.layout.visitWidgets(this::addRenderableWidget);
+             this.repositionElements();
+         }
+     }
+@@ -561,8 +560,7 @@
  
      @Nullable
      private RealmsServer getSelectedServer() {

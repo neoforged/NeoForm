@@ -10,3 +10,13 @@
          this.layout.arrangeElements();
          this.repositionElements();
      }
+@@ -92,8 +91,7 @@
+                     new ConfirmExperimentalFeaturesScreen.DetailsScreen.PackList(this.minecraft, ConfirmExperimentalFeaturesScreen.this.enabledPacks)
+                 );
+             this.layout.addToFooter(Button.builder(CommonComponents.GUI_BACK, p_251286_ -> this.onClose()).build());
+-            this.layout.visitWidgets(p_329748_ -> {
+-            });
++            this.layout.visitWidgets(this::addRenderableWidget);
+             this.repositionElements();
+         }
+ 
