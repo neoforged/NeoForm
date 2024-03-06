@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/entity/ai/behavior/TryFindLandNearWater.java
++++ b/net/minecraft/world/entity/ai/behavior/TryFindLandNearWater.java
+@@ -17,7 +17,7 @@
+     public static BehaviorControl<PathfinderMob> create(int p_259739_, float p_259118_) {
+         MutableLong mutablelong = new MutableLong(0L);
+         return BehaviorBuilder.create(
+-            p_260348_ -> p_260348_.<MemoryAccessor, MemoryAccessor, MemoryAccessor>group(
++            p_260348_ -> p_260348_.group(
+                         p_260348_.absent(MemoryModuleType.ATTACK_TARGET),
+                         p_260348_.absent(MemoryModuleType.WALK_TARGET),
+                         p_260348_.registered(MemoryModuleType.LOOK_TARGET)

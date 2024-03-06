@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/entity/monster/piglin/StopAdmiringIfItemTooFarAway.java
++++ b/net/minecraft/world/entity/monster/piglin/StopAdmiringIfItemTooFarAway.java
+@@ -12,7 +12,7 @@
+ public class StopAdmiringIfItemTooFarAway<E extends Piglin> {
+     public static BehaviorControl<LivingEntity> create(int p_259415_) {
+         return BehaviorBuilder.create(
+-            p_259152_ -> p_259152_.<MemoryAccessor, MemoryAccessor>group(
++            p_259152_ -> p_259152_.group(
+                         p_259152_.present(MemoryModuleType.ADMIRING_ITEM), p_259152_.registered(MemoryModuleType.NEAREST_VISIBLE_WANTED_ITEM)
+                     )
+                     .apply(p_259152_, (p_260178_, p_259241_) -> (p_259613_, p_259304_, p_259748_) -> {
