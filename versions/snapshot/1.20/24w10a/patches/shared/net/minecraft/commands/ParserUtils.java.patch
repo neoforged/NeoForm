@@ -1,6 +1,6 @@
 --- a/net/minecraft/commands/ParserUtils.java
 +++ b/net/minecraft/commands/ParserUtils.java
-@@ -47,7 +47,7 @@
+@@ -48,7 +48,7 @@
          try {
              JsonElement jsonelement = Streams.parse(jsonreader);
              object = Util.<T, JsonParseException>getOrThrow(

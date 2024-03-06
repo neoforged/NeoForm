@@ -1,6 +1,6 @@
 --- a/net/minecraft/data/registries/VanillaRegistries.java
 +++ b/net/minecraft/data/registries/VanillaRegistries.java
-@@ -38,8 +38,8 @@
+@@ -40,8 +40,8 @@
  public class VanillaRegistries {
      private static final RegistrySetBuilder BUILDER = new RegistrySetBuilder()
          .add(Registries.DIMENSION_TYPE, DimensionTypes::bootstrap)
