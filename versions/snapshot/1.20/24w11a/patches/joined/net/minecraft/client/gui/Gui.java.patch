@@ -1,6 +1,6 @@
 --- a/net/minecraft/client/gui/Gui.java
 +++ b/net/minecraft/client/gui/Gui.java
-@@ -476,9 +476,10 @@
+@@ -475,9 +475,10 @@
                      TextureAtlasSprite textureatlassprite = mobeffecttexturemanager.get(holder);
                      int i1 = j;
                      float f1 = f;

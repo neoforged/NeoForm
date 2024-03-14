@@ -10,7 +10,7 @@
          this.repositionElements();
      }
  
-@@ -464,11 +463,11 @@
+@@ -465,11 +464,11 @@
                      i = 0;
                      j = 0;
                  } else if (ItemStatisticsList.this.blockColumns.contains(ItemStatisticsList.this.sortColumn)) {
