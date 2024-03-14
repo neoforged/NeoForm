@@ -1,0 +1,12 @@
+--- a/net/minecraft/client/gui/screens/VideoSettingsScreen.java
++++ b/net/minecraft/client/gui/screens/VideoSettingsScreen.java
+@@ -198,8 +198,7 @@
+     public boolean mouseScrolled(double p_278332_, double p_278334_, double p_278285_, double p_296453_) {
+         if (Screen.hasControlDown()) {
+             OptionInstance<Integer> optioninstance = this.options.guiScale();
+-            OptionInstance.ValueSet $$6 = optioninstance.values();
+-            if ($$6 instanceof OptionInstance.ClampingLazyMaxIntRange optioninstance$clampinglazymaxintrange) {
++            if (optioninstance.values() instanceof OptionInstance.ClampingLazyMaxIntRange optioninstance$clampinglazymaxintrange) {
+                 int i = optioninstance.get() + (int)Math.signum(p_296453_);
+                 if (i != 0 && i <= optioninstance$clampinglazymaxintrange.maxInclusive()) {
+                     CycleButton<Integer> cyclebutton = (CycleButton)this.list.findOption(optioninstance);

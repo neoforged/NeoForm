@@ -1,0 +1,36 @@
+--- a/com/mojang/realmsclient/gui/screens/RealmsSelectWorldTemplateScreen.java
++++ b/com/mojang/realmsclient/gui/screens/RealmsSelectWorldTemplateScreen.java
+@@ -96,8 +96,7 @@
+         linearlayout.addChild(Button.builder(CommonComponents.GUI_CANCEL, p_89691_ -> this.onClose()).width(100).build());
+         this.publisherButton = linearlayout.addChild(Button.builder(PUBLISHER_BUTTON_NAME, p_89679_ -> this.onPublish()).width(100).build());
+         this.updateButtonStates();
+-        this.layout.visitWidgets(p_321348_ -> {
+-        });
++        this.layout.visitWidgets(this::addRenderableWidget);
+         this.repositionElements();
+     }
+ 
+@@ -153,9 +152,9 @@
+                 public void run() {
+                     WorldTemplatePaginatedList worldtemplatepaginatedlist = p_89654_;
+     
+-                    Either<WorldTemplatePaginatedList, Exception> either;
+-                    for(RealmsClient realmsclient = RealmsClient.create();
+-                        worldtemplatepaginatedlist != null;
++                    RealmsClient realmsclient = RealmsClient.create();
++                    while(worldtemplatepaginatedlist != null) {
++                        Either<WorldTemplatePaginatedList, Exception> either = RealmsSelectWorldTemplateScreen.this.fetchTemplates(worldtemplatepaginatedlist, realmsclient);
+                         worldtemplatepaginatedlist = RealmsSelectWorldTemplateScreen.this.minecraft
+                             .submit(
+                                 () -> {
+@@ -193,9 +192,7 @@
+                                     }
+                                 }
+                             )
+-                            .join()
+-                    ) {
+-                        either = RealmsSelectWorldTemplateScreen.this.fetchTemplates(worldtemplatepaginatedlist, realmsclient);
++                            .join();
+                     }
+                 }
+             })

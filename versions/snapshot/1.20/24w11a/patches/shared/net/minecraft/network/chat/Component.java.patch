@@ -1,0 +1,11 @@
+--- a/net/minecraft/network/chat/Component.java
++++ b/net/minecraft/network/chat/Component.java
+@@ -224,7 +224,7 @@
+         }
+ 
+         static MutableComponent deserialize(JsonElement p_130720_, HolderLookup.Provider p_330752_) {
+-            return Util.getOrThrow(
++            return (MutableComponent)Util.getOrThrow(
+                 ComponentSerialization.CODEC.parse(p_330752_.createSerializationContext(JsonOps.INSTANCE), p_130720_), JsonParseException::new
+             );
+         }

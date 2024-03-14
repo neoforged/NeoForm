@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/entity/ai/behavior/StayCloseToTarget.java
++++ b/net/minecraft/world/entity/ai/behavior/StayCloseToTarget.java
+@@ -15,7 +15,7 @@
+         Function<LivingEntity, Optional<PositionTracker>> p_272871_, Predicate<LivingEntity> p_273150_, int p_273536_, int p_273107_, float p_273745_
+     ) {
+         return BehaviorBuilder.create(
+-            p_272460_ -> p_272460_.<MemoryAccessor, MemoryAccessor>group(
++            p_272460_ -> p_272460_.group(
+                         p_272460_.registered(MemoryModuleType.LOOK_TARGET), p_272460_.registered(MemoryModuleType.WALK_TARGET)
+                     )
+                     .apply(p_272460_, (p_272466_, p_272467_) -> (p_260054_, p_260069_, p_259517_) -> {
