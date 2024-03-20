@@ -1,0 +1,11 @@
+--- a/net/minecraft/util/datafix/fixes/EmptyItemInHotbarFix.java
++++ b/net/minecraft/util/datafix/fixes/EmptyItemInHotbarFix.java
+@@ -20,7 +20,7 @@
+ 
+     @Override
+     public TypeRewriteRule makeRule() {
+-        OpticFinder<Pair<String, Pair<Either<Pair<String, String>, Unit>, Pair<Either<?, Unit>, Dynamic<?>>>>> opticfinder = DSL.typeFinder(
++        OpticFinder<Pair<String, Pair<Either<Pair<String, String>, Unit>, Pair<Either<?, Unit>, Dynamic<?>>>>> opticfinder = (OpticFinder<Pair<String, Pair<Either<Pair<String, String>, Unit>, Pair<Either<?, Unit>, Dynamic<?>>>>>)DSL.typeFinder(
+             this.getInputSchema().getType(References.ITEM_STACK)
+         );
+         return this.fixTypeEverywhereTyped(

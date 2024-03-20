@@ -1,0 +1,12 @@
+--- a/com/mojang/realmsclient/gui/screens/RealmsInviteScreen.java
++++ b/com/mojang/realmsclient/gui/screens/RealmsInviteScreen.java
+@@ -53,8 +53,7 @@
+         linearlayout.addChild(CommonLayouts.labeledElement(this.font, this.profileName, NAME_LABEL));
+         this.inviteButton = linearlayout.addChild(Button.builder(TITLE, p_88721_ -> this.onInvite()).width(200).build());
+         this.layout.addToFooter(Button.builder(CommonComponents.GUI_BACK, p_329651_ -> this.onClose()).width(200).build());
+-        this.layout.visitWidgets(p_329653_ -> {
+-        });
++        this.layout.visitWidgets(this::addRenderableWidget);
+         this.repositionElements();
+     }
+ 

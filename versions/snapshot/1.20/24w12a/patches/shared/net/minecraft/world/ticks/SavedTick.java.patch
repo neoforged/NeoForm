@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/ticks/SavedTick.java
++++ b/net/minecraft/world/ticks/SavedTick.java
+@@ -73,7 +73,7 @@
+     }
+ 
+     public ScheduledTick<T> unpack(long p_193329_, long p_193330_) {
+-        return new ScheduledTick<>(this.type, this.pos, p_193329_ + (long)this.delay, this.priority, p_193330_);
++        return new ScheduledTick<T>(this.type, this.pos, p_193329_ + (long)this.delay, this.priority, p_193330_);
+     }
+ 
+     public static <T> SavedTick<T> probe(T p_193336_, BlockPos p_193337_) {

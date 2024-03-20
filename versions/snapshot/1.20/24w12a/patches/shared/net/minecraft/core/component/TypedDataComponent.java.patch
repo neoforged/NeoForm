@@ -1,0 +1,11 @@
+--- a/net/minecraft/core/component/TypedDataComponent.java
++++ b/net/minecraft/core/component/TypedDataComponent.java
+@@ -31,7 +31,7 @@
+     };
+ 
+     static TypedDataComponent<?> fromEntryUnchecked(Entry<DataComponentType<?>, Object> p_332125_) {
+-        return createUnchecked((DataComponentType<T>)p_332125_.getKey(), p_332125_.getValue());
++        return createUnchecked(p_332125_.getKey(), p_332125_.getValue());
+     }
+ 
+     static <T> TypedDataComponent<T> createUnchecked(DataComponentType<T> p_332026_, Object p_331462_) {
