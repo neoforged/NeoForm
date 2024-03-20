@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/level/storage/loot/functions/ToggleTooltips.java
++++ b/net/minecraft/world/level/storage/loot/functions/ToggleTooltips.java
+@@ -36,7 +36,7 @@
+         .collect(
+             Collectors.toMap(
+                 ToggleTooltips.ComponentToggle::type,
+-                (Function<? super ToggleTooltips.ComponentToggle, ? extends ToggleTooltips.ComponentToggle>)(p_335612_ -> p_335612_)
++                (p_335612_ -> p_335612_)
+             )
+         );
+     private static final Codec<ToggleTooltips.ComponentToggle<?>> TOGGLE_CODEC = BuiltInRegistries.DATA_COMPONENT_TYPE
