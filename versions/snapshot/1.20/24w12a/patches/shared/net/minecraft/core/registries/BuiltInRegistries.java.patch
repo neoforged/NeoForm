@@ -1,6 +1,6 @@
 --- a/net/minecraft/core/registries/BuiltInRegistries.java
 +++ b/net/minecraft/core/registries/BuiltInRegistries.java
-@@ -162,7 +162,7 @@
+@@ -164,7 +164,7 @@
      public static final Registry<PositionSourceType<?>> POSITION_SOURCE_TYPE = registerSimple(
          Registries.POSITION_SOURCE_TYPE, p_259113_ -> PositionSourceType.BLOCK
      );
@@ -9,7 +9,7 @@
      public static final Registry<StatType<?>> STAT_TYPE = registerSimple(Registries.STAT_TYPE, p_259967_ -> Stats.ITEM_USED);
      public static final DefaultedRegistry<VillagerType> VILLAGER_TYPE = registerDefaulted(Registries.VILLAGER_TYPE, "plains", p_259473_ -> VillagerType.PLAINS);
      public static final DefaultedRegistry<VillagerProfession> VILLAGER_PROFESSION = registerDefaulted(
-@@ -231,18 +231,18 @@
+@@ -233,18 +233,18 @@
      public static final Registry<FeatureSizeType<?>> FEATURE_SIZE_TYPE = registerSimple(
          Registries.FEATURE_SIZE_TYPE, p_259370_ -> FeatureSizeType.TWO_LAYERS_FEATURE_SIZE
      );
@@ -34,7 +34,7 @@
      public static final Registry<StructureProcessorType<?>> STRUCTURE_PROCESSOR = registerSimple(
          Registries.STRUCTURE_PROCESSOR, p_259305_ -> StructureProcessorType.BLOCK_IGNORE
      );
-@@ -250,22 +250,22 @@
+@@ -252,22 +252,22 @@
          Registries.STRUCTURE_POOL_ELEMENT, p_259361_ -> StructurePoolElementType.EMPTY
      );
      public static final Registry<Codec<? extends PoolAliasBinding>> POOL_ALIAS_BINDING_TYPE = registerSimple(
@@ -42,7 +42,7 @@
 +        Registries.POOL_ALIAS_BINDING, (RegistryBootstrap)PoolAliasBindings::bootstrap
      );
      public static final Registry<CatVariant> CAT_VARIANT = registerSimple(Registries.CAT_VARIANT, CatVariant::bootstrap);
-     public static final Registry<FrogVariant> FROG_VARIANT = registerSimple(Registries.FROG_VARIANT, p_259261_ -> FrogVariant.TEMPERATE);
+     public static final Registry<FrogVariant> FROG_VARIANT = registerSimple(Registries.FROG_VARIANT, FrogVariant::bootstrap);
      public static final Registry<Instrument> INSTRUMENT = registerSimple(Registries.INSTRUMENT, Instruments::bootstrap);
      public static final Registry<String> DECORATED_POT_PATTERNS = registerSimple(Registries.DECORATED_POT_PATTERNS, DecoratedPotPatterns::bootstrap);
      public static final Registry<CreativeModeTab> CREATIVE_MODE_TAB = registerSimple(Registries.CREATIVE_MODE_TAB, CreativeModeTabs::bootstrap);
@@ -61,9 +61,9 @@
 -        Registries.ITEM_SUB_PREDICATE_TYPE, ItemSubPredicates::bootstrap
 +        Registries.ITEM_SUB_PREDICATE_TYPE, (RegistryBootstrap)ItemSubPredicates::bootstrap
      );
+     public static final Registry<MapDecorationType> MAP_DECORATION_TYPE = registerSimple(Registries.MAP_DECORATION_TYPE, MapDecorationTypes::bootstrap);
      public static final Registry<? extends Registry<?>> REGISTRY = WRITABLE_REGISTRY;
- 
-@@ -297,7 +297,7 @@
+@@ -300,7 +300,7 @@
          Bootstrap.checkBootstrapCalled(() -> "registry " + p_259230_);
          ResourceLocation resourcelocation = p_259230_.location();
          LOADERS.put(resourcelocation, () -> p_259210_.run(p_260327_));
