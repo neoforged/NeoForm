@@ -1,0 +1,29 @@
+--- a/net/minecraft/resources/RegistryOps.java
++++ b/net/minecraft/resources/RegistryOps.java
+@@ -24,7 +24,7 @@
+ 
+             @Override
+             public <T> Optional<RegistryOps.RegistryInfo<T>> lookup(ResourceKey<? extends Registry<? extends T>> p_256043_) {
+-                return this.lookups.computeIfAbsent(p_256043_, p_255769_::lookup);
++                return (Optional<RegistryOps.RegistryInfo<T>>)this.lookups.computeIfAbsent(p_256043_, p_255769_::lookup);
+             }
+         };
+     }
+@@ -33,7 +33,7 @@
+         return create(p_256342_, memoizeLookup(new RegistryOps.RegistryInfoLookup() {
+             @Override
+             public <E> Optional<RegistryOps.RegistryInfo<E>> lookup(ResourceKey<? extends Registry<? extends E>> p_256323_) {
+-                return p_255950_.<T>lookup(p_256323_).map(RegistryOps.RegistryInfo::fromRegistryLookup);
++                return p_255950_.lookup(p_256323_).map(RegistryOps.RegistryInfo::fromRegistryLookup);
+             }
+         }));
+     }
+@@ -52,7 +52,7 @@
+     }
+ 
+     public <U> RegistryOps<U> withParent(DynamicOps<U> p_330654_) {
+-        return p_330654_ == this.delegate ? this : new RegistryOps<>(p_330654_, this.lookupProvider);
++        return p_330654_ == this.delegate ? (RegistryOps<U>)this : new RegistryOps<>(p_330654_, this.lookupProvider);
+     }
+ 
+     public <E> Optional<HolderOwner<E>> owner(ResourceKey<? extends Registry<? extends E>> p_255757_) {

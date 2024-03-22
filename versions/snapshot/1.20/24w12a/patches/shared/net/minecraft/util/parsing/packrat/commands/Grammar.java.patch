@@ -1,0 +1,11 @@
+--- a/net/minecraft/util/parsing/packrat/commands/Grammar.java
++++ b/net/minecraft/util/parsing/packrat/commands/Grammar.java
+@@ -29,7 +29,7 @@
+         if (optional.isPresent()) {
+             return optional.get();
+         } else {
+-            List<Exception> list = longestonly.entries().stream().mapMulti((p_335740_, p_335854_) -> {
++            List<Exception> list = longestonly.entries().stream().<Exception>mapMulti((p_335740_, p_335854_) -> {
+                 Object object1 = p_335740_.reason();
+                 if (object1 instanceof Exception exception1) {
+                     p_335854_.accept(exception1);

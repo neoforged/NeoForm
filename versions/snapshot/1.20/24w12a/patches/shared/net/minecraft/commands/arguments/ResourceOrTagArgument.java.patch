@@ -1,0 +1,20 @@
+--- a/net/minecraft/commands/arguments/ResourceOrTagArgument.java
++++ b/net/minecraft/commands/arguments/ResourceOrTagArgument.java
+@@ -143,7 +143,7 @@
+ 
+         @Override
+         public <E> Optional<ResourceOrTagArgument.Result<E>> cast(ResourceKey<? extends Registry<E>> p_250007_) {
+-            return this.value.key().isFor(p_250007_) ? Optional.of(this) : Optional.empty();
++            return this.value.key().isFor(p_250007_) ? Optional.of((ResourceOrTagArgument.Result<E>)this) : Optional.empty();
+         }
+ 
+         public boolean test(Holder<T> p_249230_) {
+@@ -172,7 +172,7 @@
+ 
+         @Override
+         public <E> Optional<ResourceOrTagArgument.Result<E>> cast(ResourceKey<? extends Registry<E>> p_250945_) {
+-            return this.tag.key().isFor(p_250945_) ? Optional.of(this) : Optional.empty();
++            return this.tag.key().isFor(p_250945_) ? Optional.of((ResourceOrTagArgument.Result<E>)this) : Optional.empty();
+         }
+ 
+         public boolean test(Holder<T> p_252187_) {

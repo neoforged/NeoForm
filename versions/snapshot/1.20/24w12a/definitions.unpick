@@ -1,0 +1,12 @@
+v2
+
+constant command_permission_level net/minecraft/commands/Commands LEVEL_ALL
+constant command_permission_level net/minecraft/commands/Commands LEVEL_MODERATORS
+constant command_permission_level net/minecraft/commands/Commands LEVEL_GAMEMASTERS
+constant command_permission_level net/minecraft/commands/Commands LEVEL_ADMINS
+constant command_permission_level net/minecraft/commands/Commands LEVEL_OWNERS
+
+#target_method net/minecraft/commands/CommandSourceStack hasPermission (I)Z
+#    param 0 command_permission_level
+target_method net/minecraft/commands/ExecutionCommandSource hasPermission (I)Z
+    param 0 command_permission_level

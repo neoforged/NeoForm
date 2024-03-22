@@ -1,0 +1,11 @@
+--- a/net/minecraft/server/level/ChunkResult.java
++++ b/net/minecraft/server/level/ChunkResult.java
+@@ -25,7 +25,7 @@
+ 
+     @Nullable
+     static <R> R orElse(ChunkResult<? extends R> p_331283_, @Nullable R p_331474_) {
+-        R r = p_331283_.orElse((R)null);
++        R r = p_331283_.orElse(null);
+         return (R)(r != null ? r : p_331474_);
+     }
+ 

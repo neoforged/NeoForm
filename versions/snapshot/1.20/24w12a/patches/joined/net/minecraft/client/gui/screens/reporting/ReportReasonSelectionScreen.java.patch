@@ -1,0 +1,12 @@
+--- a/net/minecraft/client/gui/screens/reporting/ReportReasonSelectionScreen.java
++++ b/net/minecraft/client/gui/screens/reporting/ReportReasonSelectionScreen.java
+@@ -70,8 +70,7 @@
+                 )
+                 .build()
+         );
+-        this.layout.visitWidgets(p_329740_ -> {
+-        });
++        this.layout.visitWidgets(this::addRenderableWidget);
+         this.repositionElements();
+     }
+ 

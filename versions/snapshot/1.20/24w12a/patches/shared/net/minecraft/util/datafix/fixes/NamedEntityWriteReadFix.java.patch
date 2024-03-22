@@ -1,0 +1,11 @@
+--- a/net/minecraft/util/datafix/fixes/NamedEntityWriteReadFix.java
++++ b/net/minecraft/util/datafix/fixes/NamedEntityWriteReadFix.java
+@@ -43,7 +43,7 @@
+         return this.fixTypeEverywhere(this.name, p_324369_, p_323537_, p_323223_ -> p_323218_ -> {
+                 Typed<S> typed = new Typed<>(p_324369_, p_323223_, p_323218_);
+                 return (T)typed.update(p_324194_, p_324518_, p_323212_ -> {
+-                    Typed<A> typed1 = new Typed<>(p_324108_, p_323223_, p_323212_);
++                    Typed<A> typed1 = new Typed<>((Type<A>)p_324108_, p_323223_, p_323212_);
+                     return Util.<A, B>writeAndReadTypedOrThrow(typed1, p_324518_, this::fix).getValue();
+                 }).getValue();
+             });
