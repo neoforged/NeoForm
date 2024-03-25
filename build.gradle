@@ -512,6 +512,7 @@ subprojects {
             [name: 'hotspot19',  Name: 'HotSpot19',  version: 19, official: false],
             [name: 'hotspot20',  Name: 'HotSpot20',  version: 20, official: false],
             [name: 'hotspot21',  Name: 'HotSpot21',  version: 21, official: false],
+            [name: 'hotspot22',  Name: 'HotSpot22',  version: 22, official: false],
             [name: 'official8',  Name: 'Official8',  version: 8,  official: true ],
             [name: 'official16', Name: 'Official16', version: 16, official: true ],
             [name: 'official17', Name: 'Official17', version: 17, official: true ],
