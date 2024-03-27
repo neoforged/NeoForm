@@ -1,0 +1,20 @@
+--- a/net/minecraft/util/datafix/fixes/ChunkProtoTickListFix.java
++++ b/net/minecraft/util/datafix/fixes/ChunkProtoTickListFix.java
+@@ -109,7 +109,7 @@
+                             Dynamic<?> dynamic2 = this.makeTickList(dynamic, int2objectmap, b0, i, j, "ToBeTicked", ChunkProtoTickListFix::getBlock);
+                             Optional<? extends Pair<? extends Typed<?>, ?>> optional = opticfinder6.type().readTyped(dynamic2).result();
+                             if (optional.isPresent()) {
+-                                p_185010_ = p_185010_.set(opticfinder6, ((Pair)optional.get()).getFirst());
++                                p_185010_ = p_185010_.set(opticfinder6, (Typed)(optional.get()).getFirst());
+                             }
+         
+                             return p_185010_.update(
+@@ -184,7 +184,7 @@
+         int k = p_185050_ >>> 8 & 15;
+         String s = p_185051_.apply(p_185046_ != null ? p_185046_.get().get(i, j, k) : null);
+         return p_185045_.createMap(
+-            ImmutableMap.builder()
++            ImmutableMap.<Dynamic<?>, Dynamic<?>>builder()
+                 .put(p_185045_.createString("i"), p_185045_.createString(s))
+                 .put(p_185045_.createString("x"), p_185045_.createInt(p_185047_ * 16 + i))
+                 .put(p_185045_.createString("y"), p_185045_.createInt(p_185048_ * 16 + j))

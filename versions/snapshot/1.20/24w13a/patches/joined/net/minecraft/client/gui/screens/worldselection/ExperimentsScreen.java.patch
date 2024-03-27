@@ -1,0 +1,12 @@
+--- a/net/minecraft/client/gui/screens/worldselection/ExperimentsScreen.java
++++ b/net/minecraft/client/gui/screens/worldselection/ExperimentsScreen.java
+@@ -66,8 +66,7 @@
+         LinearLayout linearlayout1 = this.layout.addToFooter(LinearLayout.horizontal().spacing(8));
+         linearlayout1.addChild(Button.builder(CommonComponents.GUI_DONE, p_270336_ -> this.onDone()).build());
+         linearlayout1.addChild(Button.builder(CommonComponents.GUI_CANCEL, p_274702_ -> this.onClose()).build());
+-        this.layout.visitWidgets(p_321381_ -> {
+-        });
++        this.layout.visitWidgets(this::addRenderableWidget);
+         this.repositionElements();
+     }
+ 

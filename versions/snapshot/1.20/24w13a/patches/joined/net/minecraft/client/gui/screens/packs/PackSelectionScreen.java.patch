@@ -1,0 +1,12 @@
+--- a/net/minecraft/client/gui/screens/packs/PackSelectionScreen.java
++++ b/net/minecraft/client/gui/screens/packs/PackSelectionScreen.java
+@@ -116,8 +116,7 @@
+         );
+         this.doneButton = linearlayout1.addChild(Button.builder(CommonComponents.GUI_DONE, p_100036_ -> this.onClose()).build());
+         this.reload();
+-        this.layout.visitWidgets(p_329736_ -> {
+-        });
++        this.layout.visitWidgets(this::addRenderableWidget);
+         this.repositionElements();
+     }
+ 

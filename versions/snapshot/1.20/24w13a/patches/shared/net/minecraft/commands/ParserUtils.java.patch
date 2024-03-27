@@ -1,0 +1,11 @@
+--- a/net/minecraft/commands/ParserUtils.java
++++ b/net/minecraft/commands/ParserUtils.java
+@@ -48,7 +48,7 @@
+         try {
+             JsonElement jsonelement = Streams.parse(jsonreader);
+             object = Util.<T, JsonParseException>getOrThrow(
+-                p_313876_.parse(p_323581_.createSerializationContext(JsonOps.INSTANCE), (T)jsonelement), JsonParseException::new
++                p_313876_.parse(p_323581_.createSerializationContext(JsonOps.INSTANCE), jsonelement), JsonParseException::new
+             );
+         } catch (StackOverflowError stackoverflowerror) {
+             throw new JsonParseException(stackoverflowerror);

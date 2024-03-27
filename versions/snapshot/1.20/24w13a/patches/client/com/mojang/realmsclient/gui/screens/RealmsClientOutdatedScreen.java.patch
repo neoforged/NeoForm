@@ -1,0 +1,12 @@
+--- a/com/mojang/realmsclient/gui/screens/RealmsClientOutdatedScreen.java
++++ b/com/mojang/realmsclient/gui/screens/RealmsClientOutdatedScreen.java
+@@ -28,8 +28,7 @@
+         this.layout.addTitleHeader(INCOMPATIBLE_TITLE, this.font);
+         this.layout.addToContents(new MultiLineTextWidget(this.getErrorMessage(), this.font).setCentered(true));
+         this.layout.addToFooter(Button.builder(CommonComponents.GUI_BACK, p_329646_ -> this.onClose()).width(200).build());
+-        this.layout.visitWidgets(p_329648_ -> {
+-        });
++        this.layout.visitWidgets(this::addRenderableWidget);
+         this.repositionElements();
+     }
+ 

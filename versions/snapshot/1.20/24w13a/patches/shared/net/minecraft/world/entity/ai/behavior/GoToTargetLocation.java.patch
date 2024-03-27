@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/entity/ai/behavior/GoToTargetLocation.java
++++ b/net/minecraft/world/entity/ai/behavior/GoToTargetLocation.java
+@@ -20,7 +20,7 @@
+ 
+     public static <E extends Mob> OneShot<E> create(MemoryModuleType<BlockPos> p_259938_, int p_259740_, float p_259957_) {
+         return BehaviorBuilder.create(
+-            p_259997_ -> p_259997_.<MemoryAccessor, MemoryAccessor, MemoryAccessor, MemoryAccessor>group(
++            p_259997_ -> p_259997_.group(
+                         p_259997_.present(p_259938_),
+                         p_259997_.absent(MemoryModuleType.ATTACK_TARGET),
+                         p_259997_.absent(MemoryModuleType.WALK_TARGET),

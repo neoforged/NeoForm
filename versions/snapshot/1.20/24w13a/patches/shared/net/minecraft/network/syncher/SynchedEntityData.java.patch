@@ -1,0 +1,20 @@
+--- a/net/minecraft/network/syncher/SynchedEntityData.java
++++ b/net/minecraft/network/syncher/SynchedEntityData.java
+@@ -46,7 +46,7 @@
+     }
+ 
+     private <T> SynchedEntityData.DataItem<T> getItem(EntityDataAccessor<T> p_135380_) {
+-        return this.itemsById[p_135380_.id()];
++        return (SynchedEntityData.DataItem<T>)this.itemsById[p_135380_.id()];
+     }
+ 
+     public <T> T get(EntityDataAccessor<T> p_135371_) {
+@@ -132,7 +132,7 @@
+                 )
+             );
+         } else {
+-            p_135376_.setValue(p_254484_.value);
++            p_135376_.setValue((T)p_254484_.value);
+         }
+     }
+ 

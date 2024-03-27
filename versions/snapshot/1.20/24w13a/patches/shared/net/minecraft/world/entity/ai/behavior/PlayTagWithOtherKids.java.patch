@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/entity/ai/behavior/PlayTagWithOtherKids.java
++++ b/net/minecraft/world/entity/ai/behavior/PlayTagWithOtherKids.java
+@@ -27,7 +27,7 @@
+ 
+     public static BehaviorControl<PathfinderMob> create() {
+         return BehaviorBuilder.create(
+-            p_258563_ -> p_258563_.<MemoryAccessor, MemoryAccessor, MemoryAccessor, MemoryAccessor>group(
++            p_258563_ -> p_258563_.group(
+                         p_258563_.present(MemoryModuleType.VISIBLE_VILLAGER_BABIES),
+                         p_258563_.absent(MemoryModuleType.WALK_TARGET),
+                         p_258563_.registered(MemoryModuleType.LOOK_TARGET),

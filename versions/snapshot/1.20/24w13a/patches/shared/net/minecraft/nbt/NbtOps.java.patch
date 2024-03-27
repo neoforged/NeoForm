@@ -1,0 +1,11 @@
+--- a/net/minecraft/nbt/NbtOps.java
++++ b/net/minecraft/nbt/NbtOps.java
+@@ -165,7 +165,7 @@
+ 
+     public DataResult<Stream<Pair<Tag, Tag>>> getMapValues(Tag p_129070_) {
+         return p_129070_ instanceof CompoundTag compoundtag
+-            ? DataResult.success(compoundtag.getAllKeys().stream().map(p_129021_ -> Pair.of(this.createString(p_129021_), compoundtag.get(p_129021_))))
++            ? DataResult.success(compoundtag.getAllKeys().stream().map(p_129021_ -> (Pair<Tag, Tag>)Pair.of(this.createString(p_129021_), compoundtag.get(p_129021_))))
+             : DataResult.error(() -> "Not a map: " + p_129070_);
+     }
+ 

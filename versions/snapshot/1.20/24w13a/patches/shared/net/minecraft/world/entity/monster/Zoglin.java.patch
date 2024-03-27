@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/entity/monster/Zoglin.java
++++ b/net/minecraft/world/entity/monster/Zoglin.java
+@@ -216,7 +216,7 @@
+ 
+     @Override
+     public Brain<Zoglin> getBrain() {
+-        return super.getBrain();
++        return (Brain<Zoglin>)super.getBrain();
+     }
+ 
+     protected void updateActivity() {

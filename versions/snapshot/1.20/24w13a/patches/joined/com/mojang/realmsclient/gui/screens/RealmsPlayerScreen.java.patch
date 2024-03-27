@@ -1,0 +1,12 @@
+--- a/com/mojang/realmsclient/gui/screens/RealmsPlayerScreen.java
++++ b/com/mojang/realmsclient/gui/screens/RealmsPlayerScreen.java
+@@ -63,8 +63,7 @@
+                 .build()
+         );
+         linearlayout.addChild(Button.builder(CommonComponents.GUI_BACK, p_329657_ -> this.onClose()).build());
+-        this.layout.visitWidgets(p_329656_ -> {
+-        });
++        this.layout.visitWidgets(this::addRenderableWidget);
+         this.repositionElements();
+     }
+ 
