@@ -4,8 +4,8 @@
                                  .get(ResourceKey.create(this.registryKey, resourcelocation))
                                  .map(DataResult::success)
                                  .orElseGet(() -> DataResult.error(() -> "Failed to get element " + resourcelocation))
--                                .<Pair<? super Holder.Reference<E>, T>>map(p_256041_ -> Pair.of(p_256041_, (T)p_255515_.getSecond()))
-+                                .<Pair<Holder<E>, T>>map(p_256041_ -> Pair.of(p_256041_, (T)p_255515_.getSecond()))
+-                                .<Pair<? super Holder.Reference<E>, T>>map(p_256041_ -> Pair.of(p_256041_, (T)p_337524_.getSecond()))
++                                .<Pair<Holder<E>, T>>map(p_256041_ -> Pair.of(p_256041_, (T)p_337524_.getSecond()))
                                  .setLifecycle(Lifecycle.stable());
                          }
                      );

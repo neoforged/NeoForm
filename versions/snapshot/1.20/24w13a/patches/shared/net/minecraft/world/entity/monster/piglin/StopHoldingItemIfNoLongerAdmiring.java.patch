@@ -6,6 +6,6 @@
          return BehaviorBuilder.create(
 -            p_259197_ -> p_259197_.<MemoryAccessor>group(p_259197_.absent(MemoryModuleType.ADMIRING_ITEM))
 +            p_259197_ -> p_259197_.group(p_259197_.absent(MemoryModuleType.ADMIRING_ITEM))
-                     .apply(p_259197_, p_259512_ -> (p_333638_, p_333639_, p_333640_) -> {
-                             if (!p_333639_.getOffhandItem().isEmpty() && !p_333639_.getOffhandItem().is(Items.SHIELD)) {
-                                 PiglinAi.stopHoldingOffHandItem(p_333639_, true);
+                     .apply(p_259197_, p_259512_ -> (p_337869_, p_337870_, p_337871_) -> {
+                             if (!p_337870_.getOffhandItem().isEmpty() && !p_337870_.getOffhandItem().is(Items.SHIELD)) {
+                                 PiglinAi.stopHoldingOffHandItem(p_337870_, true);

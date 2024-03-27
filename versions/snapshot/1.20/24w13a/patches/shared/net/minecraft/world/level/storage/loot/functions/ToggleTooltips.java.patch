@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/storage/loot/functions/ToggleTooltips.java
 +++ b/net/minecraft/world/level/storage/loot/functions/ToggleTooltips.java
-@@ -36,7 +36,7 @@
+@@ -37,7 +37,7 @@
          .collect(
              Collectors.toMap(
                  ToggleTooltips.ComponentToggle::type,

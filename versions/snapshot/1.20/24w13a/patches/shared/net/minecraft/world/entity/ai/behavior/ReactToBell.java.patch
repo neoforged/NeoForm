@@ -6,6 +6,6 @@
          return BehaviorBuilder.create(
 -            p_259349_ -> p_259349_.<MemoryAccessor>group(p_259349_.present(MemoryModuleType.HEARD_BELL_TIME))
 +            p_259349_ -> p_259349_.group(p_259349_.present(MemoryModuleType.HEARD_BELL_TIME))
-                     .apply(p_259349_, p_259472_ -> (p_333571_, p_333572_, p_333573_) -> {
-                             Raid raid = p_333571_.getRaidAt(p_333572_.blockPosition());
+                     .apply(p_259349_, p_259472_ -> (p_337765_, p_337766_, p_337767_) -> {
+                             Raid raid = p_337765_.getRaidAt(p_337766_.blockPosition());
                              if (raid == null) {

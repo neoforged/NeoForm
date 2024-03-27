@@ -8,4 +8,4 @@
 +        this(p_231052_.<ArgumentSignatures.Entry, List<ArgumentSignatures.Entry>>readCollection(FriendlyByteBuf.limitValue(ArrayList::new, 8), ArgumentSignatures.Entry::new));
      }
  
-     @Nullable
+     public void write(FriendlyByteBuf p_231062_) {

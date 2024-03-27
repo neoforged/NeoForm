@@ -2,7 +2,7 @@
 +++ b/net/minecraft/world/entity/ai/behavior/InteractWith.java
 @@ -30,7 +30,7 @@
          int i = p_259564_ * p_259564_;
-         Predicate<LivingEntity> predicate = p_308599_ -> p_259366_.equals(p_308599_.getType()) && p_260254_.test((T)p_308599_);
+         Predicate<LivingEntity> predicate = p_337721_ -> p_259366_.equals(p_337721_.getType()) && p_260254_.test((T)p_337721_);
          return BehaviorBuilder.create(
 -            p_258426_ -> p_258426_.<MemoryAccessor, MemoryAccessor, MemoryAccessor, MemoryAccessor>group(
 +            p_258426_ -> p_258426_.group(

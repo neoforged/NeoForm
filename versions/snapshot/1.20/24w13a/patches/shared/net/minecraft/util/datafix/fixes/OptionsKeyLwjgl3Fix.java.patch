@@ -3,7 +3,7 @@
 @@ -143,8 +143,8 @@
              p_16633_ -> p_16633_.update(
                      DSL.remainderFinder(),
-                     p_145575_ -> p_145575_.getMapValues().map(p_145578_ -> p_145575_.createMap(p_145578_.entrySet().stream().map(p_145580_ -> {
+                     p_337654_ -> p_337654_.getMapValues().map(p_145578_ -> p_337654_.createMap(p_145578_.entrySet().stream().map(p_145580_ -> {
 -                                if (((Dynamic)p_145580_.getKey()).asString("").startsWith("key_")) {
 -                                    int i = Integer.parseInt(((Dynamic)p_145580_.getValue()).asString(""));
 +                                if ((p_145580_.getKey()).asString("").startsWith("key_")) {
@@ -24,10 +24,10 @@
                                      }
                                  } else {
 -                                    return Pair.of((Dynamic)p_145580_.getKey(), (Dynamic)p_145580_.getValue());
-+                                    return Pair.of(p_145580_.getKey(), p_145580_.getValue());
++                                    return Pair.of(p_145580_.getKey(), (Dynamic)p_145580_.getValue());
                                  }
--                            }).collect(Collectors.toMap(Pair::getFirst, Pair::getSecond)))).result().orElse(p_145575_)
-+                            }).collect(Collectors.toMap(Pair::getFirst, Pair::getSecond)))).result().orElse((Dynamic)p_145575_)
+-                            }).collect(Collectors.toMap(Pair::getFirst, Pair::getSecond)))).result().orElse(p_337654_)
++                            }).collect(Collectors.toMap(Pair::getFirst, Pair::getSecond)))).result().orElse((Dynamic)p_337654_)
                  )
          );
      }

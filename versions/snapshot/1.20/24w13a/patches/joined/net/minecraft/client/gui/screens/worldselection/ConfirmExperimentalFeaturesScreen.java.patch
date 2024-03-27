@@ -1,6 +1,6 @@
 --- a/net/minecraft/client/gui/screens/worldselection/ConfirmExperimentalFeaturesScreen.java
 +++ b/net/minecraft/client/gui/screens/worldselection/ConfirmExperimentalFeaturesScreen.java
-@@ -63,8 +63,7 @@
+@@ -64,8 +64,7 @@
          );
          gridlayout$rowhelper.addChild(Button.builder(CommonComponents.GUI_PROCEED, p_252248_ -> this.callback.accept(true)).build());
          gridlayout$rowhelper.addChild(Button.builder(CommonComponents.GUI_BACK, p_250397_ -> this.callback.accept(false)).build());
@@ -10,7 +10,7 @@
          this.layout.arrangeElements();
          this.repositionElements();
      }
-@@ -96,8 +95,7 @@
+@@ -99,8 +98,7 @@
                      new ConfirmExperimentalFeaturesScreen.DetailsScreen.PackList(this.minecraft, ConfirmExperimentalFeaturesScreen.this.enabledPacks)
                  );
              this.layout.addToFooter(Button.builder(CommonComponents.GUI_BACK, p_251286_ -> this.onClose()).build());

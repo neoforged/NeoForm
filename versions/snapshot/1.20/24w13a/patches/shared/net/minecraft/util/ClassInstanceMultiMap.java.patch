@@ -3,7 +3,7 @@
 @@ -61,7 +61,7 @@
          } else {
              List<? extends T> list = this.byClass
-                 .computeIfAbsent(p_13534_, p_13538_ -> this.allInstances.stream().filter(p_13538_::isInstance).collect(Collectors.toList()));
+                 .computeIfAbsent(p_13534_, p_337572_ -> this.allInstances.stream().filter(p_337572_::isInstance).collect(Util.toMutableList()));
 -            return Collections.unmodifiableCollection(list);
 +            return (Collection<S>)Collections.unmodifiableCollection(list);
          }
