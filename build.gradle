@@ -140,6 +140,7 @@ subprojects {
     }
 
     repositories {
+        mavenLocal()
         maven {
             name 'forge'
             url 'https://maven.neoforged.net/releases'
@@ -184,7 +185,9 @@ subprojects {
             }
         }
         if (UNPICK) {
-            unpick UNPICK.version
+            unpick(UNPICK.version) {
+                transitive = false
+            }
         }
     }
 

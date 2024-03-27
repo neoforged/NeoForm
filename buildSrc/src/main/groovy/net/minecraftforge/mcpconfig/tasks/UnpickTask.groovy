@@ -9,10 +9,6 @@ abstract class UnpickTask extends ToolJarExec {
     @InputFile abstract RegularFileProperty getInput()
     @OutputFile abstract RegularFileProperty getDest()
     @OutputFile @Optional abstract RegularFileProperty getLog()
-
-    UnpickTask() {
-        mainClass.set "daomephsta.unpick.cli.Main"
-    }
     
     @Override
     protected void preExec() {
