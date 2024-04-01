@@ -72,9 +72,9 @@ jobs:
         run: sudo npm install -g fast-xml-parser
       - name: Get latest version of srgutils
         id: srgutils_version
-        run: echo "srgutils_version=$(wget -O - https://maven.neoforged.net/releases/net/minecraftforge/srgutils/maven-metadata.xml | fxparser -c | jq .metadata.versioning.latest -r)" >> $GITHUB_OUTPUT
+        run: echo "srgutils_version=$(wget -O - https://maven.neoforged.net/releases/net/neoforged/srgutils/maven-metadata.xml | fxparser -c | jq .metadata.versioning.latest -r)" >> $GITHUB_OUTPUT
       - name: Download srgutils
-        run: wget https://maven.neoforged.net/releases/net/minecraftforge/srgutils/${{ steps.srgutils_version.outputs.srgutils_version }}/srgutils-${{ steps.srgutils_version.outputs.srgutils_version }}.jar -O srgutils.jar
+        run: wget https://maven.neoforged.net/releases/net/neoforged/srgutils/${{ steps.srgutils_version.outputs.srgutils_version }}/srgutils-${{ steps.srgutils_version.outputs.srgutils_version }}.jar -O srgutils.jar
       - name: Download parser
         run: wget ${{ vars.PARSE_VERSION_JAVA }}
       - name: Run parser
