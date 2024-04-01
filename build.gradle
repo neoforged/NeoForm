@@ -3,7 +3,7 @@ plugins {
 }
 
 import net.minecraftforge.mcpconfig.tasks.*
-import net.minecraftforge.srgutils.MinecraftVersion
+import net.neoforged.srgutils.MinecraftVersion
 import java.nio.file.Files
 import java.util.function.BiFunction
 import java.util.stream.Collectors
@@ -20,7 +20,7 @@ ext {
     PATH_BUILD = file('build').absolutePath
 
     ASM_VERSION = '9.2'
-    SRGUTILS_VERSION = '0.5.4'
+    SRGUTILS_VERSION = '1.0.1'
 }
 
 logger.lifecycle('Timestamp: ' + TIMESTAMP)
@@ -149,7 +149,7 @@ subprojects {
     }
 
     dependencies {
-        srgutilsJar "net.minecraftforge:srgutils:${SRGUTILS_VERSION}"
+        srgutilsJar "net.neoforged:srgutils:${SRGUTILS_VERSION}"
         if (FERNFLOWER.version) {
             fernflower FERNFLOWER.version
         }
@@ -348,12 +348,6 @@ subprojects {
         meta = downloadJson.dest
         cache = downloadLibraries.dest
         dest = file(PATH_NATIVES)
-    }
-    
-    task verify(type: VerifyMappings, dependsOn: [mergeJars, makeObfToIntermediate]) {
-        mappings = makeObfToIntermediate.dest
-        joined = mergeJars.dest
-        o2s2idMappings = file('joined.tsrg')
     }
 
     task decompileAll

@@ -11,7 +11,7 @@ import org.gradle.api.file.*
 import org.gradle.api.provider.*
 import org.gradle.api.tasks.*
 import groovy.json.JsonSlurper
-import net.minecraftforge.srgutils.IMappingFile
+import net.neoforged.srgutils.IMappingFile
 
 public abstract class CreateProjectTemplate extends DefaultTask {
     @Input abstract Property<String> getDistro()

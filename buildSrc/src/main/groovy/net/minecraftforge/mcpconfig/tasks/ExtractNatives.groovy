@@ -5,7 +5,7 @@ import org.gradle.api.file.*
 import org.gradle.api.tasks.*
 import groovy.io.FileType
 import groovy.json.JsonSlurper
-import net.minecraftforge.srgutils.IMappingFile
+import net.neoforged.srgutils.IMappingFile
 import java.util.zip.ZipFile
 
 import static org.objectweb.asm.Opcodes.*
