@@ -189,7 +189,7 @@ jobs:
       if: ${{ vars.SRGUTILS_UPDATE == 'true' }}
       run: |
         sed -i -E "s/SRGUTILS_VERSION = '[0-9]+\.[0-9]+\.[0-9]+'/SRGUTILS_VERSION = '$SRGUTILS_VERSION'/g" build.gradle
-        sed -i -E "s/net.minecraftforge:srgutils:[0-9]+\.[0-9]+\.[0-9]+/net.minecraftforge:srgutils:$SRGUTILS_VERSION/g" buildSrc/build.gradle
+        sed -i -E "s/net.neoforged:srgutils:[0-9]+\.[0-9]+\.[0-9]+/net.neoforged:srgutils:$SRGUTILS_VERSION/g" buildSrc/build.gradle
       env:
         SRGUTILS_VERSION: ${{ steps.lib-versions.outputs.srgutils }}
     - if: ${{ inputs.patch_src && inputs.patch_src != inputs.new_version }}
