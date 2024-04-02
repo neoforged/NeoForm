@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/entity/monster/MegaSpud.java
++++ b/net/minecraft/world/entity/monster/MegaSpud.java
+@@ -387,7 +387,7 @@
+ 
+     @Override
+     public EntityType<? extends MegaSpud> getType() {
+-        return super.getType();
++        return (EntityType<? extends MegaSpud>)super.getType();
+     }
+ 
+     @Override

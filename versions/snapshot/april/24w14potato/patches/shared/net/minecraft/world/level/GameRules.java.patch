@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/GameRules.java
 +++ b/net/minecraft/world/level/GameRules.java
-@@ -256,8 +256,8 @@
+@@ -262,8 +262,8 @@
      private static <T extends GameRules.Value<T>> void callVisitorCap(
          GameRules.GameRuleTypeVisitor p_46167_, GameRules.Key<?> p_46168_, GameRules.Type<?> p_46169_
      ) {
@@ -11,7 +11,7 @@
      }
  
      public void assignFrom(GameRules p_46177_, @Nullable MinecraftServer p_46178_) {
-@@ -427,7 +427,7 @@
+@@ -433,7 +433,7 @@
          public boolean tryDeserialize(String p_46315_) {
              try {
                  StringReader stringreader = new StringReader(p_46315_);

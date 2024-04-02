@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/level/entity/LevelEntityGetter.java
++++ b/net/minecraft/world/level/entity/LevelEntityGetter.java
+@@ -40,7 +40,7 @@
+     };
+ 
+     static <T extends EntityAccess> LevelEntityGetter<T> empty() {
+-        return EMPTY;
++        return (LevelEntityGetter<T>)EMPTY;
+     }
+ 
+     @Nullable

@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/level/block/PointedDripstoneBlock.java
++++ b/net/minecraft/world/level/block/PointedDripstoneBlock.java
+@@ -591,7 +591,7 @@
+     @Nullable
+     public static BlockPos findStalactiteTipAboveCauldron(Block p_342333_, Level p_154056_, BlockPos p_154057_) {
+         if (p_342333_ instanceof PointedDripstoneBlock pointeddripstoneblock) {
+-            BiPredicate $$5 = (p_202030_, p_202031_) -> canDripThrough(p_154056_, p_202030_, p_202031_);
++            BiPredicate<BlockPos, BlockState> $$5 = (p_202030_, p_202031_) -> canDripThrough(p_154056_, p_202030_, p_202031_);
+             return findBlockVertical(p_154056_, p_154057_, Direction.UP.getAxisDirection(), $$5, pointeddripstoneblock::canDrip, 11).orElse(null);
+         } else {
+             return null;

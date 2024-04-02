@@ -8,4 +8,4 @@
 +            p_259055_ -> p_259055_.group(
                          p_259055_.present(MemoryModuleType.HIDING_PLACE), p_259055_.present(MemoryModuleType.HEARD_BELL_TIME)
                      )
-                     .apply(p_259055_, (p_260296_, p_260145_) -> (p_330034_, p_330035_, p_330036_) -> {
+                     .apply(p_259055_, (p_260296_, p_260145_) -> (p_340029_, p_340030_, p_340031_) -> {

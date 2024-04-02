@@ -1,0 +1,20 @@
+--- a/net/minecraft/Maybe.java
++++ b/net/minecraft/Maybe.java
+@@ -3,7 +3,7 @@
+ import java.util.Objects;
+ 
+ public class Maybe<T> {
+-    private static final Maybe<?> NO = new Maybe((T)null);
++    private static final Maybe<?> NO = new Maybe(null);
+     private final T value;
+ 
+     private Maybe(T p_341200_) {
+@@ -27,7 +27,7 @@
+     }
+ 
+     public static <T> Maybe<T> no() {
+-        return NO;
++        return (Maybe<T>)NO;
+     }
+ 
+     public static <T> Maybe<T> yes(T p_341473_) {
