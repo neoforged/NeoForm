@@ -26,6 +26,7 @@ public abstract class MakePatches extends DefaultTask {
             .bPath(modified.toPath())
             .outputPath(patches.toPath())
             .level(codechicken.diffpatch.util.LogLevel.WARN)
+            .lineEnding("\n")
             .build().operate()
 
         def exit = result.exit

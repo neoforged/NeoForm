@@ -1,0 +1,15 @@
+--- a/net/minecraft/server/level/ChunkMap.java
++++ b/net/minecraft/server/level/ChunkMap.java
+@@ -510,9 +510,10 @@
+ 
+         int k = Math.max(0, this.unloadQueue.size() - 2000);
+ 
+-        while((p_140354_.getAsBoolean() || k > 0) && (j = (long)this.unloadQueue.poll()) != null) {
++        Runnable runnable;
++        while((p_140354_.getAsBoolean() || k > 0) && (runnable = this.unloadQueue.poll()) != null) {
+             --k;
+-            j.run();
++            runnable.run();
+         }
+ 
+         int l = 0;

@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/item/component/DebugStickState.java
++++ b/net/minecraft/world/item/component/DebugStickState.java
+@@ -12,7 +12,7 @@
+ 
+ public record DebugStickState(Map<Holder<Block>, Property<?>> properties) {
+     public static final DebugStickState EMPTY = new DebugStickState(Map.of());
+-    public static final Codec<DebugStickState> CODEC = ExtraCodecs.<Holder<Block>, Property>unboundedDispatchMap(
++    public static final Codec<DebugStickState> CODEC = ExtraCodecs.<Holder<Block>, Property<?>>unboundedDispatchMap(
+             BuiltInRegistries.BLOCK.holderByNameCodec(),
+             p_331051_ -> Codec.STRING
+                     .comapFlatMap(

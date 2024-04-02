@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/entity/ai/behavior/StopAttackingIfTargetInvalid.java
++++ b/net/minecraft/world/entity/ai/behavior/StopAttackingIfTargetInvalid.java
+@@ -29,7 +29,7 @@
+ 
+     public static <E extends Mob> BehaviorControl<E> create(Predicate<LivingEntity> p_260357_, BiConsumer<E, LivingEntity> p_259568_, boolean p_260319_) {
+         return BehaviorBuilder.create(
+-            p_258801_ -> p_258801_.<MemoryAccessor, MemoryAccessor>group(
++            p_258801_ -> p_258801_.group(
+                         p_258801_.present(MemoryModuleType.ATTACK_TARGET), p_258801_.registered(MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE)
+                     )
+                     .apply(

@@ -1,0 +1,29 @@
+--- a/net/minecraft/core/Registry.java
++++ b/net/minecraft/core/Registry.java
+@@ -152,7 +152,7 @@
+     Optional<HolderSet.Named<T>> getTag(TagKey<T> p_206052_);
+ 
+     default Iterable<Holder<T>> getTagOrEmpty(TagKey<T> p_206059_) {
+-        return DataFixUtils.orElse(this.getTag(p_206059_), List.<T>of());
++        return DataFixUtils.orElse(this.getTag(p_206059_), List.of());
+     }
+ 
+     default Optional<Holder<T>> getRandomElementOf(TagKey<T> p_320357_, RandomSource p_320935_) {
+@@ -177,7 +177,7 @@
+ 
+             @Nullable
+             public Holder<T> byId(int p_259972_) {
+-                return (Holder<T>)Registry.this.getHolder(p_259972_).orElse((T)null);
++                return (Holder<T>)Registry.this.getHolder(p_259972_).orElse(null);
+             }
+ 
+             @Override
+@@ -187,7 +187,7 @@
+ 
+             @Override
+             public Iterator<Holder<T>> iterator() {
+-                return Registry.this.holders().map(p_260061_ -> p_260061_).iterator();
++                return Registry.this.holders().map(p_260061_ -> (Holder<T>)p_260061_).iterator();
+             }
+         };
+     }

@@ -1,0 +1,12 @@
+--- a/net/minecraft/client/gui/screens/social/SocialInteractionsScreen.java
++++ b/net/minecraft/client/gui/screens/social/SocialInteractionsScreen.java
+@@ -140,8 +140,7 @@
+         this.initialized = true;
+         this.showPage(this.page);
+         this.layout.addToFooter(Button.builder(CommonComponents.GUI_DONE, p_329743_ -> this.onClose()).width(200).build());
+-        this.layout.visitWidgets(p_329745_ -> {
+-        });
++        this.layout.visitWidgets(this::addRenderableWidget);
+         this.repositionElements();
+     }
+ 

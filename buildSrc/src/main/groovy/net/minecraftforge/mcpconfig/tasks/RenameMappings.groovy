@@ -6,7 +6,7 @@ import org.gradle.api.tasks.*
 
 import java.util.zip.*
 
-import net.minecraftforge.srgutils.*
+import net.neoforged.srgutils.*
 
 public abstract class RenameMappings extends SingleFileOutput {
     @InputFile abstract RegularFileProperty getIntermediate()

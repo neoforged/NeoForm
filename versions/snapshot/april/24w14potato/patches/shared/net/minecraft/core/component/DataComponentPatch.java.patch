@@ -1,0 +1,20 @@
+--- a/net/minecraft/core/component/DataComponentPatch.java
++++ b/net/minecraft/core/component/DataComponentPatch.java
+@@ -19,7 +19,7 @@
+ 
+ public final class DataComponentPatch {
+     public static final DataComponentPatch EMPTY = new DataComponentPatch(Reference2ObjectMaps.emptyMap());
+-    public static final Codec<DataComponentPatch> CODEC = ExtraCodecs.unboundedDispatchMap(
++    public static final Codec<DataComponentPatch> CODEC = ExtraCodecs.<DataComponentPatch.PatchKey, Object>unboundedDispatchMap(
+             DataComponentPatch.PatchKey.CODEC, DataComponentPatch.PatchKey::valueCodec
+         )
+         .xmap(p_330885_ -> {
+@@ -124,7 +124,7 @@
+         }
+ 
+         private static <T> void encodeComponent(RegistryFriendlyByteBuf p_331735_, DataComponentType<T> p_330633_, Object p_331089_) {
+-            p_330633_.streamCodec().encode(p_331735_, p_331089_);
++            p_330633_.streamCodec().encode(p_331735_, (T)p_331089_);
+         }
+     };
+     private static final String REMOVED_PREFIX = "!";

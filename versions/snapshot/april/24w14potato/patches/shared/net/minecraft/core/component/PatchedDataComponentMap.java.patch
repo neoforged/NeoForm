@@ -1,0 +1,20 @@
+--- a/net/minecraft/core/component/PatchedDataComponentMap.java
++++ b/net/minecraft/core/component/PatchedDataComponentMap.java
+@@ -59,7 +59,7 @@
+     @Override
+     public <T> T get(DataComponentType<? extends T> p_331587_) {
+         Optional<? extends T> optional = (Optional)this.patch.get(p_331587_);
+-        return (T)(optional != null ? optional.orElse((T)null) : this.prototype.get(p_331587_));
++        return (T)(optional != null ? optional.orElse(null) : this.prototype.get(p_331587_));
+     }
+ 
+     @Nullable
+@@ -87,7 +87,7 @@
+             optional = (Optional)this.patch.remove(p_330831_);
+         }
+ 
+-        return (T)(optional != null ? optional.orElse((T)null) : t);
++        return (T)(optional != null ? optional.orElse(null) : t);
+     }
+ 
+     public void applyPatch(DataComponentPatch p_331964_) {

@@ -6,7 +6,7 @@ import org.gradle.api.tasks.*
 
 import java.nio.file.Files
 
-import net.minecraftforge.srgutils.*
+import net.neoforged.srgutils.*
 
 public abstract class RenameSources extends DefaultTask {
     @InputDirectory abstract RegularFileProperty getInput()

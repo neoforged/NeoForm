@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/entity/ai/behavior/SetWalkTargetFromAttackTargetIfTargetOutOfReach.java
++++ b/net/minecraft/world/entity/ai/behavior/SetWalkTargetFromAttackTargetIfTargetOutOfReach.java
+@@ -20,7 +20,7 @@
+ 
+     public static BehaviorControl<Mob> create(Function<LivingEntity, Float> p_259507_) {
+         return BehaviorBuilder.create(
+-            p_258687_ -> p_258687_.<MemoryAccessor, MemoryAccessor, MemoryAccessor, MemoryAccessor>group(
++            p_258687_ -> p_258687_.group(
+                         p_258687_.registered(MemoryModuleType.WALK_TARGET),
+                         p_258687_.registered(MemoryModuleType.LOOK_TARGET),
+                         p_258687_.present(MemoryModuleType.ATTACK_TARGET),
