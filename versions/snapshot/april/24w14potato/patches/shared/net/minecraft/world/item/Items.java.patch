@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/item/Items.java
++++ b/net/minecraft/world/item/Items.java
+@@ -2305,7 +2305,7 @@
+         }
+ 
+         POTATO_PEELS_MAP = builder.build();
+-        POTATO_PEELS_INGREDIENT = Ingredient.of(POTATO_PEELS_MAP.values().toArray(p_340204_ -> new ItemLike[p_340204_]));
++        POTATO_PEELS_INGREDIENT = Ingredient.of(POTATO_PEELS_MAP.values().<ItemLike>toArray(p_340204_ -> new ItemLike[p_340204_]));
+         com.google.common.collect.ImmutableMap.Builder<DyeColor, Item> builder1 = ImmutableMap.builder();
+ 
+         for(Entry<DyeColor, Block> entry : Blocks.POTATO_PEELS_BLOCK_MAP.entrySet()) {
