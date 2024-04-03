@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/entity/ai/behavior/TryFindWater.java
++++ b/net/minecraft/world/entity/ai/behavior/TryFindWater.java
+@@ -16,7 +16,7 @@
+     public static BehaviorControl<PathfinderMob> create(int p_259298_, float p_259140_) {
+         MutableLong mutablelong = new MutableLong(0L);
+         return BehaviorBuilder.create(
+-            p_260101_ -> p_260101_.<MemoryAccessor, MemoryAccessor, MemoryAccessor>group(
++            p_260101_ -> p_260101_.group(
+                         p_260101_.absent(MemoryModuleType.ATTACK_TARGET),
+                         p_260101_.absent(MemoryModuleType.WALK_TARGET),
+                         p_260101_.registered(MemoryModuleType.LOOK_TARGET)

@@ -1,0 +1,12 @@
+--- a/net/minecraft/client/gui/screens/multiplayer/WarningScreen.java
++++ b/net/minecraft/client/gui/screens/multiplayer/WarningScreen.java
+@@ -55,8 +55,7 @@
+         }
+ 
+         linearlayout1.addChild(this.addFooterButtons());
+-        this.layout.visitWidgets(p_330665_ -> {
+-        });
++        this.layout.visitWidgets(this::addRenderableWidget);
+         this.repositionElements();
+     }
+ 

@@ -1,0 +1,11 @@
+--- a/net/minecraft/core/HolderSet.java
++++ b/net/minecraft/core/HolderSet.java
+@@ -44,7 +44,7 @@
+     }
+ 
+     static <T> HolderSet<T> empty() {
+-        return HolderSet.Direct.EMPTY;
++        return (HolderSet<T>)HolderSet.Direct.EMPTY;
+     }
+ 
+     @SafeVarargs
