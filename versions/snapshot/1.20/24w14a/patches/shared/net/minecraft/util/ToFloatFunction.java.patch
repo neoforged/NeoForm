@@ -1,0 +1,11 @@
+--- a/net/minecraft/util/ToFloatFunction.java
++++ b/net/minecraft/util/ToFloatFunction.java
+@@ -32,7 +32,7 @@
+ 
+     default <C2> ToFloatFunction<C2> comap(final Function<C2, C> p_216478_) {
+         final ToFloatFunction<C> tofloatfunction = this;
+-        return new ToFloatFunction<C2>(this) {
++        return new ToFloatFunction<C2>() {
+             @Override
+             public float apply(C2 p_216496_) {
+                 return tofloatfunction.apply(p_216478_.apply(p_216496_));

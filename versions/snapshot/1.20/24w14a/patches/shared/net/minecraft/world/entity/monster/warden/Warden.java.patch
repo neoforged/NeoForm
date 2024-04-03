@@ -9,3 +9,18 @@
      }
  
      @Override
+@@ -560,12 +560,12 @@
+ 
+     @Override
+     protected PathNavigation createNavigation(Level p_219396_) {
+-        return new GroundPathNavigation(this, this, p_219396_) {
++        return new GroundPathNavigation(this, p_219396_) {
+             @Override
+             protected PathFinder createPathFinder(int p_219479_) {
+                 this.nodeEvaluator = new WalkNodeEvaluator();
+                 this.nodeEvaluator.setCanPassDoors(true);
+-                return new PathFinder(this, this.nodeEvaluator, p_219479_) {
++                return new PathFinder(this.nodeEvaluator, p_219479_) {
+                     @Override
+                     protected float distance(Node p_219486_, Node p_219487_) {
+                         return p_219486_.distanceToXZ(p_219487_);

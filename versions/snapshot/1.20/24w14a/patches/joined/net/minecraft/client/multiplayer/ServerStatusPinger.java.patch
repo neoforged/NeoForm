@@ -1,0 +1,11 @@
+--- a/net/minecraft/client/multiplayer/ServerStatusPinger.java
++++ b/net/minecraft/client/multiplayer/ServerStatusPinger.java
+@@ -143,7 +143,7 @@
+     }
+ 
+     void pingLegacyServer(InetSocketAddress p_171812_, final ServerAddress p_295436_, final ServerData p_171813_) {
+-        new Bootstrap().group(Connection.NETWORK_WORKER_GROUP.get()).handler(new ChannelInitializer<Channel>(this) {
++        new Bootstrap().group(Connection.NETWORK_WORKER_GROUP.get()).handler(new ChannelInitializer<Channel>() {
+             @Override
+             protected void initChannel(Channel p_105498_) {
+                 try {

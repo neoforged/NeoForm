@@ -9,3 +9,12 @@
          this.getProfiler().incrementCounter("runTask");
          super.doRunTask(p_129957_);
      }
+@@ -1696,7 +1696,7 @@
+         try (Writer writer = Files.newBufferedWriter(p_129984_)) {
+             final List<String> list = Lists.newArrayList();
+             final GameRules gamerules = this.getGameRules();
+-            GameRules.visitGameRuleTypes(new GameRules.GameRuleTypeVisitor(this) {
++            GameRules.visitGameRuleTypes(new GameRules.GameRuleTypeVisitor() {
+                 @Override
+                 public <T extends GameRules.Value<T>> void visit(GameRules.Key<T> p_195531_, GameRules.Type<T> p_195532_) {
+                     list.add(String.format(Locale.ROOT, "%s=%s\n", p_195531_.getId(), gamerules.<T>getRule(p_195531_)));

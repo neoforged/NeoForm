@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/level/block/entity/CrafterBlockEntity.java
++++ b/net/minecraft/world/level/block/entity/CrafterBlockEntity.java
+@@ -32,7 +32,7 @@
+     public static final int NUM_DATA = 10;
+     private NonNullList<ItemStack> items = NonNullList.withSize(9, ItemStack.EMPTY);
+     private int craftingTicksRemaining = 0;
+-    protected final ContainerData containerData = new ContainerData(this) {
++    protected final ContainerData containerData = new ContainerData() {
+         private final int[] slotStates = new int[9];
+         private int triggered = 0;
+ 

@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/level/block/entity/SpawnerBlockEntity.java
++++ b/net/minecraft/world/level/block/entity/SpawnerBlockEntity.java
+@@ -16,7 +16,7 @@
+ import net.minecraft.world.level.block.state.BlockState;
+ 
+ public class SpawnerBlockEntity extends BlockEntity implements Spawner {
+-    private final BaseSpawner spawner = new BaseSpawner(this) {
++    private final BaseSpawner spawner = new BaseSpawner() {
+         @Override
+         public void broadcastEvent(Level p_155767_, BlockPos p_155768_, int p_155769_) {
+             p_155767_.blockEvent(p_155768_, Blocks.SPAWNER, p_155769_, 0);

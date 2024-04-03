@@ -1,0 +1,11 @@
+--- a/net/minecraft/gametest/framework/MultipleTestTracker.java
++++ b/net/minecraft/gametest/framework/MultipleTestTracker.java
+@@ -32,7 +32,7 @@
+     }
+ 
+     public void addFailureListener(final Consumer<GameTestInfo> p_127808_) {
+-        this.addListener(new GameTestListener(this) {
++        this.addListener(new GameTestListener() {
+             @Override
+             public void testStructureLoaded(GameTestInfo p_127830_) {
+             }

@@ -1,0 +1,11 @@
+--- a/net/minecraft/client/renderer/texture/atlas/SpriteSourceList.java
++++ b/net/minecraft/client/renderer/texture/atlas/SpriteSourceList.java
+@@ -38,7 +38,7 @@
+ 
+     public List<Function<SpriteResourceLoader, SpriteContents>> list(ResourceManager p_294111_) {
+         final Map<ResourceLocation, SpriteSource.SpriteSupplier> map = new HashMap<>();
+-        SpriteSource.Output spritesource$output = new SpriteSource.Output(this) {
++        SpriteSource.Output spritesource$output = new SpriteSource.Output() {
+             @Override
+             public void add(ResourceLocation p_296060_, SpriteSource.SpriteSupplier p_296385_) {
+                 SpriteSource.SpriteSupplier spritesource$spritesupplier = map.put(p_296060_, p_296385_);

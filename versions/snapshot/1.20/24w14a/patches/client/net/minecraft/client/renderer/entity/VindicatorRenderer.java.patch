@@ -1,0 +1,11 @@
+--- a/net/minecraft/client/renderer/entity/VindicatorRenderer.java
++++ b/net/minecraft/client/renderer/entity/VindicatorRenderer.java
+@@ -14,7 +14,7 @@
+     public VindicatorRenderer(EntityRendererProvider.Context p_174439_) {
+         super(p_174439_, new IllagerModel<>(p_174439_.bakeLayer(ModelLayers.VINDICATOR)), 0.5F);
+         this.addLayer(
+-            new ItemInHandLayer<Vindicator, IllagerModel<Vindicator>>(this, this, p_174439_.getItemInHandRenderer()) {
++            new ItemInHandLayer<Vindicator, IllagerModel<Vindicator>>(this, p_174439_.getItemInHandRenderer()) {
+                 public void render(
+                     PoseStack p_116352_,
+                     MultiBufferSource p_116353_,

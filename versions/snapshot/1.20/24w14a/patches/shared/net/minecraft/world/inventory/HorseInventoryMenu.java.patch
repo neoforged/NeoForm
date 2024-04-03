@@ -1,0 +1,20 @@
+--- a/net/minecraft/world/inventory/HorseInventoryMenu.java
++++ b/net/minecraft/world/inventory/HorseInventoryMenu.java
+@@ -23,7 +23,7 @@
+         int i = 3;
+         p_39658_.startOpen(p_39657_.player);
+         int j = -18;
+-        this.addSlot(new Slot(this, p_39658_, 0, 8, 18) {
++        this.addSlot(new Slot(p_39658_, 0, 8, 18) {
+             @Override
+             public boolean mayPlace(ItemStack p_39677_) {
+                 return p_39677_.is(Items.SADDLE) && !this.hasItem() && p_39659_.isSaddleable();
+@@ -34,7 +34,7 @@
+                 return p_39659_.isSaddleable();
+             }
+         });
+-        this.addSlot(new Slot(this, this.armorContainer, 0, 8, 36) {
++        this.addSlot(new Slot(this.armorContainer, 0, 8, 36) {
+             @Override
+             public boolean mayPlace(ItemStack p_39690_) {
+                 return p_39659_.isBodyArmorItem(p_39690_);

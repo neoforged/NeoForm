@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/level/block/RespawnAnchorBlock.java
++++ b/net/minecraft/world/level/block/RespawnAnchorBlock.java
+@@ -149,7 +149,7 @@
+         p_55892_.removeBlock(p_55893_, false);
+         boolean flag = Direction.Plane.HORIZONTAL.stream().map(p_55893_::relative).anyMatch(p_55854_ -> isWaterThatWouldFlow(p_55854_, p_55892_));
+         final boolean flag1 = flag || p_55892_.getFluidState(p_55893_.above()).is(FluidTags.WATER);
+-        ExplosionDamageCalculator explosiondamagecalculator = new ExplosionDamageCalculator(this) {
++        ExplosionDamageCalculator explosiondamagecalculator = new ExplosionDamageCalculator() {
+             @Override
+             public Optional<Float> getBlockExplosionResistance(
+                 Explosion p_55904_, BlockGetter p_55905_, BlockPos p_55906_, BlockState p_55907_, FluidState p_55908_

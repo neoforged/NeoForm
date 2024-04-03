@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/level/block/entity/BlockEntity.java
++++ b/net/minecraft/world/level/block/entity/BlockEntity.java
+@@ -244,7 +244,7 @@
+     public final void applyComponents(DataComponentMap p_330364_, DataComponentPatch p_338381_) {
+         final Set<DataComponentType<?>> set = new HashSet<>();
+         final DataComponentMap datacomponentmap = PatchedDataComponentMap.fromPatch(p_330364_, p_338381_);
+-        this.applyImplicitComponents(new BlockEntity.DataComponentInput(this) {
++        this.applyImplicitComponents(new BlockEntity.DataComponentInput() {
+             @Nullable
+             @Override
+             public <T> T get(DataComponentType<T> p_338266_) {

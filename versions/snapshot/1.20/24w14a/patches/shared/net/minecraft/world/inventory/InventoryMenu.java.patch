@@ -1,0 +1,20 @@
+--- a/net/minecraft/world/inventory/InventoryMenu.java
++++ b/net/minecraft/world/inventory/InventoryMenu.java
+@@ -56,7 +56,7 @@
+ 
+         for(int k = 0; k < 4; ++k) {
+             final EquipmentSlot equipmentslot = SLOT_IDS[k];
+-            this.addSlot(new Slot(this, p_39706_, 39 - k, 8, 8 + k * 18) {
++            this.addSlot(new Slot(p_39706_, 39 - k, 8, 8 + k * 18) {
+                 @Override
+                 public void setByPlayer(ItemStack p_270969_, ItemStack p_299918_) {
+                     InventoryMenu.onEquipItem(p_39708_, equipmentslot, p_270969_, p_299918_);
+@@ -96,7 +96,7 @@
+             this.addSlot(new Slot(p_39706_, i1, 8 + i1 * 18, 142));
+         }
+ 
+-        this.addSlot(new Slot(this, p_39706_, 40, 77, 62) {
++        this.addSlot(new Slot(p_39706_, 40, 77, 62) {
+             @Override
+             public void setByPlayer(ItemStack p_270479_, ItemStack p_299920_) {
+                 InventoryMenu.onEquipItem(p_39708_, EquipmentSlot.OFFHAND, p_270479_, p_299920_);

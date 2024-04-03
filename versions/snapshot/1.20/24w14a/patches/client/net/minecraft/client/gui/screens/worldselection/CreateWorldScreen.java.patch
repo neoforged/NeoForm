@@ -1,0 +1,11 @@
+--- a/net/minecraft/client/gui/screens/worldselection/CreateWorldScreen.java
++++ b/net/minecraft/client/gui/screens/worldselection/CreateWorldScreen.java
+@@ -715,7 +715,7 @@
+             );
+             CreateWorldScreen.this.uiState
+                 .addListener(p_280910_ -> this.customizeTypeButton.active = !p_280910_.isDebug() && p_280910_.getPresetEditor() != null);
+-            this.seedEdit = new EditBox(this, CreateWorldScreen.this.font, 308, 20, Component.translatable("selectWorld.enterSeed")) {
++            this.seedEdit = new EditBox(CreateWorldScreen.this.font, 308, 20, Component.translatable("selectWorld.enterSeed")) {
+                 @Override
+                 protected MutableComponent createNarrationMessage() {
+                     return super.createNarrationMessage().append(CommonComponents.NARRATION_SEPARATOR).append(CreateWorldScreen.WorldTab.SEED_EMPTY_HINT);
