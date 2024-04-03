@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/inventory/BeaconMenu.java
++++ b/net/minecraft/world/inventory/BeaconMenu.java
+@@ -22,7 +22,7 @@
+     private static final int USE_ROW_SLOT_START = 28;
+     private static final int USE_ROW_SLOT_END = 37;
+     private static final int NO_EFFECT = 0;
+-    private final Container beacon = new SimpleContainer(this, 1) {
++    private final Container beacon = new SimpleContainer(1) {
+         @Override
+         public boolean canPlaceItem(int p_39066_, ItemStack p_39067_) {
+             return p_39067_.is(ItemTags.BEACON_PAYMENT_ITEMS);

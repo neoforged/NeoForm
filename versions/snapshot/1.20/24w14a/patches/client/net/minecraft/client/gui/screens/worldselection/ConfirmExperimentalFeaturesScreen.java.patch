@@ -10,8 +10,12 @@
          this.layout.arrangeElements();
          this.repositionElements();
      }
-@@ -95,8 +94,7 @@
-                     new ConfirmExperimentalFeaturesScreen.DetailsScreen.PackList(this.minecraft, ConfirmExperimentalFeaturesScreen.this.enabledPacks)
+@@ -92,11 +91,10 @@
+             this.layout.addTitleHeader(TITLE, this.font);
+             this.list = this.layout
+                 .addToContents(
+-                    new ConfirmExperimentalFeaturesScreen.DetailsScreen.PackList(this, this.minecraft, ConfirmExperimentalFeaturesScreen.this.enabledPacks)
++                    new ConfirmExperimentalFeaturesScreen.DetailsScreen.PackList(this.minecraft, ConfirmExperimentalFeaturesScreen.this.enabledPacks)
                  );
              this.layout.addToFooter(Button.builder(CommonComponents.GUI_BACK, p_251286_ -> this.onClose()).build());
 -            this.layout.visitWidgets(p_329748_ -> {
@@ -20,3 +24,22 @@
              this.repositionElements();
          }
  
+@@ -115,15 +113,15 @@
+         }
+ 
+         class PackList extends ObjectSelectionList<ConfirmExperimentalFeaturesScreen.DetailsScreen.PackListEntry> {
+-            public PackList(Minecraft var1, Collection<Pack> p_249776_, Collection p_251183_) {
+-                super(p_249776_, var1.width, var1.layout.getContentHeight(), var1.layout.getHeaderHeight(), (9 + 2) * 3);
++            public PackList(Minecraft p_249776_, Collection<Pack> p_251183_) {
++                super(p_249776_, DetailsScreen.this.width, DetailsScreen.this.layout.getContentHeight(), DetailsScreen.this.layout.getHeaderHeight(), (9 + 2) * 3);
+ 
+                 for(Pack pack : p_251183_) {
+                     String s = FeatureFlags.printMissingFlags(FeatureFlags.VANILLA_SET, pack.getRequestedFeatures());
+                     if (!s.isEmpty()) {
+                         Component component = ComponentUtils.mergeStyles(pack.getTitle().copy(), Style.EMPTY.withBold(true));
+                         Component component1 = Component.translatable("selectWorld.experimental.details.entry", s);
+-                        this.addEntry(var1.new PackListEntry(component, component1, MultiLineLabel.create(var1.font, component1, this.getRowWidth())));
++                        this.addEntry(DetailsScreen.this.new PackListEntry(component, component1, MultiLineLabel.create(DetailsScreen.this.font, component1, this.getRowWidth())));
+                     }
+                 }
+             }

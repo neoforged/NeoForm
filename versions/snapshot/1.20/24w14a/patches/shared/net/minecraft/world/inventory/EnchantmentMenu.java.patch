@@ -1,0 +1,18 @@
+--- a/net/minecraft/world/inventory/EnchantmentMenu.java
++++ b/net/minecraft/world/inventory/EnchantmentMenu.java
+@@ -48,13 +48,13 @@
+     public EnchantmentMenu(int p_39457_, Inventory p_39458_, ContainerLevelAccess p_39459_) {
+         super(MenuType.ENCHANTMENT, p_39457_);
+         this.access = p_39459_;
+-        this.addSlot(new Slot(this, this.enchantSlots, 0, 15, 47) {
++        this.addSlot(new Slot(this.enchantSlots, 0, 15, 47) {
+             @Override
+             public int getMaxStackSize() {
+                 return 1;
+             }
+         });
+-        this.addSlot(new Slot(this, this.enchantSlots, 1, 35, 47) {
++        this.addSlot(new Slot(this.enchantSlots, 1, 35, 47) {
+             @Override
+             public boolean mayPlace(ItemStack p_39517_) {
+                 return p_39517_.is(Items.LAPIS_LAZULI);

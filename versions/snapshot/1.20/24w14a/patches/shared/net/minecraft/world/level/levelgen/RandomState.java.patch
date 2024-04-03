@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/level/levelgen/RandomState.java
++++ b/net/minecraft/world/level/levelgen/RandomState.java
+@@ -101,7 +101,7 @@
+         }
+ 
+         this.router = p_255668_.noiseRouter().mapAll(new NoiseWiringHelper());
+-        DensityFunction.Visitor densityfunction$visitor = new DensityFunction.Visitor(this) {
++        DensityFunction.Visitor densityfunction$visitor = new DensityFunction.Visitor() {
+             private final Map<DensityFunction, DensityFunction> wrapped = new HashMap<>();
+ 
+             private DensityFunction wrapNew(DensityFunction p_249732_) {

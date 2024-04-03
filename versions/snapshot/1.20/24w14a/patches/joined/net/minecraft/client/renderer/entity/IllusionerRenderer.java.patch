@@ -1,0 +1,11 @@
+--- a/net/minecraft/client/renderer/entity/IllusionerRenderer.java
++++ b/net/minecraft/client/renderer/entity/IllusionerRenderer.java
+@@ -19,7 +19,7 @@
+     public IllusionerRenderer(EntityRendererProvider.Context p_174186_) {
+         super(p_174186_, new IllagerModel<>(p_174186_.bakeLayer(ModelLayers.ILLUSIONER)), 0.5F);
+         this.addLayer(
+-            new ItemInHandLayer<Illusioner, IllagerModel<Illusioner>>(this, this, p_174186_.getItemInHandRenderer()) {
++            new ItemInHandLayer<Illusioner, IllagerModel<Illusioner>>(this, p_174186_.getItemInHandRenderer()) {
+                 public void render(
+                     PoseStack p_114989_,
+                     MultiBufferSource p_114990_,

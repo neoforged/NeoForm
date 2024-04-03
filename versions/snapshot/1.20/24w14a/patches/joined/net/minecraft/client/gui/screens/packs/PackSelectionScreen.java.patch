@@ -10,3 +10,12 @@
          this.repositionElements();
      }
  
+@@ -221,7 +220,7 @@
+                         if (p_293606_) {
+                             List<Path> list = new ArrayList<>(p_100029_.size());
+                             Set<Path> set = new HashSet<>(p_100029_);
+-                            PackDetector<Path> packdetector = new PackDetector<Path>(this, this.minecraft.directoryValidator()) {
++                            PackDetector<Path> packdetector = new PackDetector<Path>(this.minecraft.directoryValidator()) {
+                                 protected Path createZipPack(Path p_294508_) {
+                                     return p_294508_;
+                                 }

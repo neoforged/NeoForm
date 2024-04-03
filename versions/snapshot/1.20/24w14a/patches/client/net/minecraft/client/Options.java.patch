@@ -1,0 +1,29 @@
+--- a/net/minecraft/client/Options.java
++++ b/net/minecraft/client/Options.java
+@@ -1277,7 +1277,7 @@
+             }
+ 
+             this.processOptions(
+-                new Options.FieldAccess(this) {
++                new Options.FieldAccess() {
+                     @Nullable
+                     private String getValueOrNull(String p_168459_) {
+                         return compoundtag1.contains(p_168459_) ? compoundtag1.getString(p_168459_) : null;
+@@ -1387,7 +1387,7 @@
+         try (final PrintWriter printwriter = new PrintWriter(new OutputStreamWriter(new FileOutputStream(this.optionsFile), StandardCharsets.UTF_8))) {
+             printwriter.println("version:" + SharedConstants.getCurrentVersion().getDataVersion().getVersion());
+             this.processOptions(
+-                new Options.FieldAccess(this) {
++                new Options.FieldAccess() {
+                     public void writePrefix(String p_168491_) {
+                         printwriter.print(p_168491_);
+                         printwriter.print(':');
+@@ -1547,7 +1547,7 @@
+ 
+     public String dumpOptionsForReport() {
+         final List<Pair<String, Object>> list = new ArrayList<>();
+-        this.processDumpedOptions(new Options.OptionAccess(this) {
++        this.processDumpedOptions(new Options.OptionAccess() {
+             @Override
+             public <T> void process(String p_325921_, OptionInstance<T> p_326002_) {
+                 list.add(Pair.of(p_325921_, p_326002_.get()));

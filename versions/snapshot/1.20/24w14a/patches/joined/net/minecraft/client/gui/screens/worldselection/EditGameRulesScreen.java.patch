@@ -10,3 +10,21 @@
          this.repositionElements();
      }
  
+@@ -102,7 +101,7 @@
+         private final CycleButton<Boolean> checkbox;
+ 
+         public BooleanRuleEntry(
+-            Component p_101100_, List<FormattedCharSequence> p_101101_, String p_101102_, GameRules.BooleanValue p_101103_, GameRules.BooleanValue p_101104_
++            Component p_101101_, List<FormattedCharSequence> p_101102_, String p_101103_, GameRules.BooleanValue p_101104_
+         ) {
+             super(p_101102_, p_101101_);
+             this.checkbox = CycleButton.onOffBuilder(p_101104_.get())
+@@ -284,7 +283,7 @@
+                         this.addEntry(
+                             p_101238_,
+                             (p_101228_, p_101229_, p_101230_, p_101231_) -> EditGameRulesScreen.this.new BooleanRuleEntry(
+-                                    EditGameRulesScreen.this, p_101228_, p_101229_, p_101230_, p_101231_
++                                    p_101228_, p_101229_, p_101230_, p_101231_
+                                 )
+                         );
+                     }

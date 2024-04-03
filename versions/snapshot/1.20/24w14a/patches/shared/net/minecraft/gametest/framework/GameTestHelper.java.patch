@@ -1,0 +1,20 @@
+--- a/net/minecraft/gametest/framework/GameTestHelper.java
++++ b/net/minecraft/gametest/framework/GameTestHelper.java
+@@ -263,7 +263,7 @@
+     }
+ 
+     public Player makeMockPlayer(final GameType p_323908_) {
+-        return new Player(this, this.getLevel(), BlockPos.ZERO, 0.0F, new GameProfile(UUID.randomUUID(), "test-mock-player")) {
++        return new Player(this.getLevel(), BlockPos.ZERO, 0.0F, new GameProfile(UUID.randomUUID(), "test-mock-player")) {
+             @Override
+             public boolean isSpectator() {
+                 return p_323908_ == GameType.SPECTATOR;
+@@ -287,7 +287,7 @@
+     public ServerPlayer makeMockServerPlayerInLevel() {
+         CommonListenerCookie commonlistenercookie = CommonListenerCookie.createInitial(new GameProfile(UUID.randomUUID(), "test-mock-player"), false);
+         ServerPlayer serverplayer = new ServerPlayer(
+-            this, this.getLevel().getServer(), this.getLevel(), commonlistenercookie.gameProfile(), commonlistenercookie.clientInformation()
++            this.getLevel().getServer(), this.getLevel(), commonlistenercookie.gameProfile(), commonlistenercookie.clientInformation()
+         ) {
+             @Override
+             public boolean isSpectator() {

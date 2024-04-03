@@ -1,0 +1,11 @@
+--- a/net/minecraft/network/Connection.java
++++ b/net/minecraft/network/Connection.java
+@@ -478,7 +478,7 @@
+     }
+ 
+     public void configurePacketHandler(ChannelPipeline p_302007_) {
+-        p_302007_.addLast("hackfix", new ChannelOutboundHandlerAdapter(this) {
++        p_302007_.addLast("hackfix", new ChannelOutboundHandlerAdapter() {
+             @Override
+             public void write(ChannelHandlerContext p_320587_, Object p_320392_, ChannelPromise p_320515_) throws Exception {
+                 super.write(p_320587_, p_320392_, p_320515_);

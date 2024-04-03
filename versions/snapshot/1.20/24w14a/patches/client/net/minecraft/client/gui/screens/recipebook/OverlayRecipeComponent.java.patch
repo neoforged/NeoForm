@@ -1,0 +1,20 @@
+--- a/net/minecraft/client/gui/screens/recipebook/OverlayRecipeComponent.java
++++ b/net/minecraft/client/gui/screens/recipebook/OverlayRecipeComponent.java
+@@ -90,7 +90,7 @@
+             int j1 = this.x + 4 + 25 * (i1 % k);
+             int k1 = this.y + 5 + 25 * (i1 / k);
+             if (this.isFurnaceMenu) {
+-                this.recipeButtons.add(new OverlayRecipeComponent.OverlaySmeltingRecipeButton((int)this, j1, k1, (boolean)recipeholder, flag1));
++                this.recipeButtons.add(new OverlayRecipeComponent.OverlaySmeltingRecipeButton(j1, k1, recipeholder, flag1));
+             } else {
+                 this.recipeButtons.add(new OverlayRecipeComponent.OverlayRecipeButton(j1, k1, recipeholder, flag1));
+             }
+@@ -261,7 +261,7 @@
+     }
+ 
+     class OverlaySmeltingRecipeButton extends OverlayRecipeComponent.OverlayRecipeButton {
+-        public OverlaySmeltingRecipeButton(int var1, int p_100262_, RecipeHolder<?> p_100263_, boolean p_301104_, boolean p_100265_) {
++        public OverlaySmeltingRecipeButton(int p_100262_, int p_100263_, RecipeHolder<?> p_301104_, boolean p_100265_) {
+             super(p_100262_, p_100263_, p_301104_, p_100265_);
+         }
+ 

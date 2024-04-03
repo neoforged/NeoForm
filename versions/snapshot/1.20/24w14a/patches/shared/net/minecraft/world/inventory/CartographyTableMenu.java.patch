@@ -1,0 +1,18 @@
+--- a/net/minecraft/world/inventory/CartographyTableMenu.java
++++ b/net/minecraft/world/inventory/CartographyTableMenu.java
+@@ -48,13 +48,13 @@
+     public CartographyTableMenu(int p_39143_, Inventory p_39144_, final ContainerLevelAccess p_39145_) {
+         super(MenuType.CARTOGRAPHY_TABLE, p_39143_);
+         this.access = p_39145_;
+-        this.addSlot(new Slot(this, this.container, 0, 15, 15) {
++        this.addSlot(new Slot(this.container, 0, 15, 15) {
+             @Override
+             public boolean mayPlace(ItemStack p_39194_) {
+                 return p_39194_.is(Items.FILLED_MAP);
+             }
+         });
+-        this.addSlot(new Slot(this, this.container, 1, 15, 52) {
++        this.addSlot(new Slot(this.container, 1, 15, 52) {
+             @Override
+             public boolean mayPlace(ItemStack p_39203_) {
+                 return p_39203_.is(Items.PAPER) || p_39203_.is(Items.MAP) || p_39203_.is(Items.GLASS_PANE);

@@ -11,6 +11,21 @@
              }
  
              @Override
+@@ -57,12 +57,12 @@
+ 
+     default RegistryAccess.Frozen freeze() {
+         class FrozenAccess extends RegistryAccess.ImmutableRegistryAccess implements RegistryAccess.Frozen {
+-            protected FrozenAccess(Stream<RegistryAccess.RegistryEntry<?>> p_249148_, Stream p_252031_) {
++            protected FrozenAccess(Stream<RegistryAccess.RegistryEntry<?>> p_252031_) {
+                 super(p_252031_);
+             }
+         }
+ 
+-        return new FrozenAccess(this, this.registries().map(RegistryAccess.RegistryEntry::freeze));
++        return new FrozenAccess(this.registries().map(RegistryAccess.RegistryEntry::freeze));
+     }
+ 
+     default Lifecycle allRegistriesLifecycle() {
 @@ -77,7 +77,7 @@
  
          public ImmutableRegistryAccess(List<? extends Registry<?>> p_248540_) {

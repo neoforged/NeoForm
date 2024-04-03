@@ -1,0 +1,11 @@
+--- a/net/minecraft/server/packs/resources/ResourceMetadata.java
++++ b/net/minecraft/server/packs/resources/ResourceMetadata.java
+@@ -63,7 +63,7 @@
+ 
+         public ResourceMetadata build() {
+             final ImmutableMap<MetadataSectionSerializer<?>, Object> immutablemap = this.map.build();
+-            return immutablemap.isEmpty() ? ResourceMetadata.EMPTY : new ResourceMetadata(this) {
++            return immutablemap.isEmpty() ? ResourceMetadata.EMPTY : new ResourceMetadata() {
+                 @Override
+                 public <T> Optional<T> getSection(MetadataSectionSerializer<T> p_295383_) {
+                     return Optional.ofNullable((T)immutablemap.get(p_295383_));
