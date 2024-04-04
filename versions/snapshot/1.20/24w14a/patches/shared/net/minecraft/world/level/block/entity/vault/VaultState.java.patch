@@ -1,0 +1,52 @@
+--- a/net/minecraft/world/level/block/entity/vault/VaultState.java
++++ b/net/minecraft/world/level/block/entity/vault/VaultState.java
+@@ -68,22 +68,19 @@
+     }
+ 
+     public VaultState tickAndGetNext(ServerLevel p_324582_, BlockPos p_323837_, VaultConfig p_323770_, VaultServerData p_324291_, VaultSharedData p_324388_) {
+-        VaultState vaultstate;
+-        switch (this) {
+-            case INACTIVE:
+-                vaultstate = updateStateForConnectedPlayers(p_324582_, p_323837_, p_323770_, p_324291_, p_324388_, p_323770_.activationRange());
+-                break;
+-            case ACTIVE:
+-                vaultstate = updateStateForConnectedPlayers(p_324582_, p_323837_, p_323770_, p_324291_, p_324388_, p_323770_.deactivationRange());
+-                break;
+-            case UNLOCKING:
++        return switch (this) {
++            case INACTIVE ->
++                updateStateForConnectedPlayers(p_324582_, p_323837_, p_323770_, p_324291_, p_324388_, p_323770_.activationRange());
++            case ACTIVE ->
++                updateStateForConnectedPlayers(p_324582_, p_323837_, p_323770_, p_324291_, p_324388_, p_323770_.deactivationRange());
++            case UNLOCKING -> {
+                 p_324291_.pauseStateUpdatingUntil(p_324582_.getGameTime() + 20L);
+-                vaultstate = EJECTING;
+-                break;
+-            case EJECTING:
++                yield EJECTING;
++            }
++            case EJECTING -> {
+                 if (p_324291_.getItemsToEject().isEmpty()) {
+                     p_324291_.markEjectionFinished();
+-                    vaultstate = updateStateForConnectedPlayers(p_324582_, p_323837_, p_323770_, p_324291_, p_324388_, p_323770_.deactivationRange());
++                    yield updateStateForConnectedPlayers(p_324582_, p_323837_, p_323770_, p_324291_, p_324388_, p_323770_.deactivationRange());
+                 } else {
+                     float f = p_324291_.ejectionProgress();
+                     this.ejectResultItem(p_324582_, p_323837_, p_324291_.popNextItemToEject(), f);
+@@ -91,13 +88,10 @@
+                     boolean flag = p_324291_.getItemsToEject().isEmpty();
+                     int i = flag ? 20 : 20;
+                     p_324291_.pauseStateUpdatingUntil(p_324582_.getGameTime() + (long)i);
+-                    vaultstate = EJECTING;
++                    yield EJECTING;
+                 }
+-                break;
+-            default:
+-        }
+-
+-        return vaultstate;
++            }
++        };
+     }
+ 
+     private static VaultState updateStateForConnectedPlayers(

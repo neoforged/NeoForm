@@ -1,0 +1,114 @@
+--- a/net/minecraft/world/level/block/entity/trialspawner/TrialSpawnerState.java
++++ b/net/minecraft/world/level/block/entity/trialspawner/TrialSpawnerState.java
+@@ -57,22 +57,20 @@
+     TrialSpawnerState tickAndGetNext(BlockPos p_312221_, TrialSpawner p_311912_, ServerLevel p_311974_) {
+         TrialSpawnerData trialspawnerdata = p_311912_.getData();
+         TrialSpawnerConfig trialspawnerconfig = p_311912_.getConfig();
+-        TrialSpawnerState trialspawnerstate;
+-        switch (this) {
+-            case INACTIVE:
+-                trialspawnerstate = trialspawnerdata.getOrCreateDisplayEntity(p_311912_, p_311974_, WAITING_FOR_PLAYERS) == null ? this : WAITING_FOR_PLAYERS;
+-                break;
+-            case WAITING_FOR_PLAYERS:
++        return switch (this) {
++            case INACTIVE ->
++                trialspawnerdata.getOrCreateDisplayEntity(p_311912_, p_311974_, WAITING_FOR_PLAYERS) == null ? this : WAITING_FOR_PLAYERS;
++            case WAITING_FOR_PLAYERS -> {
+                 if (!trialspawnerdata.hasMobToSpawn(p_311912_, p_311974_.random)) {
+-                    trialspawnerstate = INACTIVE;
++                    yield INACTIVE;
+                 } else {
+                     trialspawnerdata.tryDetectPlayers(p_311974_, p_312221_, p_311912_);
+-                    trialspawnerstate = trialspawnerdata.detectedPlayers.isEmpty() ? this : ACTIVE;
++                    yield trialspawnerdata.detectedPlayers.isEmpty() ? this : ACTIVE;
+                 }
+-                break;
+-            case ACTIVE:
++            }
++            case ACTIVE -> {
+                 if (!trialspawnerdata.hasMobToSpawn(p_311912_, p_311974_.random)) {
+-                    trialspawnerstate = INACTIVE;
++                    yield INACTIVE;
+                 } else {
+                     int i = trialspawnerdata.countAdditionalPlayers(p_312221_);
+                     trialspawnerdata.tryDetectPlayers(p_311974_, p_312221_, p_311912_);
+@@ -85,8 +83,7 @@
+                             trialspawnerdata.cooldownEndsAt = p_311974_.getGameTime() + (long)p_311912_.getTargetCooldownLength();
+                             trialspawnerdata.totalMobsSpawned = 0;
+                             trialspawnerdata.nextMobSpawnsAt = 0L;
+-                            trialspawnerstate = WAITING_FOR_REWARD_EJECTION;
+-                            break;
++                            yield WAITING_FOR_REWARD_EJECTION;
+                         }
+                     } else if (trialspawnerdata.isReadyToSpawnNextMob(p_311974_, trialspawnerconfig, i)) {
+                         p_311912_.spawnMob(p_311974_, p_312221_).ifPresent(p_338056_ -> {
+@@ -100,24 +97,24 @@
+                         });
+                     }
+ 
+-                    trialspawnerstate = this;
++                    yield this;
+                 }
+-                break;
+-            case WAITING_FOR_REWARD_EJECTION:
++            }
++            case WAITING_FOR_REWARD_EJECTION -> {
+                 if (trialspawnerdata.isReadyToOpenShutter(p_311974_, 40.0F, p_311912_.getTargetCooldownLength())) {
+                     p_311974_.playSound(null, p_312221_, SoundEvents.TRIAL_SPAWNER_OPEN_SHUTTER, SoundSource.BLOCKS);
+-                    trialspawnerstate = EJECTING_REWARD;
++                    yield EJECTING_REWARD;
+                 } else {
+-                    trialspawnerstate = this;
++                    yield this;
+                 }
+-                break;
+-            case EJECTING_REWARD:
++            }
++            case EJECTING_REWARD -> {
+                 if (!trialspawnerdata.isReadyToEjectItems(p_311974_, (float)TIME_BETWEEN_EACH_EJECTION, p_311912_.getTargetCooldownLength())) {
+-                    trialspawnerstate = this;
++                    yield this;
+                 } else if (trialspawnerdata.detectedPlayers.isEmpty()) {
+                     p_311974_.playSound(null, p_312221_, SoundEvents.TRIAL_SPAWNER_CLOSE_SHUTTER, SoundSource.BLOCKS);
+                     trialspawnerdata.ejectingLootTable = Optional.empty();
+-                    trialspawnerstate = COOLDOWN;
++                    yield COOLDOWN;
+                 } else {
+                     if (trialspawnerdata.ejectingLootTable.isEmpty()) {
+                         trialspawnerdata.ejectingLootTable = trialspawnerconfig.lootTablesToEject().getRandomValue(p_311974_.getRandom());
+@@ -125,27 +122,24 @@
+ 
+                     trialspawnerdata.ejectingLootTable.ifPresent(p_335304_ -> p_311912_.ejectReward(p_311974_, p_312221_, (ResourceKey<LootTable>)p_335304_));
+                     trialspawnerdata.detectedPlayers.remove(trialspawnerdata.detectedPlayers.iterator().next());
+-                    trialspawnerstate = this;
++                    yield this;
+                 }
+-                break;
+-            case COOLDOWN:
++            }
++            case COOLDOWN -> {
+                 trialspawnerdata.tryDetectPlayers(p_311974_, p_312221_, p_311912_);
+                 if (!trialspawnerdata.detectedPlayers.isEmpty()) {
+                     trialspawnerdata.totalMobsSpawned = 0;
+                     trialspawnerdata.nextMobSpawnsAt = 0L;
+-                    trialspawnerstate = ACTIVE;
++                    yield ACTIVE;
+                 } else if (trialspawnerdata.isCooldownFinished(p_311974_)) {
+                     trialspawnerdata.cooldownEndsAt = 0L;
+                     p_311912_.removeOminous(p_311974_, p_312221_);
+-                    trialspawnerstate = WAITING_FOR_PLAYERS;
++                    yield WAITING_FOR_PLAYERS;
+                 } else {
+-                    trialspawnerstate = this;
++                    yield this;
+                 }
+-                break;
+-            default:
+-        }
+-
+-        return trialspawnerstate;
++            }
++        };
+     }
+ 
+     private void spawnOminousOminousItemSpawner(ServerLevel p_338483_, BlockPos p_338824_, TrialSpawner p_338767_) {

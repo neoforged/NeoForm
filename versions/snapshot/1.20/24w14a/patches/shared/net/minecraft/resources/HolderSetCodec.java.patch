@@ -1,6 +1,6 @@
 --- a/net/minecraft/resources/HolderSetCodec.java
 +++ b/net/minecraft/resources/HolderSetCodec.java
-@@ -68,7 +68,7 @@
+@@ -70,7 +70,7 @@
  
      private static <E> DataResult<HolderSet<E>> lookupTag(HolderGetter<E> p_332757_, TagKey<E> p_332743_) {
          return p_332757_.get(p_332743_)

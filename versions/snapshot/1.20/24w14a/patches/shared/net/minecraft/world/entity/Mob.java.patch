@@ -1,11 +1,11 @@
 --- a/net/minecraft/world/entity/Mob.java
 +++ b/net/minecraft/world/entity/Mob.java
-@@ -1235,7 +1235,7 @@
-                 if (this.level() instanceof ServerLevel) {
-                     SpawnEggItem spawneggitem = (SpawnEggItem)itemstack.getItem();
-                     Optional<Mob> optional = spawneggitem.spawnOffspringFromSpawnEgg(
--                        p_21500_, this, this.getType(), (ServerLevel)this.level(), this.position(), itemstack
-+                        p_21500_, this, (EntityType<? extends Mob>)this.getType(), (ServerLevel)this.level(), this.position(), itemstack
-                     );
-                     optional.ifPresent(p_21476_ -> this.onOffspringSpawnedFromEgg(p_21500_, p_21476_));
-                     return optional.isPresent() ? InteractionResult.SUCCESS : InteractionResult.PASS;
+@@ -492,7 +492,7 @@
+         if (p_21450_.contains("leash", 10)) {
+             this.delayedLeashInfo = Either.left(p_21450_.getCompound("leash").getUUID("UUID"));
+         } else if (p_21450_.contains("leash", 11)) {
+-            this.delayedLeashInfo = NbtUtils.readBlockPos(p_21450_, "leash").map(Either::right).orElse(null);
++            this.delayedLeashInfo = NbtUtils.readBlockPos(p_21450_, "leash").<Either<UUID, BlockPos>>map(Either::right).orElse(null);
+         } else {
+             this.delayedLeashInfo = null;
+         }

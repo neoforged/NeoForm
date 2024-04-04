@@ -1,16 +1,6 @@
 --- a/net/minecraft/client/gui/screens/worldselection/ConfirmExperimentalFeaturesScreen.java
 +++ b/net/minecraft/client/gui/screens/worldselection/ConfirmExperimentalFeaturesScreen.java
-@@ -61,8 +61,7 @@
-         );
-         gridlayout$rowhelper.addChild(Button.builder(CommonComponents.GUI_PROCEED, p_252248_ -> this.callback.accept(true)).build());
-         gridlayout$rowhelper.addChild(Button.builder(CommonComponents.GUI_BACK, p_250397_ -> this.callback.accept(false)).build());
--        this.layout.visitWidgets(p_321368_ -> {
--        });
-+        this.layout.visitWidgets(this::addRenderableWidget);
-         this.layout.arrangeElements();
-         this.repositionElements();
-     }
-@@ -92,11 +91,10 @@
+@@ -94,7 +94,7 @@
              this.layout.addTitleHeader(TITLE, this.font);
              this.list = this.layout
                  .addToContents(
@@ -18,13 +8,8 @@
 +                    new ConfirmExperimentalFeaturesScreen.DetailsScreen.PackList(this.minecraft, ConfirmExperimentalFeaturesScreen.this.enabledPacks)
                  );
              this.layout.addToFooter(Button.builder(CommonComponents.GUI_BACK, p_251286_ -> this.onClose()).build());
--            this.layout.visitWidgets(p_329748_ -> {
--            });
-+            this.layout.visitWidgets(this::addRenderableWidget);
-             this.repositionElements();
-         }
- 
-@@ -115,15 +113,15 @@
+             this.layout.visitWidgets(p_329748_ -> {
+@@ -118,15 +118,15 @@
          }
  
          class PackList extends ObjectSelectionList<ConfirmExperimentalFeaturesScreen.DetailsScreen.PackListEntry> {
@@ -33,7 +18,7 @@
 +            public PackList(Minecraft p_249776_, Collection<Pack> p_251183_) {
 +                super(p_249776_, DetailsScreen.this.width, DetailsScreen.this.layout.getContentHeight(), DetailsScreen.this.layout.getHeaderHeight(), (9 + 2) * 3);
  
-                 for(Pack pack : p_251183_) {
+                 for (Pack pack : p_251183_) {
                      String s = FeatureFlags.printMissingFlags(FeatureFlags.VANILLA_SET, pack.getRequestedFeatures());
                      if (!s.isEmpty()) {
                          Component component = ComponentUtils.mergeStyles(pack.getTitle().copy(), Style.EMPTY.withBold(true));

@@ -2,14 +2,14 @@
 +++ b/net/minecraft/commands/Commands.java
 @@ -376,7 +376,7 @@
      ) {
-         for(CommandNode<CommandSourceStack> commandnode : p_82113_.getChildren()) {
+         for (CommandNode<CommandSourceStack> commandnode : p_82113_.getChildren()) {
              if (commandnode.canUse(p_82115_)) {
 -                ArgumentBuilder<SharedSuggestionProvider, ?> argumentbuilder = commandnode.createBuilder();
 +                ArgumentBuilder<SharedSuggestionProvider, ?> argumentbuilder = (ArgumentBuilder<SharedSuggestionProvider, ?>)(ArgumentBuilder<?, ?>)commandnode.createBuilder();
                  argumentbuilder.requires(p_82126_ -> true);
                  if (argumentbuilder.getCommand() != null) {
                      argumentbuilder.executes(p_82102_ -> 0);
-@@ -456,7 +456,7 @@
+@@ -459,7 +459,7 @@
              }
  
              private <T> HolderLookup.RegistryLookup.Delegate<T> createLookup(final HolderLookup.RegistryLookup<T> p_323830_) {

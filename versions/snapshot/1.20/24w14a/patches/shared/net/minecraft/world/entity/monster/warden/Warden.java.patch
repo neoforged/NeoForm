@@ -1,21 +1,6 @@
 --- a/net/minecraft/world/entity/monster/warden/Warden.java
 +++ b/net/minecraft/world/entity/monster/warden/Warden.java
-@@ -371,7 +371,7 @@
- 
-     @Override
-     public Brain<Warden> getBrain() {
--        return super.getBrain();
-+        return (Brain<Warden>)super.getBrain();
-     }
- 
-     @Override
-@@ -560,12 +560,12 @@
- 
-     @Override
-     protected PathNavigation createNavigation(Level p_219396_) {
--        return new GroundPathNavigation(this, this, p_219396_) {
-+        return new GroundPathNavigation(this, p_219396_) {
-             @Override
+@@ -563,7 +563,7 @@
              protected PathFinder createPathFinder(int p_219479_) {
                  this.nodeEvaluator = new WalkNodeEvaluator();
                  this.nodeEvaluator.setCanPassDoors(true);

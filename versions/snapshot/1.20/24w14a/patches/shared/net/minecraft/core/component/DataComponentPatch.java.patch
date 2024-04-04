@@ -9,12 +9,3 @@
          .xmap(p_330885_ -> {
              if (p_330885_.isEmpty()) {
                  return EMPTY;
-@@ -123,7 +123,7 @@
-         }
- 
-         private static <T> void encodeComponent(RegistryFriendlyByteBuf p_331735_, DataComponentType<T> p_330633_, Object p_331089_) {
--            p_330633_.streamCodec().encode(p_331735_, p_331089_);
-+            p_330633_.streamCodec().encode(p_331735_, (T)p_331089_);
-         }
-     };
-     private static final String REMOVED_PREFIX = "!";

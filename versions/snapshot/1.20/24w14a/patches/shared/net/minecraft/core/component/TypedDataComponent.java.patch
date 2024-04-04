@@ -1,11 +1,20 @@
 --- a/net/minecraft/core/component/TypedDataComponent.java
 +++ b/net/minecraft/core/component/TypedDataComponent.java
-@@ -31,7 +31,7 @@
-     };
+@@ -13,7 +13,7 @@
+     ) {
+         public TypedDataComponent<?> decode(RegistryFriendlyByteBuf p_331219_) {
+             DataComponentType<?> datacomponenttype = DataComponentType.STREAM_CODEC.decode(p_331219_);
+-            return decodeTyped(p_331219_, (DataComponentType<T>)datacomponenttype);
++            return decodeTyped(p_331219_, datacomponenttype);
+         }
  
-     static TypedDataComponent<?> fromEntryUnchecked(Entry<DataComponentType<?>, Object> p_332125_) {
--        return createUnchecked((DataComponentType<T>)p_332125_.getKey(), p_332125_.getValue());
-+        return createUnchecked(p_332125_.getKey(), p_332125_.getValue());
-     }
+         private static <T> TypedDataComponent<T> decodeTyped(RegistryFriendlyByteBuf p_331307_, DataComponentType<T> p_330560_) {
+@@ -21,7 +21,7 @@
+         }
  
-     static <T> TypedDataComponent<T> createUnchecked(DataComponentType<T> p_332026_, Object p_331462_) {
+         public void encode(RegistryFriendlyByteBuf p_330591_, TypedDataComponent<?> p_331491_) {
+-            encodeCap(p_330591_, (TypedDataComponent<T>)p_331491_);
++            encodeCap(p_330591_, p_331491_);
+         }
+ 
+         private static <T> void encodeCap(RegistryFriendlyByteBuf p_331348_, TypedDataComponent<T> p_331234_) {
