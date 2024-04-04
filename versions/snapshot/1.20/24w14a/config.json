@@ -5,11 +5,10 @@
     "encoding": "UTF-8",
     "test_remap_official": false,
     "fernflower": {
-        "version": "org.vineflower:vineflower:1.10.0-20240404.012424-91",
+        "version": "org.vineflower:vineflower:1.10.0",
         "java_version": 21,
         "args": ["-din=1", "-rbr=1", "-dgs=1", "-asc=1", "-rsy=1", "-iec=1", "--variable-renaming=jad", "-iib=1", "-bsm=1", "-dcl=1", "-nls=1", "-ind=    ", "-log=TRACE", "-cfg", "{libraries}", "{input}", "{output}"],
-        "jvmargs": ["-Xmx4G"],
-        "repo": "https://s01.oss.sonatype.org/content/repositories/snapshots/"
+        "jvmargs": ["-Xmx4G"]
     },
     "merge": {
         "version": "net.neoforged:mergetool:2.0.3:fatjar",

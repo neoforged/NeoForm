@@ -9,12 +9,3 @@
                  argumentbuilder.requires(p_82126_ -> true);
                  if (argumentbuilder.getCommand() != null) {
                      argumentbuilder.executes(p_82102_ -> 0);
-@@ -459,7 +459,7 @@
-             }
- 
-             private <T> HolderLookup.RegistryLookup.Delegate<T> createLookup(final HolderLookup.RegistryLookup<T> p_323830_) {
--                return new HolderLookup.RegistryLookup.Delegate<T>(this) {
-+                return new HolderLookup.RegistryLookup.Delegate<T>() {
-                     @Override
-                     public HolderLookup.RegistryLookup<T> parent() {
-                         return p_323830_;
