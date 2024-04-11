@@ -7,7 +7,7 @@
     "fernflower": {
         "version": "org.vineflower:vineflower:1.10.0",
         "java_version": 21,
-        "args": ["-din=1", "-rbr=1", "-dgs=1", "-asc=1", "-rsy=1", "-iec=1", "--variable-renaming=jad", "-iib=1", "-bsm=1", "-dcl=1", "-nls=1", "-ump=0", "-ind=    ", "-log=TRACE", "-cfg", "{libraries}", "{input}", "{output}"],
+        "args": ["--decompile-inner", "--remove-bridge", "--decompile-generics", "--ascii-strings", "--remove-synthetic", "--include-classpath", "--variable-renaming=jad", "--ignore-invalid-bytecode", "--bytecode-source-mapping", "--dump-code-lines", "--no-use-method-parameters", "--indent-string=    ", "--log-level=TRACE", "-cfg", "{libraries}", "{input}", "{output}"],
         "jvmargs": ["-Xmx4G"]
     },
     "merge": {
