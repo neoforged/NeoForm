@@ -25,7 +25,7 @@ jobs:
     needs: get_versions
     strategy:
       matrix:
-        version: ${{ needs.get_versions.outputs.versions }}
+        version: ${{ fromJson(needs.get_versions.outputs.versions) }}
     uses: './.github/workflows/check.yml'
     with:
       version: ${{ matrix.version }}
