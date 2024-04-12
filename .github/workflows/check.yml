@@ -63,6 +63,7 @@ jobs:
           var returnValue = {version_name: version[version.length - 1], version_type: version[0]}
           return returnValue;
     - name: Create discord fields json
+      if: ${{ inputs.publish }}
       id: discord_fields
       run: |
         echo "discord_fields<<EOF" >> $GITHUB_OUTPUT
