@@ -23,6 +23,7 @@ jobs:
       run: echo "versions=$(echo $LABELS | jq -c '[.[] | select(. != null and (startswith("snapshot/") or startswith("pre/") or startswith("release/")))]')" >> "$GITHUB_OUTPUT"
   check:
     needs: get_versions
+    if: ${{ fromJson(needs.get_versions.outputs.versions) }}
     strategy:
       matrix:
         version: ${{ fromJson(needs.get_versions.outputs.versions) }}
