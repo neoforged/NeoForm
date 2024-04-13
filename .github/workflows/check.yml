@@ -49,7 +49,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       discord_fields: ${{ steps.discord_fields.outputs.discord_fields }}
-      jdk_version: ${{ steps.java_version.outputs.result }}
+      test_versions: ${{ steps.test_versions.outputs.test_versions }}
       version_type: ${{ fromJson(steps.split_version.outputs.result).version_type }}
       version_name: ${{ fromJson(steps.split_version.outputs.result).version_name }}
     steps:
@@ -155,21 +155,12 @@ jobs:
       with:
         name: neoform-${{ fromJson(steps.split_version.outputs.result).version_name }}
         path: build/distributions/*.zip
-    - name: Get Java Version
-      id: java_version
-      uses: actions/github-script@v6
+    - name: Get Java Test Versions
+      id: test_versions
       env:
         VERSION: ${{ inputs.version }}
-        PATCHES_OUTCOME: ${{ steps.patches.outcome }}
-      with:
-        result-encoding: "string"
-        script: |
-          if (process.env.PATCHES_OUTCOME != 'success') {
-            return Number.MAX_SAFE_INTEGER;
-          }
-          const fs = require('fs');
-          const config = JSON.parse(fs.readFileSync('versions/' + process.env.VERSION + '/config.json', 'utf8'))
-          return config.java_target;
+        NEXT_JDK_VERSION: ${{ vars.NEXT_JDK_VERSION }}
+      run: echo "test_versions=$(cat versions/$VERSION/config.json | jq -c '[range(.java_target; $ENV.NEXT_JDK_VERSION | tonumber)]')" >> "$GITHUB_OUTPUT"
     - uses: actions/cache/save@v3
       name: Save ${{ fromJson(steps.split_version.outputs.result).version_name }} cache
       with:
@@ -216,7 +207,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        jdk_version: [17, 18, 19, 20, 21, 22]
+        jdk_version: ${{ fromJson(needs.common.outputs.test_versions) }}
         mappings: [HotSpot]
         side: [Client, Joined, Server]
     
@@ -263,7 +254,6 @@ jobs:
           .gradle/**
         key: gradle-other-
     - name: Test jdk
-      if: ${{ matrix.jdk_version >= needs.common.outputs.jdk_version}}
       uses: gradle/gradle-build-action@v2
       with:
         arguments: :${{ needs.common.outputs.version_name }}:testCompile${{ matrix.side }}${{ matrix.mappings }}${{ matrix.jdk_version }} :${{ needs.common.outputs.version_name }}:testDecompile${{ matrix.side }}${{ matrix.mappings }}${{ matrix.jdk_version }}Compare -Ptype=${{ needs.common.outputs.version_type }}
