@@ -159,7 +159,7 @@ jobs:
       id: test_versions
       env:
         VERSION: ${{ inputs.version }}
-        NEXT_JDK_VERSION: ${{ vars.NEXT_JDK_VERSION }}
+        NEXT_JDK_VERSION: 23
       run: echo "test_versions=$(cat versions/$VERSION/config.json | jq -c '[range(.java_target; $ENV.NEXT_JDK_VERSION | tonumber)]')" >> "$GITHUB_OUTPUT"
     - uses: actions/cache/save@v3
       name: Save ${{ fromJson(steps.split_version.outputs.result).version_name }} cache
