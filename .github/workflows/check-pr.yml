@@ -1,0 +1,36 @@
+name: Check PRs
+
+on:
+  pull_request:
+    types:
+      - labeled
+      - unlabeled
+      - opened
+      - reopened
+      - ready_for_review
+
+jobs:
+  get_versions:
+    name: Get versions
+    runs-on: ubuntu-latest
+    outputs:
+      versions: ${{ steps.versions.outputs.versions }}
+    steps:
+    - name: Get versions from labels
+      id: versions
+      env:
+        LABELS: ${{ toJson(github.event.pull_request.labels.*.description) }}
+      run: echo "versions=$(echo $LABELS | jq -c '[.[] | select(. != null and (startswith("snapshot/") or startswith("pre/") or startswith("release/")))]')" >> "$GITHUB_OUTPUT"
+  check:
+    needs: get_versions
+    if: ${{ needs.get_versions.outputs.versions != '[]' }}
+    strategy:
+      matrix:
+        version: ${{ fromJson(needs.get_versions.outputs.versions) }}
+    uses: './.github/workflows/check.yml'
+    with:
+      version: ${{ matrix.version }}
+      push_changed: false
+      publish: false
+    
+      
