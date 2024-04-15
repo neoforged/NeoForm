@@ -1,0 +1,11 @@
+--- a/net/minecraft/client/sounds/SoundEngineExecutor.java
++++ b/net/minecraft/client/sounds/SoundEngineExecutor.java
+@@ -44,7 +44,7 @@
+     }
+ 
+     @Override
+-    protected void waitForTasks() {
++    public void waitForTasks() {
+         LockSupport.park("waiting for tasks");
+     }
+ 
