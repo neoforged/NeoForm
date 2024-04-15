@@ -1,6 +1,6 @@
 --- a/net/minecraft/server/MinecraftServer.java
 +++ b/net/minecraft/server/MinecraftServer.java
-@@ -831,7 +831,7 @@
+@@ -832,7 +832,7 @@
          }
      }
  
