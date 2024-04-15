@@ -17,7 +17,7 @@
                      && !flag1
                      && !this.server.isFlightAllowed()
                      && !entity.isNoGravity()
-@@ -783,7 +784,7 @@
+@@ -785,7 +786,7 @@
          if (itemstack.is(Items.WRITABLE_BOOK)) {
              ItemStack itemstack1 = itemstack.transmuteCopy(Items.WRITTEN_BOOK, 1);
              itemstack1.remove(DataComponents.WRITABLE_BOOK_CONTENT);
