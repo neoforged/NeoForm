@@ -1,7 +1,7 @@
 --- a/net/minecraft/core/component/TypedDataComponent.java
 +++ b/net/minecraft/core/component/TypedDataComponent.java
-@@ -13,7 +13,7 @@
-     ) {
+@@ -11,7 +11,7 @@
+     public static final StreamCodec<RegistryFriendlyByteBuf, TypedDataComponent<?>> STREAM_CODEC = new StreamCodec<RegistryFriendlyByteBuf, TypedDataComponent<?>>() {
          public TypedDataComponent<?> decode(RegistryFriendlyByteBuf p_331219_) {
              DataComponentType<?> datacomponenttype = DataComponentType.STREAM_CODEC.decode(p_331219_);
 -            return decodeTyped(p_331219_, (DataComponentType<T>)datacomponenttype);
@@ -9,7 +9,7 @@
          }
  
          private static <T> TypedDataComponent<T> decodeTyped(RegistryFriendlyByteBuf p_331307_, DataComponentType<T> p_330560_) {
-@@ -21,7 +21,7 @@
+@@ -19,7 +19,7 @@
          }
  
          public void encode(RegistryFriendlyByteBuf p_330591_, TypedDataComponent<?> p_331491_) {
