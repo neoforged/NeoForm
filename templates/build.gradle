@@ -46,7 +46,7 @@ if (file(INJECT).exists()) {
                 if (!symlink.exists()) {
                     Files.createSymbolicLink(symlink.toPath(), inject.toPath())
                 }
-                sourceSets.main.java.srcDirs symlink
+                srcDir symlink
             } else {
                 srcDir INJECT
             }
