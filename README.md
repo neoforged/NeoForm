@@ -20,8 +20,8 @@ Gradle tasks:
 * `:<version>:projectApplyAll` - Creates Minecraft source code of that version with patches applied
 * `:<version>:projectMakeAll` - Generates patches for the specified version
 * `update` - Requires `old_version` and `new_version` to be specified in `gradle.properties` in the format of `<type>/<ver>/<version>`.
-* `:<version>:testJdks` - Checks that the generated source code is consistant across java versions along with compilation 
 Sets up the new version based on the old version without the patches from the old version
+* `:<version>:testJdks` - Checks that the generated source code is consistant across java versions along with compilation 
 
 # GitHub Actions Workflows
 * `Check For New Snapshots` - Runs every 30 minutes from 6am to 7pm UTC and checks for when Mojang releases a new version and runs the `Update` workflow
