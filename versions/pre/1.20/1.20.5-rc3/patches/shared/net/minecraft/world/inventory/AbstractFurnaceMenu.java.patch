@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/inventory/AbstractFurnaceMenu.java
++++ b/net/minecraft/world/inventory/AbstractFurnaceMenu.java
+@@ -163,7 +163,7 @@
+     }
+ 
+     protected boolean canSmelt(ItemStack p_38978_) {
+-        return this.level.getRecipeManager().getRecipeFor(this.recipeType, new SimpleContainer(p_38978_), this.level).isPresent();
++        return this.level.getRecipeManager().getRecipeFor((RecipeType<AbstractCookingRecipe>)this.recipeType, new SimpleContainer(p_38978_), this.level).isPresent();
+     }
+ 
+     protected boolean isFuel(ItemStack p_38989_) {
