@@ -19,8 +19,8 @@ ext {
     TIMESTAMP = (new Date()).format('yyyyMMdd.HHmmss')
     PATH_BUILD = file('build').absolutePath
 
-    ASM_VERSION = '9.2'
-    SRGUTILS_VERSION = '1.0.1'
+    ASM_VERSION = '9.7'
+    SRGUTILS_VERSION = '1.0.9'
 }
 
 logger.lifecycle('Timestamp: ' + TIMESTAMP)
