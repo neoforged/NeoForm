@@ -61,7 +61,7 @@ jobs:
         echo "Patches version: ${{ inputs.patch_src }}"
         echo "New branch: ${{ inputs.new_branch }}"
         echo "New version: ${{ inputs.new_version }}"
-    - uses: actions/github-script@v6
+    - uses: actions/github-script@v7
       name: Check arguments
       env:
         OLD_BRANCH: ${{ inputs.old_branch }}
@@ -123,7 +123,7 @@ jobs:
     - uses: actions/checkout@v4
       with:
         fetch-depth: 0
-    - uses: actions/github-script@v6
+    - uses: actions/github-script@v7
       id: split_version
       env:
         OLD_VERSION: ${{ inputs.old_version }}
@@ -140,14 +140,14 @@ jobs:
             returnValue.patch_src_version_name = pathSrcVersion[pathSrcVersion.length - 1]
           }
           return returnValue;
-    - uses: actions/cache/restore@v3
+    - uses: actions/cache/restore@v4
       name: Restore BuildSrc cache
       with:
         path: |
           buildSrc/build/**
           buildSrc/.gradle/**
         key: buildsrc-build-
-    - uses: actions/cache/restore@v3
+    - uses: actions/cache/restore@v4
       name: Restore Other cache
       with:
         path: |
@@ -157,7 +157,7 @@ jobs:
     - run: |
         git checkout ${{ inputs.old_branch }}
     - name: Set up JDK ${{ vars.JAVA_VERSION }}
-      uses: actions/setup-java@v3
+      uses: actions/setup-java@v4
       with:
         java-version: '${{ vars.JAVA_VERSION }}'
         distribution: 'temurin'
@@ -165,7 +165,7 @@ jobs:
       run: |
         mkdir -p ~/.minecraft/versions/
         wget https://piston-meta.mojang.com/mc/game/version_manifest_v2.json -O ~/.minecraft/version_manifest_v2.json
-    - uses: actions/github-script@v6
+    - uses: actions/github-script@v7
       env:
         OLD_VERSION: ${{ fromJson(steps.split_version.outputs.result).old_version_name }}
         NEW_VERSION: ${{ fromJson(steps.split_version.outputs.result).new_version_name }}
@@ -192,24 +192,26 @@ jobs:
         sed -i -E "s/net.neoforged:srgutils:[0-9]+\.[0-9]+\.[0-9]+/net.neoforged:srgutils:$SRGUTILS_VERSION/g" buildSrc/build.gradle
       env:
         SRGUTILS_VERSION: ${{ steps.lib-versions.outputs.srgutils }}
+    - name: Setup Gradle
+      uses: gradle/actions/setup-gradle@v3
     - if: ${{ inputs.patch_src && inputs.patch_src != inputs.new_version }}
-      uses: gradle/gradle-build-action@v2
-      with:
-        arguments: update -Pold_version=${{ inputs.patch_src }} -Pnew_version=${{ inputs.new_version }}
-        generate-job-summary: false
+      env:
+        PATCH_SRC: ${{ inputs.patch_src }}
+        NEW_VERSION: ${{ inputs.new_version }}
+      run: ./gradlew update -Pold_version=$PATCH_SRC -Pnew_version=$NEW_VERSION
     - if: ${{ inputs.patch_src }}
       run: cp versions/${{ inputs.new_version }}/joined.tsrg ../old_joined.tsrg
-    - name: Build with Gradle
-      uses: gradle/gradle-build-action@v2
-      with:
-        arguments: update -Pold_version=${{ inputs.old_version }} -Pnew_version=${{ inputs.new_version }}
-        generate-job-summary: false
+    - name: Update task
+      env:
+        OLD_VERSION: ${{ inputs.old_version }}
+        NEW_VERSION: ${{ inputs.new_version }}
+      run: ./gradlew update -Pold_version=$OLD_VERSION -Pnew_version=$NEW_VERSION
     - name: Write summary for update
       run: |
         cat versions/${{ inputs.new_version }}/statistics.md >> $GITHUB_STEP_SUMMARY
         rm -f versions/${{ inputs.new_version }}/statistics.md
     - name: Upload metadata
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: mapping-metadata
         path: build/update/data/**/joined_a_meta.json
@@ -295,14 +297,14 @@ jobs:
       run: |
         git add .
         git commit -m "Update libraries" && git push || true
-    - uses: actions/cache/save@v3
+    - uses: actions/cache/save@v4
       name: Save BuildSrc cache
       with:
         path: |
           buildSrc/build/**
           buildSrc/.gradle/**
         key: buildsrc-build-${{ hashFiles('buildSrc/build/**', 'buildSrc/.gradle/**')}}
-    - uses: actions/cache/save@v3
+    - uses: actions/cache/save@v4
       name: Save Other cache
       with:
         path: |

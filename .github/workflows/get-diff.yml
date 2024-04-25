@@ -47,7 +47,7 @@ jobs:
     - name: Get Time
       id: time
       run: echo "time=$(date -Isecond -u)" >> $GITHUB_OUTPUT
-    - uses: actions/github-script@v6
+    - uses: actions/github-script@v7
       id: split_version
       env:
         OLD_VERSION: ${{ inputs.old_version }}
@@ -59,110 +59,115 @@ jobs:
           const newVersion = process.env.NEW_VERSION.split("/");
           var returnValue = {old_version_type: oldVersion[0], old_version_name: oldVersion[oldVersion.length - 1], new_version_type: newVersion[0], new_version_name: newVersion[newVersion.length - 1]}
           return returnValue;
-    - uses: actions/cache/restore@v3
+    - uses: actions/cache/restore@v4
       name: Restore ${{ fromJson(steps.split_version.outputs.result).new_version_name }} cache
       with:
         path: |
           build/versions/${{ fromJson(steps.split_version.outputs.result).new_version_name }}/**
           versions/${{ inputs.new_version }}/build/download-task/**
         key: version-${{ fromJson(steps.split_version.outputs.result).new_version_name }}-
-    - uses: actions/cache/restore@v3
+    - uses: actions/cache/restore@v4
       name: Restore ${{ fromJson(steps.split_version.outputs.result).old_version_name }} cache
       with:
         path: |
           build/versions/${{ fromJson(steps.split_version.outputs.result).old_version_name }}/**
           versions/${{ inputs.old_version }}/build/download-task/**
         key: version-${{ fromJson(steps.split_version.outputs.result).old_version_name }}-
-    - uses: actions/cache/restore@v3
+    - uses: actions/cache/restore@v4
       name: Cache Assets
       with:
         path: build/assets/**
         key: minecraft-assets-
-    - uses: actions/cache/restore@v3
+    - uses: actions/cache/restore@v4
       name: Cache Libraries
       with:
         path: |
           build/libraries/**
           build/mc-libraries/**
         key: minecraft-libraries-
-    - uses: actions/cache/restore@v3
+    - uses: actions/cache/restore@v4
       name: Cache Version Manifest
       with:
         path: build/versions/version_manifest.json
         key: minecraft-version-manifest-
-    - uses: actions/cache/restore@v3
+    - uses: actions/cache/restore@v4
       name: Cache BuildSrc
       with:
         path: |
           buildSrc/build/**
           buildSrc/.gradle/**
         key: buildsrc-build-
-    - uses: actions/cache/restore@v3
+    - uses: actions/cache/restore@v4
       name: Cache Other
       with:
         path: |
           build/download-task/**
           .gradle/**
         key: gradle-other-
-    - name: Get old joined src
-      uses: gradle/gradle-build-action@v2
+    - name: Setup Gradle
+      uses: gradle/actions/setup-gradle@v3
       with:
-        arguments: :${{ fromJson(steps.split_version.outputs.result).old_version_name }}:projectResetAll -Pupdating -Ptype=${{ fromJson(steps.split_version.outputs.result).old_version_type }}
+        cache-read-only: false
         generate-job-summary: false
+    - name: Get old joined src
+      env:
+        VERSION_NAME: ${{ fromJson(steps.split_version.outputs.result).old_version_name }}
+        VERSION_TYPE: ${{ fromJson(steps.split_version.outputs.result).old_version_type }}
+      run: ./gradlew :$VERSION_NAME:projectResetAll -Pupdating -Ptype=$VERSION_TYPE
     - name: Checkout new branch
       if: ${{ inputs.new_branch }}
       run: git checkout ${{ inputs.new_branch }}
     - name: Get new joined src
-      uses: gradle/gradle-build-action@v2
-      with:
-        arguments: :${{ fromJson(steps.split_version.outputs.result).new_version_name }}:projectResetAll -Pupdating -Ptype=${{ fromJson(steps.split_version.outputs.result).new_version_type }}
-        generate-job-summary: false
+      env:
+        VERSION_NAME: ${{ fromJson(steps.split_version.outputs.result).new_version_name }}
+        VERSION_TYPE: ${{ fromJson(steps.split_version.outputs.result).new_version_type }}
+      run: ./gradlew :$VERSION_NAME:projectResetAll -Pupdating -Ptype=$VERSION_TYPE
     - name: Get diff
       run: git diff --no-index versions/${{ inputs.old_version }}/projects/joined/src/main/java versions/${{ inputs.new_version }}/projects/joined/src/main/java > ${{ fromJson(steps.split_version.outputs.result).old_version_name }}-${{ fromJson(steps.split_version.outputs.result).new_version_name }}.patch || true
     - name: Upload diff as artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: ${{ fromJson(steps.split_version.outputs.result).old_version_name }}-${{ fromJson(steps.split_version.outputs.result).new_version_name }}-patch
         path: '*.patch'
-    - uses: actions/cache/save@v3
+    - uses: actions/cache/save@v4
       name: Save ${{ fromJson(steps.split_version.outputs.result).new_version_name }} cache
       with:
         path: |
           build/versions/${{ fromJson(steps.split_version.outputs.result).new_version_name }}/**
           versions/${{ inputs.new_version }}/build/download-task/**
         key: version-${{ fromJson(steps.split_version.outputs.result).new_version_name }}-${{ hashFiles(format('build/versions/{0}/**', fromJson(steps.split_version.outputs.result).new_version_name), format('versions/{0}/build/download-task/**', inputs.new_version))}}
-    - uses: actions/cache/save@v3
+    - uses: actions/cache/save@v4
       name: Save ${{ fromJson(steps.split_version.outputs.result).old_version_name }} cache
       with:
         path: |
           build/versions/${{ fromJson(steps.split_version.outputs.result).old_version_name }}/**
           versions/${{ inputs.old_version }}/build/download-task/**
         key: version-${{ fromJson(steps.split_version.outputs.result).old_version_name }}-${{ hashFiles(format('build/versions/{0}/**', fromJson(steps.split_version.outputs.result).old_version_name), format('versions/{0}/build/download-task/**', inputs.old_version))}}
-    - uses: actions/cache/save@v3
+    - uses: actions/cache/save@v4
       name: Save Assets cache
       with:
         path: build/assets/**
         key: minecraft-assets-${{ hashFiles('build/assets/**' )}}
-    - uses: actions/cache/save@v3
+    - uses: actions/cache/save@v4
       name: Save Libraries cache
       with:
         path: |
           build/libraries/**
           build/mc-libraries/**
         key: minecraft-libraries-${{ hashFiles('build/libraries/**')}}
-    - uses: actions/cache/save@v3
+    - uses: actions/cache/save@v4
       name: Save Version Manifest cache
       with:
         path: build/versions/version_manifest.json
         key: minecraft-version-manifest-${{ hashFiles('build/versions/version_manifest.json')}}
-    - uses: actions/cache/save@v3
+    - uses: actions/cache/save@v4
       name: Save BuildSrc cache
       with:
         path: |
           buildSrc/build/**
           buildSrc/.gradle/**
         key: buildsrc-build-${{ hashFiles('buildSrc/build/**', 'buildSrc/.gradle/**')}}
-    - uses: actions/cache/save@v3
+    - uses: actions/cache/save@v4
       name: Save Other cache
       with:
         path: |
