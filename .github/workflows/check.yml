@@ -265,7 +265,7 @@ jobs:
         MAPPINGS: ${{ matrix.mappings }}
         JDK_VERSION: ${{ matrix.jdk_version }}
         VERSION_TYPE: ${{ needs.common.outputs.version_type }}
-      run: ./gradlew :$VERSION_NAME:testCompile$SIDE$MAPPINGS$JDK_VERSION :$VERSION_NAME:testDecompile$SIDE$MAPPINGS$JDK_VERSIONCompare -Ptype=$VERSION_TYPE
+      run: ./gradlew :$VERSION_NAME:testCompile$SIDE$MAPPINGS$JDK_VERSION :$VERSION_NAME:testDecompile$SIDE$MAPPINGS${JDK_VERSION}Compare -Ptype=$VERSION_TYPE
 
   publish:
     name: Publish to maven
