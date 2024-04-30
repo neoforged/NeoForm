@@ -4,10 +4,20 @@ import org.gradle.api.*
 import org.gradle.api.file.*
 import org.gradle.api.tasks.*
 
+@CacheableTask
 abstract class RemapJar extends ToolJarExec {
-    @InputFile abstract RegularFileProperty getMappings()
-    @InputFile abstract RegularFileProperty getInput()
-    @InputFile abstract RegularFileProperty getLibraries()
+    @PathSensitive(PathSensitivity.NONE)
+    @InputFile
+    abstract RegularFileProperty getMappings()
+
+    @PathSensitive(PathSensitivity.NONE)
+    @InputFile
+    abstract RegularFileProperty getInput()
+
+    @PathSensitive(PathSensitivity.NONE)
+    @InputFile
+    abstract RegularFileProperty getLibraries()
+
     @OutputFile abstract RegularFileProperty getDest()
     @OutputFile @Optional abstract RegularFileProperty getLog()
     

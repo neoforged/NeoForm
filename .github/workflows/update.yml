@@ -140,20 +140,6 @@ jobs:
             returnValue.patch_src_version_name = pathSrcVersion[pathSrcVersion.length - 1]
           }
           return returnValue;
-    - uses: actions/cache/restore@v4
-      name: Restore BuildSrc cache
-      with:
-        path: |
-          buildSrc/build/**
-          buildSrc/.gradle/**
-        key: buildsrc-build-
-    - uses: actions/cache/restore@v4
-      name: Restore Other cache
-      with:
-        path: |
-          build/download-task/**
-          .gradle/**
-        key: gradle-other-
     - run: |
         git checkout ${{ inputs.old_branch }}
     - name: Set up JDK ${{ vars.JAVA_VERSION }}
@@ -297,20 +283,6 @@ jobs:
       run: |
         git add .
         git commit -m "Update libraries" && git push || true
-    - uses: actions/cache/save@v4
-      name: Save BuildSrc cache
-      with:
-        path: |
-          buildSrc/build/**
-          buildSrc/.gradle/**
-        key: buildsrc-build-${{ hashFiles('buildSrc/build/**', 'buildSrc/.gradle/**')}}
-    - uses: actions/cache/save@v4
-      name: Save Other cache
-      with:
-        path: |
-          build/download-task/**
-          .gradle/**
-        key: gradle-other-${{ hashFiles('build/download-task/**', '.gradle/**')}}
 
   get-diff:
     needs: update

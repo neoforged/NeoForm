@@ -88,44 +88,6 @@ jobs:
     - uses: actions/checkout@v4
       with:
         ref: ${{ inputs.branch || '' }}
-    - uses: actions/cache/restore@v4
-      name: Restore ${{ fromJson(steps.split_version.outputs.result).version_name }} cache
-      with:
-        path: |
-          build/versions/${{ fromJson(steps.split_version.outputs.result).version_name }}/**
-          versions/${{ inputs.version }}/build/download-task/**
-        key: version-${{ fromJson(steps.split_version.outputs.result).version_name }}-
-    - uses: actions/cache/restore@v4
-      name: Restore Assets cache
-      with:
-        path: build/assets/**
-        key: minecraft-assets-
-    - uses: actions/cache/restore@v4
-      name: Restore Libraries cache
-      with:
-        path: |
-          build/libraries/**
-          build/mc-libraries/**
-        key: minecraft-libraries-
-    - uses: actions/cache/restore@v4
-      name: Restore Version Manifest cache
-      with:
-        path: build/versions/version_manifest.json
-        key: minecraft-version-manifest-
-    - uses: actions/cache/restore@v4
-      name: Restore BuildSrc cache
-      with:
-        path: |
-          buildSrc/build/**
-          buildSrc/.gradle/**
-        key: buildsrc-build-
-    - uses: actions/cache/restore@v4
-      name: Restore Other cache
-      with:
-        path: |
-          build/download-task/**
-          .gradle/**
-        key: gradle-other-
     - run: |
         git config --global user.name github-actions
         git config --global user.email 41898282+github-actions[bot]@users.noreply.github.com
@@ -162,44 +124,6 @@ jobs:
         VERSION: ${{ inputs.version }}
         NEXT_JDK_VERSION: ${{ vars.NEXT_JDK_VERSION }}
       run: echo "test_versions=$(cat versions/$VERSION/config.json | jq -c '[range(.java_target; $ENV.NEXT_JDK_VERSION | tonumber)]')" >> "$GITHUB_OUTPUT"
-    - uses: actions/cache/save@v4
-      name: Save ${{ fromJson(steps.split_version.outputs.result).version_name }} cache
-      with:
-        path: |
-          build/versions/${{ fromJson(steps.split_version.outputs.result).version_name }}/**
-          versions/${{ inputs.version }}/build/download-task/**
-        key: version-${{ fromJson(steps.split_version.outputs.result).version_name }}-${{ hashFiles(format('build/versions/{0}/**', fromJson(steps.split_version.outputs.result).version_name), format('versions/{0}/build/download-task/**', inputs.version))}}
-    - uses: actions/cache/save@v4
-      name: Save Assets cache
-      with:
-        path: build/assets/**
-        key: minecraft-assets-${{ hashFiles('build/assets/**' )}}
-    - uses: actions/cache/save@v4
-      name: Save Libraries cache
-      with:
-        path: |
-          build/libraries/**
-          build/mc-libraries/**
-        key: minecraft-libraries-${{ hashFiles('build/libraries/**', 'build/mc-libraries/**')}}
-    - uses: actions/cache/save@v4
-      name: Save Version Manifest cache
-      with:
-        path: build/versions/version_manifest.json
-        key: minecraft-version-manifest-${{ hashFiles('build/versions/version_manifest.json')}}
-    - uses: actions/cache/save@v4
-      name: Save BuildSrc cache
-      with:
-        path: |
-          buildSrc/build/**
-          buildSrc/.gradle/**
-        key: buildsrc-build-${{ hashFiles('buildSrc/build/**', 'buildSrc/.gradle/**')}}
-    - uses: actions/cache/save@v4
-      name: Save Other cache
-      with:
-        path: |
-          build/download-task/**
-          .gradle/**
-        key: gradle-other-${{ hashFiles('build/download-task/**', '.gradle/**')}}
   
   testjdks:
     name: Test Jdks on side ${{ matrix.side }} using mappings ${{ matrix.mappings }} using java version ${{ matrix.jdk_version }} 
@@ -216,44 +140,6 @@ jobs:
     - uses: actions/checkout@v4
       with:
         ref: ${{ inputs.branch || '' }}
-    - uses: actions/cache/restore@v4
-      name: Restore ${{ needs.common.outputs.version_name }} cache
-      with:
-        path: |
-          build/versions/${{ needs.common.outputs.version_name }}/**
-          versions/${{ inputs.version }}/build/download-task/**
-        key: version-${{ needs.common.outputs.version_name }}-
-    - uses: actions/cache/restore@v4
-      name: Restore Assets cache
-      with:
-        path: build/assets/**
-        key: minecraft-assets-
-    - uses: actions/cache/restore@v4
-      name: Restore Libraries cache
-      with:
-        path: |
-          build/libraries/**
-          build/mc-libraries/**
-        key: minecraft-libraries-
-    - uses: actions/cache/restore@v4
-      name: Restore Version Manifest cache
-      with:
-        path: build/versions/version_manifest.json
-        key: minecraft-version-manifest-
-    - uses: actions/cache/restore@v4
-      name: Restore BuildSrc cache
-      with:
-        path: |
-          buildSrc/build/**
-          buildSrc/.gradle/**
-        key: buildsrc-build-
-    - uses: actions/cache/restore@v4
-      name: Restore Other cache
-      with:
-        path: |
-          build/download-task/**
-          .gradle/**
-        key: gradle-other-
     - name: Setup Gradle
       uses: gradle/actions/setup-gradle@v3
       with:

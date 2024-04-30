@@ -208,11 +208,11 @@ subprojects {
     task downloadLibraries(type: DownloadLibraries, dependsOn: downloadJson) {
         json = downloadJson.dest
         config = CONFIG
-        dest = file(PATH_BUILD + "/mc-libraries/")
+        dest = new File(gradle.gradleUserHomeDir, '/caches/neoform/libraries/')
     }
     task downloadAssets(type: DownloadAssets, dependsOn: downloadJson) {
         json = downloadJson.dest
-        dest = file(PATH_BUILD + '/assets/')
+        dest = new File(gradle.gradleUserHomeDir, '/caches/neoform/assets/')
     }
     if (MCINJECTOR != null) {
         task makeEmptyFile(type: SingleFileOutput) {

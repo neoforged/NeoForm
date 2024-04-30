@@ -4,15 +4,18 @@ import org.gradle.api.file.*
 import org.gradle.api.tasks.*
 import java.util.zip.*
 
+@CacheableTask
 public abstract class FernflowerTask extends ToolJarExec {
-    @InputFile abstract RegularFileProperty getLibraries()
-    @InputFile abstract RegularFileProperty getInput()
-    @OutputFile abstract RegularFileProperty getLog()
-    @OutputFile abstract RegularFileProperty getDest()
-    
-    FernflowerTask() {
-        mainClass.set "org.jetbrains.java.decompiler.main.decompiler.ConsoleDecompiler"
-    }
+    @PathSensitive(PathSensitivity.NONE)
+    @InputFile
+    abstract RegularFileProperty getLibraries()
+    @PathSensitive(PathSensitivity.NONE)
+    @InputFile
+    abstract RegularFileProperty getInput()
+    @OutputFile
+    abstract RegularFileProperty getLog()
+    @OutputFile
+    abstract RegularFileProperty getDest()
     
     @Override
     protected void preExec() {
