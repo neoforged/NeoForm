@@ -6,10 +6,6 @@ on:
   workflow_dispatch:
     # Inputs the workflow accepts.
     inputs:
-      old_branch:
-        description: 'Old branch'
-        required: true
-        default: 'main'
       old_version:
         description: 'Old version'
         required: true
@@ -21,10 +17,6 @@ on:
         required: true
   workflow_call:
     inputs:
-      old_branch:
-        default: 'main'
-        type: string
-        required: false
       old_version:
         type: string
         required: true
@@ -43,7 +35,6 @@ jobs:
     - uses: actions/checkout@v4
       with:
         fetch-depth: 0
-        ref: ${{ inputs.old_branch }}
     - name: Get Time
       id: time
       run: echo "time=$(date -Isecond -u)" >> $GITHUB_OUTPUT
@@ -52,7 +43,6 @@ jobs:
       env:
         OLD_VERSION: ${{ inputs.old_version }}
         NEW_VERSION: ${{ inputs.new_version }}
-        OLD_BRANCH: ${{ inputs.old_branch }}
       with:
         script: |
           const oldVersion = process.env.OLD_VERSION.split("/");

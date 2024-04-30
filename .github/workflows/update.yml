@@ -11,10 +11,6 @@ permissions:
 on:
   workflow_dispatch:
     inputs:
-      old_branch:
-        description: 'Old branch'
-        required: true
-        default: 'main'
       old_version:
         description: 'Old version'
         required: true
@@ -56,7 +52,6 @@ jobs:
     steps:
     - name: "Log arguments"
       run: |
-        echo "Old branch: ${{ inputs.old_branch }}"
         echo "Old version: ${{ inputs.old_version }}"
         echo "Patches version: ${{ inputs.patch_src }}"
         echo "New branch: ${{ inputs.new_branch }}"
@@ -64,14 +59,12 @@ jobs:
     - uses: actions/github-script@v7
       name: Check arguments
       env:
-        OLD_BRANCH: ${{ inputs.old_branch }}
         OLD_VERSION: ${{ inputs.old_version }}
         PATCHES_VERSION: ${{ inputs.patch_src }}
         NEW_BRANCH: ${{ inputs.new_branch }}
         NEW_VERSION: ${{ inputs.new_version }}
       with:
         script: |
-          const oldBranch = process.env.OLD_BRANCH;
           const oldVersion = process.env.OLD_VERSION;
           const patchesVersion = process.env.PATCHES_VERSION;
           const newBranch = process.env.NEW_BRANCH;
@@ -129,7 +122,6 @@ jobs:
         OLD_VERSION: ${{ inputs.old_version }}
         NEW_VERSION: ${{ inputs.new_version }}
         PATCH_SRC_VERSION: ${{ inputs.patch_src }}
-        OLD_BRANCH: ${{ inputs.old_branch }}
       with:
         script: |
           const oldVersion = process.env.OLD_VERSION.split("/");
@@ -140,8 +132,6 @@ jobs:
             returnValue.patch_src_version_name = pathSrcVersion[pathSrcVersion.length - 1]
           }
           return returnValue;
-    - run: |
-        git checkout ${{ inputs.old_branch }}
     - name: Set up JDK ${{ vars.JAVA_VERSION }}
       uses: actions/setup-java@v4
       with:
@@ -289,7 +279,6 @@ jobs:
     name: Get diff
     uses: ./.github/workflows/get-diff.yml
     with:
-      old_branch: ${{ inputs.old_branch }}
       old_version: ${{ inputs.old_version }}
       new_branch: ${{ inputs.new_branch }}
       new_version: ${{ inputs.new_version }}
@@ -298,7 +287,7 @@ jobs:
     needs: update
     uses: ./.github/workflows/check.yml
     with:
-      branch: ${{ inputs.new_branch || inputs.old_branch }}
+      branch: ${{ inputs.new_branch || '' }}
       version: ${{ inputs.new_version }}
       push_changed: true
       publish: ${{ inputs.publish }}

@@ -123,7 +123,7 @@ jobs:
             inputs.new_version = getVersionPrefix(newVersionInfo) + newVersionInfo.version;
             inputs.publish = true
             
-            inputs.old_branch = getBranch(oldVersionInfo, false);
+            var oldBranch = getBranch(oldVersionInfo, false);
             var newBranch = getBranch(newVersionInfo, true);
             if (inputs.old_branch.split("/")[1] !== newBranch) {
               inputs.new_branch = newBranch;
@@ -138,7 +138,7 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               workflow_id: "update.yml",
-              ref: "main",
+              ref: oldBranch,
               inputs: inputs
             });
             
