@@ -1,6 +1,6 @@
 --- a/net/minecraft/core/Registry.java
 +++ b/net/minecraft/core/Registry.java
-@@ -151,7 +151,7 @@
+@@ -153,7 +153,7 @@
      Optional<HolderSet.Named<T>> getTag(TagKey<T> p_206052_);
  
      default Iterable<Holder<T>> getTagOrEmpty(TagKey<T> p_206059_) {

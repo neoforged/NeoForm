@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/entity/Mob.java
 +++ b/net/minecraft/world/entity/Mob.java
-@@ -498,7 +498,7 @@
+@@ -499,7 +499,7 @@
          if (p_21450_.contains("leash", 10)) {
              this.delayedLeashInfo = Either.left(p_21450_.getCompound("leash").getUUID("UUID"));
          } else if (p_21450_.contains("leash", 11)) {
