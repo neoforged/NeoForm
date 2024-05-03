@@ -125,7 +125,7 @@ jobs:
             
             var oldBranch = getBranch(oldVersionInfo, false);
             var newBranch = getBranch(newVersionInfo, true);
-            if (inputs.old_branch.split("/")[1] !== newBranch) {
+            if (oldBranch.split("/")[1] !== newBranch) {
               inputs.new_branch = newBranch;
             }
             
