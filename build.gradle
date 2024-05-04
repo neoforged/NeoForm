@@ -801,7 +801,6 @@ subprojects {
                 attribute(TargetJvmVersion.TARGET_JVM_VERSION_ATTRIBUTE, JAVA_TARGET)
             }
             neoformComponent.addVariantsFromConfiguration(it) {}
-            transitive = false
         }
         neoformLibraries {
             canBeResolved = false
@@ -836,7 +835,7 @@ subprojects {
         neoformTools makeZip
     }
 
-    TOOLS.each { dependencies.add('neoformTools', it.version) }
+    TOOLS.each { dependencies.add('neoformTools', it.version) { transitive = false } }
 
     ['server', 'client', 'joined'].each {
         CONFIG?.libraries?.get(it)?.each { dependencies.add('neoformApiElements', it) { transitive = false } }
