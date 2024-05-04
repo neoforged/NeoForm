@@ -4,6 +4,8 @@ plugins {
 
 import net.minecraftforge.mcpconfig.tasks.*
 import net.neoforged.srgutils.MinecraftVersion
+
+import javax.inject.Inject
 import java.nio.file.Files
 import java.util.function.BiFunction
 import java.util.stream.Collectors
@@ -24,6 +26,11 @@ ext {
 }
 
 logger.lifecycle('Timestamp: ' + TIMESTAMP)
+
+abstract class ComponentMaker {
+    @Inject
+    abstract SoftwareComponentFactory getComponentFactory()
+}
 
 task downloadVersionManifest(type: Download) {
     src 'https://launchermeta.mojang.com/mc/game/version_manifest_v2.json'
@@ -137,6 +144,13 @@ subprojects {
         maven {
             name 'forge'
             url 'https://maven.neoforged.net/releases'
+        }
+        maven {
+            name 'mojang meta'
+            url 'https://maven.neoforged.net/mojang-meta/'
+            content {
+                includeModule('net.neoforged', 'minecraft-dependencies')
+            }
         }
         for (tool in TOOLS) {
             if (tool.repo) {
@@ -799,12 +813,72 @@ subprojects {
         }
     }
 
+    def componentMaker = objects.newInstance(ComponentMaker)
+    def neoformComponent = componentMaker.componentFactory.adhoc('neoform')
+    components.add(neoformComponent)
+
+    configurations {
+        neoformData {
+            canBeResolved = false
+            attributes {
+                attribute(TargetJvmVersion.TARGET_JVM_VERSION_ATTRIBUTE, JAVA_TARGET)
+            }
+            outgoing {
+                capability "net.neoforged:neoform:${project.version + '-' + rootProject.TIMESTAMP}"
+            }
+            neoformComponent.addVariantsFromConfiguration(it) {}
+        }
+        neoformLibraries {
+            canBeResolved = false
+        }
+        neoformRuntimeElements {
+            canBeResolved = false
+            attributes {
+                attribute(TargetJvmVersion.TARGET_JVM_VERSION_ATTRIBUTE, JAVA_TARGET)
+                attribute(Usage.USAGE_ATTRIBUTE, objects.named(Usage, Usage.JAVA_RUNTIME))
+            }
+            outgoing {
+                capability "net.neoforged:neoform-dependencies:${project.version + '-' + rootProject.TIMESTAMP}"
+            }
+            neoformComponent.addVariantsFromConfiguration(it) {}
+            extendsFrom neoformLibraries
+        }
+        neoformApiElements {
+            canBeResolved = false
+            attributes {
+                attribute(TargetJvmVersion.TARGET_JVM_VERSION_ATTRIBUTE, JAVA_TARGET)
+                attribute(Usage.USAGE_ATTRIBUTE, objects.named(Usage, Usage.JAVA_API))
+            }
+            outgoing {
+                capability "net.neoforged:neoform-dependencies:${project.version + '-' + rootProject.TIMESTAMP}"
+            }
+            neoformComponent.addVariantsFromConfiguration(it) {}
+            extendsFrom neoformLibraries
+        }
+    }
+
+    artifacts {
+        neoformData makeZip
+    }
+
+    TOOLS.each { dependencies.add('neoformData', it.version) { transitive = false } }
+
+    ['server', 'client', 'joined'].each {
+        CONFIG?.libraries?.get(it)?.each { dependencies.add('neoformApiElements', it) { transitive = false } }
+    }
+
+    dependencies {
+        neoformLibraries("net.neoforged:minecraft-dependencies:${project.version}") {
+            endorseStrictVersions()
+        }
+    }
+
     publishing {
         publications {
             timed(MavenPublication) {
                 artifactId rootProject.name
                 version project.version + '-' + rootProject.TIMESTAMP
-                artifact makeZip
+                from components.neoform
                 pom {
                     name = 'NeoForm'
                     description = 'Configuration files used for deobfuscating and modding Minecraft.'
