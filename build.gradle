@@ -839,7 +839,7 @@ subprojects {
     TOOLS.each { dependencies.add('neoformTools', it.version) }
 
     ['server', 'client', 'joined'].each {
-        CONFIG?.libraries?.get(it)?.each { dependencies.add('neoformApiElements', it) }
+        CONFIG?.libraries?.get(it)?.each { dependencies.add('neoformApiElements', it) { transitive = false } }
     }
 
     dependencies {
