@@ -7,7 +7,7 @@
 -            case null, default -> this.pickup;
              case Player player when this.pickup == AbstractArrow.Pickup.DISALLOWED -> AbstractArrow.Pickup.ALLOWED;
              case OminousItemSpawner ominousitemspawner -> AbstractArrow.Pickup.DISALLOWED;
-+            default -> this.pickup;
++            case null, default -> this.pickup;
          };
      }
  
