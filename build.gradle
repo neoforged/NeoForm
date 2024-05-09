@@ -846,6 +846,7 @@ subprojects {
             capabilities {
                 requireCapability 'net.neoforged:minecraft-dependencies'
             }
+            endorseStrictVersions()
         }
     }
 
