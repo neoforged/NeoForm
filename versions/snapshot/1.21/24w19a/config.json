@@ -1,0 +1,39 @@
+{
+    "official": true,
+    "merge_patches": true,
+    "java_target": 21,
+    "encoding": "UTF-8",
+    "test_remap_official": false,
+    "fernflower": {
+        "version": "org.vineflower:vineflower:1.10.1",
+        "java_version": 21,
+        "args": ["--decompile-inner", "--remove-bridge", "--decompile-generics", "--ascii-strings", "--remove-synthetic", "--include-classpath", "--variable-renaming=jad", "--ignore-invalid-bytecode", "--bytecode-source-mapping", "--dump-code-lines", "--indent-string=    ", "--log-level=TRACE", "-cfg", "{libraries}", "{input}", "{output}"],
+        "jvmargs": ["-Xmx4G"]
+    },
+    "merge": {
+        "version": "net.neoforged:mergetool:2.0.3:fatjar",
+        "args": ["--client", "{client}", "--server", "{server}", "--ann", "{version}", "--output", "{output}", "--inject", "false"],
+        "jvmargs": []
+    },
+    "rename": {
+        "version": "net.neoforged:AutoRenamingTool:2.0.3:all",
+        "args": ["--input", "{input}", "--output", "{output}", "--map", "{mappings}", "--cfg", "{libraries}", "--ann-fix", "--ids-fix", "--src-fix", "--record-fix", "--unfinal-params"]
+    },
+    "bundler_extract_jar": {
+        "version": "net.neoforged.installertools:installertools:2.1.2:fatjar",
+        "args": ["--task", "bundler_extract", "--input", "{input}", "--output", "{output}", "--jar-only"]
+    },
+    "bundler_extract_libs": {
+        "version": "net.neoforged.installertools:installertools:2.1.2:fatjar",
+        "args": ["--task", "bundler_extract", "--input", "{input}", "--output", "{output}", "--libraries"]
+    },
+    "mergemap": {
+        "version": "net.neoforged.installertools:installertools:2.1.2:fatjar",
+        "args": ["--task", "MERGE_MAPPING", "--left", "{mappings}", "--right", "{official}", "--right-names", "right,left", "--classes", "--fields", "--methods", "--output", "{output}"]
+    },
+    "libraries": {
+        "client": ["com.google.code.findbugs:jsr305:3.0.2", "ca.weblite:java-objc-bridge:1.1", "org.jetbrains:annotations:24.1.0"],
+        "server": ["com.google.code.findbugs:jsr305:3.0.2", "org.jetbrains:annotations:24.1.0"],
+        "joined": ["com.google.code.findbugs:jsr305:3.0.2", "ca.weblite:java-objc-bridge:1.1", "net.neoforged:mergetool:2.0.3:api", "org.jetbrains:annotations:24.1.0"]
+    }
+}
