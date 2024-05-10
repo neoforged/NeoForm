@@ -1,6 +1,6 @@
 --- a/net/minecraft/core/registries/BuiltInRegistries.java
 +++ b/net/minecraft/core/registries/BuiltInRegistries.java
-@@ -162,7 +162,7 @@
+@@ -163,7 +163,7 @@
      public static final Registry<PositionSourceType<?>> POSITION_SOURCE_TYPE = registerSimple(
          Registries.POSITION_SOURCE_TYPE, p_259113_ -> PositionSourceType.BLOCK
      );
@@ -9,7 +9,7 @@
      public static final Registry<StatType<?>> STAT_TYPE = registerSimple(Registries.STAT_TYPE, p_259967_ -> Stats.ITEM_USED);
      public static final DefaultedRegistry<VillagerType> VILLAGER_TYPE = registerDefaulted(Registries.VILLAGER_TYPE, "plains", p_259473_ -> VillagerType.PLAINS);
      public static final DefaultedRegistry<VillagerProfession> VILLAGER_PROFESSION = registerDefaulted(
-@@ -231,18 +231,18 @@
+@@ -232,18 +232,18 @@
      public static final Registry<FeatureSizeType<?>> FEATURE_SIZE_TYPE = registerSimple(
          Registries.FEATURE_SIZE_TYPE, p_259370_ -> FeatureSizeType.TWO_LAYERS_FEATURE_SIZE
      );
@@ -34,61 +34,7 @@
      public static final Registry<StructureProcessorType<?>> STRUCTURE_PROCESSOR = registerSimple(
          Registries.STRUCTURE_PROCESSOR, p_259305_ -> StructureProcessorType.BLOCK_IGNORE
      );
-@@ -250,41 +250,41 @@
-         Registries.STRUCTURE_POOL_ELEMENT, p_259361_ -> StructurePoolElementType.EMPTY
-     );
-     public static final Registry<MapCodec<? extends PoolAliasBinding>> POOL_ALIAS_BINDING_TYPE = registerSimple(
--        Registries.POOL_ALIAS_BINDING, PoolAliasBindings::bootstrap
-+        Registries.POOL_ALIAS_BINDING, (RegistryBootstrap)PoolAliasBindings::bootstrap
-     );
-     public static final Registry<CatVariant> CAT_VARIANT = registerSimple(Registries.CAT_VARIANT, CatVariant::bootstrap);
-     public static final Registry<FrogVariant> FROG_VARIANT = registerSimple(Registries.FROG_VARIANT, FrogVariant::bootstrap);
-     public static final Registry<Instrument> INSTRUMENT = registerSimple(Registries.INSTRUMENT, Instruments::bootstrap);
-     public static final Registry<String> DECORATED_POT_PATTERNS = registerSimple(Registries.DECORATED_POT_PATTERNS, DecoratedPotPatterns::bootstrap);
-     public static final Registry<CreativeModeTab> CREATIVE_MODE_TAB = registerSimple(Registries.CREATIVE_MODE_TAB, CreativeModeTabs::bootstrap);
--    public static final Registry<CriterionTrigger<?>> TRIGGER_TYPES = registerSimple(Registries.TRIGGER_TYPE, CriteriaTriggers::bootstrap);
--    public static final Registry<NumberFormatType<?>> NUMBER_FORMAT_TYPE = registerSimple(Registries.NUMBER_FORMAT_TYPE, NumberFormatTypes::bootstrap);
-+    public static final Registry<CriterionTrigger<?>> TRIGGER_TYPES = registerSimple(Registries.TRIGGER_TYPE, (RegistryBootstrap)CriteriaTriggers::bootstrap);
-+    public static final Registry<NumberFormatType<?>> NUMBER_FORMAT_TYPE = registerSimple(Registries.NUMBER_FORMAT_TYPE, (RegistryBootstrap)NumberFormatTypes::bootstrap);
-     public static final Registry<ArmorMaterial> ARMOR_MATERIAL = registerSimple(Registries.ARMOR_MATERIAL, ArmorMaterials::bootstrap);
--    public static final Registry<DataComponentType<?>> DATA_COMPONENT_TYPE = registerSimple(Registries.DATA_COMPONENT_TYPE, DataComponents::bootstrap);
-+    public static final Registry<DataComponentType<?>> DATA_COMPONENT_TYPE = registerSimple(Registries.DATA_COMPONENT_TYPE, (RegistryBootstrap)DataComponents::bootstrap);
-     public static final Registry<MapCodec<? extends EntitySubPredicate>> ENTITY_SUB_PREDICATE_TYPE = registerSimple(
--        Registries.ENTITY_SUB_PREDICATE_TYPE, EntitySubPredicates::bootstrap
-+        Registries.ENTITY_SUB_PREDICATE_TYPE, (RegistryBootstrap)EntitySubPredicates::bootstrap
-     );
-     public static final Registry<ItemSubPredicate.Type<?>> ITEM_SUB_PREDICATE_TYPE = registerSimple(
--        Registries.ITEM_SUB_PREDICATE_TYPE, ItemSubPredicates::bootstrap
-+        Registries.ITEM_SUB_PREDICATE_TYPE, (RegistryBootstrap)ItemSubPredicates::bootstrap
-     );
-     public static final Registry<MapDecorationType> MAP_DECORATION_TYPE = registerSimple(Registries.MAP_DECORATION_TYPE, MapDecorationTypes::bootstrap);
-     public static final Registry<DataComponentType<?>> ENCHANTMENT_EFFECT_COMPONENT_TYPE = registerSimple(
--        Registries.ENCHANTMENT_EFFECT_COMPONENT_TYPE, EnchantmentEffectComponents::bootstrap
-+        Registries.ENCHANTMENT_EFFECT_COMPONENT_TYPE, (RegistryBootstrap)EnchantmentEffectComponents::bootstrap
-     );
-     public static final Registry<MapCodec<? extends LevelBasedValue>> ENCHANTMENT_LEVEL_BASED_VALUE_TYPE = registerSimple(
--        Registries.ENCHANTMENT_LEVEL_BASED_VALUE_TYPE, LevelBasedValue::bootstrap
-+        Registries.ENCHANTMENT_LEVEL_BASED_VALUE_TYPE, (RegistryBootstrap)LevelBasedValue::bootstrap
-     );
-     public static final Registry<MapCodec<? extends EnchantmentEntityEffect>> ENCHANTMENT_ENTITY_EFFECT_TYPE = registerSimple(
--        Registries.ENCHANTMENT_ENTITY_EFFECT_TYPE, EnchantmentEntityEffect::bootstrap
-+        Registries.ENCHANTMENT_ENTITY_EFFECT_TYPE, (RegistryBootstrap)EnchantmentEntityEffect::bootstrap
-     );
-     public static final Registry<MapCodec<? extends EnchantmentLocationBasedEffect>> ENCHANTMENT_LOCATION_BASED_EFFECT_TYPE = registerSimple(
--        Registries.ENCHANTMENT_LOCATION_BASED_EFFECT_TYPE, EnchantmentLocationBasedEffect::bootstrap
-+        Registries.ENCHANTMENT_LOCATION_BASED_EFFECT_TYPE, (RegistryBootstrap)EnchantmentLocationBasedEffect::bootstrap
-     );
-     public static final Registry<MapCodec<? extends EnchantmentValueEffect>> ENCHANTMENT_VALUE_EFFECT_TYPE = registerSimple(
--        Registries.ENCHANTMENT_VALUE_EFFECT_TYPE, EnchantmentValueEffect::bootstrap
-+        Registries.ENCHANTMENT_VALUE_EFFECT_TYPE, (RegistryBootstrap)EnchantmentValueEffect::bootstrap
-     );
-     public static final Registry<MapCodec<? extends EnchantmentProvider>> ENCHANTMENT_PROVIDER_TYPE = registerSimple(
--        Registries.ENCHANTMENT_PROVIDER_TYPE, EnchantmentProviderTypes::bootstrap
-+        Registries.ENCHANTMENT_PROVIDER_TYPE, (RegistryBootstrap)EnchantmentProviderTypes::bootstrap
-     );
-     public static final Registry<? extends Registry<?>> REGISTRY = WRITABLE_REGISTRY;
- 
-@@ -316,7 +316,7 @@
+@@ -317,7 +317,7 @@
          Bootstrap.checkBootstrapCalled(() -> "registry " + p_259230_);
          ResourceLocation resourcelocation = p_259230_.location();
          LOADERS.put(resourcelocation, () -> p_259210_.run(p_260327_));

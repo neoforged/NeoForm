@@ -19,7 +19,7 @@
                      && !entity.isNoGravity()
 @@ -784,7 +785,7 @@
          if (itemstack.is(Items.WRITABLE_BOOK)) {
-             ItemStack itemstack1 = itemstack.transmuteCopy(Items.WRITTEN_BOOK, 1);
+             ItemStack itemstack1 = itemstack.transmuteCopy(Items.WRITTEN_BOOK);
              itemstack1.remove(DataComponents.WRITABLE_BOOK_CONTENT);
 -            List<Filterable<Component>> list = p_215210_.stream().map(p_329965_ -> this.filterableFromOutgoing(p_329965_).map(Component::literal)).toList();
 +            List<Filterable<Component>> list = p_215210_.stream().map(p_329965_ -> this.filterableFromOutgoing(p_329965_).<Component>map(Component::literal)).toList();
