@@ -109,7 +109,7 @@ jobs:
               }
             }
              
-            function getBranch(info, newVersion) {
+            function getBranch(info) {
               var release = info.type === "release";
               if (release || info.april) {
                 return "main";
@@ -123,9 +123,9 @@ jobs:
             inputs.new_version = getVersionPrefix(newVersionInfo) + newVersionInfo.version;
             inputs.publish = true
             
-            var oldBranch = getBranch(oldVersionInfo, false);
-            var newBranch = getBranch(newVersionInfo, true);
-            if (oldBranch.split("/")[1] !== newBranch) {
+            var oldBranch = getBranch(oldVersionInfo);
+            var newBranch = getBranch(newVersionInfo);
+            if (oldBranch !== newBranch) {
               inputs.new_branch = newBranch;
             }
             
