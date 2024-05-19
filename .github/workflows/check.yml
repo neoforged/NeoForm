@@ -118,6 +118,8 @@ jobs:
       with:
         name: neoform-${{ fromJson(steps.split_version.outputs.result).version_name }}
         path: build/distributions/*.zip
+    - name: Publish artifacts for PR Publication
+      uses: neoforged/action-pr-publishing/upload@v1
     - name: Get Java Test Versions
       id: test_versions
       env:
