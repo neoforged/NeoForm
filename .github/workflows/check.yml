@@ -121,7 +121,7 @@ jobs:
     - name: Publish artifacts for PR Publication
       uses: neoforged/action-pr-publishing/upload@v1
       with:
-        publishing-task: :${{ inputs.version }}:publishAllPublicationsTo_githubPackages_PRsRepository
+        publishing-task: :${{ fromJson(steps.split_version.outputs.result).version_name }}:publishAllPublicationsTo_githubPackages_PRsRepository
     - name: Get Java Test Versions
       id: test_versions
       env:
