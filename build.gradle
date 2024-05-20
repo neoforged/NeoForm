@@ -214,6 +214,20 @@ subprojects {
         json = downloadJson.dest
         dest = new File(gradle.gradleUserHomeDir, '/caches/neoform/assets/')
     }
+
+    task createAssetsData(type: CreateAssetsDataJson, dependsOn: downloadAssets) {
+        assets = downloadAssets.dest
+        json = downloadJson.dest
+
+        dest = file(PATH_CACHED_VERSION + 'assets.json')
+    }
+
+    task createAssetsDataJar(type: Jar, dependsOn: downloadAssets) {
+        from createAssetsData.dest
+        destinationDirectory = file(PATH_CACHED_VERSION)
+        archiveFileName = 'assets.json.jar'
+    }
+
     if (MCINJECTOR != null) {
         task makeEmptyFile(type: SingleFileOutput) {
             dest = file(PATH_BUILD + '/empty.txt')
@@ -427,7 +441,7 @@ subprojects {
         
         child.project = task "project${child.Name}"(type: CreateProjectTemplate, dependsOn: [projectRoot, child.extra, child.decompile, child.pkgs] +
                 (child.jsonlibs ? [downloadJson, extractNatives] : []) +
-                (child.assets ? [downloadAssets] : []) +
+                (child.assets ? [createAssetsDataJar] : []) +
                 (child.bundle != null ? [child.bundle] : [])
         ) {
             mustRunAfter child.delete
@@ -441,6 +455,8 @@ subprojects {
             CONFIG?.libraries?.get(side)?.each { library "'${it}'" }
             version = project.name
             libraryFile child.extra.extra.get().getAsFile()
+            if (child.assets)
+                libraryFile createAssetsDataJar.get().asFile
             replace '{java_target}', JAVA_TARGET + ''
             replaceFile '{inject}', PATH_INJECT
             replaceFile '{assets}', child.assets ? downloadAssets.dest : null
