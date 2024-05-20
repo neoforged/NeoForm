@@ -21,6 +21,10 @@ on:
         default: true
         required: false
         type: boolean
+      publish_prs:
+        default: false
+        required: false
+        type: boolean
     secrets:
       MAVEN_USER:
         required: false
@@ -118,6 +122,13 @@ jobs:
       with:
         name: neoform-${{ fromJson(steps.split_version.outputs.result).version_name }}
         path: build/distributions/*.zip
+    # This creates a "maven-publish" artifact that contains the results of a locally run publish task
+    # This artifact is picked up by the "publish-prs.yml" workflow for PRs and published to a temporary maven repository
+    - name: Publish artifacts for PR Publication
+      uses: neoforged/action-pr-publishing/upload@v1
+      if: ${{ inputs.publish_prs }}
+      with:
+        publishing-task: ":${{ fromJson(steps.split_version.outputs.result).version_name }}:publishAllPublicationsTo_githubPackages_PRsRepository -Ptype=${{ fromJson(steps.split_version.outputs.result).version_type }}"
     - name: Get Java Test Versions
       id: test_versions
       env:
