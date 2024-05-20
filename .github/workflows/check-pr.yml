@@ -33,4 +33,5 @@ jobs:
       version: ${{ matrix.version }}
       push_changed: false
       publish: false
-      publish_prs: true
+      # Publishing of PRs will only work correctly if we're only building a single one
+      publish_prs: ${{ fromJson(needs.get_versions.outputs.versions).length == 1 }}
