@@ -32,5 +32,4 @@ jobs:
       version: ${{ matrix.version }}
       push_changed: false
       publish: false
-    
-      
+      publish_prs: true

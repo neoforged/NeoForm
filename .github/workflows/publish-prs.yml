@@ -24,6 +24,7 @@ jobs:
     uses: neoforged/actions/.github/workflows/publish-prs.yml@main
     with:
       artifact_base_path: net/neoforged/neoform/
+      uploader-workflow-name: "Check PRs"
     secrets:
       PR_PUBLISHING_GH_APP_ID: ${{ secrets.PR_PUBLISHING_GH_APP_ID }}
       PR_PUBLISHING_GH_APP_KEY: ${{ secrets.PR_PUBLISHING_GH_APP_KEY }}
