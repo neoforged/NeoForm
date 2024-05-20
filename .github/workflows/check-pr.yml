@@ -8,6 +8,7 @@ on:
       - opened
       - reopened
       - ready_for_review
+      - synchronize
 
 jobs:
   get_versions:
@@ -32,5 +33,7 @@ jobs:
       version: ${{ matrix.version }}
       push_changed: false
       publish: false
-    
-      
+      # Publishing of PRs will only work correctly if we're only building a single one
+      # NOTE: There is no way to get the length of an array in Github Actions Expressions
+      # So the heuristic is: If it contains a comma, it's a list with more than one element.
+      publish_prs: ${{ !contains(needs.get_versions.outputs.versions, ',') }}
