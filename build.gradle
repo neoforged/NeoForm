@@ -456,7 +456,7 @@ subprojects {
             version = project.name
             libraryFile child.extra.extra.get().getAsFile()
             if (child.assets)
-                libraryFile createAssetsDataJar.get().asFile
+                libraryFile createAssetsDataJar.archiveFile.get().asFile
             replace '{java_target}', JAVA_TARGET + ''
             replaceFile '{inject}', PATH_INJECT
             replaceFile '{assets}', child.assets ? downloadAssets.dest : null
