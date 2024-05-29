@@ -1,6 +1,6 @@
 --- a/com/mojang/realmsclient/gui/screens/RealmsSelectWorldTemplateScreen.java
 +++ b/com/mojang/realmsclient/gui/screens/RealmsSelectWorldTemplateScreen.java
-@@ -71,10 +71,10 @@
+@@ -72,10 +72,10 @@
          this.callback = p_167486_;
          this.worldType = p_167487_;
          if (p_167488_ == null) {
@@ -13,7 +13,7 @@
              this.fetchTemplatesAsync(p_167488_);
          }
      }
-@@ -86,7 +86,7 @@
+@@ -87,7 +87,7 @@
      @Override
      public void init() {
          this.layout.addTitleHeader(this.title, this.font);
@@ -22,7 +22,7 @@
          LinearLayout linearlayout = this.layout.addToFooter(LinearLayout.horizontal().spacing(10));
          linearlayout.defaultCellSetting().alignHorizontallyCenter();
          this.trailerButton = linearlayout.addChild(Button.builder(TRAILER_BUTTON_NAME, p_89701_ -> this.onTrailer()).width(100).build());
-@@ -356,24 +356,23 @@
+@@ -357,24 +357,23 @@
      }
  
      class WorldTemplateList extends RealmsObjectSelectionList<RealmsSelectWorldTemplateScreen.Entry> {
@@ -54,7 +54,7 @@
                  return true;
              } else {
                  return super.mouseClicked(p_313816_, p_313908_, p_313922_);
-@@ -382,8 +381,8 @@
+@@ -383,8 +382,8 @@
  
          public void setSelected(@Nullable RealmsSelectWorldTemplateScreen.Entry p_313741_) {
              super.setSelected(p_313741_);
