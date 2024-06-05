@@ -1,0 +1,67 @@
+--- a/com/mojang/realmsclient/gui/screens/RealmsSelectWorldTemplateScreen.java
++++ b/com/mojang/realmsclient/gui/screens/RealmsSelectWorldTemplateScreen.java
+@@ -75,10 +75,10 @@
+         this.callback = p_167486_;
+         this.worldType = p_167487_;
+         if (p_167488_ == null) {
+-            this.worldTemplateList = new RealmsSelectWorldTemplateScreen.WorldTemplateList(this);
++            this.worldTemplateList = new RealmsSelectWorldTemplateScreen.WorldTemplateList();
+             this.fetchTemplatesAsync(new WorldTemplatePaginatedList(10));
+         } else {
+-            this.worldTemplateList = new RealmsSelectWorldTemplateScreen.WorldTemplateList(this, Lists.newArrayList(p_167488_.templates));
++            this.worldTemplateList = new RealmsSelectWorldTemplateScreen.WorldTemplateList(Lists.newArrayList(p_167488_.templates));
+             this.fetchTemplatesAsync(p_167488_);
+         }
+     }
+@@ -90,7 +90,7 @@
+     @Override
+     public void init() {
+         this.layout.addTitleHeader(this.title, this.font);
+-        this.worldTemplateList = this.layout.addToContents(new RealmsSelectWorldTemplateScreen.WorldTemplateList(this, this.worldTemplateList.getTemplates()));
++        this.worldTemplateList = this.layout.addToContents(new RealmsSelectWorldTemplateScreen.WorldTemplateList(this.worldTemplateList.getTemplates()));
+         LinearLayout linearlayout = this.layout.addToFooter(LinearLayout.horizontal().spacing(10));
+         linearlayout.defaultCellSetting().alignHorizontallyCenter();
+         this.trailerButton = linearlayout.addChild(Button.builder(TRAILER_BUTTON_NAME, p_89701_ -> this.onTrailer()).width(100).build());
+@@ -362,24 +362,23 @@
+ 
+     @OnlyIn(Dist.CLIENT)
+     class WorldTemplateList extends RealmsObjectSelectionList<RealmsSelectWorldTemplateScreen.Entry> {
+-        public WorldTemplateList(RealmsSelectWorldTemplateScreen param1) {
+-            this(var1, Collections.emptyList());
++        public WorldTemplateList() {
++            this(Collections.emptyList());
+         }
+ 
+-        public WorldTemplateList(Iterable<WorldTemplate> param1, Iterable p_313798_) {
+-            super(var1.width, var1.height - 33 - var1.getHeaderHeight(), var1.getHeaderHeight(), 46);
+-            this.this$0 = var1;
++        public WorldTemplateList(Iterable<WorldTemplate> p_313798_) {
++            super(RealmsSelectWorldTemplateScreen.this.width, RealmsSelectWorldTemplateScreen.this.height - 33 - RealmsSelectWorldTemplateScreen.this.getHeaderHeight(), RealmsSelectWorldTemplateScreen.this.getHeaderHeight(), 46);
+             p_313798_.forEach(this::addEntry);
+         }
+ 
+         public void addEntry(WorldTemplate p_313857_) {
+-            this.addEntry(this.this$0.new Entry(p_313857_));
++            this.addEntry(RealmsSelectWorldTemplateScreen.this.new Entry(p_313857_));
+         }
+ 
+         @Override
+         public boolean mouseClicked(double p_313816_, double p_313908_, int p_313922_) {
+-            if (this.this$0.currentLink != null) {
+-                ConfirmLinkScreen.confirmLinkNow(this.this$0, this.this$0.currentLink);
++            if (currentLink != null) {
++                ConfirmLinkScreen.confirmLinkNow(RealmsSelectWorldTemplateScreen.this, currentLink);
+                 return true;
+             } else {
+                 return super.mouseClicked(p_313816_, p_313908_, p_313922_);
+@@ -388,8 +387,8 @@
+ 
+         public void setSelected(@Nullable RealmsSelectWorldTemplateScreen.Entry p_313741_) {
+             super.setSelected(p_313741_);
+-            this.this$0.selectedTemplate = p_313741_ == null ? null : p_313741_.template;
+-            this.this$0.updateButtonStates();
++            selectedTemplate = p_313741_ == null ? null : p_313741_.template;
++            updateButtonStates();
+         }
+ 
+         @Override

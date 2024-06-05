@@ -1,0 +1,28 @@
+--- a/net/minecraft/server/network/ServerGamePacketListenerImpl.java
++++ b/net/minecraft/server/network/ServerGamePacketListenerImpl.java
+@@ -423,6 +423,7 @@
+                 }
+ 
+                 entity.move(MoverType.PLAYER, new Vec3(d6, d7, d8));
++                double d11 = d7;
+                 d6 = d3 - entity.getX();
+                 d7 = d4 - entity.getY();
+                 if (d7 > -0.5 || d7 < 0.5) {
+@@ -449,7 +450,7 @@
+                 Vec3 vec3 = new Vec3(entity.getX() - d0, entity.getY() - d1, entity.getZ() - d2);
+                 this.player.setKnownMovement(vec3);
+                 this.player.checkMovementStatistics(vec3.x, vec3.y, vec3.z);
+-                this.clientVehicleIsFloating = d7 >= -0.03125
++                this.clientVehicleIsFloating = d11 >= -0.03125
+                     && !flag1
+                     && !this.server.isFlightAllowed()
+                     && !entity.isNoGravity()
+@@ -787,7 +788,7 @@
+         if (itemstack.is(Items.WRITABLE_BOOK)) {
+             ItemStack itemstack1 = itemstack.transmuteCopy(Items.WRITTEN_BOOK);
+             itemstack1.remove(DataComponents.WRITABLE_BOOK_CONTENT);
+-            List<Filterable<Component>> list = p_215210_.stream().map(p_329965_ -> this.filterableFromOutgoing(p_329965_).map(Component::literal)).toList();
++            List<Filterable<Component>> list = p_215210_.stream().map(p_329965_ -> this.filterableFromOutgoing(p_329965_).<Component>map(Component::literal)).toList();
+             itemstack1.set(
+                 DataComponents.WRITTEN_BOOK_CONTENT,
+                 new WrittenBookContent(this.filterableFromOutgoing(p_215209_), this.player.getName().getString(), 0, list, true)
