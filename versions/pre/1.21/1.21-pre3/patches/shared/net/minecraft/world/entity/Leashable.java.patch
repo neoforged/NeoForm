@@ -27,6 +27,15 @@
      }
  
      private static <E extends Entity & Leashable> void dropLeash(E p_352163_, boolean p_352286_, boolean p_352272_) {
+@@ -160,7 +160,7 @@
+     }
+ 
+     default void elasticRangeLeashBehaviour(Entity p_353036_, float p_353047_) {
+-        legacyElasticRangeLeashBehaviour((Entity)this, p_353036_, p_353047_);
++        legacyElasticRangeLeashBehaviour((Entity & Leashable)this, p_353036_, p_353047_);
+     }
+ 
+     private static <E extends Entity & Leashable> void legacyElasticRangeLeashBehaviour(E p_353048_, Entity p_353039_, float p_353053_) {
 @@ -173,7 +173,7 @@
      }
  
