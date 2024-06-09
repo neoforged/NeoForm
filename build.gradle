@@ -118,7 +118,7 @@ subprojects {
         BUNDLE_EXTRACT_LIBS = null
         if (CONFIG.containsKey('bundler_extract_libs'))
             BUNDLE_EXTRACT_LIBS = Utils.readConfig(CONFIG, 'bundler_extract_libs', [:])
-        TOOLS = [FERNFLOWER, MERGETOOL, RENAMETOOL, MERGEMAPTOOL, MCINJECTOR, BUNDLE_EXTRACT_JAR, BUNDLE_EXTRACT_LIBS].findAll {it != null}
+        TOOLS = [FERNFLOWER, MERGETOOL, RENAMETOOL, MERGEMAPTOOL, MCINJECTOR, BUNDLE_EXTRACT_JAR, BUNDLE_EXTRACT_LIBS].findAll {it?.version != null}
     }
 
     java.toolchain.languageVersion = JavaLanguageVersion.of(JAVA_TARGET)
@@ -862,11 +862,7 @@ subprojects {
     }
 
     TOOLS.each {
-        if (it.version) {
-            dependencies.add('neoformData', it.version) { transitive = false }
-        } else {
-            println("Skipping tool in ${project.name} without version: $it")
-        }
+        dependencies.add('neoformData', it.version) { transitive = false }
     }
 
     ['server', 'client', 'joined'].each {
