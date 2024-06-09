@@ -865,7 +865,7 @@ subprojects {
         if (it.version) {
             dependencies.add('neoformData', it.version) { transitive = false }
         } else {
-            println("Skipping tool without version: $it")
+            println("Skipping tool in ${project.name} without version: $it")
         }
     }
 
