@@ -861,7 +861,11 @@ subprojects {
         neoformData makeZip
     }
 
-    TOOLS.each { dependencies.add('neoformData', it.version) { transitive = false } }
+    TOOLS.each {
+        if (it.version) {
+            dependencies.add('neoformData', it.version) { transitive = false }
+        }
+    }
 
     ['server', 'client', 'joined'].each {
         CONFIG?.libraries?.get(it)?.each { dependencies.add('neoformApiElements', it) { transitive = false } }
