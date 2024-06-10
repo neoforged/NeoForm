@@ -1,0 +1,13 @@
+--- a/net/minecraft/world/entity/projectile/AbstractArrow.java
++++ b/net/minecraft/world/entity/projectile/AbstractArrow.java
+@@ -571,9 +571,9 @@
+         super.setOwner(p_36770_);
+ 
+         this.pickup = switch (p_36770_) {
+-            case null, default -> this.pickup;
+             case Player player when this.pickup == AbstractArrow.Pickup.DISALLOWED -> AbstractArrow.Pickup.ALLOWED;
+             case OminousItemSpawner ominousitemspawner -> AbstractArrow.Pickup.DISALLOWED;
++            case null, default -> this.pickup;
+         };
+     }
+ 
