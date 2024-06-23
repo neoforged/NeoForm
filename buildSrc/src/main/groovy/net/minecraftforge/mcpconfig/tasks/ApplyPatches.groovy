@@ -1,8 +1,11 @@
 package net.minecraftforge.mcpconfig.tasks
 
-import codechicken.diffpatch.cli.*
-import codechicken.diffpatch.util.LoggingOutputStream
-import codechicken.diffpatch.util.PatchMode
+import java.util.function.Consumer
+import io.codechicken.diffpatch.cli.*
+import io.codechicken.diffpatch.util.archiver.ArchiveFormat
+import io.codechicken.diffpatch.util.Input
+import io.codechicken.diffpatch.util.PatchMode
+import io.codechicken.diffpatch.util.Output
 import org.gradle.api.*
 import org.gradle.api.logging.*
 import org.gradle.api.file.*
@@ -22,11 +25,11 @@ public abstract class ApplyPatches extends DefaultTask {
         def patches = patches.get().asFile
 
         def result = PatchOperation.builder()
-            .logTo(new LoggingOutputStream(logger, LogLevel.LIFECYCLE))
-            .basePath(baseZip.toPath())
-            .patchesPath(patches.toPath())
-            .outputPath(output.toPath())
-            .level(codechicken.diffpatch.util.LogLevel.WARN)
+            .logTo((Consumer<String>){logger.log(it, LogLevel.LIFECYCLE)})
+            .baseInput(Input.MultiInput.archive(ArchiveFormat.ZIP, baseZip.toPath()))
+            .patchesInput(Input.MultiInput.folder(patches.toPath()))
+            .patchedOutput(Output.MultiOutput.folder(output.toPath()))
+            .level(io.codechicken.diffpatch.util.LogLevel.WARN)
             .mode(PatchMode.OFFSET)
             .build().operate()
 

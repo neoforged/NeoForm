@@ -1,7 +1,11 @@
 package net.minecraftforge.mcpconfig.tasks
 
-import codechicken.diffpatch.cli.*
-import codechicken.diffpatch.util.LoggingOutputStream
+import java.util.function.Consumer
+import io.codechicken.diffpatch.cli.*
+import io.codechicken.diffpatch.util.archiver.ArchiveFormat
+import io.codechicken.diffpatch.util.Input
+import io.codechicken.diffpatch.util.PatchMode
+import io.codechicken.diffpatch.util.Output
 import org.gradle.api.*
 import org.gradle.api.logging.*
 import org.gradle.api.file.*
@@ -21,11 +25,11 @@ public abstract class MakePatches extends DefaultTask {
         def patches = patches.get().asFile
 
         def result = DiffOperation.builder()
-            .logTo(new LoggingOutputStream(logger, LogLevel.LIFECYCLE))
-            .aPath(baseZip.toPath())
-            .bPath(modified.toPath())
-            .outputPath(patches.toPath())
-            .level(codechicken.diffpatch.util.LogLevel.WARN)
+            .logTo((Consumer<String>){logger.log(it, LogLevel.LIFECYCLE)})
+            .baseInput(Input.MultiInput.archive(ArchiveFormat.ZIP, baseZip.toPath()))
+            .changedInput(Input.MultiInput.folder(modified.toPath()))
+            .patchesOutput(Output.MultiOutput.folder(patches.toPath()))
+            .level(io.codechicken.diffpatch.util.LogLevel.WARN)
             .lineEnding("\n")
             .build().operate()
 
