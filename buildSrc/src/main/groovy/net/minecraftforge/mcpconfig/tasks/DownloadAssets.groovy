@@ -33,12 +33,6 @@ public abstract class DownloadAssets extends DefaultTask {
         }
         
         def assets = [] as Set // Some assets are copies of other assets
-        assetAction.eachFile(new Action<DownloadDetails>() {
-            @Override
-            public void execute(DownloadDetails details) {
-                details.relativePath = new RelativePath(false, details.sourceURL.toString().replace('https://resources.download.minecraft.net/', ''))
-            }
-        })
 
         assetAction.dest(new File(dest.get().getAsFile(), 'objects'))
         index.json.objects.each { asset ->
@@ -48,6 +42,18 @@ public abstract class DownloadAssets extends DefaultTask {
                 assetAction.src('https://resources.download.minecraft.net/' + key)
             }
         }
+
+        if (assets.size() > 1) {
+            assetAction.eachFile(new Action<DownloadDetails>() {
+                @Override
+                public void execute(DownloadDetails details) {
+                    details.relativePath = new RelativePath(false, details.sourceURL.toString().replace('https://resources.download.minecraft.net/', ''))
+                }
+            })
+        } else if (assets.size() == 1) {
+            assetAction.dest(new File(dest.get().getAsFile(), 'objects/' + assets[0].take(2) + '/' + assets[0]))
+        }
+
         if (!assets.isEmpty()) {
             assetAction.execute()
         }
