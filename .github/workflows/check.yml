@@ -101,6 +101,7 @@ jobs:
         cache-read-only: false
       env:
         GRADLE_BUILD_ACTION_CACHE_KEY_JOB_INSTANCE: check
+        GRADLE_BUILD_ACTION_CACHE_KEY_JOB_EXECUTION: ${{ github.run_id }}-${{ github.run_attempt }}
     - name: Apply and Create patches
       env:
         VERSION_NAME: ${{ fromJson(steps.split_version.outputs.result).version_name }}
@@ -159,6 +160,7 @@ jobs:
         cache-read-only: true
       env:
         GRADLE_BUILD_ACTION_CACHE_KEY_JOB_INSTANCE: check
+        GRADLE_BUILD_ACTION_CACHE_KEY_JOB_EXECUTION: ${{ github.run_id }}-${{ github.run_attempt }}
     - name: Test jdk
       env:
         VERSION_NAME: ${{ needs.common.outputs.version_name }}
