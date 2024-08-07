@@ -9,7 +9,7 @@ Definitions:
     * `release` (release versions)
     * `pre` (pre-releases and release candidates)
     * `snapshot` (snapshots)
-* `ver` is a major version of Minecraft without the ending `.0`
+* `ver` is a major version of Minecraft without the ending `.<minor_version>` (e.g. the value for 1.21.1 is 1.21)
 * `version` is a specific version of Minecraft
 
 options in `local.properties` can be set to filter for which versions are loaded by gradle:
@@ -21,7 +21,10 @@ Gradle tasks:
 * `:<version>:projectMakeAll` - Generates patches for the specified version
 * `update` - Requires `old_version` and `new_version` to be specified in `gradle.properties` in the format of `<type>/<ver>/<version>`.
 Sets up the new version based on the old version without the patches from the old version
-* `:<version>:testJdks` - Checks that the generated source code is consistant across java versions along with compilation 
+* `:<version>:testJdks` - Checks that the generated source code is consistant across java versions along with compilation
+
+GitHub Actions Variables
+* `TARGET_MC_VERSION` - Should be set at the start of a new snapshot series to the name of the release version
 
 # GitHub Actions Workflows
 * `Check For New Snapshots` - Runs every 30 minutes from 6am to 7pm UTC and checks for when Mojang releases a new version and runs the `Update` workflow
