@@ -8,6 +8,8 @@ import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.InputFiles
 import org.gradle.api.tasks.OutputFile
 import org.gradle.api.tasks.TaskAction
+import org.gradle.jvm.toolchain.JavaLanguageVersion
+import org.gradle.jvm.toolchain.JavaToolchainService
 import org.gradle.process.ExecOperations
 import org.gradle.work.DisableCachingByDefault
 
@@ -37,10 +39,26 @@ abstract class DownloadAssets extends DefaultTask {
     @Inject
     abstract ExecOperations getExecOperations();
 
+    @Inject
+    abstract JavaToolchainService getJavaToolchainService();
+
+    @Input
+    abstract Property<String> getJavaExecutable();
+
+    DownloadAssets() {
+        // Run NFRT with Java 21
+        getJavaExecutable().set(
+                getJavaToolchainService()
+                        .launcherFor { spec -> spec.languageVersion = JavaLanguageVersion.of(21) }
+                        .map { it.executablePath.asFile.absolutePath }
+        )
+    }
+
     @TaskAction
     def exec() {
         // Download Minecraft Assets and write asset index and location to JSON file to read back for starting the game
         execOperations.javaexec(spec -> {
+            spec.executable = getJavaExecutable().get()
             spec.classpath(getNfrt().getSingleFile());
             spec.args(
                     "download-assets",
