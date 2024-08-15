@@ -4,7 +4,7 @@ NeoForm provides steps to create reproducible and recompilable Minecraft source 
 # How to Use
 Development versions of Minecraft for a release version will be on a branch named `<version>-dev`
 
-##Definitions
+## Definitions
 
 * `type` can be either
     * `release` (release versions)
