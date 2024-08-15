@@ -33,7 +33,7 @@ Some workflows need to know which release-version the current series of snapshot
 
 We set the GitHub Actions variable `TARGET_MC_VERSION` for this purpose in the [project settings](https://github.com/neoforged/NeoForm/settings/variables/actions).
 
-If we suspect that the current series of snapshots will be released as Minecraft 1.21.2 for example, this variable should be set to '1.21.2'.
+If we suspect that the current series of snapshots will be released as Minecraft 1.21.2 for example, this variable should be set to `1.21.2`.
 
 ## GitHub Actions Workflows
 * `Check For New Snapshots` - Runs every 30 minutes from 6am to 7pm UTC and checks for when Mojang releases a new version and runs the `Update` workflow
