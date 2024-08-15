@@ -1,17 +1,12 @@
 package net.minecraftforge.mcpconfig.tasks
 
-import java.util.HashMap
-import java.util.HashSet
-import java.util.ArrayList
-import java.util.List
-import java.util.Set
+
 import java.util.zip.ZipFile
 import org.gradle.api.*
 import org.gradle.api.file.*
 import org.gradle.api.provider.*
 import org.gradle.api.tasks.*
 import groovy.json.JsonSlurper
-import net.neoforged.srgutils.IMappingFile
 
 public abstract class CreateProjectTemplate extends DefaultTask {
     @Input abstract Property<String> getDistro()
@@ -22,7 +17,8 @@ public abstract class CreateProjectTemplate extends DefaultTask {
     @Input abstract MapProperty<String, String> getReplace()
     @Internal abstract ConfigurableFileCollection getDirectories()
     @Input abstract Property<String> getVersion()
-    
+    @Optional @InputFile abstract RegularFileProperty getAssetJsonFile()
+
     @OutputDirectory abstract RegularFileProperty getDest()
     
     def library(lib) {
@@ -41,7 +37,7 @@ public abstract class CreateProjectTemplate extends DefaultTask {
         if (value == null) {
             replace(key, 'null')
         } else {
-            replace(key, "'" + value.get().getAsFile().absolutePath.replace('\\', '/') + "'")
+            replace(key, escapePathForGradle(value.get().getAsFile().absolutePath))
             directories + value
         }
     }
@@ -50,11 +46,15 @@ public abstract class CreateProjectTemplate extends DefaultTask {
         if (value == null) {
             replace(key, 'null')
         } else {
-            replace(key, "'" + value.absolutePath.replace('\\', '/') + "'")
+            replace(key, escapePathForGradle(value.absolutePath))
             directories + value
         }
     }
-    
+
+    private static String escapePathForGradle(String path) {
+        return "'" + path.replace('\\', '/') + "'"
+    }
+
     @TaskAction
     protected void exec() {
         if (!dest.get().getAsFile().exists())
@@ -89,7 +89,12 @@ public abstract class CreateProjectTemplate extends DefaultTask {
             def v = replace.get().get(k)
             data = data.replace(k, v)
         }
-        
+
+        if (getAssetJsonFile().isPresent()) {
+            def assetInfo = new JsonSlurper().parse(getAssetJsonFile().get().asFile)
+            data = data.replace("{assets}", escapePathForGradle(assetInfo.assets))
+        }
+
         new File(dest.get().getAsFile(), 'build.gradle').withWriter('UTF-8') { it.write(data) }
     }
 }

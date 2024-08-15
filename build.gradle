@@ -129,6 +129,11 @@ subprojects {
         mergetool
         renametool
         mergemaptool
+        nfrt {
+            canBeResolved = true
+            canBeConsumed = false
+            transitive = false
+        }
         if (MCINJECTOR) {
             mcinjector
         }
@@ -191,6 +196,7 @@ subprojects {
                 transitive = false
             }
         }
+        nfrt "net.neoforged:neoform-runtime:1.0.4:all"
     }
 
     task downloadJson(type: Download, dependsOn: rootProject.downloadVersionManifest) {
@@ -224,20 +230,14 @@ subprojects {
         config = CONFIG
         dest = new File(gradle.gradleUserHomeDir, '/caches/neoform/libraries/')
     }
-    task downloadAssets(type: DownloadAssets, dependsOn: downloadJson) {
-        json = downloadJson.dest
-        dest = new File(gradle.gradleUserHomeDir, '/caches/neoform/assets/')
-    }
-
-    task createAssetsData(type: CreateAssetsDataJson, dependsOn: downloadAssets) {
-        assets = downloadAssets.dest
-        json = downloadJson.dest
-
-        dest = file(PATH_CACHED_VERSION + 'assets.json')
+    task downloadAssets(type: DownloadAssets) {
+        assetJson = file(PATH_CACHED_VERSION + 'assets.json')
+        nfrt = configurations.nfrt
+        minecraftVersion = version
     }
 
     task createAssetsDataJar(type: Jar, dependsOn: downloadAssets) {
-        from createAssetsData.dest
+        from downloadAssets.assetJson
         destinationDirectory = file(PATH_CACHED_VERSION)
         archiveFileName = 'assets.json.jar'
     }
@@ -469,11 +469,12 @@ subprojects {
             CONFIG?.libraries?.get(side)?.each { library "'${it}'" }
             version = project.name
             libraryFile child.extra.extra.get().getAsFile()
-            if (child.assets)
+            if (child.assets) {
                 libraryFile createAssetsDataJar.archiveFile.get().asFile
+                assetJsonFile = downloadAssets.assetJson
+            }
             replace '{java_target}', JAVA_TARGET + ''
             replaceFile '{inject}', PATH_INJECT
-            replaceFile '{assets}', child.assets ? downloadAssets.dest : null
             replaceFile '{natives}', child.jsonlibs ? extractNatives.dest : null
             replaceFile '{merged_src}', MERGE_PATCHES ? project.file('projects/shared') : null
         }

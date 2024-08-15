@@ -1,11 +1,8 @@
 package net.minecraftforge.mcpconfig.tasks;
 
-import org.gradle.api.*
 import org.gradle.api.file.*
 import org.gradle.api.provider.*
 import org.gradle.api.tasks.*
-
-import java.util.TreeSet
 
 abstract class CreateFernflowerLibraries extends SingleFileOutput {
     @InputFile abstract RegularFileProperty getMeta()
@@ -34,6 +31,6 @@ abstract class CreateFernflowerLibraries extends SingleFileOutput {
         }
         
         config.get().libraries.get(side.get())?.collect{ it.toMavenPath() }?.each { libs.add(new File(root.get().getAsFile(), it)) }
-        dest.get().getAsFile().text = libs.collect{ '-e=' + it.absolutePath }.join('\n')
+        dest.get().getAsFile().write(libs.collect{ '-e=' + it.absolutePath }.join('\n'), "UTF-8")
     }
 }
