@@ -14,7 +14,10 @@ Definitions:
 
 options in `local.properties` can be set to filter for which versions are loaded by gradle:
 * `type` (defaults to `release`)
-* `ver` (defaults to all major versions)
+* `ver` (defaults to all major versions
+
+To get snapshots, set `type=snapshot` and `ver=<expected-major>`, where `<expected-major>` matches the subdirectory
+under `versions/snapshot`.
 
 Gradle tasks:
 * `:<version>:projectApplyAll` - Creates Minecraft source code of that version with patches applied
