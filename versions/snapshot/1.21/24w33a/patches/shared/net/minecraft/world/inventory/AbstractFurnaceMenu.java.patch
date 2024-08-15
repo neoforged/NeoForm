@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/inventory/AbstractFurnaceMenu.java
 +++ b/net/minecraft/world/inventory/AbstractFurnaceMenu.java
-@@ -163,7 +163,7 @@
+@@ -127,7 +127,7 @@
      }
  
      protected boolean canSmelt(ItemStack p_38978_) {

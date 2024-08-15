@@ -1,6 +1,6 @@
 --- a/net/minecraft/advancements/critereon/EntitySubPredicates.java
 +++ b/net/minecraft/advancements/critereon/EntitySubPredicates.java
-@@ -176,7 +176,7 @@
+@@ -175,7 +175,7 @@
              this.getter = p_336167_;
              this.codec = RecordCodecBuilder.mapCodec(
                  p_335436_ -> p_335436_.group(RegistryCodecs.homogeneousList(p_336141_).fieldOf("variant").forGetter(p_335992_ -> p_335992_.variants))
@@ -9,7 +9,7 @@
              );
          }
  
-@@ -219,7 +219,7 @@
+@@ -218,7 +218,7 @@
              this.getter = p_333805_;
              this.codec = RecordCodecBuilder.mapCodec(
                  p_333719_ -> p_333719_.group(p_333738_.fieldOf("variant").forGetter(p_333753_ -> p_333753_.variant))
