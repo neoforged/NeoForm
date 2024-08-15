@@ -4,7 +4,8 @@ NeoForm provides steps to create reproducible and recompilable Minecraft source 
 # How to Use
 Development versions of Minecraft for a release version will be on a branch named `<version>-dev`
 
-Definitions:
+##Definitions
+
 * `type` can be either
     * `release` (release versions)
     * `pre` (pre-releases and release candidates)
@@ -12,21 +13,29 @@ Definitions:
 * `ver` is a major version of Minecraft without the ending `.<minor_version>` (e.g. the value for 1.21.1 is 1.21)
 * `version` is a specific version of Minecraft
 
-options in `local.properties` can be set to filter for which versions are loaded by gradle:
+## Local Settings
+
+Options in `local.properties` can be set to filter for which versions are loaded by gradle:
 * `type` (defaults to `release`)
 * `ver` (defaults to all major versions)
 
-Gradle tasks:
+## Gradle Tasks
+
 * `:<version>:projectApplyAll` - Creates Minecraft source code of that version with patches applied
 * `:<version>:projectMakeAll` - Generates patches for the specified version
 * `update` - Requires `old_version` and `new_version` to be specified in `gradle.properties` in the format of `<type>/<ver>/<version>`.
 Sets up the new version based on the old version without the patches from the old version
 * `:<version>:testJdks` - Checks that the generated source code is consistant across java versions along with compilation
 
-GitHub Actions Variables
-* `TARGET_MC_VERSION` - Should be set at the start of a new snapshot series to the name of the release version
+## GitHub Actions Variables
 
-# GitHub Actions Workflows
+Some workflows need to know which release-version the current series of snapshots will result in.
+
+We set the GitHub Actions variable `TARGET_MC_VERSION` for this purpose in the [project settings](https://github.com/neoforged/NeoForm/settings/variables/actions).
+
+If we suspect that the current series of snapshots will be released as Minecraft 1.21.2 for example, this variable should be set to '1.21.2'.
+
+## GitHub Actions Workflows
 * `Check For New Snapshots` - Runs every 30 minutes from 6am to 7pm UTC and checks for when Mojang releases a new version and runs the `Update` workflow
 * `Update` - Runs the `update` task and checks for any library updates along with copying over the patches from the old version to the new version then attempts to run the `Check` workflow. Parameters:
     * `Old branch` - The branch name where the old version is
