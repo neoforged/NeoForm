@@ -1,0 +1,23 @@
+--- a/net/minecraft/client/renderer/block/model/multipart/MultiPart.java
++++ b/net/minecraft/client/renderer/block/model/multipart/MultiPart.java
+@@ -45,17 +45,9 @@
+             }
+         }
+ 
+-        record Key(MultiPart model, IntList selectors) {
+-            Key(IntList selectors) {
+-                this.selectors = selectors;
+-            }
+-
+-            public MultiPart model() {
+-                return MultiPart.this;
+-            }
+-        }
+-
+-        return new Key(intlist);
++        record Key(MultiPart model, IntList selectors) {}
++
++        return new Key(this, intlist);
+     }
+ 
+     @Override

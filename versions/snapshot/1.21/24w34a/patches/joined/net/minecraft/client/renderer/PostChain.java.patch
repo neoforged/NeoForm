@@ -1,0 +1,174 @@
+--- a/net/minecraft/client/renderer/PostChain.java
++++ b/net/minecraft/client/renderer/PostChain.java
+@@ -97,63 +97,7 @@
+             Objects.requireNonNull(postchainconfig$input);
+             Throwable throwable10;
+             switch (postchainconfig$input) {
+-                case PostChainConfig.TextureInput postchainconfig$textureinput:
+-                    PostChainConfig.TextureInput postchainconfig$textureinput1 = postchainconfig$textureinput;
+-
+-                    try {
+-                        s4 = postchainconfig$textureinput1.samplerName();
+-                    } catch (Throwable throwable8) {
+-                        throwable10 = throwable8;
+-                        boolean flag9 = false;
+-                        break;
+-                    }
+-
+-                    String s2 = s4;
+-                    PostChainConfig.TextureInput postchainconfig$textureinput2 = postchainconfig$textureinput;
+-
+-                    try {
+-                        resourcelocation5 = postchainconfig$textureinput2.location();
+-                    } catch (Throwable throwable7) {
+-                        throwable10 = throwable7;
+-                        boolean flag10 = false;
+-                        break;
+-                    }
+-
+-                    ResourceLocation resourcelocation1 = resourcelocation5;
+-                    ResourceLocation resourcelocation = resourcelocation1;
+-                    PostChainConfig.TextureInput postchainconfig$textureinput3 = postchainconfig$textureinput;
+-
+-                    try {
+-                        k = postchainconfig$textureinput3.width();
+-                    } catch (Throwable throwable6) {
+-                        throwable10 = throwable6;
+-                        boolean flag11 = false;
+-                        break;
+-                    }
+-
+-                    int i = k;
+-                    PostChainConfig.TextureInput postchainconfig$textureinput4 = postchainconfig$textureinput;
+-
+-                    try {
+-                        l = postchainconfig$textureinput4.height();
+-                    } catch (Throwable throwable5) {
+-                        throwable10 = throwable5;
+-                        boolean flag12 = false;
+-                        break;
+-                    }
+-
+-                    int j = l;
+-                    PostChainConfig.TextureInput postchainconfig$textureinput5 = postchainconfig$textureinput;
+-
+-                    try {
+-                        flag5 = postchainconfig$textureinput5.bilinear();
+-                    } catch (Throwable throwable4) {
+-                        throwable10 = throwable4;
+-                        boolean flag13 = false;
+-                        break;
+-                    }
+-
+-                    boolean flag = flag5;
++                case PostChainConfig.TextureInput(String s2, ResourceLocation resourcelocation, int i, int j, boolean flag):
+                     ResourceLocation resourcelocation2 = resourcelocation.withPath(p_359199_ -> "textures/effect/" + p_359199_ + ".png");
+                     p_363908_.getResource(resourcelocation2).orElseThrow(() -> new ChainedJsonException("Texture '" + resourcelocation + "' does not exist"));
+                     RenderSystem.setShaderTexture(0, resourcelocation2);
+@@ -169,59 +113,10 @@
+ 
+                     postpass.addInput(new PostPass.TextureInput(s2, abstracttexture, i, j));
+                     continue;
+-                case PostChainConfig.TargetInput $$10:
+-                    PostChainConfig.TargetInput postchainconfig$targetinput4 = $$10;
+-
+-                    try {
+-                        s3 = postchainconfig$targetinput4.samplerName();
+-                    } catch (Throwable throwable3) {
+-                        throwable10 = throwable3;
+-                        boolean flag14 = false;
+-                        break;
+-                    }
+-
+-                    String s1 = s3;
+-                    PostChainConfig.TargetInput postchainconfig$targetinput1 = $$10;
+-
+-                    try {
+-                        resourcelocation4 = postchainconfig$targetinput1.targetId();
+-                    } catch (Throwable throwable2) {
+-                        throwable10 = throwable2;
+-                        boolean flag6 = false;
+-                        break;
+-                    }
+-
+-                    ResourceLocation resourcelocation3 = resourcelocation4;
+-                    PostChainConfig.TargetInput postchainconfig$targetinput2 = $$10;
+-
+-                    try {
+-                        flag3 = postchainconfig$targetinput2.useDepthBuffer();
+-                    } catch (Throwable throwable1) {
+-                        throwable10 = throwable1;
+-                        boolean flag7 = false;
+-                        break;
+-                    }
+-
+-                    boolean flag1 = flag3;
+-                    PostChainConfig.TargetInput postchainconfig$targetinput3 = $$10;
+-
+-                    try {
+-                        flag4 = postchainconfig$targetinput3.bilinear();
+-                    } catch (Throwable throwable) {
+-                        throwable10 = throwable;
+-                        boolean flag8 = false;
+-                        break;
+-                    }
+-
+-                    boolean flag2 = flag4;
++                case PostChainConfig.TargetInput(String s1, ResourceLocation resourcelocation3, boolean flag1, boolean flag2):
+                     postpass.addInput(new PostPass.TargetInput(s1, resourcelocation3, flag1, flag2));
+                     continue;
+-                default:
+-                    throw new MatchException(null, null);
+             }
+-
+-            Throwable throwable9 = throwable10;
+-            throw new MatchException(throwable9.toString(), throwable9);
+         }
+ 
+         for (PostChainConfig.Uniform postchainconfig$uniform : p_361826_.uniforms()) {
+@@ -280,43 +175,8 @@
+ 
+         for (Entry<ResourceLocation, PostChainConfig.InternalTarget> entry : this.internalTargets.entrySet()) {
+             ResourceLocation resourcelocation1 = entry.getKey();
+-            PostChainConfig.InternalTarget postchainconfig$internaltarget;
+-            Objects.requireNonNull(postchainconfig$internaltarget);
+-            Object object = postchainconfig$internaltarget;
+-
+-            postchainconfig$internaltarget = entry.getValue();
+-            RenderTargetDescriptor rendertargetdescriptor = switch (object) {
+-                case PostChainConfig.FixedSizedTarget postchainconfig$fixedsizedtarget -> {
+-                    PostChainConfig.FixedSizedTarget postchainconfig$fixedsizedtarget1 = postchainconfig$fixedsizedtarget;
+-
+-                    int i;
+-                    label59: {
+-                        label85: {
+-                            try {
+-                                k = postchainconfig$fixedsizedtarget1.width();
+-                            } catch (Throwable throwable1) {
+-                                throwable3 = throwable1;
+-                                boolean flag1 = false;
+-                                break label85;
+-                            }
+-
+-                            i = k;
+-                            PostChainConfig.FixedSizedTarget postchainconfig$fixedsizedtarget2 = postchainconfig$fixedsizedtarget;
+-
+-                            try {
+-                                l = postchainconfig$fixedsizedtarget2.height();
+-                                break label59;
+-                            } catch (Throwable throwable) {
+-                                throwable3 = throwable;
+-                                boolean flag = false;
+-                            }
+-                        }
+-
+-                        Throwable throwable2 = throwable3;
+-                        throw new MatchException(throwable2.toString(), throwable2);
+-                    }
+-
+-                    int j = l;
++            RenderTargetDescriptor rendertargetdescriptor = switch (entry.getValue()) {
++                case PostChainConfig.FixedSizedTarget(int i, int j) -> {
+                     yield new RenderTargetDescriptor(i, j, true);
+                 }
+                 case PostChainConfig.FullScreenTarget postchainconfig$fullscreentarget -> new RenderTargetDescriptor(p_361423_, p_362735_, true);
