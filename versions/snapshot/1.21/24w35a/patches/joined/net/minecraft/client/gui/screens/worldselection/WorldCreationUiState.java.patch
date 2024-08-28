@@ -1,6 +1,6 @@
 --- a/net/minecraft/client/gui/screens/worldselection/WorldCreationUiState.java
 +++ b/net/minecraft/client/gui/screens/worldselection/WorldCreationUiState.java
-@@ -304,7 +304,7 @@
+@@ -303,7 +303,7 @@
          public Component describePreset() {
              return Optional.ofNullable(this.preset)
                  .flatMap(Holder::unwrapKey)

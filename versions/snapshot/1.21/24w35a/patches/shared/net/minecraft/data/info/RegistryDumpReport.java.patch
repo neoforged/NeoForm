@@ -8,4 +8,4 @@
 +        int i = ((Registry<Registry<T>>)BuiltInRegistries.REGISTRY).getId(p_124059_);
          jsonobject.addProperty("protocol_id", i);
          JsonObject jsonobject1 = new JsonObject();
-         p_124059_.holders().forEach(p_211092_ -> {
+         p_124059_.listElements().forEach(p_211092_ -> {
