@@ -3,6 +3,8 @@ on:
 #  schedule:
 #    - cron: "*/30 6-19 * * *"
   workflow_dispatch:
+concurrency: 
+  group: check-for-updates
 permissions:
   actions: write
   
