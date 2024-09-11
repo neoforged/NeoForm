@@ -18,7 +18,7 @@
                      && !this.server.isFlightAllowed()
                      && !entity.isNoGravity()
 @@ -791,7 +792,7 @@
-         if (itemstack.is(Items.WRITABLE_BOOK)) {
+         if (itemstack.has(DataComponents.WRITABLE_BOOK_CONTENT)) {
              ItemStack itemstack1 = itemstack.transmuteCopy(Items.WRITTEN_BOOK);
              itemstack1.remove(DataComponents.WRITABLE_BOOK_CONTENT);
 -            List<Filterable<Component>> list = p_215210_.stream().map(p_329965_ -> this.filterableFromOutgoing(p_329965_).map(Component::literal)).toList();

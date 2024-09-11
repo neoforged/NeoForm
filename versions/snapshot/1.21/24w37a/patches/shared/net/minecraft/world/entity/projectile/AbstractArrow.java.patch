@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/entity/projectile/AbstractArrow.java
 +++ b/net/minecraft/world/entity/projectile/AbstractArrow.java
-@@ -568,9 +568,9 @@
+@@ -577,9 +577,9 @@
          super.setOwner(p_36770_);
  
          this.pickup = switch (p_36770_) {
