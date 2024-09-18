@@ -1,0 +1,11 @@
+--- a/net/minecraft/client/resources/model/BlockStateModelLoader.java
++++ b/net/minecraft/client/resources/model/BlockStateModelLoader.java
+@@ -69,7 +69,7 @@
+ 
+             while (true) {
+                 if (!iterator.hasNext()) {
+-                    ;
++                    break;
+                 } else {
+                     BlockState blockstate = (BlockState)iterator.next();
+                     ModelResourceLocation modelresourcelocation = BlockModelShaper.stateToModelLocation(p_362931_, blockstate);
