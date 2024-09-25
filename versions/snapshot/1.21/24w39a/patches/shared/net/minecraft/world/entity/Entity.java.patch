@@ -1,11 +1,11 @@
 --- a/net/minecraft/world/entity/Entity.java
 +++ b/net/minecraft/world/entity/Entity.java
-@@ -481,7 +481,7 @@
+@@ -480,7 +480,7 @@
  
          this.firstTick = false;
-         if (!this.level().isClientSide && this instanceof Leashable) {
--            Leashable.tickLeash((Entity)((Leashable)this));
-+            Leashable.tickLeash((Entity & Leashable)this);
+         if (this.level() instanceof ServerLevel serverlevel1 && this instanceof Leashable) {
+-            Leashable.tickLeash(serverlevel1, (Entity)((Leashable)this));
++            Leashable.tickLeash(serverlevel1, (Entity & Leashable)this);
          }
  
          profilerfiller.pop();

@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/Explosion.java
 +++ b/net/minecraft/world/level/Explosion.java
-@@ -16,10 +16,10 @@
+@@ -17,10 +17,10 @@
      @Nullable
      static LivingEntity getIndirectSourceEntity(@Nullable Entity p_363745_) {
          return switch (p_363745_) {

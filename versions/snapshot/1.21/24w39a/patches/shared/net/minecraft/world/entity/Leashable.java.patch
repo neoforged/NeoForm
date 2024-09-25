@@ -27,7 +27,7 @@
      }
  
      private static <E extends Entity & Leashable> void dropLeash(E p_352163_, boolean p_352286_, boolean p_352272_) {
-@@ -161,7 +161,7 @@
+@@ -163,7 +163,7 @@
      }
  
      default void elasticRangeLeashBehaviour(Entity p_353036_, float p_353047_) {
@@ -36,7 +36,7 @@
      }
  
      private static <E extends Entity & Leashable> void legacyElasticRangeLeashBehaviour(E p_353048_, Entity p_353039_, float p_353053_) {
-@@ -174,7 +174,7 @@
+@@ -176,7 +176,7 @@
      }
  
      default void setLeashedTo(Entity p_352411_, boolean p_352183_) {
@@ -45,7 +45,7 @@
      }
  
      private static <E extends Entity & Leashable> void setLeashedTo(E p_352280_, Entity p_352109_, boolean p_352239_) {
-@@ -197,7 +197,7 @@
+@@ -199,7 +199,7 @@
  
      @Nullable
      default Entity getLeashHolder() {
