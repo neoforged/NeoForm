@@ -25,7 +25,7 @@
 @@ -372,24 +372,23 @@
  
      @OnlyIn(Dist.CLIENT)
-     class WorldTemplateList extends RealmsObjectSelectionList<RealmsSelectWorldTemplateScreen.Entry> {
+     class WorldTemplateList extends ObjectSelectionList<RealmsSelectWorldTemplateScreen.Entry> {
 -        public WorldTemplateList(RealmsSelectWorldTemplateScreen param1) {
 -            this(var1, Collections.emptyList());
 +        public WorldTemplateList() {
@@ -33,10 +33,10 @@
          }
  
 -        public WorldTemplateList(Iterable<WorldTemplate> param1, Iterable p_313798_) {
--            super(var1.width, var1.height - 33 - var1.getHeaderHeight(), var1.getHeaderHeight(), 46);
+-            super(Minecraft.getInstance(), var1.width, var1.height - 33 - var1.getHeaderHeight(), var1.getHeaderHeight(), 46);
 -            this.this$0 = var1;
 +        public WorldTemplateList(Iterable<WorldTemplate> p_313798_) {
-+            super(RealmsSelectWorldTemplateScreen.this.width, RealmsSelectWorldTemplateScreen.this.height - 33 - RealmsSelectWorldTemplateScreen.this.getHeaderHeight(), RealmsSelectWorldTemplateScreen.this.getHeaderHeight(), 46);
++            super(Minecraft.getInstance(), RealmsSelectWorldTemplateScreen.this.width, RealmsSelectWorldTemplateScreen.this.height - 33 - RealmsSelectWorldTemplateScreen.this.getHeaderHeight(), RealmsSelectWorldTemplateScreen.this.getHeaderHeight(), 46);
              p_313798_.forEach(this::addEntry);
          }
  
