@@ -1,14 +1,6 @@
 --- a/net/minecraft/world/entity/animal/goat/GoatAi.java
 +++ b/net/minecraft/world/entity/animal/goat/GoatAi.java
-@@ -32,6 +32,7 @@
- import net.minecraft.world.entity.ai.memory.MemoryModuleType;
- import net.minecraft.world.entity.ai.memory.MemoryStatus;
- import net.minecraft.world.entity.ai.targeting.TargetingConditions;
-+import net.minecraft.world.entity.animal.allay.Allay;
- import net.minecraft.world.entity.schedule.Activity;
- import net.minecraft.world.item.ItemStack;
- import net.minecraft.world.level.GameRules;
-@@ -82,7 +83,7 @@
+@@ -82,7 +82,7 @@
          p_149454_.addActivity(
              Activity.CORE,
              0,
