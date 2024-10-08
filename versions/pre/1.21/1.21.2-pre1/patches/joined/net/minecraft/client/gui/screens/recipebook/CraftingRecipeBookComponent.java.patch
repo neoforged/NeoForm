@@ -1,6 +1,6 @@
 --- a/net/minecraft/client/gui/screens/recipebook/CraftingRecipeBookComponent.java
 +++ b/net/minecraft/client/gui/screens/recipebook/CraftingRecipeBookComponent.java
-@@ -77,15 +77,14 @@
+@@ -78,15 +78,14 @@
                  );
                  break;
              case ShapelessCraftingRecipeDisplay shapelesscraftingrecipedisplay:
@@ -9,7 +9,7 @@
                      int i = Math.min(shapelesscraftingrecipedisplay.ingredients().size(), list.size());
  
                      for (int j = 0; j < i; j++) {
-                         p_379930_.setInput(list.get(j), p_379430_, shapelesscraftingrecipedisplay.ingredients().get(j));
+                         p_379930_.setInput(list.get(j), p_380956_, shapelesscraftingrecipedisplay.ingredients().get(j));
                      }
 -                    break label15;
 -                }
