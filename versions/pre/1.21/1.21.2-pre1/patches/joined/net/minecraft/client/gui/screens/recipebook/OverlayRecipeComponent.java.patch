@@ -1,0 +1,21 @@
+--- a/net/minecraft/client/gui/screens/recipebook/OverlayRecipeComponent.java
++++ b/net/minecraft/client/gui/screens/recipebook/OverlayRecipeComponent.java
+@@ -211,7 +211,6 @@
+                     );
+                     break;
+                 case ShapelessCraftingRecipeDisplay shapelesscraftingrecipedisplay:
+-                    label19: {
+                         List<SlotDisplay> list1 = shapelesscraftingrecipedisplay.ingredients();
+ 
+                         for (int i = 0; i < list1.size(); i++) {
+@@ -220,8 +219,8 @@
+                                 list.add(createGridPos(i % 3, i / 3, list2));
+                             }
+                         }
+-                        break label19;
+-                    }
++                        break;
++                default:
+             }
+ 
+             return list;
