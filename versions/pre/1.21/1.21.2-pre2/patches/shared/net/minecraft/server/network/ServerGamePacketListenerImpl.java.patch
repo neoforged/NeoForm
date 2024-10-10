@@ -8,7 +8,7 @@
                  d6 = d3 - entity.getX();
                  d7 = d4 - entity.getY();
                  if (d7 > -0.5 || d7 < 0.5) {
-@@ -449,7 +450,7 @@
+@@ -450,7 +451,7 @@
                  Vec3 vec3 = new Vec3(entity.getX() - d0, entity.getY() - d1, entity.getZ() - d2);
                  this.handlePlayerKnownMovement(vec3);
                  this.player.checkMovementStatistics(vec3.x, vec3.y, vec3.z);
@@ -17,7 +17,7 @@
                      && !flag1
                      && !this.server.isFlightAllowed()
                      && !entity.isNoGravity()
-@@ -790,7 +791,7 @@
+@@ -791,7 +792,7 @@
          if (itemstack.has(DataComponents.WRITABLE_BOOK_CONTENT)) {
              ItemStack itemstack1 = itemstack.transmuteCopy(Items.WRITTEN_BOOK);
              itemstack1.remove(DataComponents.WRITABLE_BOOK_CONTENT);

@@ -7,5 +7,5 @@
 -            p_360056_ -> p_360056_.<HolderSet.Direct<Item>>map(p_360062_ -> p_360062_.values).orElse(HolderSet.direct())
 +            p_360056_ -> p_360056_.map(p_360062_ -> p_360062_.values).orElse(HolderSet.direct())
          );
-     public static final Codec<HolderSet<Item>> NON_AIR_HOLDER_SET_CODEC = HolderSetCodec.create(Registries.ITEM, ItemStack.ITEM_NON_AIR_CODEC, false);
+     public static final Codec<HolderSet<Item>> NON_AIR_HOLDER_SET_CODEC = HolderSetCodec.create(Registries.ITEM, Item.CODEC, false);
      public static final Codec<Ingredient> CODEC = ExtraCodecs.nonEmptyHolderSet(NON_AIR_HOLDER_SET_CODEC).xmap(Ingredient::new, p_360061_ -> p_360061_.values);

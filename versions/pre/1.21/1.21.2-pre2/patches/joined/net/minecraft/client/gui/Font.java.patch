@@ -9,16 +9,16 @@
          );
  
          for (int j = -1; j <= 1; j++) {
-@@ -165,7 +165,7 @@
-         }
+@@ -166,7 +166,7 @@
  
+         font$stringrenderoutput.renderCharacters();
          Font.StringRenderOutput font$stringrenderoutput1 = new Font.StringRenderOutput(
 -            this, p_168652_, p_168647_, p_168648_, adjustColor(p_168649_), false, p_254170_, Font.DisplayMode.POLYGON_OFFSET, p_168653_
 +            p_168652_, p_168647_, p_168648_, adjustColor(p_168649_), false, p_254170_, Font.DisplayMode.POLYGON_OFFSET, p_168653_
          );
          p_168646_.accept(font$stringrenderoutput1);
          font$stringrenderoutput1.finish(p_168647_);
-@@ -239,7 +239,7 @@
+@@ -240,7 +240,7 @@
          int p_273199_
      ) {
          Font.StringRenderOutput font$stringrenderoutput = new Font.StringRenderOutput(
@@ -27,7 +27,7 @@
          );
          StringDecomposer.iterateFormatted(p_273765_, Style.EMPTY, font$stringrenderoutput);
          return font$stringrenderoutput.finish(p_273532_);
-@@ -258,7 +258,7 @@
+@@ -259,7 +259,7 @@
          int p_273371_
      ) {
          Font.StringRenderOutput font$stringrenderoutput = new Font.StringRenderOutput(
@@ -36,7 +36,7 @@
          );
          p_273322_.accept(font$stringrenderoutput);
          return font$stringrenderoutput.finish(p_272632_);
-@@ -340,7 +340,6 @@
+@@ -341,7 +341,6 @@
          }
  
          public StringRenderOutput(
@@ -44,7 +44,7 @@
              MultiBufferSource p_181365_,
              float p_181366_,
              float p_181367_,
-@@ -350,11 +349,10 @@
+@@ -351,11 +350,10 @@
              Font.DisplayMode p_181371_,
              int p_181372_
          ) {
@@ -57,7 +57,7 @@
              MultiBufferSource p_379354_,
              float p_380215_,
              float p_380204_,
-@@ -365,7 +363,6 @@
+@@ -366,7 +364,6 @@
              Font.DisplayMode p_380021_,
              int p_379625_
          ) {
@@ -65,7 +65,7 @@
              this.glyphInstances = new ArrayList<>();
              this.bufferSource = p_379354_;
              this.x = p_380215_;
-@@ -381,8 +378,8 @@
+@@ -382,8 +379,8 @@
  
          @Override
          public boolean accept(int p_92967_, Style p_92968_, int p_92969_) {
@@ -76,7 +76,7 @@
              BakedGlyph bakedglyph = p_92968_.isObfuscated() && p_92969_ != 32 ? fontset.getRandomGlyph(glyphinfo) : fontset.getGlyph(p_92969_);
              boolean flag = p_92968_.isBold();
              TextColor textcolor = p_92968_.getColor();
-@@ -414,7 +411,7 @@
+@@ -415,7 +412,7 @@
                  BakedGlyph.Effect bakedglyph$effect = new BakedGlyph.Effect(
                      p_381032_ - 1.0F, this.y + 9.0F, this.x, this.y - 1.0F, -0.01F, this.backgroundColor
                  );
@@ -85,12 +85,12 @@
                  VertexConsumer vertexconsumer = this.bufferSource.getBuffer(bakedglyph.renderType(this.mode));
                  bakedglyph.renderEffect(bakedglyph$effect, this.pose, vertexconsumer, this.packedLightCoords);
              }
-@@ -427,7 +424,7 @@
- 
+@@ -423,7 +420,7 @@
+             this.renderCharacters();
              if (this.effects != null) {
                  if (bakedglyph == null) {
 -                    bakedglyph = this.this$0.getFontSet(Style.DEFAULT_FONT).whiteGlyph();
 +                    bakedglyph = Font.this.getFontSet(Style.DEFAULT_FONT).whiteGlyph();
                  }
  
-                 VertexConsumer vertexconsumer2 = this.bufferSource.getBuffer(bakedglyph.renderType(this.mode));
+                 VertexConsumer vertexconsumer1 = this.bufferSource.getBuffer(bakedglyph.renderType(this.mode));
