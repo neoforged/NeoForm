@@ -1,0 +1,11 @@
+--- a/net/minecraft/util/EncoderCache.java
++++ b/net/minecraft/util/EncoderCache.java
+@@ -35,7 +35,7 @@
+             public <T> DataResult<T> encode(A p_341885_, DynamicOps<T> p_341925_, T p_341904_) {
+                 return EncoderCache.this.cache
+                     .getUnchecked(new EncoderCache.Key<>(p_341888_, p_341885_, p_341925_))
+-                    .map(p_342020_ -> p_342020_ instanceof Tag tag ? tag.copy() : p_342020_);
++                    .map(p_342020_ -> (T)(p_342020_ instanceof Tag tag ? tag.copy() : p_342020_));
+             }
+         };
+     }
