@@ -25,7 +25,7 @@ public abstract class ApplyPatches extends DefaultTask {
         def patches = patches.get().asFile
 
         def result = PatchOperation.builder()
-            .logTo((Consumer<String>){logger.log(it, LogLevel.LIFECYCLE)})
+            .logTo((Consumer<String>){logger.log(LogLevel.LIFECYCLE, it)})
             .baseInput(Input.MultiInput.archive(ArchiveFormat.ZIP, baseZip.toPath()))
             .patchesInput(Input.MultiInput.folder(patches.toPath()))
             .patchedOutput(Output.MultiOutput.folder(output.toPath()))
