@@ -22,7 +22,7 @@
          LinearLayout linearlayout = this.layout.addToFooter(LinearLayout.horizontal().spacing(10));
          linearlayout.defaultCellSetting().alignHorizontallyCenter();
          this.trailerButton = linearlayout.addChild(Button.builder(TRAILER_BUTTON_NAME, p_89701_ -> this.onTrailer()).width(100).build());
-@@ -367,24 +367,23 @@
+@@ -365,24 +365,23 @@
      }
  
      class WorldTemplateList extends ObjectSelectionList<RealmsSelectWorldTemplateScreen.Entry> {
@@ -54,7 +54,7 @@
                  return true;
              } else {
                  return super.mouseClicked(p_313816_, p_313908_, p_313922_);
-@@ -393,8 +392,8 @@
+@@ -391,8 +390,8 @@
  
          public void setSelected(@Nullable RealmsSelectWorldTemplateScreen.Entry p_313741_) {
              super.setSelected(p_313741_);

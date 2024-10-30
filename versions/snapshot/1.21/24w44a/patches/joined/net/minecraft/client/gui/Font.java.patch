@@ -18,7 +18,7 @@
          );
          p_168646_.accept(font$stringrenderoutput1);
          font$stringrenderoutput1.finish(p_168647_);
-@@ -240,7 +240,7 @@
+@@ -228,7 +228,7 @@
          boolean p_381721_
      ) {
          Font.StringRenderOutput font$stringrenderoutput = new Font.StringRenderOutput(
@@ -27,7 +27,7 @@
          );
          StringDecomposer.iterateFormatted(p_381719_, Style.EMPTY, font$stringrenderoutput);
          return font$stringrenderoutput.finish(p_272632_);
-@@ -260,7 +260,7 @@
+@@ -248,7 +248,7 @@
          boolean p_381718_
      ) {
          Font.StringRenderOutput font$stringrenderoutput = new Font.StringRenderOutput(
@@ -36,7 +36,7 @@
          );
          p_381723_.accept(font$stringrenderoutput);
          return font$stringrenderoutput.finish(p_273532_);
-@@ -343,7 +343,6 @@
+@@ -330,7 +330,6 @@
          }
  
          public StringRenderOutput(
@@ -44,7 +44,7 @@
              MultiBufferSource p_181365_,
              float p_181366_,
              float p_181367_,
-@@ -353,11 +352,10 @@
+@@ -340,11 +339,10 @@
              Font.DisplayMode p_181371_,
              int p_181372_
          ) {
@@ -57,7 +57,7 @@
              MultiBufferSource p_379354_,
              float p_380215_,
              float p_380204_,
-@@ -369,7 +367,6 @@
+@@ -356,7 +354,6 @@
              int p_379625_,
              boolean p_381720_
          ) {
@@ -65,7 +65,7 @@
              this.glyphInstances = new ArrayList<>();
              this.bufferSource = p_379354_;
              this.x = p_380215_;
-@@ -386,8 +383,8 @@
+@@ -372,8 +369,8 @@
  
          @Override
          public boolean accept(int p_92967_, Style p_92968_, int p_92969_) {
@@ -76,7 +76,7 @@
              BakedGlyph bakedglyph = p_92968_.isObfuscated() && p_92969_ != 32 ? fontset.getRandomGlyph(glyphinfo) : fontset.getGlyph(p_92969_);
              boolean flag = p_92968_.isBold();
              TextColor textcolor = p_92968_.getColor();
-@@ -419,7 +416,7 @@
+@@ -405,7 +402,7 @@
                  BakedGlyph.Effect bakedglyph$effect = new BakedGlyph.Effect(
                      p_381032_ - 1.0F, this.y + 9.0F, this.x, this.y - 1.0F, this.getUnderTextEffectDepth(), this.backgroundColor
                  );
@@ -85,7 +85,7 @@
                  VertexConsumer vertexconsumer = this.bufferSource.getBuffer(bakedglyph.renderType(this.mode));
                  bakedglyph.renderEffect(bakedglyph$effect, this.pose, vertexconsumer, this.packedLightCoords);
              }
-@@ -427,7 +424,7 @@
+@@ -413,7 +410,7 @@
              this.renderCharacters();
              if (this.effects != null) {
                  if (bakedglyph == null) {
