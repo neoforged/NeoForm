@@ -1,0 +1,11 @@
+--- a/net/minecraft/server/Bootstrap.java
++++ b/net/minecraft/server/Bootstrap.java
+@@ -32,7 +32,7 @@
+ import org.slf4j.Logger;
+ 
+ @SuppressForbidden(
+-    a = "System.out setup"
++    reason = "System.out setup"
+ )
+ public class Bootstrap {
+     public static final PrintStream STDOUT = System.out;

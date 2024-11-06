@@ -1,6 +1,6 @@
 --- a/net/minecraft/client/Minecraft.java
 +++ b/net/minecraft/client/Minecraft.java
-@@ -2213,6 +2213,7 @@
+@@ -2204,6 +2204,7 @@
                  case EntityHitResult entityhitresult:
                      this.gameMode.handlePickItemFromEntity(entityhitresult.getEntity(), flag);
                      break;
@@ -8,7 +8,7 @@
              }
          }
      }
-@@ -2307,7 +2308,7 @@
+@@ -2298,7 +2299,7 @@
      }
  
      public CompletableFuture<Void> delayTextureReload() {

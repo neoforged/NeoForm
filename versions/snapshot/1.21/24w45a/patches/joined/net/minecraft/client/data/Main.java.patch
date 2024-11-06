@@ -1,0 +1,11 @@
+--- a/net/minecraft/client/data/Main.java
++++ b/net/minecraft/client/data/Main.java
+@@ -21,7 +21,7 @@
+ public class Main {
+     @DontObfuscate
+     @SuppressForbidden(
+-        a = "System.out needed before bootstrap"
++        reason = "System.out needed before bootstrap"
+     )
+     public static void main(String[] p_388033_) throws IOException {
+         SharedConstants.tryDetectVersion();

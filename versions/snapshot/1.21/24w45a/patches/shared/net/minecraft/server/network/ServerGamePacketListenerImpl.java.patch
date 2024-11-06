@@ -1,6 +1,6 @@
 --- a/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 +++ b/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-@@ -424,6 +424,7 @@
+@@ -425,6 +425,7 @@
                  }
  
                  entity.move(MoverType.PLAYER, new Vec3(d6, d7, d8));
@@ -8,16 +8,16 @@
                  d6 = d3 - entity.getX();
                  d7 = d4 - entity.getY();
                  if (d7 > -0.5 || d7 < 0.5) {
-@@ -451,7 +452,7 @@
-                 Vec3 vec3 = new Vec3(entity.getX() - d0, entity.getY() - d1, entity.getZ() - d2);
+@@ -453,7 +454,7 @@
                  this.handlePlayerKnownMovement(vec3);
+                 entity.setOnGroundWithMovement(p_9876_.onGround(), vec3);
                  this.player.checkMovementStatistics(vec3.x, vec3.y, vec3.z);
 -                this.clientVehicleIsFloating = d7 >= -0.03125
 +                this.clientVehicleIsFloating = d11 >= -0.03125
                      && !flag1
                      && !this.server.isFlightAllowed()
                      && !entity.isNoGravity()
-@@ -844,7 +845,7 @@
+@@ -850,7 +851,7 @@
          if (itemstack.has(DataComponents.WRITABLE_BOOK_CONTENT)) {
              ItemStack itemstack1 = itemstack.transmuteCopy(Items.WRITTEN_BOOK);
              itemstack1.remove(DataComponents.WRITABLE_BOOK_CONTENT);

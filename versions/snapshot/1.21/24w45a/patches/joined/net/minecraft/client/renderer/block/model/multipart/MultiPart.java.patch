@@ -1,6 +1,6 @@
 --- a/net/minecraft/client/renderer/block/model/multipart/MultiPart.java
 +++ b/net/minecraft/client/renderer/block/model/multipart/MultiPart.java
-@@ -49,17 +49,9 @@
+@@ -45,17 +45,9 @@
          }
  
          @OnlyIn(Dist.CLIENT)
