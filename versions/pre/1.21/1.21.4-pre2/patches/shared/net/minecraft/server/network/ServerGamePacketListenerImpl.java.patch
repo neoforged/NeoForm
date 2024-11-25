@@ -8,16 +8,16 @@
                  d6 = d3 - entity.getX();
                  d7 = d4 - entity.getY();
                  if (d7 > -0.5 || d7 < 0.5) {
-@@ -453,7 +454,7 @@
-                 this.handlePlayerKnownMovement(vec3);
+@@ -454,7 +455,7 @@
                  entity.setOnGroundWithMovement(p_9876_.onGround(), vec3);
+                 entity.doCheckFallDamage(vec3.x, vec3.y, vec3.z, p_9876_.onGround());
                  this.player.checkMovementStatistics(vec3.x, vec3.y, vec3.z);
 -                this.clientVehicleIsFloating = d7 >= -0.03125
 +                this.clientVehicleIsFloating = d11 >= -0.03125
                      && !flag1
                      && !this.server.isFlightAllowed()
                      && !entity.isNoGravity()
-@@ -850,7 +851,7 @@
+@@ -851,7 +852,7 @@
          if (itemstack.has(DataComponents.WRITABLE_BOOK_CONTENT)) {
              ItemStack itemstack1 = itemstack.transmuteCopy(Items.WRITTEN_BOOK);
              itemstack1.remove(DataComponents.WRITABLE_BOOK_CONTENT);
