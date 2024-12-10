@@ -818,11 +818,14 @@ subprojects {
 
     // This uses advzip: https://linux.die.net/man/1/advzip
     def optimizeZip = tasks.register('optimizeZip', Exec) {
+        dependsOn makeZip
         description = "Optimizes the NeoForm ZIP-file in-place"
-        commandLine "advzip", "--recompress", "-k", "-4", makeZip.flatMap(Zip::getArchiveFile)
-        if (optimize_zip) {
-            mustRunAfter makeZip
-        }
+        commandLine "advzip", "--recompress", "-k", "-4"
+        argumentProviders.add(
+                objects.newInstance(ZipPathArgumentProvider).tap {
+                    file = makeZip.flatMap(AbstractArchiveTask::getArchiveFile)
+                }
+        )
     }
     if (optimize_zip) {
         makeZip.configure { finalizedBy optimizeZip }
