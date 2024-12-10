@@ -781,7 +781,8 @@ subprojects {
         }
     }
 
-    task makeZip(type: Zip, dependsOn: [generateConfiguration]) {
+    def makeZip = tasks.register('makeZip', Zip) {
+        dependsOn generateConfiguration
         archiveBaseName = rootProject.name
         archiveVersion = project.version
         destinationDirectory = file(PATH_BUILD + '/distributions')
@@ -813,6 +814,18 @@ subprojects {
                 into 'config/inject/'
             }
         }
+    }
+
+    // This uses advzip: https://linux.die.net/man/1/advzip
+    def optimizeZip = tasks.register('optimizeZip', Exec) {
+        description = "Optimizes the NeoForm ZIP-file in-place"
+        commandLine "advzip", "--recompress", "-k", "-4", makeZip.flatMap(Zip::getArchiveFile)
+        if (optimize_zip) {
+            mustRunAfter makeZip
+        }
+    }
+    if (optimize_zip) {
+        makeZip.configure { finalizedBy optimizeZip }
     }
 
     def componentMaker = objects.newInstance(ComponentMaker)
