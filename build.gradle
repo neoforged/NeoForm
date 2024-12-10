@@ -146,7 +146,6 @@ subprojects {
     }
 
     repositories {
-        mavenLocal()
         maven {
             name 'forge'
             url 'https://maven.neoforged.net/releases'
