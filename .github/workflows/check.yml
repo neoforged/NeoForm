@@ -96,7 +96,7 @@ jobs:
         git config --global user.name github-actions
         git config --global user.email 41898282+github-actions[bot]@users.noreply.github.com
     - name: Install advzip for ZIP optimization
-      run: apt install advancecomp
+      run: sudo apt install advancecomp
     - name: Setup Gradle
       uses: gradle/actions/setup-gradle@v3
       with:
