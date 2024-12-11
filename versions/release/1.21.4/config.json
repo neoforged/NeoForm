@@ -11,12 +11,12 @@
         "jvmargs": ["-Xmx4G"]
     },
     "merge": {
-        "version": "net.neoforged:mergetool:2.0.3:fatjar",
-        "args": ["--client", "{client}", "--server", "{server}", "--ann", "{version}", "--output", "{output}", "--inject", "false"],
+        "version": "net.neoforged:mergetool:2.0.8-pr-5-split-manifest:fatjar",
+        "args": ["--client", "{client}", "--server", "{server}", "--ann", "{version}", "--output", "{output}", "--inject", "false", "--source-dist-manifest"],
         "jvmargs": []
     },
     "rename": {
-        "version": "net.neoforged:AutoRenamingTool:2.0.5:all",
+        "version": "net.neoforged:AutoRenamingTool:2.0.9-gradle-update:all",
         "args": ["--input", "{input}", "--output", "{output}", "--map", "{mappings}", "--cfg", "{libraries}", "--ann-fix", "--ids-fix", "--src-fix", "--record-fix", "--unfinal-params"]
     },
     "bundler_extract_jar": {

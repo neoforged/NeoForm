@@ -98,7 +98,7 @@ subprojects {
         ENCODING = CONFIG.get('encoding', 'UTF-8')
         FERNFLOWER = Utils.readConfig(CONFIG, 'fernflower', [:])        
         MERGETOOL = Utils.readConfig(CONFIG, 'merge', [
-            version: 'net.minecraftforge:mergetool:1.1.3:fatjar',
+            version: 'net.minecraftforge:mergetool:2.0.8-pr-5-split-manifest',
             args: ["--client", "{client}", "--server", "{server}", "--ann", "{version}", "--output", "{output}"]
         ])
         RENAMETOOL = Utils.readConfig(CONFIG, 'rename', [
@@ -146,6 +146,7 @@ subprojects {
     }
 
     repositories {
+        mavenLocal()
         maven {
             name 'forge'
             url 'https://maven.neoforged.net/releases'
@@ -155,6 +156,13 @@ subprojects {
             url 'https://maven.neoforged.net/mojang-meta/'
             content {
                 includeModule('net.neoforged', 'minecraft-dependencies')
+            }
+        }
+        maven {
+            name 'Maven for PR #5' // https://github.com/neoforged/MergeTool/pull/5
+            url 'https://prmaven.neoforged.net/MergeTool/pr5'
+            content {
+                includeModule('net.neoforged', 'mergetool')
             }
         }
         for (tool in TOOLS) {
