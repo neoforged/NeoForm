@@ -33,14 +33,14 @@ abstract class OptimizeJoinedSrg extends DefaultTask {
         // Drop anything but parameter names
         def srgOutput = IMappingBuilder.create("obf", "srg")
         for (var srcClass : srgInput.classes) {
-            var dstClass = srgOutput.addClass(srcClass.original, srcClass.mapped)
+            var dstClass = srgOutput.addClass(srcClass.original, "-")
             for (var srcMethod : srcClass.methods) {
                 if (srcMethod.parameters.isEmpty()) {
                     continue // Skip methods with no parameters
                 }
-                var dstMethod = dstClass.method(srcMethod.descriptor, srcMethod.original, srcMethod.mapped)
+                var dstMethod = dstClass.method(srcMethod.descriptor, srcMethod.original, "-")
                 for (var srcParam in srcMethod.parameters) {
-                    dstMethod.parameter(srcParam.index, srcParam.original, srcParam.mapped)
+                    dstMethod.parameter(srcParam.index, "-", srcParam.mapped)
                 }
             }
         }
