@@ -118,9 +118,10 @@ subprojects {
         BUNDLE_EXTRACT_LIBS = null
         if (CONFIG.containsKey('bundler_extract_libs'))
             BUNDLE_EXTRACT_LIBS = Utils.readConfig(CONFIG, 'bundler_extract_libs', [:])
-        GENERATE_SPLIT_MANIFEST = null
-        if (CONFIG.containsKey('generate_split_manifest'))
-            GENERATE_SPLIT_MANIFEST = Utils.readConfig(CONFIG, 'generate_split_manifest', [:])
+        GENERATE_SPLIT_MANIFEST = Utils.readConfig(CONFIG, 'generate_split_manifest', [
+            version: 'net.neoforged.installertools:installertools:3.0.5-pr-14-split-source-manifest:fatjar',
+            args: ['--task', 'GENERATE_SPLIT_MANIFEST', '--client', '{client}', '--server', '{server}', '--mappings', '{mappings}', '--output', '{output}']
+        ])
 
         TOOLS = [FERNFLOWER, MERGETOOL, RENAMETOOL, MERGEMAPTOOL, MCINJECTOR, BUNDLE_EXTRACT_JAR, BUNDLE_EXTRACT_LIBS, GENERATE_SPLIT_MANIFEST].findAll {it?.version != null}
     }
@@ -147,9 +148,7 @@ subprojects {
         if (BUNDLE_EXTRACT_LIBS) {
             bundleExtractLibs
         }
-        if (GENERATE_SPLIT_MANIFEST) {
-            generateSplitManifest
-        }
+        generateSplitManifest
     }
 
     repositories {
@@ -210,10 +209,8 @@ subprojects {
                 transitive = false
             }
         }
-        if (GENERATE_SPLIT_MANIFEST) {
-            generateSplitManifest(GENERATE_SPLIT_MANIFEST.version) {
-                transitive = false
-            }
+        generateSplitManifest(GENERATE_SPLIT_MANIFEST.version) {
+            transitive = false
         }
         nfrt "net.neoforged:neoform-runtime:1.0.4:all"
     }
@@ -318,15 +315,13 @@ subprojects {
         dest = file(PATH_CACHED_VERSION + 'obf_to_intermediate.tsrg')
     }
 
-    if (GENERATE_SPLIT_MANIFEST != null) {
-        tasks.register('generateSplitManifest', GenerateSplitManifest) {
-            dependsOn downloadClient, downloadServer, makeObfToIntermediate
-            config GENERATE_SPLIT_MANIFEST, configurations.generateSplitManifest
-            client = downloadClient.dest
-            server = BUNDLE_EXTRACT_JAR ? extractServer.dest : downloadServer.dest
-            mappings = makeObfToIntermediate.dest
-            dest = file(PATH_CACHED_VERSION + 'MANIFEST.MF')
-        }
+    tasks.register('generateSplitManifest', GenerateSplitManifest) {
+        dependsOn downloadClient, downloadServer, makeObfToIntermediate
+        config GENERATE_SPLIT_MANIFEST, configurations.generateSplitManifest
+        client = downloadClient.dest
+        server = BUNDLE_EXTRACT_JAR ? extractServer.dest : downloadServer.dest
+        mappings = makeObfToIntermediate.dest
+        dest = file(PATH_CACHED_VERSION + 'MANIFEST.MF')
     }
 
     def sides = [
@@ -644,7 +639,7 @@ subprojects {
         inputs.property('renametool', RENAMETOOL)
         inputs.property('mergemaptool', MERGEMAPTOOL)
         inputs.property('generate_split_manifest', GENERATE_SPLIT_MANIFEST)
-        inputs.property('bundle_extract_jar', BUNDLE_EXTRACT_JAR)
+        inputs.property('bundle_extract_jar', BUNDLE_EXTRACT_JAR).optional(true)
         inputs.property('java_target', JAVA_TARGET)
         inputs.property('encoding', ENCODING)
         dest = file(PATH_CACHED_VERSION_DATA + 'config.json')
@@ -704,7 +699,7 @@ subprojects {
                     merge:     inputs.properties.mergetool.findAll {it.key != 'path'},
                     rename:    inputs.properties.renametool.findAll {it.key != 'path'},
                     mergeMappings: inputs.properties.mergemaptool.findAll {it.key != 'path'},
-                    generateSplitManifest: inputs.properties.generateSplitManifest.findAll {it.key != 'path'}
+                    generateSplitManifest: inputs.properties.generate_split_manifest.findAll {it.key != 'path'}
                 ]
                 def specVer = 2
                 
@@ -713,7 +708,7 @@ subprojects {
                     functions_def['bundleExtractJar'] = inputs.properties.bundle_extract_jar.findAll {it.key != 'path'}
                     steps_def['joined'].add(4, [name: 'extractServer', type: 'bundleExtractJar', input: '{downloadServerOutput}'])
                     steps_def['joined'].find{'stripServer'.equals(it.name) }['input'] = '{extractServerOutput}'
-                    steps_def['joined'].find{'generateSplitManifest'.equals(it.name) }['server'] = '{extractServerOutput}'
+                    steps_def['joined'].find{'generateSplitManifest'.equals(it.type) }['server'] = '{extractServerOutput}'
 
                     steps_def['server'].add(3, [name: 'extractServer', type: 'bundleExtractJar', input: '{downloadServerOutput}'])
                     steps_def['server'].find{'strip'.equals(it.type) }['input'] = '{extractServerOutput}'
@@ -752,7 +747,7 @@ subprojects {
                         [type: 'downloadServer'],
                         [type: 'strip', name: 'stripClient', input: '{downloadClientOutput}'],
                         [type: 'strip', name: 'stripServer', input: '{downloadServerOutput}'],
-                        [type: 'merge', client: '{stripClientOutput}', server: '{stripServerOutput}', version: project.version],
+                        [type: 'merge', client: '{stripClientOutput}', server: '{stripServerOutput}', version: inputs.properties.version],
                         [type: 'rename', input: '{mergeOutput}'],
                         [type: 'mcinject', input: '{renameOutput}'],
                         [type: 'listLibraries'],
