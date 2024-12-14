@@ -98,7 +98,7 @@ subprojects {
         ENCODING = CONFIG.get('encoding', 'UTF-8')
         FERNFLOWER = Utils.readConfig(CONFIG, 'fernflower', [:])        
         MERGETOOL = Utils.readConfig(CONFIG, 'merge', [
-            version: 'net.minecraftforge:mergetool:2.0.8-pr-5-split-manifest',
+            version: 'net.minecraftforge:mergetool:1.1.3:fatjar',
             args: ["--client", "{client}", "--server", "{server}", "--ann", "{version}", "--output", "{output}"]
         ])
         RENAMETOOL = Utils.readConfig(CONFIG, 'rename', [
@@ -153,7 +153,6 @@ subprojects {
     }
 
     repositories {
-        mavenLocal()
         maven {
             name 'forge'
             url 'https://maven.neoforged.net/releases'
