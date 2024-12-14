@@ -31,6 +31,10 @@
         "version": "net.neoforged.installertools:installertools:2.1.2:fatjar",
         "args": ["--task", "MERGE_MAPPING", "--left", "{mappings}", "--right", "{official}", "--right-names", "right,left", "--classes", "--fields", "--methods", "--output", "{output}"]
     },
+    "generate_split_manifest": {
+        "version": "net.neoforged.installertools:installertools:3.0.5-pr-14-split-source-manifest:fatjar",
+        "args": ["--task", "GENERATE_SPLIT_MANIFEST", "--client", "{client}", "--server", "{server}", "--mappings", "{mappings}", "--output", "{output}"]
+    },
     "libraries": {
         "client": ["com.google.code.findbugs:jsr305:3.0.2", "ca.weblite:java-objc-bridge:1.1", "org.jetbrains:annotations:26.0.1"],
         "server": ["com.google.code.findbugs:jsr305:3.0.2", "org.jetbrains:annotations:26.0.1"],

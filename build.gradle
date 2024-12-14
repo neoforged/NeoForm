@@ -118,7 +118,11 @@ subprojects {
         BUNDLE_EXTRACT_LIBS = null
         if (CONFIG.containsKey('bundler_extract_libs'))
             BUNDLE_EXTRACT_LIBS = Utils.readConfig(CONFIG, 'bundler_extract_libs', [:])
-        TOOLS = [FERNFLOWER, MERGETOOL, RENAMETOOL, MERGEMAPTOOL, MCINJECTOR, BUNDLE_EXTRACT_JAR, BUNDLE_EXTRACT_LIBS].findAll {it?.version != null}
+        GENERATE_SPLIT_MANIFEST = null
+        if (CONFIG.containsKey('generate_split_manifest'))
+            GENERATE_SPLIT_MANIFEST = Utils.readConfig(CONFIG, 'generate_split_manifest', [:])
+
+        TOOLS = [FERNFLOWER, MERGETOOL, RENAMETOOL, MERGEMAPTOOL, MCINJECTOR, BUNDLE_EXTRACT_JAR, BUNDLE_EXTRACT_LIBS, GENERATE_SPLIT_MANIFEST].findAll {it?.version != null}
     }
 
     java.toolchain.languageVersion = JavaLanguageVersion.of(JAVA_TARGET)
@@ -143,6 +147,9 @@ subprojects {
         if (BUNDLE_EXTRACT_LIBS) {
             bundleExtractLibs
         }
+        if (GENERATE_SPLIT_MANIFEST) {
+            generateSplitManifest
+        }
     }
 
     repositories {
@@ -159,10 +166,10 @@ subprojects {
             }
         }
         maven {
-            name 'Maven for PR #5' // https://github.com/neoforged/MergeTool/pull/5
-            url 'https://prmaven.neoforged.net/MergeTool/pr5'
+            name 'Maven for PR #14'
+            url 'https://prmaven.neoforged.net/InstallerTools/pr14'
             content {
-                includeModule('net.neoforged', 'mergetool')
+                includeModule('net.neoforged.installertools', 'installertools')
             }
         }
         for (tool in TOOLS) {
@@ -201,6 +208,11 @@ subprojects {
         }
         if (BUNDLE_EXTRACT_LIBS) {
             bundleExtractLibs(BUNDLE_EXTRACT_LIBS.version) {
+                transitive = false
+            }
+        }
+        if (GENERATE_SPLIT_MANIFEST) {
+            generateSplitManifest(GENERATE_SPLIT_MANIFEST.version) {
                 transitive = false
             }
         }
@@ -271,7 +283,7 @@ subprojects {
             dest = file(PATH_CACHED_VERSION + 'server_libraries')
         }
     }
-    
+
     task filterClient(type: SplitJar, dependsOn: [downloadClient]) {
         mappings = file('joined.tsrg')
         source = downloadClient.dest
@@ -305,6 +317,17 @@ subprojects {
         if (CONFIG.official)
             official = downloadClientMappings.dest
         dest = file(PATH_CACHED_VERSION + 'obf_to_intermediate.tsrg')
+    }
+
+    if (GENERATE_SPLIT_MANIFEST != null) {
+        tasks.register('generateSplitManifest', GenerateSplitManifest) {
+            dependsOn downloadClient, downloadServer, makeObfToIntermediate
+            config GENERATE_SPLIT_MANIFEST, configurations.generateSplitManifest
+            client = downloadClient.dest
+            server = BUNDLE_EXTRACT_JAR ? extractServer.dest : downloadServer.dest
+            mappings = makeObfToIntermediate.dest
+            dest = file(PATH_CACHED_VERSION + 'MANIFEST.MF')
+        }
     }
 
     def sides = [
@@ -621,6 +644,7 @@ subprojects {
         inputs.property('mergetool', MERGETOOL)
         inputs.property('renametool', RENAMETOOL)
         inputs.property('mergemaptool', MERGEMAPTOOL)
+        inputs.property('generate_split_manifest', GENERATE_SPLIT_MANIFEST)
         inputs.property('bundle_extract_jar', BUNDLE_EXTRACT_JAR)
         inputs.property('java_target', JAVA_TARGET)
         inputs.property('encoding', ENCODING)
@@ -639,6 +663,7 @@ subprojects {
                         [type: 'downloadServer'],
                         [type: 'downloadClientMappings'],
                         [type: 'mergeMappings', official: '{downloadClientMappingsOutput}'],
+                        [type: 'generateSplitManifest', client: '{downloadClientOutput}', server: '{downloadServerOutput}', mappings: '{mergeMappingsOutput}'],
                         [type: 'strip', name: 'stripClient', input: '{downloadClientOutput}'],
                         [type: 'strip', name: 'stripServer', input: '{downloadServerOutput}'],
                         [type: 'merge', client: '{stripClientOutput}', server: '{stripServerOutput}', version: inputs.properties.version],
@@ -679,7 +704,8 @@ subprojects {
                     decompile: inputs.properties.fernflower.findAll {it.key != 'path'},
                     merge:     inputs.properties.mergetool.findAll {it.key != 'path'},
                     rename:    inputs.properties.renametool.findAll {it.key != 'path'},
-                    mergeMappings: inputs.properties.mergemaptool.findAll {it.key != 'path'}
+                    mergeMappings: inputs.properties.mergemaptool.findAll {it.key != 'path'},
+                    generateSplitManifest: inputs.properties.generateSplitManifest.findAll {it.key != 'path'}
                 ]
                 def specVer = 2
                 
@@ -688,7 +714,8 @@ subprojects {
                     functions_def['bundleExtractJar'] = inputs.properties.bundle_extract_jar.findAll {it.key != 'path'}
                     steps_def['joined'].add(4, [name: 'extractServer', type: 'bundleExtractJar', input: '{downloadServerOutput}'])
                     steps_def['joined'].find{'stripServer'.equals(it.name) }['input'] = '{extractServerOutput}'
-                    
+                    steps_def['joined'].find{'generateSplitManifest'.equals(it.name) }['server'] = '{extractServerOutput}'
+
                     steps_def['server'].add(3, [name: 'extractServer', type: 'bundleExtractJar', input: '{downloadServerOutput}'])
                     steps_def['server'].find{'strip'.equals(it.type) }['input'] = '{extractServerOutput}'
                     steps_def['server'].find{'listLibraries'.equals(it.type) }['bundle'] = '{downloadServerOutput}'
