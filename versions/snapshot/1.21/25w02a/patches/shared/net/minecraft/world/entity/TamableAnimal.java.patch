@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/entity/TamableAnimal.java
 +++ b/net/minecraft/world/entity/TamableAnimal.java
-@@ -300,7 +300,7 @@
+@@ -296,7 +296,7 @@
      }
  
      public class TamableAnimalPanicGoal extends PanicGoal {

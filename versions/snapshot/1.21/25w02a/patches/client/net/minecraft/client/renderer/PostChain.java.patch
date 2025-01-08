@@ -1,6 +1,6 @@
 --- a/net/minecraft/client/renderer/PostChain.java
 +++ b/net/minecraft/client/renderer/PostChain.java
-@@ -70,121 +70,18 @@
+@@ -67,121 +67,18 @@
  
          for (PostChainConfig.Input postchainconfig$input : p_361826_.inputs()) {
              Objects.requireNonNull(postchainconfig$input);
@@ -124,7 +124,7 @@
          }
  
          return postpass;
-@@ -201,43 +98,8 @@
+@@ -198,43 +95,8 @@
  
          for (Entry<ResourceLocation, PostChainConfig.InternalTarget> entry : this.internalTargets.entrySet()) {
              ResourceLocation resourcelocation1 = entry.getKey();
@@ -167,6 +167,6 @@
 -                    int j = l;
 +            RenderTargetDescriptor rendertargetdescriptor = switch (entry.getValue()) {
 +                case PostChainConfig.FixedSizedTarget(int i, int j) -> {
-                     yield new RenderTargetDescriptor(i, j, true);
+                     yield new RenderTargetDescriptor(i, j, true, 0);
                  }
-                 case PostChainConfig.FullScreenTarget postchainconfig$fullscreentarget -> new RenderTargetDescriptor(p_361423_, p_362735_, true);
+                 case PostChainConfig.FullScreenTarget postchainconfig$fullscreentarget -> new RenderTargetDescriptor(p_361423_, p_362735_, true, 0);

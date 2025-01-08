@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/block/state/StateHolder.java
 +++ b/net/minecraft/world/level/block/state/StateHolder.java
-@@ -133,7 +133,7 @@
+@@ -143,7 +143,7 @@
  
              for (Entry<Property<?>, Comparable<?>> entry : this.values.entrySet()) {
                  Property<?> property = entry.getKey();
