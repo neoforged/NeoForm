@@ -1,0 +1,22 @@
+--- a/net/minecraft/network/chat/ComponentUtils.java
++++ b/net/minecraft/network/chat/ComponentUtils.java
+@@ -54,17 +54,8 @@
+     }
+ 
+     private static Style resolveStyle(@Nullable CommandSourceStack p_130737_, Style p_130738_, @Nullable Entity p_130739_, int p_130740_) throws CommandSyntaxException {
+-        if (p_130738_.getHoverEvent() instanceof HoverEvent.ShowText hoverevent$showtext) {
+-            HoverEvent.ShowText hoverevent$showtext1 = hoverevent$showtext;
+-
+-            try {
+-                component = hoverevent$showtext1.text();
+-            } catch (Throwable throwable) {
+-                throw new MatchException(throwable.toString(), throwable);
+-            }
+-
+-            HoverEvent hoverevent = component;
+-            hoverevent = new HoverEvent.ShowText(updateForEntity(p_130737_, hoverevent, p_130739_, p_130740_ + 1));
++        if (p_130738_.getHoverEvent() instanceof HoverEvent.ShowText(Component component)) {
++            HoverEvent hoverevent = new HoverEvent.ShowText(updateForEntity(p_130737_, component, p_130739_, p_130740_ + 1));
+             return p_130738_.withHoverEvent(hoverevent);
+         } else {
+             return p_130738_;

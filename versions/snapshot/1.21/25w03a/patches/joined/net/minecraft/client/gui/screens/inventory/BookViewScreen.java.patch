@@ -1,0 +1,29 @@
+--- a/net/minecraft/client/gui/screens/inventory/BookViewScreen.java
++++ b/net/minecraft/client/gui/screens/inventory/BookViewScreen.java
+@@ -194,16 +194,7 @@
+         ClickEvent clickevent = p_98293_.getClickEvent();
+         if (clickevent == null) {
+             return false;
+-        } else if (clickevent instanceof ClickEvent.ChangePage clickevent$changepage) {
+-            ClickEvent.ChangePage clickevent$changepage1 = clickevent$changepage;
+-
+-            try {
+-                j = clickevent$changepage1.page();
+-            } catch (Throwable throwable) {
+-                throw new MatchException(throwable.toString(), throwable);
+-            }
+-
+-            int i = j;
++        } else if (clickevent instanceof ClickEvent.ChangePage(int i)) {
+             return this.forcePage(i - 1);
+         } else {
+             boolean flag = super.handleComponentClicked(p_98293_);
+@@ -263,7 +254,7 @@
+                 return new BookViewScreen.BookAccess(writtenbookcontent.getPages(flag));
+             } else {
+                 WritableBookContent writablebookcontent = p_98309_.get(DataComponents.WRITABLE_BOOK_CONTENT);
+-                return writablebookcontent != null ? new BookViewScreen.BookAccess(writablebookcontent.getPages(flag).map(Component::literal).toList()) : null;
++                return writablebookcontent != null ? new BookViewScreen.BookAccess(writablebookcontent.getPages(flag).<Component>map(Component::literal).toList()) : null;
+             }
+         }
+     }
