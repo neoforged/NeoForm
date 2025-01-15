@@ -41,7 +41,7 @@
 -                    HoverEvent.ShowText hoverevent$showtext1 = hoverevent$showtext;
 -
 -                    try {
--                        component1 = hoverevent$showtext1.text();
+-                        component1 = hoverevent$showtext1.value();
 -                    } catch (Throwable throwable) {
 -                        throwable4 = throwable;
 -                        boolean flag2 = false;

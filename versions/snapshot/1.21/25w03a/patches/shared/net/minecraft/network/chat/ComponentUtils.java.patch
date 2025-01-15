@@ -8,7 +8,7 @@
 -            HoverEvent.ShowText hoverevent$showtext1 = hoverevent$showtext;
 -
 -            try {
--                component = hoverevent$showtext1.text();
+-                component = hoverevent$showtext1.value();
 -            } catch (Throwable throwable) {
 -                throw new MatchException(throwable.toString(), throwable);
 -            }
