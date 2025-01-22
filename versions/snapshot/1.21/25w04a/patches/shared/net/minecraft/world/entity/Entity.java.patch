@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/entity/Entity.java
 +++ b/net/minecraft/world/entity/Entity.java
-@@ -497,7 +497,7 @@
+@@ -496,7 +496,7 @@
  
          this.firstTick = false;
          if (this.level() instanceof ServerLevel serverlevel1 && this instanceof Leashable) {

@@ -1,6 +1,6 @@
 --- a/net/minecraft/nbt/NbtOps.java
 +++ b/net/minecraft/nbt/NbtOps.java
-@@ -162,7 +162,7 @@
+@@ -163,7 +163,7 @@
  
      public DataResult<Stream<Pair<Tag, Tag>>> getMapValues(Tag p_129070_) {
          return p_129070_ instanceof CompoundTag compoundtag

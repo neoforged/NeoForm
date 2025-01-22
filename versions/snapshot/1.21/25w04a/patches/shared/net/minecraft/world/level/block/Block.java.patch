@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/block/Block.java
 +++ b/net/minecraft/world/level/block/Block.java
-@@ -535,7 +535,7 @@
+@@ -531,7 +531,7 @@
      }
  
      private static <S extends StateHolder<?, S>, T extends Comparable<T>> S setValueHelper(S p_394311_, Property<T> p_394352_, Object p_394525_) {
