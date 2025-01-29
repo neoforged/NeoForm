@@ -32,8 +32,8 @@
         "args": ["--task", "MERGE_MAPPING", "--left", "{mappings}", "--right", "{official}", "--right-names", "right,left", "--classes", "--fields", "--methods", "--output", "{output}"]
     },
     "libraries": {
-        "client": ["com.google.code.findbugs:jsr305:3.0.2", "ca.weblite:java-objc-bridge:1.1", "org.jetbrains:annotations:26.0.1"],
-        "server": ["com.google.code.findbugs:jsr305:3.0.2", "org.jetbrains:annotations:26.0.1"],
-        "joined": ["com.google.code.findbugs:jsr305:3.0.2", "ca.weblite:java-objc-bridge:1.1", "net.neoforged:mergetool:2.0.3:api", "org.jetbrains:annotations:26.0.1"]
+        "client": ["com.google.code.findbugs:jsr305:3.0.2", "ca.weblite:java-objc-bridge:1.1", "org.jetbrains:annotations:26.0.2"],
+        "server": ["com.google.code.findbugs:jsr305:3.0.2", "org.jetbrains:annotations:26.0.2"],
+        "joined": ["com.google.code.findbugs:jsr305:3.0.2", "ca.weblite:java-objc-bridge:1.1", "net.neoforged:mergetool:2.0.3:api", "org.jetbrains:annotations:26.0.2"]
     }
 }
