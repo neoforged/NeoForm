@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/block/entity/SignBlockEntity.java
 +++ b/net/minecraft/world/level/block/entity/SignBlockEntity.java
-@@ -209,17 +209,7 @@
+@@ -191,17 +191,7 @@
          for (Component component : this.getText(p_278254_).getMessages(p_279304_.isTextFilteringEnabled())) {
              Style style = component.getStyle();
              ClickEvent clickevent = style.getClickEvent();
