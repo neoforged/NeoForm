@@ -1,0 +1,18 @@
+--- a/net/minecraft/client/multiplayer/ClientLevel.java
++++ b/net/minecraft/client/multiplayer/ClientLevel.java
+@@ -1125,6 +1125,7 @@
+                 case EnderDragon enderdragon:
+                     ClientLevel.this.dragonParts.addAll(Arrays.asList(enderdragon.getSubEntities()));
+                     break;
++                default:
+             }
+         }
+ 
+@@ -1138,6 +1139,7 @@
+                 case EnderDragon enderdragon:
+                     ClientLevel.this.dragonParts.removeAll(Arrays.asList(enderdragon.getSubEntities()));
+                     break;
++                default:
+             }
+         }
+ 

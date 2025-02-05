@@ -1,0 +1,21 @@
+--- a/net/minecraft/world/level/block/entity/SignBlockEntity.java
++++ b/net/minecraft/world/level/block/entity/SignBlockEntity.java
+@@ -191,17 +191,7 @@
+         for (Component component : this.getText(p_278254_).getMessages(p_279304_.isTextFilteringEnabled())) {
+             Style style = component.getStyle();
+             ClickEvent clickevent = style.getClickEvent();
+-            if (clickevent instanceof ClickEvent.RunCommand) {
+-                ClickEvent.RunCommand clickevent$runcommand = (ClickEvent.RunCommand)clickevent;
+-                ClickEvent.RunCommand clickevent$runcommand1 = clickevent$runcommand;
+-
+-                try {
+-                    s1 = clickevent$runcommand1.command();
+-                } catch (Throwable throwable) {
+-                    throw new MatchException(throwable.toString(), throwable);
+-                }
+-
+-                String s = s1;
++            if (clickevent instanceof ClickEvent.RunCommand(String s)) {
+                 p_279304_.getServer().getCommands().performPrefixedCommand(createCommandSourceStack(p_279304_, p_279201_, p_278282_), s);
+                 flag = true;
+             }
