@@ -1,6 +1,6 @@
 --- a/net/minecraft/server/level/ServerLevel.java
 +++ b/net/minecraft/server/level/ServerLevel.java
-@@ -1599,7 +1599,7 @@
+@@ -1607,7 +1607,7 @@
  
              return object2intopenhashmap.object2IntEntrySet()
                  .stream()
