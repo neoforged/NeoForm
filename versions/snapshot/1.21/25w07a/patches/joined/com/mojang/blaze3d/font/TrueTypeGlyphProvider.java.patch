@@ -1,6 +1,6 @@
 --- a/com/mojang/blaze3d/font/TrueTypeGlyphProvider.java
 +++ b/com/mojang/blaze3d/font/TrueTypeGlyphProvider.java
-@@ -103,7 +103,7 @@
+@@ -104,7 +104,7 @@
              int k = ft_glyphslot.bitmap_top();
              int l = ft_bitmap.width();
              int i1 = ft_bitmap.rows();

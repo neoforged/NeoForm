@@ -1,6 +1,6 @@
 --- a/net/minecraft/client/renderer/block/model/multipart/MultiPart.java
 +++ b/net/minecraft/client/renderer/block/model/multipart/MultiPart.java
-@@ -41,17 +41,9 @@
+@@ -33,17 +33,9 @@
              }
          }
  

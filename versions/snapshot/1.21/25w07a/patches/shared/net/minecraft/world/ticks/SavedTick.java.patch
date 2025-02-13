@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/ticks/SavedTick.java
 +++ b/net/minecraft/world/ticks/SavedTick.java
-@@ -71,7 +71,7 @@
+@@ -52,7 +52,7 @@
      }
  
      public ScheduledTick<T> unpack(long p_193329_, long p_193330_) {
