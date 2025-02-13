@@ -145,7 +145,7 @@ jobs:
             });
             
       - name: Store Latest Version
-        uses: octokit/request-action@v2.4.0
+        uses: octokit/request-action@872c5c97b3c85c23516a572f02b31401ef82415d
         with:
           route: PATCH /repos/{repo}/actions/variables/{name}
           repo: ${{ github.repository }}
@@ -155,7 +155,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.VARIABLES_TOKEN }}
       - name: Store Latest Version
         if: ${{ !fromJson(needs.check.outputs.new_version).april }}
-        uses: octokit/request-action@v2.4.0
+        uses: octokit/request-action@872c5c97b3c85c23516a572f02b31401ef82415d
         with:
           route: PATCH /repos/{repo}/actions/variables/{name}
           repo: ${{ github.repository }}
