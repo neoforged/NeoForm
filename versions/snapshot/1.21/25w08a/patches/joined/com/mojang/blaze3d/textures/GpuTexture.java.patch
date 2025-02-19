@@ -1,6 +1,6 @@
 --- a/com/mojang/blaze3d/textures/GpuTexture.java
 +++ b/com/mojang/blaze3d/textures/GpuTexture.java
-@@ -26,7 +26,7 @@
+@@ -29,7 +29,7 @@
      private boolean modesDirty = true;
  
      public GpuTexture(@Nullable Supplier<String> p_405013_, TextureFormat p_404833_, int p_405085_, int p_405572_, int p_405404_) {
