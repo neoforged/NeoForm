@@ -1,0 +1,63 @@
+--- a/net/minecraft/client/gui/GuiGraphics.java
++++ b/net/minecraft/client/gui/GuiGraphics.java
+@@ -1023,57 +1023,21 @@
+             Object object = hoverevent;
+             Throwable throwable4;
+             switch (object) {
+-                case HoverEvent.ShowItem hoverevent$showitem:
+-                    HoverEvent.ShowItem hoverevent$showitem1 = hoverevent$showitem;
+-
+-                    try {
+-                        itemstack1 = hoverevent$showitem1.item();
+-                    } catch (Throwable throwable2) {
+-                        throwable4 = throwable2;
+-                        boolean flag1 = false;
+-                        break;
+-                    }
+-
+-                    ItemStack itemstack = itemstack1;
++                case HoverEvent.ShowItem(ItemStack itemstack):
+                     this.renderTooltip(p_282584_, itemstack, p_283623_, p_282114_);
+                     return;
+-                case HoverEvent.ShowEntity hoverevent$showentity:
+-                    HoverEvent.ShowEntity hoverevent$showentity1 = hoverevent$showentity;
+-
+-                    try {
+-                        hoverevent$entitytooltipinfo1 = hoverevent$showentity1.entity();
+-                    } catch (Throwable throwable1) {
+-                        throwable4 = throwable1;
+-                        boolean flag = false;
+-                        break;
+-                    }
+-
+-                    HoverEvent.EntityTooltipInfo hoverevent$entitytooltipinfo = hoverevent$entitytooltipinfo1;
++                case HoverEvent.ShowEntity(HoverEvent.EntityTooltipInfo hoverevent$entitytooltipinfo):
+                     if (this.minecraft.options.advancedItemTooltips) {
+                         this.renderComponentTooltip(p_282584_, hoverevent$entitytooltipinfo.getTooltipLines(), p_283623_, p_282114_);
+                     }
+ 
+                     return;
+-                case HoverEvent.ShowText hoverevent$showtext:
+-                    HoverEvent.ShowText hoverevent$showtext1 = hoverevent$showtext;
+-
+-                    try {
+-                        component1 = hoverevent$showtext1.value();
+-                    } catch (Throwable throwable) {
+-                        throwable4 = throwable;
+-                        boolean flag2 = false;
+-                        break;
+-                    }
+-
+-                    Component component = component1;
++                case HoverEvent.ShowText(Component component):
+                     this.renderTooltip(p_282584_, p_282584_.split(component, Math.max(this.guiWidth() / 2, 200)), p_283623_, p_282114_);
+                     return;
+                 default:
+                     return;
+             }
+-
+-            Throwable throwable3 = throwable4;
+-            throw new MatchException(throwable3.toString(), throwable3);
+         }
+     }
+ 

@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/entity/EntityReference.java
++++ b/net/minecraft/world/entity/EntityReference.java
+@@ -86,7 +86,7 @@
+ 
+     @Nullable
+     public static <StoredEntityType extends UniquelyIdentifyable> EntityReference<StoredEntityType> read(CompoundTag p_393801_, String p_394012_) {
+-        return p_393801_.read(p_394012_, codec()).orElse(null);
++        return p_393801_.read(p_394012_, EntityReference.<StoredEntityType>codec()).orElse(null);
+     }
+ 
+     @Nullable
