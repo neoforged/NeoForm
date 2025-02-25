@@ -7,5 +7,5 @@
 -        return RecordCodecBuilder.<PalettedContainerRO.PackedData>create(
 +        return RecordCodecBuilder.<PalettedContainerRO.PackedData<T>>create(
                  p_338082_ -> p_338082_.group(
-                             p_238429_.mapResult(ExtraCodecs.orElsePartial(p_238431_))
-                                 .listOf()
+                         p_238429_.mapResult(ExtraCodecs.orElsePartial(p_238431_))
+                             .listOf()

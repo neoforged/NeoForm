@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/phys/shapes/CollisionContext.java
 +++ b/net/minecraft/world/phys/shapes/CollisionContext.java
-@@ -38,7 +38,7 @@
+@@ -35,7 +35,7 @@
              true,
              p_405836_ != null ? p_405836_.getY() : -Double.MAX_VALUE,
              p_405836_ instanceof LivingEntity livingentity ? livingentity.getMainHandItem() : ItemStack.EMPTY,

@@ -2,7 +2,7 @@
 +++ b/net/minecraft/world/item/crafting/SelectableRecipe.java
 @@ -17,7 +17,7 @@
  
-     public static record SingleInputEntry<T extends Recipe<?>>(Ingredient input, SelectableRecipe<T> recipe) {
+     public record SingleInputEntry<T extends Recipe<?>>(Ingredient input, SelectableRecipe<T> recipe) {
          public static <T extends Recipe<?>> StreamCodec<RegistryFriendlyByteBuf, SelectableRecipe.SingleInputEntry<T>> noRecipeCodec() {
 -            return StreamCodec.composite(
 +            return StreamCodec.<RegistryFriendlyByteBuf, SingleInputEntry<T>, Ingredient, SelectableRecipe<T>>composite(
