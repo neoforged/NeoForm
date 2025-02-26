@@ -1,0 +1,18 @@
+--- a/net/minecraft/nbt/SnbtGrammar.java
++++ b/net/minecraft/nbt/SnbtGrammar.java
+@@ -219,12 +219,9 @@
+             String s = stringbuilder.toString();
+ 
+             return (T)(switch (p_410824_) {
+-                case Object object1 -> {
+-                }
+-                case Object object -> {
+-                }
+-                case Object object2 -> {
+-                }
++                case FLOAT -> Float.parseFloat(s);
++                case DOUBLE -> Double.parseDouble(s);
++                case null -> Double.parseDouble(s);
+                 default -> {
+                     p_410041_.errorCollector().store(p_410041_.mark(), ERROR_EXPECTED_FLOAT_TYPE);
+                     yield null;
