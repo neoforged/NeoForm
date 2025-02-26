@@ -10,9 +10,9 @@
 -                }
 -                case Object object2 -> {
 -                }
-+                case FLOAT -> Float.parseFloat(s);
-+                case DOUBLE -> Double.parseDouble(s);
-+                case null -> Double.parseDouble(s);
++                case FLOAT -> p_410880_.createFloat(Float.parseFloat(s));
++                case DOUBLE -> p_410880_.createDouble(Double.parseDouble(s));
++                case null -> p_410880_.createDouble(Double.parseDouble(s));
                  default -> {
                      p_410041_.errorCollector().store(p_410041_.mark(), ERROR_EXPECTED_FLOAT_TYPE);
                      yield null;

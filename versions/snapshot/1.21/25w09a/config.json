@@ -9,7 +9,7 @@
         "java_version": 21,
         "args": ["--decompile-inner", "--remove-bridge", "--decompile-generics", "--ascii-strings", "--remove-synthetic", "--include-classpath", "--variable-renaming=jad", "--ignore-invalid-bytecode", "--bytecode-source-mapping", "--dump-code-lines", "--indent-string=    ", "--log-level=TRACE", "-cfg", "{libraries}", "{input}", "{output}"],
         "jvmargs": ["-Xmx4G"],
-		"repo": "https://s01.oss.sonatype.org/content/repositories/snapshots/"
+        "repo": "https://s01.oss.sonatype.org/content/repositories/snapshots/"
     },
     "merge": {
         "version": "net.neoforged:mergetool:2.0.3:fatjar",
