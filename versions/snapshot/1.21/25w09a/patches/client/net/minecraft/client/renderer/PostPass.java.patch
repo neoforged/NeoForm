@@ -1,0 +1,29 @@
+--- a/net/minecraft/client/renderer/PostPass.java
++++ b/net/minecraft/client/renderer/PostPass.java
+@@ -76,7 +76,7 @@
+                                 OptionalDouble.empty()
+                             )) {
+                         renderpass.setPipeline(this.pipeline);
+-                        renderpass.setUniform("OutSize", rendertarget.width, rendertarget.height);
++                        renderpass.setUniform("OutSize", (float) rendertarget.width, (float) rendertarget.height);
+                         renderpass.setVertexBuffer(0, gpubuffer);
+                         renderpass.setIndexBuffer(rendersystem$autostorageindexbuffer.getBuffer(6), rendersystem$autostorageindexbuffer.type());
+ 
+@@ -139,7 +139,7 @@
+                 throw new IllegalStateException("Missing " + (this.depthBuffer ? "depth" : "color") + "texture for target " + this.targetId);
+             } else {
+                 p_409676_.bindSampler(this.samplerName + "Sampler", gputexture);
+-                p_409676_.setUniform(this.samplerName + "Size", rendertarget.width, rendertarget.height);
++                p_409676_.setUniform(this.samplerName + "Size", (float) rendertarget.width, (float) rendertarget.height);
+             }
+         }
+ 
+@@ -159,7 +159,7 @@
+         @Override
+         public void bindTo(RenderPass p_410527_, Map<ResourceLocation, ResourceHandle<RenderTarget>> p_363141_) {
+             p_410527_.bindSampler(this.samplerName + "Sampler", this.texture.getTexture());
+-            p_410527_.setUniform(this.samplerName + "Size", this.width, this.height);
++            p_410527_.setUniform(this.samplerName + "Size", (float) this.width, (float) this.height);
+         }
+     }
+ }
