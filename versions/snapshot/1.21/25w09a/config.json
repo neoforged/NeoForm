@@ -5,7 +5,7 @@
     "encoding": "UTF-8",
     "test_remap_official": false,
     "fernflower": {
-        "version": "org.vineflower:vineflower:1.11.1-20250226.202807-3",
+        "version": "org.vineflower:vineflower:1.11.1-20250227.220519-4",
         "java_version": 21,
         "args": ["--decompile-inner", "--remove-bridge", "--decompile-generics", "--ascii-strings", "--remove-synthetic", "--include-classpath", "--variable-renaming=jad", "--ignore-invalid-bytecode", "--bytecode-source-mapping", "--dump-code-lines", "--indent-string=    ", "--log-level=TRACE", "-cfg", "{libraries}", "{input}", "{output}"],
         "jvmargs": ["-Xmx4G"],
