@@ -49,7 +49,7 @@ task runMappingToy(type: JavaExec, dependsOn: downloadMappingToy) {
     args = ['--libs', '--output', MAP_DATA, '--version', OLD_VERSION, '--version', NEW_VERSION]
     def toolchainService = project.extensions.getByType(JavaToolchainService)
     javaLauncher = toolchainService.launcherFor {
-        it.languageVersion = JavaLanguageVersion.of(16)
+        it.languageVersion = JavaLanguageVersion.of(17)
     }
     //args += ['--force']
 }
