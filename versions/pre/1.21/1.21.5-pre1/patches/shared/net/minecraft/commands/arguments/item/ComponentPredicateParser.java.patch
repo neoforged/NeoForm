@@ -4,8 +4,8 @@
          );
          dictionary.put(atom10, new ComponentPredicateParser.ComponentLookupRule<>(namedrule, p_335727_));
          dictionary.put(atom11, new ComponentPredicateParser.PredicateLookupRule<>(namedrule, p_335727_));
--        dictionary.put(atom13, new TagParseRule<>(JavaOps.INSTANCE));
-+        dictionary.put(atom13, (net.minecraft.util.parsing.packrat.Rule<StringReader, Dynamic<?>>)(net.minecraft.util.parsing.packrat.Rule<StringReader, ?>)new TagParseRule<>(JavaOps.INSTANCE));
+-        dictionary.put(atom13, new TagParseRule<>(NbtOps.INSTANCE));
++        dictionary.put(atom13, (net.minecraft.util.parsing.packrat.Rule<StringReader, Dynamic<?>>)(net.minecraft.util.parsing.packrat.Rule<StringReader, ?>)new TagParseRule<>(NbtOps.INSTANCE));
          return new Grammar<>(dictionary, namedrule1);
      }
  
