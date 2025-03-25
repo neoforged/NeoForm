@@ -30,7 +30,6 @@ ext {
     INJECT = {inject}
     ASSETS = {assets}
     NATIVES = {natives}
-    MERGED = {merged_src}
     INTELLIJ = Boolean.getBoolean('idea.active')
 }
 
@@ -58,19 +57,6 @@ if (file(INJECT).exists()) {
         }
         compileClasspath += sourceSets.main.output
         runtimeClasspath += sourceSets.main.output
-    }
-}
-
-if (MERGED != null) {
-    if (INTELLIJ) {
-        def merged = file(MERGED)
-        def symlink = file(merged.name)
-        if (!symlink.exists()) {
-            Files.createSymbolicLink(symlink.toPath(), merged.toPath())
-        }
-        sourceSets.main.java.srcDirs symlink
-    } else {
-        sourceSets.main.java.srcDirs MERGED
     }
 }
 

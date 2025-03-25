@@ -422,33 +422,50 @@ subprojects {
             sides.joined.slimsrc = joinedOut = file(PATH_CACHED_VERSION + 'joined.decompile.slim.jar')
         }
 
+        task "projectShared"(type: CreateProjectTemplate, dependsOn: [projectRoot, deduplicateSources]) {
+            dest = project.file('projects/shared')
+            distro = 'shared'
+            template = rootProject.file('templates/build.gradle')
+            if (sides.server.jsonlibs)
+                meta = downloadJson.dest
+            if (sides.server.bundle != null)
+                bundle = sides.server.bundle.dest
+            CONFIG?.libraries?.get('server')?.each { library "'${it}'" }
+            version = project.name
+            libraryFile sides.server.extra.extra.get().getAsFile()
+            replace '{java_target}', JAVA_TARGET + ''
+            replaceFile '{inject}', PATH_INJECT
+            replaceFile '{natives}', sides.server.jsonlibs ? extractNatives.dest : null
+        }
+        projectAll.dependsOn(projectShared)
+
         task projectSharedApplyPatches(type: ApplyPatches, dependsOn: [deduplicateSources, projectRoot]) {
             baseZip = deduplicateSources.duplicates
-            output = project.file('projects/shared')
+            output = project.file('projects/shared/src/main/java')
             patches = project.file('patches/shared')
         }
         task projectSharedMakePatches(type: MakePatches, dependsOn: [deduplicateSources, projectRoot]) {
             mustRunAfter projectSharedApplyPatches
             baseZip = deduplicateSources.duplicates
-            modified = project.file('projects/shared')
+            modified = project.file('projects/shared/src/main/java')
             patches = project.file('patches/shared')
         }
         task projectSharedReset(type: Copy, dependsOn: [deduplicateSources, projectRoot]) {
             from zipTree(deduplicateSources.duplicates)
-            into project.file('projects/shared')
+            into project.file('projects/shared/src/main/java')
         }
         task renameSourcesShared(type: RenameSources, dependsOn: [projectSharedApplyPatches, makeObfToIntermediate, downloadClientMappings]) {
             input = projectSharedApplyPatches.output
             srg = makeObfToIntermediate.dest
             official = downloadClientMappings.dest
-            dest = project.file(PATH_CACHED_VERSION + "test/official/shared/src/")
+            dest = project.file(PATH_CACHED_VERSION + "test/official/shared/src/main/java/")
         }
     }
 
     sides.each{ side, child ->
         def project_dir = project.file("projects/${side}")
         def patches_dir = project.file("patches/${side}")
-        
+
         child.delete = task "project${child.Name}Delete"(type: Delete) {
             delete project_dir
         }
@@ -468,6 +485,9 @@ subprojects {
             if (child.bundle != null)
                 bundle = child.bundle.dest
             CONFIG?.libraries?.get(side)?.each { library "'${it}'" }
+            if (MERGE_PATCHES && (side == 'client' || side == 'server' || side == 'joined')) {
+                library "project(':${project.version.toString()}-shared')"
+            }
             version = project.name
             libraryFile child.extra.extra.get().getAsFile()
             if (child.assets) {
@@ -477,7 +497,6 @@ subprojects {
             replace '{java_target}', JAVA_TARGET + ''
             replaceFile '{inject}', PATH_INJECT
             replaceFile '{natives}', child.jsonlibs ? extractNatives.dest : null
-            replaceFile '{merged_src}', MERGE_PATCHES ? project.file('projects/shared') : null
         }
         projectAll.dependsOn(child.project)
 
@@ -527,6 +546,13 @@ subprojects {
         def testApiSide = task("testApi${child.Name}")
         testApi.dependsOn(testApiSide)
         */
+        if (side == "client" || side == "joined") {
+            final generateTestCode = task "generateTestCode${child.Name}"(type: Copy, dependsOn: [child.apply]) {
+                from rootProject.file('templates/StartClient.java')
+                into new File(project_dir, 'src/test/java')
+            }
+            projectApplyAll.dependsOn(generateTestCode)
+        }
         
         def jdks = [
             [name: 'hotspot8',   Name: 'HotSpot8',   version: 8,  official: false],

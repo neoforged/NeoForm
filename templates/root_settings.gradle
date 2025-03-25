@@ -1,4 +1,4 @@
-def sides = ['client', 'server', 'joined']
+def sides = ['client', 'server', 'joined', 'shared']
 file('.').eachDir{ dir ->
   if (sides.contains(dir.name)) {
     include dir.name

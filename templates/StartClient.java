@@ -1,5 +1,3 @@
-package mcp.client;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -9,7 +7,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import net.minecraft.client.main.Main;
 
-public class Start
+public class StartClient
 {
     public static void main(String[] args)
     {
@@ -20,7 +18,7 @@ public class Start
          */
         String assets = null;
         String assetIndex = "17";
-        try (InputStream assetsInput = Start.class.getClassLoader().getResourceAsStream("assets.json")) {
+        try (InputStream assetsInput = StartClient.class.getClassLoader().getResourceAsStream("assets.json")) {
             if (assetsInput != null) {
                 JsonElement element = JsonParser.parseReader(new InputStreamReader(assetsInput));
                 assets = element.getAsJsonObject().get("assets").getAsString();
