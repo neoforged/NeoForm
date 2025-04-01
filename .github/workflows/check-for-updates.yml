@@ -71,7 +71,7 @@ jobs:
           distribution: temurin
           java-version: ${{ vars.JAVA_VERSION }}
       - name: Install fast-xml-parser
-        run: sudo npm install -g fast-xml-parser
+        run: sudo npm install -g fast-xml-parser@4.5.1
       - name: Get latest version of srgutils
         id: srgutils_version
         run: echo "srgutils_version=$(wget -O - https://maven.neoforged.net/releases/net/neoforged/srgutils/maven-metadata.xml | fxparser -c | jq .metadata.versioning.latest -r)" >> $GITHUB_OUTPUT
