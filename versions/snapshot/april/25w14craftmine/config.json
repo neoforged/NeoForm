@@ -11,7 +11,7 @@
         "jvmargs": ["-Xmx4G"]
     },
     "merge": {
-        "version": "net.neoforged:mergetool:2.0.3:fatjar",
+        "version": "net.neoforged:mergetool:2.0.7:fatjar",
         "args": ["--client", "{client}", "--server", "{server}", "--ann", "{version}", "--output", "{output}", "--inject", "false"],
         "jvmargs": []
     },

@@ -12,7 +12,7 @@
 @@ -98,7 +98,7 @@
              ? new EntityReference<>(optional.get())
              : p_393884_.getString(p_394543_)
-                 .map(p_409192_ -> OldUsersConverter.convertMobOwnerIfNecessary(p_393661_.getServer(), p_409192_))
+                 .map(p_418862_ -> OldUsersConverter.convertMobOwnerIfNecessary(p_393661_.theGame(), p_418862_))
 -                .map(EntityReference::new)
 +                .map(EntityReference<StoredEntityType>::new)
                  .orElse(null);

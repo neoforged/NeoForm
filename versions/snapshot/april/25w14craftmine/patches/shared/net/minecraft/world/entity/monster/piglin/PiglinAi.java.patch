@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/entity/monster/piglin/PiglinAi.java
 +++ b/net/minecraft/world/entity/monster/piglin/PiglinAi.java
-@@ -169,8 +169,8 @@
+@@ -170,8 +170,8 @@
          p_34905_.addActivityAndRemoveMemoryWhenStopped(
              Activity.FIGHT,
              10,
@@ -11,7 +11,7 @@
                  BehaviorBuilder.triggerIf(PiglinAi::hasCrossbow, BackUpIfTooClose.create(5, 0.75F)),
                  SetWalkTargetFromAttackTargetIfTargetOutOfReach.create(1.0F),
                  MeleeAttack.create(20),
-@@ -186,13 +186,13 @@
+@@ -187,13 +187,13 @@
          p_34921_.addActivityAndRemoveMemoryWhenStopped(
              Activity.CELEBRATE,
              10,
@@ -19,7 +19,7 @@
 +            ImmutableList.<net.minecraft.world.entity.ai.behavior.BehaviorControl<? super Piglin>>of(
                  avoidRepellent(),
                  SetEntityLookTarget.create(PiglinAi::isPlayerHoldingLovedItem, 14.0F),
-                 StartAttacking.<Piglin>create((p_412928_, p_412929_) -> p_412929_.isAdult(), PiglinAi::findNearestValidAttackTarget),
+                 StartAttacking.<Piglin>create((p_419094_, p_419095_) -> p_419095_.isAdult(), PiglinAi::findNearestValidAttackTarget),
 -                BehaviorBuilder.triggerIf(p_34804_ -> !p_34804_.isDancing(), GoToTargetLocation.create(MemoryModuleType.CELEBRATE_LOCATION, 2, 1.0F)),
 -                BehaviorBuilder.triggerIf(Piglin::isDancing, GoToTargetLocation.create(MemoryModuleType.CELEBRATE_LOCATION, 4, 0.6F)),
 -                new RunOne<LivingEntity>(
@@ -29,7 +29,7 @@
                      ImmutableList.of(
                          Pair.of(SetEntityLookTarget.create(EntityType.PIGLIN, 8.0F), 1),
                          Pair.of(RandomStroll.stroll(0.6F, 2, 1), 1),
-@@ -225,7 +225,7 @@
+@@ -226,7 +226,7 @@
                  SetWalkTargetAwayFrom.entity(MemoryModuleType.AVOID_TARGET, 1.0F, 12, true),
                  createIdleLookBehaviors(),
                  createIdleMovementBehaviors(),
@@ -38,7 +38,7 @@
              ),
              MemoryModuleType.AVOID_TARGET
          );
-@@ -247,7 +247,7 @@
+@@ -248,7 +248,7 @@
                              .build()
                      )
                  ),

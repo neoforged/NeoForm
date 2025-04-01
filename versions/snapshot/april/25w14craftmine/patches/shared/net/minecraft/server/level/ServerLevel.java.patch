@@ -1,6 +1,15 @@
 --- a/net/minecraft/server/level/ServerLevel.java
 +++ b/net/minecraft/server/level/ServerLevel.java
-@@ -1601,7 +1601,7 @@
+@@ -286,7 +286,7 @@
+         this.customSpawners = p_215008_;
+         this.serverLevelData = p_215002_;
+         Optional<Holder.Reference<LevelStem>> optional = this.registryAccess().get(Registries.levelToLevelStem(p_215003_));
+-        this.activeEffects = optional.map(Holder::value).map(LevelStem::effects).map(ObjectArraySet::new).orElseGet(Set::of);
++        this.activeEffects = optional.map(Holder::value).map(LevelStem::effects).<Set<WorldEffect>>map(ObjectArraySet::new).orElseGet(Set::of);
+         this.specialMine = optional.map(Holder::value).flatMap(LevelStem::mine);
+         ChunkGenerator chunkgenerator = LevelStem.generator(this.registryAccess(), optional.get());
+         MinecraftServer minecraftserver = p_423418_.server();
+@@ -2354,7 +2354,7 @@
  
              return object2intopenhashmap.object2IntEntrySet()
                  .stream()
