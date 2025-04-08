@@ -1,6 +1,6 @@
 --- a/net/minecraft/server/level/ServerChunkCache.java
 +++ b/net/minecraft/server/level/ServerChunkCache.java
-@@ -615,7 +615,7 @@
+@@ -618,7 +618,7 @@
          }
  
          @Override

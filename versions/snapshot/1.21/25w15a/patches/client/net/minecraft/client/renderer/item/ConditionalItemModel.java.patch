@@ -1,6 +1,6 @@
 --- a/net/minecraft/client/renderer/item/ConditionalItemModel.java
 +++ b/net/minecraft/client/renderer/item/ConditionalItemModel.java
-@@ -75,7 +75,7 @@
+@@ -76,7 +76,7 @@
          }
  
          private static <T extends ConditionalItemModelProperty> T swapContext(T p_399529_, RegistryContextSwapper p_399879_, ClientLevel p_399861_) {

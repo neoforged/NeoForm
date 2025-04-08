@@ -1,6 +1,6 @@
 --- a/net/minecraft/commands/synchronization/ArgumentTypeInfos.java
 +++ b/net/minecraft/commands/synchronization/ArgumentTypeInfos.java
-@@ -117,11 +117,11 @@
+@@ -119,11 +119,11 @@
          register(p_235385_, "dimension", DimensionArgument.class, SingletonArgumentInfo.contextFree(DimensionArgument::dimension));
          register(p_235385_, "gamemode", GameModeArgument.class, SingletonArgumentInfo.contextFree(GameModeArgument::gameMode));
          register(p_235385_, "time", TimeArgument.class, new TimeArgument.Info());

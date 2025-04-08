@@ -1,6 +1,6 @@
 --- a/net/minecraft/commands/Commands.java
 +++ b/net/minecraft/commands/Commands.java
-@@ -378,15 +378,17 @@
+@@ -385,15 +385,17 @@
      ) {
          for (CommandNode<CommandSourceStack> commandnode : p_82113_.getChildren()) {
              if (commandnode.canUse(p_82115_)) {
