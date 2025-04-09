@@ -51,7 +51,7 @@ jobs:
           var returnValue = {old_version_type: oldVersion[0], old_version_name: oldVersion[oldVersion.length - 1], new_version_type: newVersion[0], new_version_name: newVersion[newVersion.length - 1]}
           return returnValue;
     - name: Setup Gradle
-      uses: gradle/actions/setup-gradle@v3
+      uses: gradle/actions/setup-gradle@v4
       with:
         cache-read-only: false
         generate-job-summary: false

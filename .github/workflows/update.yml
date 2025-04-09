@@ -169,7 +169,7 @@ jobs:
       env:
         SRGUTILS_VERSION: ${{ steps.lib-versions.outputs.srgutils }}
     - name: Setup Gradle
-      uses: gradle/actions/setup-gradle@v3
+      uses: gradle/actions/setup-gradle@v4
     - if: ${{ inputs.patch_src && inputs.patch_src != inputs.new_version }}
       env:
         PATCH_SRC: ${{ inputs.patch_src }}
