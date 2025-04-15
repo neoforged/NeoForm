@@ -19,7 +19,7 @@
 +            ImmutableList.<net.minecraft.world.entity.ai.behavior.BehaviorControl<? super Piglin>>of(
                  avoidRepellent(),
                  SetEntityLookTarget.create(PiglinAi::isPlayerHoldingLovedItem, 14.0F),
-                 StartAttacking.<Piglin>create((p_415334_, p_415335_) -> p_415335_.isAdult(), PiglinAi::findNearestValidAttackTarget),
+                 StartAttacking.<Piglin>create((p_417909_, p_417910_) -> p_417910_.isAdult(), PiglinAi::findNearestValidAttackTarget),
 -                BehaviorBuilder.triggerIf(p_34804_ -> !p_34804_.isDancing(), GoToTargetLocation.create(MemoryModuleType.CELEBRATE_LOCATION, 2, 1.0F)),
 -                BehaviorBuilder.triggerIf(Piglin::isDancing, GoToTargetLocation.create(MemoryModuleType.CELEBRATE_LOCATION, 4, 0.6F)),
 -                new RunOne<LivingEntity>(
