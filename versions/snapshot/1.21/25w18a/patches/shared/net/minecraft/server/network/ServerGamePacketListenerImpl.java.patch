@@ -1,6 +1,6 @@
 --- a/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 +++ b/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-@@ -442,6 +442,7 @@
+@@ -444,6 +444,7 @@
                  }
  
                  entity.move(MoverType.PLAYER, new Vec3(d6, d7, d8));
@@ -8,7 +8,7 @@
                  d6 = d3 - entity.getX();
                  d7 = d4 - entity.getY();
                  if (d7 > -0.5 || d7 < 0.5) {
-@@ -471,7 +472,7 @@
+@@ -473,7 +474,7 @@
                  entity.setOnGroundWithMovement(p_9876_.onGround(), vec3);
                  entity.doCheckFallDamage(vec3.x, vec3.y, vec3.z, p_9876_.onGround());
                  this.player.checkMovementStatistics(vec3.x, vec3.y, vec3.z);
@@ -17,7 +17,7 @@
                      && !flag1
                      && !this.server.isFlightAllowed()
                      && !entity.isFlyingVehicle()
-@@ -929,7 +930,7 @@
+@@ -934,7 +935,7 @@
          if (itemstack.has(DataComponents.WRITABLE_BOOK_CONTENT)) {
              ItemStack itemstack1 = itemstack.transmuteCopy(Items.WRITTEN_BOOK);
              itemstack1.remove(DataComponents.WRITABLE_BOOK_CONTENT);
@@ -26,7 +26,7 @@
              itemstack1.set(
                  DataComponents.WRITTEN_BOOK_CONTENT,
                  new WrittenBookContent(this.filterableFromOutgoing(p_215209_), this.player.getName().getString(), 0, list, true)
-@@ -1046,6 +1047,7 @@
+@@ -1055,6 +1056,7 @@
  
                                  boolean flag1 = this.player.verticalCollisionBelow;
                                  this.player.move(MoverType.PLAYER, new Vec3(d6, d7, d8));
@@ -34,7 +34,7 @@
                                  d6 = d0 - this.player.getX();
                                  d7 = d1 - this.player.getY();
                                  if (d7 > -0.5 || d7 < 0.5) {
-@@ -1070,7 +1072,7 @@
+@@ -1079,7 +1081,7 @@
                                          && !this.isPlayerCollidingWithAnythingNew(serverlevel, aabb, d0, d1, d2)) {
                                      this.player.absSnapTo(d0, d1, d2, f, f1);
                                      boolean flag3 = this.player.isAutoSpinAttack();
