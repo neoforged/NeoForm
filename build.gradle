@@ -784,13 +784,21 @@ subprojects {
         }
     }
 
+    def optimizeMappings = tasks.register('optimizeMappings', OptimizeJoinedSrg) {
+        input = file('joined.tsrg')
+        output = layout.buildDirectory.file('joined_stripped.tsrg')
+    }
+
     task makeZip(type: Zip, dependsOn: [generateConfiguration]) {
         archiveBaseName = rootProject.name
         archiveVersion = project.version
         destinationDirectory = file(PATH_BUILD + '/distributions')
 
         from generateConfiguration
-        from(file('joined.tsrg')){ into 'config/' }
+        from(optimizeMappings.flatMap(OptimizeJoinedSrg::getOutput)){
+            into 'config/'
+            rename { "joined.tsrg" }
+        }
 
         def patches = file('patches')
         if (patches.exists()) {
