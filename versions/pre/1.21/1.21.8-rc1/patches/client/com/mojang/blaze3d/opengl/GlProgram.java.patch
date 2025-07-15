@@ -1,6 +1,6 @@
 --- a/com/mojang/blaze3d/opengl/GlProgram.java
 +++ b/com/mojang/blaze3d/opengl/GlProgram.java
-@@ -63,7 +63,7 @@
+@@ -67,7 +67,7 @@
          for (RenderPipeline.UniformDescription renderpipeline$uniformdescription : p_410553_) {
              String s = renderpipeline$uniformdescription.name();
  
