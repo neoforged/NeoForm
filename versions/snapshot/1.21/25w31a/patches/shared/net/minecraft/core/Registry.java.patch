@@ -8,4 +8,4 @@
 +        return DataFixUtils.orElse(this.get(p_206059_), List.of());
      }
  
-     default Optional<Holder<T>> getRandomElementOf(TagKey<T> p_320357_, RandomSource p_320935_) {
+     Stream<HolderSet.Named<T>> getTags();

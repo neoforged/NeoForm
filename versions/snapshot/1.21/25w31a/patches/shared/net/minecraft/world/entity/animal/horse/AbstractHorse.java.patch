@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/entity/animal/horse/AbstractHorse.java
 +++ b/net/minecraft/world/entity/animal/horse/AbstractHorse.java
-@@ -983,7 +983,7 @@
+@@ -989,7 +989,7 @@
                  }
  
                  blockpos$mutableblockpos.move(Direction.UP);

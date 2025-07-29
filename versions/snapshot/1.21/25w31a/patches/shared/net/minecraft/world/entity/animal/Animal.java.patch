@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/entity/animal/Animal.java
 +++ b/net/minecraft/world/entity/animal/Animal.java
-@@ -195,7 +195,7 @@
+@@ -183,7 +183,7 @@
  
      @Nullable
      public ServerPlayer getLoveCause() {
