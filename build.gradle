@@ -850,7 +850,7 @@ subprojects {
     def componentMaker = objects.newInstance(ComponentMaker)
     def neoformComponent = componentMaker.componentFactory.adhoc('neoform')
     components.add(neoformComponent)
-    def mappingFormatAttr = Attribute.of('neoforge-mappings-format', String)
+    def mappingFormatAttr = Attribute.of('symbol-mappings-format', String)
 
     configurations {
         neoformData {
@@ -893,6 +893,8 @@ subprojects {
         parameterMappings {
             canBeResolved = false
             attributes {
+                attribute(Category.CATEGORY_ATTRIBUTE, objects.named(Category, 'data'))
+                attribute(Usage.USAGE_ATTRIBUTE, objects.named(Usage, 'symbol-mappings'))
                 attribute(mappingFormatAttr, 'tsrg2-lzma')
             }
             outgoing {
