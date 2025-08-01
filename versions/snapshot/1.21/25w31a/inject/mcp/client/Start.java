@@ -32,7 +32,7 @@ public class Start
         if (assets == null) {
             assets = System.getenv().containsKey("assetDirectory") ? System.getenv("assetDirectory") : "assets";
         }
-        Main.main(concat(new String[] { "--version", "mcp", "--accessToken", "0", "--assetsDir", assets, "--assetIndex", assetIndex, "--userProperties", "{}" }, args));
+        Main.main(concat(new String[] { "--version", "mcp", "--accessToken", "0", "--assetsDir", assets, "--assetIndex", assetIndex, "--userProperties", "{}", "--offlineDeveloperMode" }, args));
     }
 
     public static <T> T[] concat(T[] first, T[] second)
