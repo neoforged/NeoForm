@@ -104,6 +104,8 @@ jobs:
     - run: |
         git config --global user.name github-actions
         git config --global user.email 41898282+github-actions[bot]@users.noreply.github.com
+    - name: Install advzip for ZIP optimization
+      run: sudo apt install advancecomp
     - name: Setup Gradle
       uses: gradle/actions/setup-gradle@v4
       with:
@@ -127,7 +129,7 @@ jobs:
         VERSION_NAME: ${{ fromJson(steps.split_version.outputs.result).version_name }}
         VERSION_TYPE: ${{ fromJson(steps.split_version.outputs.result).version_type }}
       if: ${{ always() }}
-      run: ./gradlew :$VERSION_NAME:makeZip -Ptype=$VERSION_TYPE
+      run: ./gradlew :$VERSION_NAME:makeZip -Ptype=$VERSION_TYPE -Poptimize_zip=true
     - name: Upload Zip as Artifact
       if: ${{ always() }}
       uses: actions/upload-artifact@v4
