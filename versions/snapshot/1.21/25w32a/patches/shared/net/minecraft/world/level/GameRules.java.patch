@@ -1,0 +1,22 @@
+--- a/net/minecraft/world/level/GameRules.java
++++ b/net/minecraft/world/level/GameRules.java
+@@ -241,7 +241,7 @@
+                     .filter(p_396932_ -> p_396932_.getValue().valueClass == p_397496_)
+                     .map(Entry::getKey)
+                     .filter(p_396927_ -> p_396927_.getId().equals(p_396930_))
+-                    .map(p_396934_ -> (GameRules.Key)p_396934_)
++                    .map(p_396934_ -> (GameRules.Key<T>)p_396934_)
+                     .findFirst()
+                     .map(DataResult::success)
+                     .orElseGet(() -> DataResult.error(() -> "Invalid game rule ID for type: " + p_396930_)),
+@@ -315,8 +315,8 @@
+ 
+     private <T extends GameRules.Value<T>> void callVisitorCap(GameRules.GameRuleTypeVisitor p_46167_, GameRules.Key<?> p_46168_, GameRules.Type<?> p_46169_) {
+         if (p_46169_.requiredFeatures.isSubsetOf(this.enabledFeatures)) {
+-            p_46167_.visit(p_46168_, p_46169_);
+-            p_46169_.callVisitor(p_46167_, p_46168_);
++            p_46167_.visit((GameRules.Key<T>)p_46168_, (GameRules.Type<T>)p_46169_);
++            ((GameRules.Type<T>)p_46169_).callVisitor(p_46167_, (GameRules.Key<T>)p_46168_);
+         }
+     }
+ 
