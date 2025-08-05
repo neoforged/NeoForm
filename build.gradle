@@ -830,7 +830,7 @@ subprojects {
                 }
         )
     }
-    if (optimize_zip) {
+    if (optimize_zip.toBoolean()) {
         makeZip.configure { finalizedBy optimizeZip }
     }
 
