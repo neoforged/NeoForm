@@ -142,7 +142,7 @@ jobs:
       uses: neoforged/action-pr-publishing/upload@v1
       if: ${{ inputs.publish_prs }}
       with:
-        publishing-task: ":${{ fromJson(steps.split_version.outputs.result).version_name }}:publishAllPublicationsTo_githubPackages_PRsRepository -Ptype=${{ fromJson(steps.split_version.outputs.result).version_type }}"
+        publishing-task: ":${{ fromJson(steps.split_version.outputs.result).version_name }}:publishAllPublicationsTo_githubPackages_PRsRepository -Ptype=${{ fromJson(steps.split_version.outputs.result).version_type }} -Poptimize_zip=true"
     - name: Get Java Test Versions
       id: test_versions
       env:
@@ -198,6 +198,8 @@ jobs:
         cache-read-only: false
       env:
         GRADLE_BUILD_ACTION_CACHE_KEY_JOB_INSTANCE: check
+    - name: Install advzip for ZIP optimization
+      run: sudo apt install advancecomp
     - name: Publish
       env:
         VERSION_NAME: ${{ needs.common.outputs.version_name }}
@@ -205,7 +207,7 @@ jobs:
         ORG_GRADLE_PROJECT_MAVEN_URL: ${{ inputs.snapshot && vars.SNAPSHOT_MAVEN_URL || vars.MAVEN_URL }}
         ORG_GRADLE_PROJECT_MAVEN_USER: ${{ secrets.MAVEN_USER }}
         ORG_GRADLE_PROJECT_MAVEN_PASSWORD: ${{ secrets.MAVEN_PASSWORD }}
-      run: ./gradlew getTimestamp :$VERSION_NAME:publish -Ptype=$VERSION_TYPE
+      run: ./gradlew getTimestamp :$VERSION_NAME:publish -Ptype=$VERSION_TYPE -Poptimize_zip=true
   discord:
     name: Send status to discord
     runs-on: ubuntu-latest
