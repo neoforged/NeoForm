@@ -40,35 +40,6 @@ task downloadVersionManifest(type: Download) {
     quiet true
 }
 
-/* This check is fucked on anything > J8 because modules use a propriatary file format. We'd have to create an extracter 
- * that runs in the external process.. so fuck it.
- 
-task downloadRuntimeManifest(type: Download) {
-    src 'https://launchermeta.mojang.com/v1/products/java-runtime/2ec0cc96c44e5a76b9c8b7c39df7210883d12871/all.json'
-    dest file('build/versions/java-runtime-all.json')
-    useETag 'all'
-    onlyIfModified true
-    quiet true
-}
-
-task downloadRuntime(type:DownloadRuntime, dependsOn: downloadRuntimeManifest) {
-    json = downloadRuntimeManifest.dest
-    os = 'windows-x64'
-    doFirst {
-        downloadRuntimeManifest.dest.json.get('windows-x64').keySet().each{ dest.put(it, file('build/runtimes/' + it)) }
-    }
-}
-
-task extractRuntimeApi(type: ExtractAPI, dependsOn: downloadRuntime) {
-    doFirst {
-        downloadRuntimeManifest.dest.json.get('windows-x64').keySet().each {
-            roots.put(it, new File(downloadRuntime.dest.get(it), 'files'))
-            apis.put(it, new File(downloadRuntime.dest.get(it), 'api.json'))
-        }
-    }
-}
-*/
-
 if (project.hasProperty('old_version') && project.hasProperty('new_version')) {
     println('Update Old: ' + project.getProperty('old_version') + ' New: ' + project.getProperty('new_version'))
     apply from: 'update.gradle'

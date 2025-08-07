@@ -6,12 +6,16 @@ rootProject.name = 'neoform'
 
 ext.versions = [] as Set
 
+def addProject(path) {
+    def relative = rootDir.toPath().relativize(path.toPath()).toFile()
+    include relative.path
+    project(':' + relative.path).name = path.name
+    versions.add(path.name)
+}
+
 def addDirectory(path) {
     path.eachDir() {
-        def relative = rootDir.toPath().relativize(it.toPath()).toFile()
-        include relative.path
-        project(':' + relative.path).name = it.name
-        versions.add(it.name)
+        addProject(it)
     }
 }
 
@@ -31,7 +35,11 @@ def getLocalProperty(name) {
 def type = hasLocalProperty('type') ? getLocalProperty('type').toLowerCase() : 'release'
 
 if ('release'.equals(type)) {
-    addDirectory(new File(rootDir, 'versions/release/'))
+    if (hasLocalProperty('ver')) {
+        addProject(new File(rootDir, 'versions/release/' + getLocalProperty('ver')))
+    } else {
+        addDirectory(new File(rootDir, 'versions/release/'))
+    }
 } else if ('snapshot'.equals(type)) {
     if (hasLocalProperty('ver')) {
         addDirectory(new File(rootDir, 'versions/snapshot/' + getLocalProperty('ver')))
