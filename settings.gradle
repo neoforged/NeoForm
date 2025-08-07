@@ -35,8 +35,8 @@ def getLocalProperty(name) {
 def type = hasLocalProperty('type') ? getLocalProperty('type').toLowerCase() : 'release'
 
 if ('release'.equals(type)) {
-    if (hasLocalProperty('ver')) {
-        addProject(new File(rootDir, 'versions/release/' + getLocalProperty('ver')))
+    if (hasLocalProperty('version')) {
+        addProject(new File(rootDir, 'versions/release/' + getLocalProperty('version')))
     } else {
         addDirectory(new File(rootDir, 'versions/release/'))
     }
