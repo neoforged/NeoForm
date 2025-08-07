@@ -17,7 +17,8 @@ Development versions of Minecraft for a release version will be on a branch name
 
 Options in `local.properties` can be set to filter for which versions are loaded by gradle:
 * `type` (defaults to `release`)
-* `ver` (defaults to all major versions)
+* `ver` (defaults to all major versions), only applies to `type=pre` and `type=snapshot`
+* `version` filters to a single release version, only applies to `type=release`
 
 ## Gradle Tasks
 
