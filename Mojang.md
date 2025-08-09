@@ -1,4 +1,4 @@
-**Last Modified**: 08/08/2025
+**Last Modified**: 02/17/2021
 
 At the time of this writing, the current license applied to the Official Mojang mapping files is:
 
