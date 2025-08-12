@@ -1,6 +1,6 @@
 --- a/net/minecraft/client/sounds/SoundEngineExecutor.java
 +++ b/net/minecraft/client/sounds/SoundEngineExecutor.java
-@@ -44,7 +44,7 @@
+@@ -50,7 +50,7 @@
      }
  
      @Override
