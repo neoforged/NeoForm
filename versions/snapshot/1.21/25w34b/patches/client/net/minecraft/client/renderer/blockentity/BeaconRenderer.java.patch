@@ -1,0 +1,28 @@
+--- a/net/minecraft/client/renderer/blockentity/BeaconRenderer.java
++++ b/net/minecraft/client/renderer/blockentity/BeaconRenderer.java
+@@ -107,19 +107,19 @@
+             )
+         );
+         p_439706_.popPose();
+-        f3 = -p_438909_;
++        float f3_f = -p_438909_;
+         float f4 = -p_438909_;
+-        f5 = -p_438909_;
+-        f6 = -p_438909_;
++        float f5_f = -p_438909_;
++        float f6_f = -p_438909_;
+         f10 = 0.0F;
+         f11 = 1.0F;
+-        f12 = -1.0F + f2;
+-        f13 = p_438971_ * p_439936_ + f12;
++        float f12_f = -1.0F + f2;
++        float f13_f = p_438971_ * p_439936_ + f12;
+         p_440494_.submitCustomGeometry(
+             p_439706_,
+             RenderType.beaconBeam(p_440476_, true),
+             (p_440366_, p_440684_) -> renderPart(
+-                p_440366_, p_440684_, ARGB.color(32, p_439741_), p_440035_, i, f3, f4, p_438909_, f5, f6, p_438909_, p_438909_, p_438909_, 0.0F, 1.0F, f13, f12
++                p_440366_, p_440684_, ARGB.color(32, p_439741_), p_440035_, i, f3_f, f4, p_438909_, f5_f, f6_f, p_438909_, p_438909_, p_438909_, 0.0F, 1.0F, f13_f, f12_f
+             )
+         );
+         p_439706_.popPose();
