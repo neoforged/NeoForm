@@ -843,14 +843,14 @@ subprojects {
                 }
         )
     }
-    if (optimize_zip) {
+    if (Boolean.valueOf(optimize_zip)) {
         makeZip.configure { finalizedBy optimizeZip }
     }
 
     def componentMaker = objects.newInstance(ComponentMaker)
     def neoformComponent = componentMaker.componentFactory.adhoc('neoform')
     components.add(neoformComponent)
-    def mappingFormatAttr = Attribute.of('symbol-mappings-format', String)
+    def mappingFormatAttr = Attribute.of('net.neoforged.symbol-mappings-format', String)
 
     configurations {
         neoformData {
