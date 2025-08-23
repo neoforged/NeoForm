@@ -18,4 +18,4 @@ The bigger concern, which affects projects like MCPConfig, is that in order to d
 
 We understand that the people at Mojang want this to be allowed, but the license does not clearly back their words, and puts us in this difficult position. However, we have almost a decade worth of working experience with the people at Mojang. To the best of our knowledge we are in good standing and they explicitly wish to allow us to use this data for our purposes. As such, we have decided to move forward with the license in it's current form. 
 
-We advise that everyone using this project, it's data, or anything that has something to do with the Official Mojang mappings be aware of the license they are under. You can make your own decision on how you want to proceed.
+We advise that everyone using this project, its data, or anything that has something to do with the Official Mojang mappings be aware of the license they are under. You can make your own decision on how you want to proceed.
