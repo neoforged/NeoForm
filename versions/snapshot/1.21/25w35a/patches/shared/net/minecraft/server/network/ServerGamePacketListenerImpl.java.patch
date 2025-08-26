@@ -15,7 +15,7 @@
 -                this.clientVehicleIsFloating = d7 >= -0.03125
 +                this.clientVehicleIsFloating = d11 >= -0.03125
                      && !flag
-                     && !this.server.isFlightAllowed()
+                     && !this.server.allowFlight()
                      && !entity.isFlyingVehicle()
 @@ -943,7 +944,7 @@
          if (itemstack.has(DataComponents.WRITABLE_BOOK_CONTENT)) {
@@ -42,4 +42,4 @@
 +                                    this.clientIsFloating = d11 >= -0.03125
                                          && !flag1
                                          && !this.player.isSpectator()
-                                         && !this.server.isFlightAllowed()
+                                         && !this.server.allowFlight()
