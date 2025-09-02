@@ -1,0 +1,13 @@
+--- a/net/minecraft/client/renderer/entity/EntityRenderDispatcher.java
++++ b/net/minecraft/client/renderer/entity/EntityRenderDispatcher.java
+@@ -93,8 +93,8 @@
+ 
+     public <T extends Entity> EntityRenderer<? super T, ?> getRenderer(T p_114383_) {
+         return (EntityRenderer<? super T, ?>)(switch (p_114383_) {
+-            case LocalPlayer localplayer -> this.getAvatarRenderer((Map<PlayerModelType, AvatarRenderer<T>>)this.playerRenderers, (T)localplayer);
+-            case ClientMannequin clientmannequin -> this.getAvatarRenderer((Map<PlayerModelType, AvatarRenderer<T>>)this.mannequinRenderers, (T)clientmannequin);
++            case LocalPlayer localplayer -> this.getAvatarRenderer(this.playerRenderers, localplayer);
++            case ClientMannequin clientmannequin -> this.getAvatarRenderer(this.mannequinRenderers, clientmannequin);
+             default -> (EntityRenderer)this.renderers.get(p_114383_.getType());
+         });
+     }
