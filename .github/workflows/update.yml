@@ -241,31 +241,31 @@ jobs:
         git commit -m "Start ${{ inputs.new_version }}" && git push || true
     - name: Update vineflower
       if: ${{ vars.FORGEFLOWER_UPDATE == 'true' }}
-      run: sed -i -E "s/org.vineflower:vineflower:[^\"]*/org.vineflower:vineflower:$VINEFLOWER_VERSION/g" $CONFIG
+      run: sed -i -E "s/org.vineflower:vineflower:[^\":]*/org.vineflower:vineflower:$VINEFLOWER_VERSION/g" $CONFIG
       env:
         VINEFLOWER_VERSION: ${{ steps.lib-versions.outputs.forgeflower }}
         CONFIG: versions/${{ inputs.new_version }}/config.json
     - name: Update AutoRenamingTool
       if: ${{ vars.FORGEAUTORENAMINGTOOL_UPDATE == 'true' }}
-      run: sed -i -E "s/net.neoforged:AutoRenamingTool:[^\"]*/net.neoforged:AutoRenamingTool:$AUTORENAMINGTOOL_VERSION/g" $CONFIG
+      run: sed -i -E "s/net.neoforged:AutoRenamingTool:[^\":]*/net.neoforged:AutoRenamingTool:$AUTORENAMINGTOOL_VERSION/g" $CONFIG
       env:
         AUTORENAMINGTOOL_VERSION: ${{ steps.lib-versions.outputs.forgeautorenamingtool }}
         CONFIG: versions/${{ inputs.new_version }}/config.json
     - name: Update installertools
       if: ${{ vars.INSTALLERTOOLS_UPDATE == 'true' }}
-      run: sed -i -E "s/net.minecraftforge:installertools:[^\"]*/net.minecraftforge:installertools:$INSTALLERTOOLS_VERSION/g" $CONFIG
+      run: sed -i -E "s/net.minecraftforge:installertools:[^\":]*/net.minecraftforge:installertools:$INSTALLERTOOLS_VERSION/g" $CONFIG
       env:
         INSTALLERTOOLS_VERSION: ${{ steps.lib-versions.outputs.installertools }}
         CONFIG: versions/${{ inputs.new_version }}/config.json
     - name: Update Jetbrains Annotations
       if: ${{ vars.JETBRAINS_ANNOTATIONS_UPDATE == 'true' }}
-      run: sed -i -E "s/org.jetbrains:annotations:[^\"]*/org.jetbrains:annotations:$JETBRAINS_ANNOTATIONS_VERSION/g" $CONFIG
+      run: sed -i -E "s/org.jetbrains:annotations:[^\":]*/org.jetbrains:annotations:$JETBRAINS_ANNOTATIONS_VERSION/g" $CONFIG
       env:
         JETBRAINS_ANNOTATIONS_VERSION: ${{ steps.lib-versions.outputs.jetbrains_annotations }}
         CONFIG: versions/${{ inputs.new_version }}/config.json
     - name: Update Mergetool
       if: ${{ vars.MERGETOOL_UPDATE == 'true' }}
-      run: sed -i -E "s/net.neoforged:mergetool:[^\"]*/net.neoforged:mergetool:$MERGETOOLS_VERSION/g" $CONFIG
+      run: sed -i -E "s/net.neoforged:mergetool:[^\":]*/net.neoforged:mergetool:$MERGETOOLS_VERSION/g" $CONFIG
       env:
         MERGETOOLS_VERSION: ${{ steps.lib-versions.outputs.mergetool }}
         CONFIG: versions/${{ inputs.new_version }}/config.json
