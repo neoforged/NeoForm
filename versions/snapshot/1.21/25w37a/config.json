@@ -11,12 +11,12 @@
         "jvmargs": ["-Xmx4G"]
     },
     "merge": {
-        "version": "net.neoforged:mergetool:2.0.7",
+        "version": "net.neoforged:mergetool:2.0.7:fatjar",
         "args": ["--client", "{client}", "--server", "{server}", "--ann", "{version}", "--output", "{output}", "--inject", "false"],
         "jvmargs": []
     },
     "rename": {
-        "version": "net.neoforged:AutoRenamingTool:2.0.15",
+        "version": "net.neoforged:AutoRenamingTool:2.0.15:all",
         "args": ["--input", "{input}", "--output", "{output}", "--map", "{mappings}", "--cfg", "{libraries}", "--ann-fix", "--ids-fix", "--src-fix", "--record-fix", "--unfinal-params"]
     },
     "bundler_extract_jar": {
@@ -34,6 +34,6 @@
     "libraries": {
         "client": ["com.google.code.findbugs:jsr305:3.0.2", "ca.weblite:java-objc-bridge:1.1", "org.jetbrains:annotations:26.0.2-1"],
         "server": ["com.google.code.findbugs:jsr305:3.0.2", "org.jetbrains:annotations:26.0.2-1"],
-        "joined": ["com.google.code.findbugs:jsr305:3.0.2", "ca.weblite:java-objc-bridge:1.1", "net.neoforged:mergetool:2.0.7", "org.jetbrains:annotations:26.0.2-1"]
+        "joined": ["com.google.code.findbugs:jsr305:3.0.2", "ca.weblite:java-objc-bridge:1.1", "net.neoforged:mergetool:2.0.7:api", "org.jetbrains:annotations:26.0.2-1"]
     }
 }
