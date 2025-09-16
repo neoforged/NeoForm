@@ -25,7 +25,7 @@
 +            List<Filterable<Component>> list = p_215210_.stream().map(p_329965_ -> this.filterableFromOutgoing(p_329965_).<Component>map(Component::literal)).toList();
              itemstack1.set(
                  DataComponents.WRITTEN_BOOK_CONTENT,
-                 new WrittenBookContent(this.filterableFromOutgoing(p_215209_), this.player.getName().getString(), 0, list, true)
+                 new WrittenBookContent(this.filterableFromOutgoing(p_215209_), this.player.getPlainTextName(), 0, list, true)
 @@ -1065,6 +1066,7 @@
  
                                  boolean flag1 = this.player.verticalCollisionBelow;

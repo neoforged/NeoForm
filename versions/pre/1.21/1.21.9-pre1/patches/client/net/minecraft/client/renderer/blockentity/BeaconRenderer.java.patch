@@ -1,6 +1,6 @@
 --- a/net/minecraft/client/renderer/blockentity/BeaconRenderer.java
 +++ b/net/minecraft/client/renderer/blockentity/BeaconRenderer.java
-@@ -108,19 +108,19 @@
+@@ -109,19 +109,19 @@
              )
          );
          p_439608_.popPose();
