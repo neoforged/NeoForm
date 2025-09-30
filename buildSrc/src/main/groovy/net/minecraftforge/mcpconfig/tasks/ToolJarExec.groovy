@@ -6,7 +6,7 @@ import org.gradle.jvm.toolchain.JavaToolchainService
 
 import javax.inject.Inject
 
-class ToolJarExec extends JavaExec {
+abstract class ToolJarExec extends JavaExec {
     def config(def cfg, def configuration) {
         classpath = configuration
         args = cfg.args

@@ -6,7 +6,7 @@ import java.io.*
 import java.util.jar.*
 import java.nio.file.Files
 
-class JarExec extends JavaExec {
+abstract class JarExec extends JavaExec {
     private static final Attributes.Name MAIN_CLASS = Attributes.Name.MAIN_CLASS;
     static final OutputStream NULL_OUTPUT = new OutputStream() { public void write(int b){} }
 

@@ -20,8 +20,8 @@ public abstract class FernflowerTask extends ToolJarExec {
     @Override
     protected void preExec() {
         def logStream = log.get().getAsFile().newOutputStream()
-        standardOutput logStream
-        errorOutput logStream
+        standardOutput = logStream
+        errorOutput = logStream
         setArgs(Utils.fillVariables(args, [
             'libraries': libraries.get().getAsFile(),
             'input': input.get().getAsFile(),
