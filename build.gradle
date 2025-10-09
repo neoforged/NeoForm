@@ -785,6 +785,16 @@ subprojects {
         }
     }
 
+    def optimizeMappings = tasks.register('optimizeMappings', OptimizeJoinedSrg) {
+        input = file('joined.tsrg')
+        output = layout.buildDirectory.file('joined_stripped.tsrg')
+    }
+
+    def compressMappings = tasks.register('compressMappings', CompressLzma) {
+        input = optimizeMappings.flatMap { it.output }
+        output = layout.buildDirectory.file('joined_stripped.tsrg.lzma')
+    }
+
     def makeZip = tasks.register('makeZip', Zip) {
         dependsOn generateConfiguration
         archiveBaseName = rootProject.name
@@ -792,7 +802,10 @@ subprojects {
         destinationDirectory = file(PATH_BUILD + '/distributions')
 
         from generateConfiguration
-        from(file('joined.tsrg')){ into 'config/' }
+        from(optimizeMappings.flatMap(OptimizeJoinedSrg::getOutput)){
+            into 'config/'
+            rename { "joined.tsrg" }
+        }
 
         def patches = file('patches')
         if (patches.exists()) {
@@ -838,6 +851,7 @@ subprojects {
     def componentMaker = objects.newInstance(ComponentMaker)
     def neoformComponent = componentMaker.componentFactory.adhoc('neoform')
     components.add(neoformComponent)
+    def mappingFormatAttr = Attribute.of('net.neoforged.symbol-mappings-format', String)
 
     configurations {
         neoformData {
@@ -877,10 +891,26 @@ subprojects {
             neoformComponent.addVariantsFromConfiguration(it) {}
             extendsFrom neoformLibraries
         }
+        parameterMappings {
+            canBeResolved = false
+            attributes {
+                attribute(Category.CATEGORY_ATTRIBUTE, objects.named(Category, 'data'))
+                attribute(Usage.USAGE_ATTRIBUTE, objects.named(Usage, 'symbol-mappings'))
+                attribute(mappingFormatAttr, 'tsrg2-lzma')
+            }
+            outgoing {
+                capability "net.neoforged:neoform-parameter-mappings:${project.version + '-' + rootProject.TIMESTAMP}"
+            }
+            neoformComponent.addVariantsFromConfiguration(it) {}
+        }
     }
 
     artifacts {
         neoformData makeZip
+        parameterMappings(compressMappings) {
+            extension = "tsrg.lzma"
+            classifier = "mappings"
+        }
     }
 
     TOOLS.each {
@@ -938,7 +968,7 @@ subprojects {
                         password = rootProject.getProperty('MAVEN_PASSWORD') ?: 'set'
                     }
                 } else {
-                    url = 'file://' + rootProject.file('repo').getAbsolutePath()
+                    url = rootProject.file('repo').getAbsoluteFile().toURI().toString()
                 }
             }
         }
