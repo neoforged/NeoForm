@@ -20,16 +20,16 @@
         "args": ["--input", "{input}", "--output", "{output}", "--map", "{mappings}", "--cfg", "{libraries}", "--ann-fix", "--ids-fix", "--src-fix", "--record-fix", "--unfinal-params"]
     },
     "bundler_extract_jar": {
-        "version": "net.neoforged.installertools:installertools:2.1.2:fatjar",
+        "version": "net.neoforged.installertools:installertools:3.0.13:fatjar",
         "args": ["--task", "bundler_extract", "--input", "{input}", "--output", "{output}", "--jar-only"]
     },
     "bundler_extract_libs": {
-        "version": "net.neoforged.installertools:installertools:2.1.2:fatjar",
+        "version": "net.neoforged.installertools:installertools:3.0.13:fatjar",
         "args": ["--task", "bundler_extract", "--input", "{input}", "--output", "{output}", "--libraries"]
     },
     "mergemap": {
-        "version": "net.neoforged.installertools:installertools:2.1.2:fatjar",
-        "args": ["--task", "MERGE_MAPPING", "--left", "{mappings}", "--right", "{official}", "--right-names", "right,left", "--classes", "--fields", "--methods", "--output", "{output}"]
+        "version": "net.neoforged.installertools:installertools:3.0.13:fatjar",
+        "args": ["--task", "MERGE_MAPPING", "--base", "{official}", "--reverse-base", "--merge", "{mappings}", "--output", "{output}"]
     },
     "libraries": {
         "client": ["com.google.code.findbugs:jsr305:3.0.2", "ca.weblite:java-objc-bridge:1.1", "org.jetbrains:annotations:26.0.2-1"],
