@@ -287,14 +287,26 @@ subprojects {
         version = project.version
         dest = file(PATH_CACHED_VERSION + 'joined.jar')
     }
+    
+    task optimizeMappings(type: OptimizeJoinedSrg) {
+        input = file('joined.tsrg')
+        output = layout.buildDirectory.file('joined_stripped.tsrg')
+    }
+
+    def mappingsFile = CONFIG.get('only_include_parameter_mappings') ? optimizeMappings.output : file('joined.tsrg')
+
+    task compressMappings(type: CompressLzma) {
+        input = mappingsFile
+        output = layout.buildDirectory.file('joined_stripped.tsrg.lzma')
+    }
 
     task makeObfToIntermediate(type: CONFIG.mergemap ? MergeMappings : RenameMappings, dependsOn: [downloadClientMappings]) {
         if (CONFIG.mergemap) {
             config MERGEMAPTOOL, configurations.mergemaptool
-            mappings = file('joined.tsrg')
+            mappings = mappingsFile
         }
         else
-            intermediate = file('joined.tsrg')
+            intermediate = mappingsFile
         if (CONFIG.official)
             official = downloadClientMappings.dest
         dest = file(PATH_CACHED_VERSION + 'obf_to_intermediate.tsrg')
@@ -785,16 +797,6 @@ subprojects {
         }
     }
 
-    def optimizeMappings = tasks.register('optimizeMappings', OptimizeJoinedSrg) {
-        input = file('joined.tsrg')
-        output = layout.buildDirectory.file('joined_stripped.tsrg')
-    }
-
-    def compressMappings = tasks.register('compressMappings', CompressLzma) {
-        input = optimizeMappings.flatMap { it.output }
-        output = layout.buildDirectory.file('joined_stripped.tsrg.lzma')
-    }
-
     def makeZip = tasks.register('makeZip', Zip) {
         dependsOn generateConfiguration
         archiveBaseName = rootProject.name
@@ -802,7 +804,7 @@ subprojects {
         destinationDirectory = file(PATH_BUILD + '/distributions')
 
         from generateConfiguration
-        from(optimizeMappings.flatMap(OptimizeJoinedSrg::getOutput)){
+        from(mappingsFile){
             into 'config/'
             rename { "joined.tsrg" }
         }
@@ -907,7 +909,7 @@ subprojects {
 
     artifacts {
         neoformData makeZip
-        parameterMappings(compressMappings) {
+        parameterMappings(compressMappings.output) {
             extension = "tsrg.lzma"
             classifier = "mappings"
         }

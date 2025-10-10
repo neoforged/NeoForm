@@ -4,6 +4,7 @@
     "java_target": 21,
     "encoding": "UTF-8",
     "test_remap_official": false,
+    "only_include_parameter_mappings": true,
     "fernflower": {
         "version": "org.vineflower:vineflower:1.11.1",
         "java_version": 21,
@@ -20,15 +21,15 @@
         "args": ["--input", "{input}", "--output", "{output}", "--map", "{mappings}", "--cfg", "{libraries}", "--ann-fix", "--ids-fix", "--src-fix", "--record-fix", "--unfinal-params"]
     },
     "bundler_extract_jar": {
-        "version": "net.neoforged.installertools:installertools:2.1.2:fatjar",
+        "version": "net.neoforged.installertools:installertools:3.0.13:fatjar",
         "args": ["--task", "bundler_extract", "--input", "{input}", "--output", "{output}", "--jar-only"]
     },
     "bundler_extract_libs": {
-        "version": "net.neoforged.installertools:installertools:2.1.2:fatjar",
+        "version": "net.neoforged.installertools:installertools:3.0.13:fatjar",
         "args": ["--task", "bundler_extract", "--input", "{input}", "--output", "{output}", "--libraries"]
     },
     "mergemap": {
-        "version": "net.neoforged.installertools:installertools:2.1.2:fatjar",
+        "version": "net.neoforged.installertools:installertools:3.0.13:fatjar",
         "args": ["--task", "MERGE_MAPPING", "--left", "{mappings}", "--right", "{official}", "--right-names", "right,left", "--classes", "--fields", "--methods", "--output", "{output}"]
     },
     "libraries": {

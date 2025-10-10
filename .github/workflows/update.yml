@@ -253,7 +253,7 @@ jobs:
         CONFIG: versions/${{ inputs.new_version }}/config.json
     - name: Update installertools
       if: ${{ vars.INSTALLERTOOLS_UPDATE == 'true' }}
-      run: sed -i -E "s/net.minecraftforge:installertools:[^\":]*/net.minecraftforge:installertools:$INSTALLERTOOLS_VERSION/g" $CONFIG
+      run: sed -i -E "s/net.neoforged.installertools:installertools:[^\":]*/net.neoforged.installertools:installertools:$INSTALLERTOOLS_VERSION/g" $CONFIG
       env:
         INSTALLERTOOLS_VERSION: ${{ steps.lib-versions.outputs.installertools }}
         CONFIG: versions/${{ inputs.new_version }}/config.json
