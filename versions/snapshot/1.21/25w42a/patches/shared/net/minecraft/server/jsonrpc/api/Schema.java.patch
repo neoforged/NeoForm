@@ -1,6 +1,11 @@
 --- a/net/minecraft/server/jsonrpc/api/Schema.java
 +++ b/net/minecraft/server/jsonrpc/api/Schema.java
-@@ -39,15 +39,15 @@
+@@ -35,19 +35,19 @@
+ public record Schema<T>(
+     Optional<URI> reference, List<String> type, Optional<Schema<?>> items, Map<String, Schema<?>> properties, List<String> enumValues, Codec<T> codec
+ ) {
+-    public static final Codec<? extends Schema<?>> CODEC = Codec.recursive(
++    public static final Codec<? extends Schema<?>> CODEC = Codec.<Schema<?>>recursive(
              "Schema",
              p_451634_ -> RecordCodecBuilder.create(
                  p_457376_ -> p_457376_.group(
