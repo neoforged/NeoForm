@@ -1,0 +1,11 @@
+--- a/net/minecraft/server/jsonrpc/methods/GameRulesService.java
++++ b/net/minecraft/server/jsonrpc/methods/GameRulesService.java
+@@ -17,7 +17,7 @@
+         List<GameRulesService.TypedRule> list1 = new ArrayList<>();
+ 
+         for (GameRules.Key<?> key : list) {
+-            GameRules.Value<?> value = p_443431_.gameRuleService().getRule((GameRules.Key<GameRules.Value<?>>)key);
++            GameRules.Value<?> value = p_443431_.gameRuleService().getRule(key);
+             list1.add(getTypedRule(p_443431_, key.getId(), value));
+         }
+ 
