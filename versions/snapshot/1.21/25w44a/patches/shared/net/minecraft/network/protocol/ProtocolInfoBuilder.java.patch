@@ -1,6 +1,6 @@
 --- a/net/minecraft/network/protocol/ProtocolInfoBuilder.java
 +++ b/net/minecraft/network/protocol/ProtocolInfoBuilder.java
-@@ -42,7 +42,7 @@
+@@ -41,7 +41,7 @@
          PacketType<P> p_320954_, Function<Iterable<Packet<? super T>>, P> p_320241_, D p_320202_
      ) {
          StreamCodec<ByteBuf, D> streamcodec = StreamCodec.unit(p_320202_);

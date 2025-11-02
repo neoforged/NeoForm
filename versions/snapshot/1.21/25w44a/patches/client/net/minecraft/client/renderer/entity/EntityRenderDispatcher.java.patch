@@ -1,6 +1,6 @@
 --- a/net/minecraft/client/renderer/entity/EntityRenderDispatcher.java
 +++ b/net/minecraft/client/renderer/entity/EntityRenderDispatcher.java
-@@ -93,9 +93,9 @@
+@@ -92,9 +92,9 @@
      public <T extends Entity> EntityRenderer<? super T, ?> getRenderer(T p_114383_) {
          return (EntityRenderer<? super T, ?>)(switch (p_114383_) {
              case AbstractClientPlayer abstractclientplayer -> this.getAvatarRenderer(

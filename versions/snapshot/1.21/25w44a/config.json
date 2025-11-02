@@ -6,10 +6,11 @@
     "test_remap_official": false,
     "only_include_parameter_mappings": true,
     "fernflower": {
-        "version": "org.vineflower:vineflower:1.11.1",
+        "version": "org.vineflower:vineflower:1.11.2-20251102.044931-1",
         "java_version": 21,
         "args": ["--decompile-inner", "--remove-bridge", "--decompile-generics", "--ascii-strings", "--remove-synthetic", "--include-classpath", "--variable-renaming=jad", "--ignore-invalid-bytecode", "--bytecode-source-mapping", "--dump-code-lines", "--indent-string=    ", "--log-level=TRACE", "-cfg", "{libraries}", "{input}", "{output}"],
-        "jvmargs": ["-Xmx4G"]
+        "jvmargs": ["-Xmx4G"],
+        "repo": "https://central.sonatype.com/repository/maven-snapshots/"
     },
     "merge": {
         "version": "net.neoforged:mergetool:2.0.7:fatjar",

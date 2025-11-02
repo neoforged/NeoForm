@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/biome/MobSpawnSettings.java
 +++ b/net/minecraft/world/level/biome/MobSpawnSettings.java
-@@ -112,7 +112,7 @@
+@@ -111,7 +111,7 @@
      public record SpawnerData(EntityType<?> type, int minCount, int maxCount) {
          public static final MapCodec<MobSpawnSettings.SpawnerData> CODEC = RecordCodecBuilder.<MobSpawnSettings.SpawnerData>mapCodec(
                  p_393316_ -> p_393316_.group(
