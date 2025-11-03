@@ -96,6 +96,7 @@ jobs:
         env:
           OLD_VERSION_INFO: ${{ needs.check.outputs.old_version }}
           NEW_VERSION_INFO: ${{ needs.check.outputs.new_version }}
+          AUTO_PUBLISH: ${{ vars.AUTO_PUBLISH }}
         with:
           script: |
             const oldVersionInfo = JSON.parse(process.env.OLD_VERSION_INFO);
@@ -123,7 +124,7 @@ jobs:
             var inputs = {}
             inputs.old_version = getVersionPrefix(oldVersionInfo) + oldVersionInfo.version;
             inputs.new_version = getVersionPrefix(newVersionInfo) + newVersionInfo.version;
-            inputs.publish = true
+            inputs.publish = process.env.AUTO_PUBLISH
             
             var oldBranch = getBranch(oldVersionInfo);
             var newBranch = getBranch(newVersionInfo);
