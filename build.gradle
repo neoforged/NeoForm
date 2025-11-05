@@ -744,6 +744,15 @@ subprojects {
                     functions_def.remove('rename')
                     functions_def.remove('mergeMappings')
                 }
+                for (def side : steps_def.values()) {
+                    def steps = ['downloadClient', 'downloadServer', 'downloadClientMappings']
+                    for (def step : steps) {
+                        def definition = side.find { step.equals(it.type) }
+                        if (definition) {
+                            definition['json'] = '{downloadJsonOutput}'
+                        }
+                    }
+                }
                 
                 json {
                     spec specVer
