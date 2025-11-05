@@ -12,4 +12,4 @@
 +                    case "minecraft:tropical_fish_bucket" -> p_397051_.updateTyped(opticfinder1, (Fixer)EntitySpawnerItemVariantComponentFix::fixTropicalFishBucket);
                      case "minecraft:painting" -> p_397051_.updateTyped(
                          opticfinder1,
-                         p_398017_ -> Util.writeAndReadTypedOrThrow(p_398017_, p_398017_.getType(), EntitySpawnerItemVariantComponentFix::fixPainting)
+                         p_466459_ -> Util.writeAndReadTypedOrThrow(p_466459_, p_466459_.getType(), EntitySpawnerItemVariantComponentFix::fixPainting)

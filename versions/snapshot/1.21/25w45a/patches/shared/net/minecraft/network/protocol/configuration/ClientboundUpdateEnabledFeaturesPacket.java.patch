@@ -4,8 +4,8 @@
      );
  
      private ClientboundUpdateEnabledFeaturesPacket(FriendlyByteBuf p_295459_) {
--        this(p_295459_.readCollection(HashSet::new, FriendlyByteBuf::readResourceLocation));
-+        this(p_295459_.<ResourceLocation, Set<ResourceLocation>>readCollection(HashSet::new, FriendlyByteBuf::readResourceLocation));
+-        this(p_295459_.readCollection(HashSet::new, FriendlyByteBuf::readIdentifier));
++        this(p_295459_.<Identifier, Set<Identifier>>readCollection(HashSet::new, FriendlyByteBuf::readIdentifier));
      }
  
      private void write(FriendlyByteBuf p_294891_) {

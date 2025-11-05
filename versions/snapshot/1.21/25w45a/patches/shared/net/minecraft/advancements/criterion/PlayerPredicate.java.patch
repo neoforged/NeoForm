@@ -1,11 +1,11 @@
---- a/net/minecraft/advancements/critereon/PlayerPredicate.java
-+++ b/net/minecraft/advancements/critereon/PlayerPredicate.java
+--- a/net/minecraft/advancements/criterion/PlayerPredicate.java
++++ b/net/minecraft/advancements/criterion/PlayerPredicate.java
 @@ -242,11 +242,11 @@
-         private static <T> MapCodec<PlayerPredicate.StatMatcher<T>> createTypedCodec(StatType<T> p_299086_) {
+         private static <T> MapCodec<PlayerPredicate.StatMatcher<T>> createTypedCodec(StatType<T> p_467814_) {
              return RecordCodecBuilder.mapCodec(
-                 p_337389_ -> p_337389_.group(
--                        (App<Mu<? extends PlayerPredicate.StatMatcher<?>>, Holder<T>>)p_299086_.getRegistry()
-+                        p_299086_.getRegistry()
+                 p_469532_ -> p_469532_.group(
+-                        (App<Mu<? extends PlayerPredicate.StatMatcher<?>>, Holder<T>>)p_467814_.getRegistry()
++                        p_467814_.getRegistry()
                              .holderByNameCodec()
                              .fieldOf("stat")
                              .forGetter(PlayerPredicate.StatMatcher::value),

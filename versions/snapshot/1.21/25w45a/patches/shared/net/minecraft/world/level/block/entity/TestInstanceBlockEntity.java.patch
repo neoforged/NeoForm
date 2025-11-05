@@ -4,8 +4,8 @@
      }
  
      public Component getTestName() {
--        return this.test().map(p_397722_ -> Component.literal(p_397722_.location().toString())).orElse(INVALID_TEST_NAME);
-+        return this.test().map(p_397722_ -> (Component)Component.literal(p_397722_.location().toString())).orElse(INVALID_TEST_NAME);
+-        return this.test().map(p_466696_ -> Component.literal(p_466696_.identifier().toString())).orElse(INVALID_TEST_NAME);
++        return this.test().map(p_466696_ -> (Component)Component.literal(p_466696_.identifier().toString())).orElse(INVALID_TEST_NAME);
      }
  
      private Optional<Holder.Reference<GameTestInstance>> getTestHolder() {

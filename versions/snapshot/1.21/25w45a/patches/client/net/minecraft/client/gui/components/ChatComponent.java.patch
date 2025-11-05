@@ -1,6 +1,6 @@
 --- a/net/minecraft/client/gui/components/ChatComponent.java
 +++ b/net/minecraft/client/gui/components/ChatComponent.java
-@@ -393,7 +393,7 @@
+@@ -400,7 +400,7 @@
      }
  
      public void openScreen(ChatComponent.ChatMethod p_437427_, ChatScreen.ChatConstructor<?> p_437274_) {
@@ -9,7 +9,7 @@
      }
  
      public void preserveCurrentChatScreen() {
-@@ -463,7 +463,7 @@
+@@ -470,7 +470,7 @@
          COMMAND("/") {
              @Override
              public boolean isDraftRestorable(ChatComponent.Draft p_437306_) {

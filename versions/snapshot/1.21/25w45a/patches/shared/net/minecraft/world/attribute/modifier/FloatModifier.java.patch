@@ -1,7 +1,7 @@
 --- a/net/minecraft/world/attribute/modifier/FloatModifier.java
 +++ b/net/minecraft/world/attribute/modifier/FloatModifier.java
-@@ -15,11 +15,11 @@
-             return FloatWithAlpha.CODEC;
+@@ -23,11 +23,11 @@
+             );
          }
      };
 -    FloatModifier<Float> ADD = Float::sum;

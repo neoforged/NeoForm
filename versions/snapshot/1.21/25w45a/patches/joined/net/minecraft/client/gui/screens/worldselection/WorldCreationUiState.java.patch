@@ -4,8 +4,8 @@
          public Component describePreset() {
              return Optional.ofNullable(this.preset)
                  .flatMap(Holder::unwrapKey)
--                .map(p_268048_ -> Component.translatable(p_268048_.location().toLanguageKey("generator")))
-+                .map(p_268048_ -> (Component) Component.translatable(p_268048_.location().toLanguageKey("generator")))
+-                .map(p_465546_ -> Component.translatable(p_465546_.identifier().toLanguageKey("generator")))
++                .map(p_465546_ -> (Component) Component.translatable(p_465546_.identifier().toLanguageKey("generator")))
                  .orElse(CUSTOM_WORLD_DESCRIPTION);
          }
  
