@@ -1,54 +1,42 @@
+pluginManagement {
+    includeBuild '../neoform-gradle-plugin'
+}
+
 plugins {
-    id 'org.gradle.toolchains.foojay-resolver-convention' version '1.0.0'
+    id 'net.neoforged.neoform'
 }
 
-rootProject.name = 'neoform'
+neoForm {
+    minecraftVersion = '25w45a_unobfuscated'
+    minecraftVersionManifestUrl = 'https://piston-data.mojang.com/v1/objects/de334d80d9ddc5abb94c611b8ad10f9125c4c421/25w45a_unobfuscated.zip'
+    minecraftDependencies = [
+            'net.neoforged:minecraft-dependencies:25w45a'
+    ]
 
-ext.versions = [] as Set
+    additionalCompileDependencies = [
+        'net.neoforged:mergetool:2.0.7:api',
+        'com.google.code.findbugs:jsr305:3.0.2',
+        'org.jetbrains:annotations:26.0.2-1'
+    ]
 
-def addDirectory(path) {
-    path.eachDir() {
-        def relative = rootDir.toPath().relativize(it.toPath()).toFile()
-        include relative.path
-        project(':' + relative.path).name = it.name
-        versions.add(it.name)
+    decompiler {
+        classpath = [
+                'org.vineflower:vineflower:1.11.2'
+        ]
+        jvmArgs = [
+                '-Xmx4g'
+        ]
+        args = [
+                '--decompile-inner',
+                '--remove-bridge',
+                '--decompile-generics',
+                '--ascii-strings',
+                '--remove-synthetic',
+                '--include-classpath',
+                '--ignore-invalid-bytecode',
+                '--bytecode-source-mapping',
+                '--dump-code-lines',
+                '--indent-string=    '
+        ]
     }
 }
-
-ext.local = new Properties()
-if (file('local.properties').exists()) {
-    local.load(file('local.properties').newDataInputStream())
-}
-
-def hasLocalProperty(name) {
-    return local.containsKey(name) || hasProperty(name)
-}
-
-def getLocalProperty(name) {
-    return local.getProperty(name) ?: getProperty(name)
-}
-
-def type = hasLocalProperty('type') ? getLocalProperty('type').toLowerCase() : 'release'
-
-if ('release'.equals(type)) {
-    addDirectory(new File(rootDir, 'versions/release/'))
-} else if ('snapshot'.equals(type)) {
-    if (hasLocalProperty('ver')) {
-        addDirectory(new File(rootDir, 'versions/snapshot/' + getLocalProperty('ver')))
-    } else {
-        new File(rootDir, 'versions/snapshot/').eachDir() {
-            addDirectory(it)
-        }
-    }
-} else if ('pre'.equals(type)) {
-    if (hasLocalProperty('ver')) {
-        addDirectory(new File(rootDir, 'versions/pre/' + getLocalProperty('ver')))
-    } else {
-        new File(rootDir, 'versions/pre/').eachDir() {
-            addDirectory(it)
-        }
-    }
-}
-
-println('Versions: ' + versions)
-

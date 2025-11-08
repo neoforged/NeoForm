@@ -1,2 +1,0 @@
-#net/minecraft/world/storage/FolderNames net/minecraft/world/storage/FolderName
-#net/minecraft/world/gen/DimensionSettings$Presets net/minecraft/world/gen/DimensionSettings$Preset
