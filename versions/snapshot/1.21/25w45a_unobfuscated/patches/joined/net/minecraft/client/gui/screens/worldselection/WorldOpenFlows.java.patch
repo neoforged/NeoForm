@@ -6,6 +6,6 @@
  
 -        return this.loadWorldDataBlocking(
 +        return this.<Data, Pair<LevelSettings, WorldCreationContext>>loadWorldDataBlocking(
-             worldloader$packconfig,
-             p_359114_ -> {
-                 Registry<LevelStem> registry = new MappedRegistry<>(Registries.LEVEL_STEM, Lifecycle.stable()).freeze();
+             packConfig,
+             context -> {
+                 Registry<LevelStem> noDatapackDimensions = new MappedRegistry<>(Registries.LEVEL_STEM, Lifecycle.stable()).freeze();

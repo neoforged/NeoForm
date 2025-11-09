@@ -4,8 +4,8 @@
                  }
              });
          } else {
--            return (Executor)(TracyClient.isAvailable() ? p_372837_ -> this.service.execute(() -> {
-+            return (Executor)(TracyClient.isAvailable() ? (Executor) p_372837_ -> this.service.execute(() -> {
-                 try (Zone zone = TracyClient.beginZone(p_372983_, SharedConstants.IS_RUNNING_IN_IDE)) {
-                     p_372837_.run();
+-            return (Executor)(TracyClient.isAvailable() ? command -> this.service.execute(() -> {
++            return (Executor)(TracyClient.isAvailable() ? (Executor)command -> this.service.execute(() -> {
+                 try (Zone ignored = TracyClient.beginZone(name, SharedConstants.IS_RUNNING_IN_IDE)) {
+                     command.run();
                  }

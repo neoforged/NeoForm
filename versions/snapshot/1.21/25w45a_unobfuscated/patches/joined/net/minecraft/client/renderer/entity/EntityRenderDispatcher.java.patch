@@ -1,14 +1,13 @@
 --- a/net/minecraft/client/renderer/entity/EntityRenderDispatcher.java
 +++ b/net/minecraft/client/renderer/entity/EntityRenderDispatcher.java
-@@ -95,9 +95,9 @@
-     public <T extends Entity> EntityRenderer<? super T, ?> getRenderer(T p_114383_) {
-         return (EntityRenderer<? super T, ?>)(switch (p_114383_) {
-             case AbstractClientPlayer abstractclientplayer -> this.getAvatarRenderer(
--                (Map<PlayerModelType, AvatarRenderer<T>>)this.playerRenderers, (T)abstractclientplayer
-+                this.playerRenderers, abstractclientplayer
-             );
--            case ClientMannequin clientmannequin -> this.getAvatarRenderer((Map<PlayerModelType, AvatarRenderer<T>>)this.mannequinRenderers, (T)clientmannequin);
-+            case ClientMannequin clientmannequin -> this.getAvatarRenderer(this.mannequinRenderers, clientmannequin);
-             default -> (EntityRenderer)this.renderers.get(p_114383_.getType());
+@@ -91,8 +91,8 @@
+ 
+     public <T extends Entity> EntityRenderer<? super T, ?> getRenderer(final T entity) {
+         return (EntityRenderer<? super T, ?>)(switch (entity) {
+-            case AbstractClientPlayer player -> this.getAvatarRenderer((Map<PlayerModelType, AvatarRenderer<T>>)this.playerRenderers, (T)player);
+-            case ClientMannequin mannequin -> this.getAvatarRenderer((Map<PlayerModelType, AvatarRenderer<T>>)this.mannequinRenderers, (T)mannequin);
++            case AbstractClientPlayer player -> this.getAvatarRenderer(this.playerRenderers, player);
++            case ClientMannequin mannequin -> this.getAvatarRenderer(this.mannequinRenderers, mannequin);
+             default -> (EntityRenderer)this.renderers.get(entity.getType());
          });
      }

@@ -1,11 +1,11 @@
 --- a/com/mojang/blaze3d/opengl/GlProgram.java
 +++ b/com/mojang/blaze3d/opengl/GlProgram.java
-@@ -70,7 +70,7 @@
-         for (RenderPipeline.UniformDescription renderpipeline$uniformdescription : p_410553_) {
-             String s = renderpipeline$uniformdescription.name();
+@@ -76,7 +76,7 @@
+         for (RenderPipeline.UniformDescription uniformDescription : uniforms) {
+             String uniformName = uniformDescription.name();
  
--            Object object1 = switch (renderpipeline$uniformdescription.type()) {
-+            Object object = switch (renderpipeline$uniformdescription.type()) {
+-            Object var10000_1 = switch (uniformDescription.type()) {
++            Object var10000 = switch (uniformDescription.type()) {
                  case UNIFORM_BUFFER -> {
-                     int j2 = GL31.glGetUniformBlockIndex(this.programId, s);
-                     if (j2 == -1) {
+                     int index = GL31.glGetUniformBlockIndex(this.programId, uniformName);
+                     if (index == -1) {

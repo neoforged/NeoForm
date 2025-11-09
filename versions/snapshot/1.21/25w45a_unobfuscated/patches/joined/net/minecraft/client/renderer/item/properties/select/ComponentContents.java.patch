@@ -1,11 +1,11 @@
 --- a/net/minecraft/client/renderer/item/properties/select/ComponentContents.java
 +++ b/net/minecraft/client/renderer/item/properties/select/ComponentContents.java
-@@ -23,7 +23,7 @@
-         Codec<? extends DataComponentType<?>> codec = BuiltInRegistries.DATA_COMPONENT_TYPE
+@@ -20,7 +20,7 @@
+         Codec<? extends DataComponentType<?>> rawComponentCodec = BuiltInRegistries.DATA_COMPONENT_TYPE
              .byNameCodec()
-             .validate(p_398049_ -> p_398049_.isTransient() ? DataResult.error(() -> "Component can't be serialized") : DataResult.success(p_398049_));
--        MapCodec<SelectItemModel.UnbakedSwitch<ComponentContents<T>, T>> mapcodec = codec.dispatchMap(
-+        MapCodec<SelectItemModel.UnbakedSwitch<ComponentContents<T>, T>> mapcodec = ((Codec<DataComponentType<T>>)codec).dispatchMap(
+             .validate(t -> t.isTransient() ? DataResult.error(() -> "Component can't be serialized") : DataResult.success(t));
+-        MapCodec<SelectItemModel.UnbakedSwitch<ComponentContents<T>, T>> switchCodec = rawComponentCodec.dispatchMap(
++        MapCodec<SelectItemModel.UnbakedSwitch<ComponentContents<T>, T>> switchCodec = ((Codec<DataComponentType<T>>)rawComponentCodec).dispatchMap(
              "component",
-             p_397332_ -> p_397332_.property().componentType,
-             p_397367_ -> SelectItemModelProperty.Type.createCasesFieldCodec(p_397367_.codecOrThrow())
+             switchObject -> switchObject.property().componentType,
+             componentType -> SelectItemModelProperty.Type.createCasesFieldCodec(componentType.codecOrThrow())

@@ -2,16 +2,16 @@
 +++ b/net/minecraft/world/entity/AgeableMob.java
 @@ -69,12 +69,13 @@
  
-     public void ageUp(int p_146741_, boolean p_146742_) {
-         int i = this.getAge();
-+        int k = i;
-         i += p_146741_ * 20;
-         if (i > 0) {
-             i = 0;
+     public void ageUp(final int seconds, final boolean forced) {
+         int age = this.getAge();
++        int oldAge = age;
+         age += seconds * 20;
+         if (age > 0) {
+             age = 0;
          }
  
--        int j = i - i;
-+        int j = i - k;
-         this.setAge(i);
-         if (p_146742_) {
-             this.forcedAge += j;
+-        int delta = age - age;
++        int delta = age - oldAge;
+         this.setAge(age);
+         if (forced) {
+             this.forcedAge += delta;

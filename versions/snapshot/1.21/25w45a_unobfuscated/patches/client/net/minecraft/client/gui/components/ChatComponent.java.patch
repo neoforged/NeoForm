@@ -3,18 +3,9 @@
 @@ -400,7 +400,7 @@
      }
  
-     public void openScreen(ChatComponent.ChatMethod p_437427_, ChatScreen.ChatConstructor<?> p_437274_) {
--        this.minecraft.setScreen(this.createScreen(p_437427_, (ChatScreen.ChatConstructor<Screen>)p_437274_));
-+        this.minecraft.setScreen(this.createScreen(p_437427_, p_437274_));
+     public void openScreen(final ChatComponent.ChatMethod chatMethod, final ChatScreen.ChatConstructor<?> chat) {
+-        this.minecraft.setScreen(this.createScreen(chatMethod, (ChatScreen.ChatConstructor<Screen>)chat));
++        this.minecraft.setScreen(this.createScreen(chatMethod, chat));
      }
  
      public void preserveCurrentChatScreen() {
-@@ -470,7 +470,7 @@
-         COMMAND("/") {
-             @Override
-             public boolean isDraftRestorable(ChatComponent.Draft p_437306_) {
--                return this == p_437306_.chatMethod;
-+                return this == p_437306_.chatMethod();
-             }
-         };
- 

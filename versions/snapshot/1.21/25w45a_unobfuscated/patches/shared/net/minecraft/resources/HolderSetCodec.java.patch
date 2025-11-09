@@ -1,11 +1,11 @@
 --- a/net/minecraft/resources/HolderSetCodec.java
 +++ b/net/minecraft/resources/HolderSetCodec.java
-@@ -64,7 +64,7 @@
+@@ -66,7 +66,7 @@
  
-     private static <E> DataResult<HolderSet<E>> lookupTag(HolderGetter<E> p_332757_, TagKey<E> p_332743_) {
-         return p_332757_.get(p_332743_)
+     private static <E> DataResult<HolderSet<E>> lookupTag(final HolderGetter<E> registry, final TagKey<E> key) {
+         return registry.get(key)
 -            .map(DataResult::success)
 +            .<DataResult<HolderSet<E>>>map(DataResult::success)
-             .orElseGet(() -> DataResult.error(() -> "Missing tag: '" + p_332743_.location() + "' in '" + p_332743_.registry().identifier() + "'"));
+             .orElseGet(() -> DataResult.error(() -> "Missing tag: '" + key.location() + "' in '" + key.registry().identifier() + "'"));
      }
  

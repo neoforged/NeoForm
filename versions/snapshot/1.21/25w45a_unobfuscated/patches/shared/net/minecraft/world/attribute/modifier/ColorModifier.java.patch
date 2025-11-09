@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/attribute/modifier/ColorModifier.java
 +++ b/net/minecraft/world/attribute/modifier/ColorModifier.java
-@@ -26,10 +26,10 @@
+@@ -25,10 +25,10 @@
              return LerpFunction.ofColor();
          }
      };
@@ -13,5 +13,5 @@
 +    ColorModifier<Integer> MULTIPLY_RGB = (RgbModifier) ARGB::multiply;
 +    ColorModifier<Integer> MULTIPLY_ARGB = (ArgbModifier) ARGB::multiply;
      ColorModifier<ColorModifier.BlendToGray> BLEND_TO_GRAY = new ColorModifier<ColorModifier.BlendToGray>() {
-         public Integer apply(Integer p_467013_, ColorModifier.BlendToGray p_468333_) {
-             int i = ARGB.scaleRGB(ARGB.greyscale(p_467013_), p_468333_.brightness);
+         public Integer apply(final Integer subject, final ColorModifier.BlendToGray argument) {
+             int multipliedGreyscale = ARGB.scaleRGB(ARGB.greyscale(subject), argument.brightness);

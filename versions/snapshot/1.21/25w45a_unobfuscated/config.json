@@ -14,9 +14,10 @@
         "jvmargs": ["-Xmx4G"]
     },
     "merge": {
-        "version": "net.neoforged:mergetool:2.0.7:fatjar",
+        "version": "net.neoforged:mergetool:2.0.9-pr-7-remove-interface-sort:fatjar",
         "args": ["--client", "{client}", "--server", "{server}", "--ann", "{version}", "--output", "{output}", "--inject", "false"],
-        "jvmargs": []
+        "jvmargs": [],
+        "repo": "https://prmaven.neoforged.net/MergeTool/pr7"
     },
     "bundler_extract_jar": {
         "version": "net.neoforged.installertools:installertools:3.0.14:fatjar",

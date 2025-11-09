@@ -3,9 +3,9 @@
 @@ -56,7 +56,7 @@
      }
  
-     private static OperationArgument.Operation getOperation(String p_103282_) throws CommandSyntaxException {
--        return (OperationArgument.Operation)(p_103282_.equals("><") ? (p_313447_, p_313448_) -> {
-+        return (p_103282_.equals("><") ? (p_313447_, p_313448_) -> {
-             int i = p_313447_.get();
-             p_313447_.set(p_313448_.get());
-             p_313448_.set(i);
+     private static OperationArgument.Operation getOperation(final String op) throws CommandSyntaxException {
+-        return (OperationArgument.Operation)(op.equals("><") ? (a, b) -> {
++        return (OperationArgument.Operation)(op.equals("><") ? (OperationArgument.Operation)(a, b) -> {
+             int swap = a.get();
+             a.set(b.get());
+             b.set(swap);

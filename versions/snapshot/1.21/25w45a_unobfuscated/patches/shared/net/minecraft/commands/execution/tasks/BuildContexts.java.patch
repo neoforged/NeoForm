@@ -1,28 +1,28 @@
 --- a/net/minecraft/commands/execution/tasks/BuildContexts.java
 +++ b/net/minecraft/commands/execution/tasks/BuildContexts.java
-@@ -52,7 +52,8 @@
+@@ -54,7 +54,8 @@
                      }
  
-                     RedirectModifier<T> redirectmodifier = commandcontext.getRedirectModifier();
--                    if (redirectmodifier instanceof CustomModifierExecutor<T> custommodifierexecutor) {
-+                    if (redirectmodifier instanceof CustomModifierExecutor<?>) {
-+                        CustomModifierExecutor<T> custommodifierexecutor = (CustomModifierExecutor<T>) redirectmodifier;
-                         custommodifierexecutor.apply(p_309567_, list, contextchain, chainmodifiers, ExecutionControl.create(p_305977_, p_309603_));
+                     RedirectModifier<T> modifier = contextToRun.getRedirectModifier();
+-                    if (modifier instanceof CustomModifierExecutor<T> customModifierExecutor) {
++                    if (modifier instanceof CustomModifierExecutor<?>) {
++                        CustomModifierExecutor<T> customModifierExecutor = (CustomModifierExecutor<T>) modifier;
+                         customModifierExecutor.apply(originalSource, currentSources, currentStage, modifiers, ExecutionControl.create(context, frame));
                          return;
                      }
-@@ -89,11 +90,13 @@
+@@ -91,11 +92,13 @@
  
-         if (list.isEmpty()) {
-             if (chainmodifiers.isReturn()) {
--                p_305977_.queueNext(new CommandQueueEntry<>(p_309603_, FallthroughTask.instance()));
-+                p_305977_.queueNext(new CommandQueueEntry<T>(p_309603_, FallthroughTask.instance()));
+         if (currentSources.isEmpty()) {
+             if (modifiers.isReturn()) {
+-                context.queueNext(new CommandQueueEntry<>(frame, FallthroughTask.instance()));
++                context.queueNext(new CommandQueueEntry<T>(frame, FallthroughTask.instance()));
              }
          } else {
-             CommandContext<T> commandcontext1 = contextchain.getTopContext();
--            if (commandcontext1.getCommand() instanceof CustomCommandExecutor<T> customcommandexecutor) {
-+            com.mojang.brigadier.Command<T> command = commandcontext1.getCommand();
+             CommandContext<T> executeContext = currentStage.getTopContext();
+-            if (executeContext.getCommand() instanceof CustomCommandExecutor<T> customCommandExecutor) {
++            com.mojang.brigadier.Command<T> command = executeContext.getCommand();
 +            if (command instanceof CustomCommandExecutor<?>) {
-+                CustomCommandExecutor<T> customcommandexecutor = (CustomCommandExecutor<T>) command;
-                 ExecutionControl<T> executioncontrol = ExecutionControl.create(p_305977_, p_309603_);
++                CustomCommandExecutor<T> customCommandExecutor = (CustomCommandExecutor<T>) command;
+                 ExecutionControl<T> executionControl = ExecutionControl.create(context, frame);
  
-                 for (T t2 : list) {
+                 for (T executionSource : currentSources) {

@@ -3,16 +3,16 @@
 @@ -116,7 +116,7 @@
      }
  
-     public static <StoredEntityType extends UniquelyIdentifyable> @Nullable EntityReference<StoredEntityType> read(ValueInput p_421654_, String p_394012_) {
--        return p_421654_.read(p_394012_, codec()).orElse(null);
-+        return p_421654_.read(p_394012_, EntityReference.<StoredEntityType>codec()).orElse(null);
+     public static <StoredEntityType extends UniquelyIdentifyable> @Nullable EntityReference<StoredEntityType> read(final ValueInput input, final String key) {
+-        return input.read(key, codec()).orElse(null);
++        return input.read(key, EntityReference.<StoredEntityType>codec()).orElse(null);
      }
  
      public static <StoredEntityType extends UniquelyIdentifyable> @Nullable EntityReference<StoredEntityType> readWithOldOwnerConversion(
 @@ -127,7 +127,7 @@
-             ? of(optional.get())
-             : p_422383_.getString(p_394543_)
-                 .map(p_409192_ -> OldUsersConverter.convertMobOwnerIfNecessary(p_393661_.getServer(), p_409192_))
+             ? of(uuid.get())
+             : input.getString(key)
+                 .map(oldName -> OldUsersConverter.convertMobOwnerIfNecessary(level.getServer(), oldName))
 -                .map(EntityReference::new)
 +                .map(EntityReference<StoredEntityType>::new)
                  .orElse(null);

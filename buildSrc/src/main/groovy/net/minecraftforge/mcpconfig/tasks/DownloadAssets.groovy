@@ -63,7 +63,7 @@ abstract class DownloadAssets extends DefaultTask {
             spec.args(
                     "download-assets",
                     "--minecraft-version",
-                    minecraftVersion.get(),
+                    minecraftVersion.get().replace("_unobfuscated", ""),
                     "--write-json",
                     assetJson.get().asFile.getAbsolutePath()
             );

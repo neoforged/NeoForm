@@ -3,9 +3,9 @@
 @@ -27,7 +27,7 @@
  
      @Override
-     public ListBuilder<T> add(T p_412702_) {
--        this.builder = this.builder.map(p_412090_ -> (T)this.append((B)p_412090_, p_412702_));
-+        this.builder = this.builder.map(p_412090_ -> this.append((B)p_412090_, p_412702_));
+     public ListBuilder<T> add(final T value) {
+-        this.builder = this.builder.map(b -> (T)this.append((B)b, value));
++        this.builder = this.builder.map(b -> this.append((B)b, value));
          return this;
      }
  
