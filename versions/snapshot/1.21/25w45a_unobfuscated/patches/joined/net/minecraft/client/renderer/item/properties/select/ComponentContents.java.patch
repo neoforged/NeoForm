@@ -1,6 +1,6 @@
 --- a/net/minecraft/client/renderer/item/properties/select/ComponentContents.java
 +++ b/net/minecraft/client/renderer/item/properties/select/ComponentContents.java
-@@ -20,7 +20,7 @@
+@@ -23,7 +23,7 @@
          Codec<? extends DataComponentType<?>> rawComponentCodec = BuiltInRegistries.DATA_COMPONENT_TYPE
              .byNameCodec()
              .validate(t -> t.isTransient() ? DataResult.error(() -> "Component can't be serialized") : DataResult.success(t));

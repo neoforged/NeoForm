@@ -1,6 +1,6 @@
 --- a/net/minecraft/client/renderer/LevelEventHandler.java
 +++ b/net/minecraft/client/renderer/LevelEventHandler.java
-@@ -403,11 +403,11 @@
+@@ -406,11 +406,11 @@
                  break;
              case 2004:
                  for (int i = 0; i < 20; i++) {
