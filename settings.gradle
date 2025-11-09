@@ -20,8 +20,10 @@ neoForm {
     ]
 
     decompiler {
-        classpath = [
-                'org.vineflower:vineflower:1.11.2'
+        toolDependency = 'org.vineflower:vineflower:1.11.2'
+        pluginDependencies = [
+                'org.vineflower:vineflower:1.11.2',
+                files("Z:\\vf-unfinal\\build\\libs\\vf-unfinal-1.0-SNAPSHOT.jar")
         ]
         jvmArgs = [
                 '-Xmx4g'

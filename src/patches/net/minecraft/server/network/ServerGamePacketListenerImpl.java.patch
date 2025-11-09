@@ -1,45 +1,11 @@
 --- a/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 +++ b/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-@@ -461,6 +461,7 @@
-                 }
- 
-                 entity.move(MoverType.PLAYER, new Vec3(d6, d7, d8));
-+                double d11 = d7;
-                 d6 = d3 - entity.getX();
-                 d7 = d4 - entity.getY();
-                 if (d7 > -0.5 || d7 < 0.5) {
-@@ -489,7 +490,7 @@
-                 entity.setOnGroundWithMovement(p_9876_.onGround(), vec3);
-                 entity.doCheckFallDamage(vec3.x, vec3.y, vec3.z, p_9876_.onGround());
-                 this.player.checkMovementStatistics(vec3.x, vec3.y, vec3.z);
--                this.clientVehicleIsFloating = d7 >= -0.03125
-+                this.clientVehicleIsFloating = d11 >= -0.03125
-                     && !flag
-                     && !this.server.allowFlight()
-                     && !entity.isFlyingVehicle()
-@@ -961,7 +962,7 @@
-         if (itemstack.has(DataComponents.WRITABLE_BOOK_CONTENT)) {
-             ItemStack itemstack1 = itemstack.transmuteCopy(Items.WRITTEN_BOOK);
-             itemstack1.remove(DataComponents.WRITABLE_BOOK_CONTENT);
--            List<Filterable<Component>> list = p_215210_.stream().map(p_329965_ -> this.filterableFromOutgoing(p_329965_).map(Component::literal)).toList();
-+            List<Filterable<Component>> list = p_215210_.stream().map(p_329965_ -> this.filterableFromOutgoing(p_329965_).<Component>map(Component::literal)).toList();
-             itemstack1.set(
-                 DataComponents.WRITTEN_BOOK_CONTENT,
-                 new WrittenBookContent(this.filterableFromOutgoing(p_215209_), this.player.getPlainTextName(), 0, list, true)
-@@ -1082,6 +1083,7 @@
- 
-                                 boolean flag1 = this.player.verticalCollisionBelow;
-                                 this.player.move(MoverType.PLAYER, new Vec3(d6, d7, d8));
-+                                double d11 = d7;
-                                 d6 = d0 - this.player.getX();
-                                 d7 = d1 - this.player.getY();
-                                 if (d7 > -0.5 || d7 < 0.5) {
-@@ -1106,7 +1108,7 @@
-                                         && !this.isEntityCollidingWithAnythingNew(serverlevel, this.player, aabb, d0, d1, d2)) {
-                                     this.player.absSnapTo(d0, d1, d2, f, f1);
-                                     boolean flag3 = this.player.isAutoSpinAttack();
--                                    this.clientIsFloating = d7 >= -0.03125
-+                                    this.clientIsFloating = d11 >= -0.03125
-                                         && !flag1
-                                         && !this.player.isSpectator()
-                                         && !this.server.allowFlight()
+@@ -956,7 +_,7 @@
+         if (carried.has(DataComponents.WRITABLE_BOOK_CONTENT)) {
+             ItemStack writtenBook = carried.transmuteCopy(Items.WRITTEN_BOOK);
+             writtenBook.remove(DataComponents.WRITABLE_BOOK_CONTENT);
+-            List<Filterable<Component>> pages = contents.stream().map(page -> this.filterableFromOutgoing(page).map(Component::literal)).toList();
++            List<Filterable<Component>> pages = contents.stream().map(page -> this.filterableFromOutgoing(page).<Component>map(Component::literal)).toList();
+             writtenBook.set(
+                 DataComponents.WRITTEN_BOOK_CONTENT, new WrittenBookContent(this.filterableFromOutgoing(title), this.player.getPlainTextName(), 0, pages, true)
+             );

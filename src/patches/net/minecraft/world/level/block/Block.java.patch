@@ -1,11 +1,11 @@
 --- a/net/minecraft/world/level/block/Block.java
 +++ b/net/minecraft/world/level/block/Block.java
-@@ -581,7 +581,7 @@
+@@ -571,7 +_,7 @@
      }
  
-     private static <S extends StateHolder<?, S>, T extends Comparable<T>> S setValueHelper(S p_394311_, Property<T> p_394352_, Object p_394525_) {
--        return p_394311_.setValue(p_394352_, (Comparable)p_394525_);
-+        return p_394311_.setValue(p_394352_, (T)p_394525_);
+     private static <S extends StateHolder<?, S>, T extends Comparable<T>> S setValueHelper(S state, Property<T> property, Object value) {
+-        return state.setValue(property, (Comparable)value);
++        return state.setValue(property, (T) value);
      }
  
      @Deprecated

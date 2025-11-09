@@ -1,10 +1,10 @@
 --- a/net/minecraft/world/level/block/BaseEntityBlock.java
 +++ b/net/minecraft/world/level/block/BaseEntityBlock.java
-@@ -35,6 +35,6 @@
+@@ -35,6 +_,6 @@
      protected static <E extends BlockEntity, A extends BlockEntity> @Nullable BlockEntityTicker<A> createTickerHelper(
-         BlockEntityType<A> p_152133_, BlockEntityType<E> p_152134_, BlockEntityTicker<? super E> p_152135_
+         BlockEntityType<A> actual, BlockEntityType<E> expected, BlockEntityTicker<? super E> ticker
      ) {
--        return p_152134_ == p_152133_ ? p_152135_ : null;
-+        return p_152134_ == p_152133_ ? (BlockEntityTicker<A>)p_152135_ : null;
+-        return expected == actual ? ticker : null;
++        return expected == actual ? (BlockEntityTicker<A>) ticker : null;
      }
  }
