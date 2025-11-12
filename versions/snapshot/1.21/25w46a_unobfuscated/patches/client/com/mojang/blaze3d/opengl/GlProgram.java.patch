@@ -1,6 +1,6 @@
 --- a/com/mojang/blaze3d/opengl/GlProgram.java
 +++ b/com/mojang/blaze3d/opengl/GlProgram.java
-@@ -76,7 +76,7 @@
+@@ -74,7 +74,7 @@
          for (RenderPipeline.UniformDescription uniformDescription : uniforms) {
              String uniformName = uniformDescription.name();
  

@@ -1,6 +1,6 @@
 --- a/net/minecraft/client/gui/screens/inventory/BookViewScreen.java
 +++ b/net/minecraft/client/gui/screens/inventory/BookViewScreen.java
-@@ -269,7 +269,7 @@
+@@ -270,7 +270,7 @@
                  return new BookViewScreen.BookAccess(writtenContent.getPages(filterEnabled));
              } else {
                  WritableBookContent writableContent = itemStack.get(DataComponents.WRITABLE_BOOK_CONTENT);
