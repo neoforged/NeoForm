@@ -1,0 +1,36 @@
+{
+    "version": 2,
+    "official": true,
+    "java_target": 21,
+    "encoding": "UTF-8",
+    "version_zip": "https://piston-data.mojang.com/v1/objects/f9c5e4f9c1469296299635b498438e94d312f0c6/25w46a_unobfuscated.zip",
+    "fernflower": {
+        "classpath": [
+          "org.vineflower:vineflower:1.11.2",
+          "net.neoforged:vineflower-plugins:0.1.2"
+        ],
+        "main_class": "org.jetbrains.java.decompiler.main.decompiler.ConsoleDecompiler",
+        "java_version": 21,
+        "args": ["--decompile-inner", "--remove-bridge", "--decompile-generics", "--ascii-strings", "--remove-synthetic", "--include-classpath", "--ignore-invalid-bytecode", "--bytecode-source-mapping", "--dump-code-lines", "--indent-string=    ", "--log-level=TRACE", "-cfg", "{libraries}", "{input}", "{output}"],
+        "jvmargs": ["-Xmx4G"]
+    },
+    "merge": {
+        "version": "net.neoforged:mergetool:2.0.9-pr-7-remove-interface-sort:fatjar",
+        "args": ["--client", "{client}", "--server", "{server}", "--ann", "{version}", "--output", "{output}", "--inject", "false"],
+        "jvmargs": [],
+        "repo": "https://prmaven.neoforged.net/MergeTool/pr7"
+    },
+    "bundler_extract_jar": {
+        "version": "net.neoforged.installertools:installertools:3.0.14:fatjar",
+        "args": ["--task", "bundler_extract", "--input", "{input}", "--output", "{output}", "--jar-only"]
+    },
+    "bundler_extract_libs": {
+        "version": "net.neoforged.installertools:installertools:3.0.14:fatjar",
+        "args": ["--task", "bundler_extract", "--input", "{input}", "--output", "{output}", "--libraries"]
+    },
+    "libraries": {
+        "client": ["com.google.code.findbugs:jsr305:3.0.2", "ca.weblite:java-objc-bridge:1.1", "org.jetbrains:annotations:26.0.2-1"],
+        "server": ["com.google.code.findbugs:jsr305:3.0.2", "org.jetbrains:annotations:26.0.2-1"],
+        "joined": ["com.google.code.findbugs:jsr305:3.0.2", "ca.weblite:java-objc-bridge:1.1", "net.neoforged:mergetool:2.0.7:api", "org.jetbrains:annotations:26.0.2-1"]
+    }
+}

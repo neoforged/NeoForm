@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/item/HoneycombItem.java
++++ b/net/minecraft/world/item/HoneycombItem.java
+@@ -105,7 +105,7 @@
+                 level.levelEvent(player, 3003, neighborPos, 0);
+             }
+ 
+-            return InteractionResult.SUCCESS;
++            return (InteractionResult)InteractionResult.SUCCESS;
+         }).orElse(InteractionResult.PASS);
+     }
+ 

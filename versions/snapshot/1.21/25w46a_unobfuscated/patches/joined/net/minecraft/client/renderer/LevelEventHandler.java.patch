@@ -1,0 +1,19 @@
+--- a/net/minecraft/client/renderer/LevelEventHandler.java
++++ b/net/minecraft/client/renderer/LevelEventHandler.java
+@@ -406,11 +406,11 @@
+                 break;
+             case 2004:
+                 for (int i = 0; i < 20; i++) {
+-                    double x = pos.getX() + 0.5 + (random.nextDouble() - 0.5) * 2.0;
+-                    double y = pos.getY() + 0.5 + (random.nextDouble() - 0.5) * 2.0;
+-                    double z = pos.getZ() + 0.5 + (random.nextDouble() - 0.5) * 2.0;
+-                    this.level.addParticle(ParticleTypes.SMOKE, x, y, z, 0.0, 0.0, 0.0);
+-                    this.level.addParticle(ParticleTypes.FLAME, x, y, z, 0.0, 0.0, 0.0);
++                    double xx = pos.getX() + 0.5 + (random.nextDouble() - 0.5) * 2.0;
++                    double yx = pos.getY() + 0.5 + (random.nextDouble() - 0.5) * 2.0;
++                    double zx = pos.getZ() + 0.5 + (random.nextDouble() - 0.5) * 2.0;
++                    this.level.addParticle(ParticleTypes.SMOKE, xx, yx, zx, 0.0, 0.0, 0.0);
++                    this.level.addParticle(ParticleTypes.FLAME, xx, yx, zx, 0.0, 0.0, 0.0);
+                 }
+                 break;
+             case 2006:
