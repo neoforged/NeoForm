@@ -3,7 +3,7 @@
 @@ -27,7 +27,7 @@
  
      @Override
-     public ListBuilder<T> add(final T value) {
+     public ListBuilder<T> add(T value) {
 -        this.builder = this.builder.map(b -> (T)this.append((B)b, value));
 +        this.builder = this.builder.map(b -> this.append((B)b, value));
          return this;

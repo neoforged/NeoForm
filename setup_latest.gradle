@@ -80,17 +80,24 @@ repositories {
 }
 
 dependencies {
+    def tool = { configuration, config ->
+      if (config.classpath) {
+        for (def version : config.classpath) {
+          add(configuration, version, {
+            transitive = false
+          })
+        }
+      } else {
+        add(configuration, config.version, {
+          transitive = false
+        })
+      }
+    }
     srgutilsJar "net.neoforged:srgutils:${SRGUTILS_VERSION}"
-    fernflower FERNFLOWER.version
-    mergetool(MERGETOOL.version) {
-        transitive = false
-    }
-    bundleExtractJar(BUNDLE_EXTRACT_JAR.version) {
-        transitive = false
-    }
-    bundleExtractLibs(BUNDLE_EXTRACT_LIBS.version) {
-        transitive = false
-    }
+    tool("fernflower", FERNFLOWER)
+    tool("mergetool", MERGETOOL)
+    tool("bundleExtractJar", BUNDLE_EXTRACT_JAR)
+    tool("bundleExtractLibs", BUNDLE_EXTRACT_LIBS)
     nfrt "net.neoforged:neoform-runtime:1.0.4:all"
 }
 
@@ -492,14 +499,13 @@ task generateConfiguration(type: SingleFileOutput) {
             merge:     inputs.properties.mergetool.findAll {it.key != 'path'},
             bundleExtractJar: inputs.properties.bundle_extract_jar.findAll {it.key != 'path'}
         ]
-        def specVer = 4
+        def specVer = 5
         
         if (config.containsKey('version_zip')) {
             for (def side : steps_def.values()) {
                 side.removeAll { 'downloadManifest'.equals(it.type) }
                 side.find { 'downloadJson'.equals(it.type) }['version_zip'] = config.version_zip
             }
-            specVer = 5 // Spec v5 adds the ability to specify a url for the version zip
         }
         
         json {

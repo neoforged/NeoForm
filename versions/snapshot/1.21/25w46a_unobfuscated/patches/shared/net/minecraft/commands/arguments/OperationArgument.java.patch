@@ -3,7 +3,7 @@
 @@ -56,7 +56,7 @@
      }
  
-     private static OperationArgument.Operation getOperation(final String op) throws CommandSyntaxException {
+     private static OperationArgument.Operation getOperation(String op) throws CommandSyntaxException {
 -        return (OperationArgument.Operation)(op.equals("><") ? (a, b) -> {
 +        return (OperationArgument.Operation)(op.equals("><") ? (OperationArgument.Operation)(a, b) -> {
              int swap = a.get();

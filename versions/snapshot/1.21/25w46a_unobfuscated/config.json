@@ -6,7 +6,7 @@
     "version_zip": "https://piston-data.mojang.com/v1/objects/f9c5e4f9c1469296299635b498438e94d312f0c6/25w46a_unobfuscated.zip",
     "fernflower": {
         "classpath": [
-          "org.vineflower:vineflower:1.11.2",
+          "org.vineflower:vineflower:1.11.2:slim",
           "net.neoforged:vineflower-plugins:0.1.2"
         ],
         "main_class": "org.jetbrains.java.decompiler.main.decompiler.ConsoleDecompiler",

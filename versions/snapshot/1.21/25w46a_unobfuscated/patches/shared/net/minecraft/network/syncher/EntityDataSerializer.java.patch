@@ -3,7 +3,7 @@
 @@ -13,7 +13,7 @@
      T copy(T value);
  
-     static <T> EntityDataSerializer<T> forValueType(final StreamCodec<? super RegistryFriendlyByteBuf, T> codec) {
+     static <T> EntityDataSerializer<T> forValueType(StreamCodec<? super RegistryFriendlyByteBuf, T> codec) {
 -        return () -> codec;
 +        return (EntityDataSerializer.ForValueType<T>)() -> codec;
      }

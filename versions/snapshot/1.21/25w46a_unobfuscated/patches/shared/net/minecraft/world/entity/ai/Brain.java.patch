@@ -9,10 +9,10 @@
          }
      }
  
-     public <U> @Nullable Optional<U> getMemoryInternal(final MemoryModuleType<U> type) {
+     public <U> @Nullable Optional<U> getMemoryInternal(MemoryModuleType<U> type) {
          Optional<? extends ExpirableValue<?>> expirableValue = this.memories.get(type);
 -        return expirableValue == null ? null : expirableValue.map(ExpirableValue::getValue);
 +        return expirableValue == null ? null : (Optional<U>)expirableValue.map(ExpirableValue::getValue);
      }
  
-     public <U> long getTimeUntilExpiry(final MemoryModuleType<U> type) {
+     public <U> long getTimeUntilExpiry(MemoryModuleType<U> type) {

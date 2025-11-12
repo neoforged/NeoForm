@@ -1,9 +1,9 @@
 --- a/net/minecraft/world/entity/monster/creaking/CreakingAi.java
 +++ b/net/minecraft/world/entity/monster/creaking/CreakingAi.java
 @@ -49,7 +49,7 @@
-     static void initCoreActivity(final Brain<Creaking> brain) {
+     static void initCoreActivity(Brain<Creaking> brain) {
          brain.addActivity(Activity.CORE, 0, ImmutableList.of(new Swim<Creaking>(0.8F) {
-             protected boolean checkExtraStartConditions(final ServerLevel level, final Creaking body) {
+             protected boolean checkExtraStartConditions(ServerLevel level, Creaking body) {
 -                return body.canMove() && super.checkExtraStartConditions(level, (LivingEntity)body);
 +                return body.canMove() && super.checkExtraStartConditions(level, body);
              }

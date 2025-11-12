@@ -1,8 +1,8 @@
 --- a/net/minecraft/resources/HolderSetCodec.java
 +++ b/net/minecraft/resources/HolderSetCodec.java
-@@ -66,7 +66,7 @@
+@@ -64,7 +64,7 @@
  
-     private static <E> DataResult<HolderSet<E>> lookupTag(final HolderGetter<E> registry, final TagKey<E> key) {
+     private static <E> DataResult<HolderSet<E>> lookupTag(HolderGetter<E> registry, TagKey<E> key) {
          return registry.get(key)
 -            .map(DataResult::success)
 +            .<DataResult<HolderSet<E>>>map(DataResult::success)

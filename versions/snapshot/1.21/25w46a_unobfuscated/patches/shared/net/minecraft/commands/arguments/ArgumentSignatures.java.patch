@@ -3,9 +3,9 @@
 @@ -14,7 +14,7 @@
      private static final int MAX_ARGUMENT_NAME_LENGTH = 16;
  
-     public ArgumentSignatures(final FriendlyByteBuf input) {
+     public ArgumentSignatures(FriendlyByteBuf input) {
 -        this(input.readCollection(FriendlyByteBuf.limitValue(ArrayList::new, 8), ArgumentSignatures.Entry::new));
 +        this(input.<ArgumentSignatures.Entry, List<ArgumentSignatures.Entry>>readCollection(FriendlyByteBuf.limitValue(ArrayList::new, 8), ArgumentSignatures.Entry::new));
      }
  
-     public void write(final FriendlyByteBuf output) {
+     public void write(FriendlyByteBuf output) {

@@ -3,9 +3,9 @@
 @@ -14,7 +14,7 @@
      );
  
-     private ClientboundUpdateEnabledFeaturesPacket(final FriendlyByteBuf input) {
+     private ClientboundUpdateEnabledFeaturesPacket(FriendlyByteBuf input) {
 -        this(input.readCollection(HashSet::new, FriendlyByteBuf::readIdentifier));
 +        this(input.<Identifier, Set<Identifier>>readCollection(HashSet::new, FriendlyByteBuf::readIdentifier));
      }
  
-     private void write(final FriendlyByteBuf output) {
+     private void write(FriendlyByteBuf output) {

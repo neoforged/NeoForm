@@ -2,7 +2,7 @@
 +++ b/net/minecraft/network/protocol/common/custom/CustomPacketPayload.java
 @@ -34,7 +34,7 @@
  
-             private <T extends CustomPacketPayload> void writeCap(final B output, final CustomPacketPayload.Type<T> type, final CustomPacketPayload payload) {
+             private <T extends CustomPacketPayload> void writeCap(B output, CustomPacketPayload.Type<T> type, CustomPacketPayload payload) {
                  output.writeIdentifier(type.id());
 -                StreamCodec<B, T> codec = this.findCodec(type.id);
 +                StreamCodec<B, T> codec = (StreamCodec<B, T>)this.findCodec(type.id);

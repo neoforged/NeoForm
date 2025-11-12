@@ -3,7 +3,7 @@
 @@ -56,7 +56,7 @@
  
              @Override
-             public FormattedCharSequence getVisualOrder(final FormattedText logicalOrderText) {
+             public FormattedCharSequence getVisualOrder(FormattedText logicalOrderText) {
 -                return outputx -> logicalOrderText.visit(
 +                return output -> logicalOrderText.visit(
                          (style, contents) -> StringDecomposer.iterateFormatted(contents, style, output) ? Optional.empty() : FormattedText.STOP_ITERATION,

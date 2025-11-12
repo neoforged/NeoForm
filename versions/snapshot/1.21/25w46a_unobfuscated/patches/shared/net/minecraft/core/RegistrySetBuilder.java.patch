@@ -1,9 +1,9 @@
 --- a/net/minecraft/core/RegistrySetBuilder.java
 +++ b/net/minecraft/core/RegistrySetBuilder.java
-@@ -420,13 +420,13 @@
+@@ -413,13 +413,13 @@
          }
  
-         private <T> Holder.Reference<T> getOrCreate(final ResourceKey<T> id) {
+         private <T> Holder.Reference<T> getOrCreate(ResourceKey<T> id) {
 -            return (Holder.Reference<T>)this.holders.computeIfAbsent(id, k -> Holder.Reference.createStandAlone(this.owner, (ResourceKey<Object>)k));
 +            return (Holder.Reference<T>)this.holders.computeIfAbsent((ResourceKey<Object>)id, k -> Holder.Reference.createStandAlone(this.owner, (ResourceKey<Object>)k));
          }
