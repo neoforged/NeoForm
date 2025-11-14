@@ -15,17 +15,16 @@
         "jvmargs": ["-Xmx4G"]
     },
     "merge": {
-        "version": "net.neoforged:mergetool:2.0.9-pr-7-remove-interface-sort:fatjar",
-        "args": ["--client", "{client}", "--server", "{server}", "--ann", "{version}", "--output", "{output}", "--inject", "false"],
-        "jvmargs": [],
-        "repo": "https://prmaven.neoforged.net/MergeTool/pr7"
+        "version": "net.neoforged.installertools:installertools:4.0.1:fatjar",
+        "args": ["--task", "process_minecraft_jar", "--input", "{client}", "--input", "{server}", "--output", "{output}", "--no-mod-manifest"],
+        "jvmargs": []
     },
     "bundler_extract_jar": {
-        "version": "net.neoforged.installertools:installertools:3.0.14:fatjar",
+        "version": "net.neoforged.installertools:installertools:4.0.1:fatjar",
         "args": ["--task", "bundler_extract", "--input", "{input}", "--output", "{output}", "--jar-only"]
     },
     "bundler_extract_libs": {
-        "version": "net.neoforged.installertools:installertools:3.0.14:fatjar",
+        "version": "net.neoforged.installertools:installertools:4.0.1:fatjar",
         "args": ["--task", "bundler_extract", "--input", "{input}", "--output", "{output}", "--libraries"]
     },
     "libraries": {

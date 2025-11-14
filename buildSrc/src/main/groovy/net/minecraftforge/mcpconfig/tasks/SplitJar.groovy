@@ -21,11 +21,13 @@ public abstract class SplitJar extends DefaultTask {
             new ZipOutputStream(extra.get().getAsFile().newOutputStream()).withCloseable{ eo ->
                 new ZipInputStream(source.get().getAsFile().newInputStream()).withCloseable{ jin ->
                     for (def entry = jin.nextEntry; entry != null; entry = jin.nextEntry) {
-                        def out = entry.name.endsWith(".class") ? so : eo
-                        def oentry = new ZipEntry(entry.name)
-                        oentry.lastModifiedTime = entry.lastModifiedTime
-                        out.putNextEntry(oentry)
-                        out << jin
+                        if (!entry.isDirectory()) {
+                            def out = entry.name.endsWith(".class") ? so : eo
+                            def oentry = new ZipEntry(entry.name)
+                            oentry.lastModifiedTime = entry.lastModifiedTime
+                            out.putNextEntry(oentry)
+                            out << jin
+                        }
                     }
                 }
             }

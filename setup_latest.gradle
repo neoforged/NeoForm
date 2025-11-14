@@ -183,19 +183,23 @@ task filterClient(type: SplitJar, dependsOn: [downloadClient]) {
     extra = file(PATH_CACHED_VERSION + 'client.extra.jar')
 }
 
-task filterServer(type: SplitJar, dependsOn: BUNDLE_EXTRACT_JAR == null ? [downloadServer] : [extractServer]) {
-    source = BUNDLE_EXTRACT_JAR == null ? downloadServer.dest : extractServer.dest
+task filterServer(type: SplitJar, dependsOn: [extractServer]) {
+    source = extractServer.dest
     slim = file(PATH_CACHED_VERSION + 'server.slim.jar')
     extra = file(PATH_CACHED_VERSION + 'server.extra.jar')
 }
 
-task mergeJars(type: MergeJar, dependsOn: [filterClient, filterServer]) {
+task mergeJars(type: MergeJar, dependsOn: [downloadClient, downloadServer]) {
     config MERGETOOL, configurations.mergetool
-    mainClass = 'net.neoforged.mergetool.ConsoleMerger'
-    client = filterClient.slim
-    server = filterServer.slim
-    version = project.version
+    client = downloadClient.dest
+    server = downloadServer.dest
     dest = file(PATH_CACHED_VERSION + 'joined.jar')
+}
+
+task filterJoined(type: SplitJar, dependsOn: [mergeJars]) {
+    source = mergeJars.dest
+    slim = file(PATH_CACHED_VERSION + 'joined.slim.jar')
+    extra = file(PATH_CACHED_VERSION + 'joined.extra.jar')
 }
 
 def mappingsFile = null
@@ -203,7 +207,7 @@ def mappingsFile = null
 def sides = [
     client: [Name: 'Client', jsonlibs: true,  extra: 'Client', assets: true,  slim: filterClient, extra: filterClient, bundle: null],
     server: [Name: 'Server', jsonlibs: false, extra: 'Server', assets: false, slim: filterServer, extra: filterServer, bundle: downloadServer],
-    joined: [Name: 'Joined', jsonlibs: true,  extra: 'Client', assets: true,  slim: mergeJars,    extra: filterClient, bundle: null]
+    joined: [Name: 'Joined', jsonlibs: true,  extra: 'Client', assets: true,  slim: filterJoined, extra: filterJoined, bundle: null]
 ]
 
 sides.each{ s, child ->
@@ -220,7 +224,7 @@ sides.each{ s, child ->
         }
         dest = file(PATH_CACHED_VERSION + s + '.fernflower.libs.txt')
     }
-    child.predecompile = 'joined'.equals(s) ? child.slim.dest : child.slim.slim
+    child.predecompile = child.slim.slim
 }
 
 task projectRoot(type: Copy) {
@@ -463,12 +467,10 @@ task generateConfiguration(type: SingleFileOutput) {
                 [type: 'downloadJson'],
                 [type: 'downloadClient', json: '{downloadJsonOutput}'],
                 [type: 'downloadServer', json: '{downloadJsonOutput}'],
-                [type: 'bundleExtractJar', name: 'extractServer', input: '{downloadServerOutput}'],
-                [type: 'strip', name: 'stripClient', input: '{downloadClientOutput}'],
-                [type: 'strip', name: 'stripServer', input: '{extractServerOutput}'],
-                [type: 'merge', client: '{stripClientOutput}', server: '{stripServerOutput}', version: inputs.properties.version],
+                [type: 'merge', client: '{downloadClientOutput}', server: '{downloadServerOutput}'],
+                [type: 'strip', input: '{mergeOutput}'],
                 [type: 'listLibraries'],
-                [type: 'decompile', libraries: '{listLibrariesOutput}', input: '{mergeOutput}'],
+                [type: 'decompile', libraries: '{listLibrariesOutput}', input: '{stripOutput}'],
                 [type: 'inject', input: '{decompileOutput}'],
                 [type: 'patch', input: '{injectOutput}']
             ],
