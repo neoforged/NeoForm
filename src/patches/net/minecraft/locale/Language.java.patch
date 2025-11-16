@@ -5,7 +5,7 @@
              public FormattedCharSequence getVisualOrder(FormattedText logicalOrderText) {
                  return outputx -> logicalOrderText.visit(
 -                        (style, contents) -> StringDecomposer.iterateFormatted(contents, style, output) ? Optional.empty() : FormattedText.STOP_ITERATION,
-+                        (style, contents) -> StringDecomposer.iterateFormatted(contents, style, (net.minecraft.util.FormattedCharSink) output) ? Optional.empty() : FormattedText.STOP_ITERATION,
++                        (style, contents) -> StringDecomposer.iterateFormatted(contents, style, outputx) ? Optional.empty() : FormattedText.STOP_ITERATION,
                          Style.EMPTY
                      )
                      .isPresent();
