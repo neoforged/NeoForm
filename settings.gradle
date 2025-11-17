@@ -1,18 +1,4 @@
 pluginManagement {
-    repositories {
-        gradlePluginPortal()
-        maven {
-            name = "Maven for PR #300" // https://github.com/neoforged/ModDevGradle/pull/300
-            url = uri("https://prmaven.neoforged.net/ModDevGradle/pr300")
-            content {
-                includeModule("net.neoforged.moddev.legacyforge", "net.neoforged.moddev.legacyforge.gradle.plugin")
-                includeModule("net.neoforged.moddev.legacyforge.repositories", "net.neoforged.moddev.legacyforge.repositories.gradle.plugin")
-                includeModule("net.neoforged.moddev", "net.neoforged.moddev.gradle.plugin")
-                includeModule("net.neoforged.moddev.repositories", "net.neoforged.moddev.repositories.gradle.plugin")
-                includeModule("net.neoforged", "moddev-gradle")
-            }
-        }
-    }
     includeBuild '../neoform-gradle-plugin'
 }
 
