@@ -1,4 +1,18 @@
 pluginManagement {
+    repositories {
+        gradlePluginPortal()
+        maven {
+            name = "Maven for PR #300" // https://github.com/neoforged/ModDevGradle/pull/300
+            url = uri("https://prmaven.neoforged.net/ModDevGradle/pr300")
+            content {
+                includeModule("net.neoforged.moddev.legacyforge", "net.neoforged.moddev.legacyforge.gradle.plugin")
+                includeModule("net.neoforged.moddev.legacyforge.repositories", "net.neoforged.moddev.legacyforge.repositories.gradle.plugin")
+                includeModule("net.neoforged.moddev", "net.neoforged.moddev.gradle.plugin")
+                includeModule("net.neoforged.moddev.repositories", "net.neoforged.moddev.repositories.gradle.plugin")
+                includeModule("net.neoforged", "moddev-gradle")
+            }
+        }
+    }
     includeBuild '../neoform-gradle-plugin'
 }
 
@@ -6,10 +20,21 @@ plugins {
     id 'net.neoforged.neoform'
 }
 
+dependencyResolutionManagement {
+    repositories {
+        maven {
+            name = "Maven for PR #91" // https://github.com/neoforged/NeoFormRuntime/pull/93
+            url = uri("https://prmaven.neoforged.net/NeoFormRuntime/pr93")
+            content {
+                includeModule("net.neoforged", "neoform-runtime")
+            }
+        }
+    }
+}
+
 neoForm {
     minecraftVersion = '25w45a_unobfuscated'
-    minecraftAssetsVersion = '25w45a'
-    minecraftVersionManifestUrl = 'https://piston-data.mojang.com/v1/objects/de334d80d9ddc5abb94c611b8ad10f9125c4c421/25w45a_unobfuscated.zip'
+    minecraftLauncherManifestUrl = 'https://shartte.github.io/Minecraft1.21.11UnobfuscatedMeta/manifest.json'
     minecraftDependencies = [
             'net.neoforged:minecraft-dependencies:25w45a'
     ]
@@ -17,34 +42,31 @@ neoForm {
     additionalCompileDependencies = [
             'net.neoforged:mergetool:2.0.7:api',
             'com.google.code.findbugs:jsr305:3.0.2',
-            'org.jetbrains:annotations:26.0.2-1'
+            'org.jetbrains:annotations:26.0.2-1',
+            // In the Minecraft libraries list, this is MacOS X specific since it only contains runtime dependencies
+            // But the MacOS X specific code referencing this will be compiled on all platforms.
+            'ca.weblite:java-objc-bridge:1.1'
     ]
 
-    javaVersion = "21"
+    javaVersion = 21
 
     preProcessJar {
-        mainClass = 'net.neoforged.installertools.ConsoleTool'
-        classpath = [
-                'org.vineflower:vineflower:1.11.2'
-        ]
+        version = 'net.neoforged.installertools:installertools:4.0.25-pr-30-patchformat:fatjar'
+        repositoryUrl = 'https://prmaven.neoforged.net/InstallerTools/pr30'
         args = [
                 '--task',
                 'PROCESS_MINECRAFT_JAR',
                 '--input',
-                '${clientJar}',
+                '{downloadClientOutput}',
                 '--input',
-                '${serverJar}',
+                '{downloadServerOutput}',
                 '--output',
-                '${output}'
+                '{output}'
         ]
     }
 
     decompiler {
-        mainClass = 'org.jetbrains.java.decompiler.main.decompiler.ConsoleDecompiler'
-        classpath = [
-                'org.vineflower:vineflower:1.11.2',
-                'net.neoforged:vineflower-plugins:0.1.2'
-        ]
+        version = 'net.neoforged:vineflower-plugins:0.1.5:vfbundle'
         jvmArgs = [
                 '-Xmx4g'
         ]
@@ -58,7 +80,11 @@ neoForm {
                 '--ignore-invalid-bytecode',
                 '--bytecode-source-mapping',
                 '--dump-code-lines',
-                '--indent-string=    '
+                '--indent-string=    ',
+                '--log-level=WARN',
+                '-cfg={listLibrariesOutput}',
+                '{preProcessJarOutput}',
+                '{output}'
         ]
     }
 }
