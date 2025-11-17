@@ -1,0 +1,32 @@
+plugins {
+    id 'java'
+    id 'java-gradle-plugin'
+}
+
+group = 'net.neoforged.neoform'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+    gradlePluginPortal()
+    maven { url = 'https://maven.neoforged.net/releases/'}
+}
+
+dependencies {
+    implementation 'com.google.code.gson:gson:2.13.2'
+    implementation 'de.undercouch:gradle-download-task:5.5.0'
+    implementation 'io.codechicken:DiffPatch:2.0.0.34'
+
+    implementation 'net.neoforged.gradleutils:net.neoforged.gradleutils.gradle.plugin:5.0.4'
+    implementation 'org.gradle.toolchains.foojay-resolver-convention:org.gradle.toolchains.foojay-resolver-convention.gradle.plugin:1.0.0'
+    implementation 'net.neoforged.moddev:net.neoforged.moddev.gradle.plugin:2.0.117'
+}
+
+gradlePlugin {
+    plugins {
+        neoFormPlugin {
+            id = 'net.neoforged.neoform'
+            implementationClass = 'net.neoforged.neoform.NeoFormSettingsPlugin'
+        }
+    }
+}
