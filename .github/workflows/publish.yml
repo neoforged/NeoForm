@@ -7,12 +7,15 @@ permissions:
   contents: read
   statuses: write
 
+env:
+  MAVEN_URL_SNAPSHOTS: https://maven.neoforged.net/snapshots/
+
 jobs:
   release:
     uses: neoforged/actions/.github/workflows/gradle-publish.yml@main
     with:
       java: 21
-      gradle_tasks: publish
+      gradle_tasks: check publish
     secrets:
       DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
       MAVEN_USER: ${{ secrets.MAVEN_USER }}
