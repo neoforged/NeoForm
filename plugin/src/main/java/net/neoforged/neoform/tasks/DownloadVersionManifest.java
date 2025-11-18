@@ -1,7 +1,6 @@
 package net.neoforged.neoform.tasks;
 
 import de.undercouch.gradle.tasks.download.DownloadAction;
-import net.neoforged.neoform.Constants;
 import net.neoforged.neoform.manifests.LauncherManifest;
 import org.gradle.api.DefaultTask;
 import org.gradle.api.InvalidUserCodeException;
@@ -9,7 +8,6 @@ import org.gradle.api.Project;
 import org.gradle.api.file.RegularFileProperty;
 import org.gradle.api.provider.Property;
 import org.gradle.api.tasks.Input;
-import org.gradle.api.tasks.Optional;
 import org.gradle.api.tasks.OutputFile;
 import org.gradle.api.tasks.TaskAction;
 
@@ -43,7 +41,7 @@ public abstract class DownloadVersionManifest extends DefaultTask {
     public DownloadVersionManifest(Project project) {
         action = new DownloadAction(project, this);
         launcherManifestAction = new DownloadAction(project, this);
-        getLauncherManifestUrl().convention(Constants.MOJANG_METADATA_URI);
+        getLauncherManifestUrl().convention("https://piston-meta.mojang.com/mc/game/version_manifest_v2.json");
     }
 
     @TaskAction

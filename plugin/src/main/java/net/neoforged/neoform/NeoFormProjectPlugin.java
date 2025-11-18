@@ -15,6 +15,10 @@ import net.neoforged.neoform.tasks.ToolAction;
 import org.gradle.api.InvalidUserCodeException;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
+import org.gradle.api.attributes.Category;
+import org.gradle.api.attributes.Usage;
+import org.gradle.api.attributes.java.TargetJvmVersion;
+import org.gradle.api.component.SoftwareComponentFactory;
 import org.gradle.api.file.Directory;
 import org.gradle.api.file.RegularFile;
 import org.gradle.api.provider.Provider;
@@ -23,26 +27,25 @@ import org.gradle.api.publish.maven.MavenPublication;
 import org.gradle.api.publish.maven.plugins.MavenPublishPlugin;
 import org.gradle.api.tasks.bundling.Zip;
 
-import java.time.Instant;
-import java.time.OffsetDateTime;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
+import javax.inject.Inject;
+import java.io.File;
 
-public class NeoFormProjectPlugin implements Plugin<Project> {
+public abstract class NeoFormProjectPlugin implements Plugin<Project> {
     public void apply(Project project) {
         if (project.getRootProject() != project) {
             throw new InvalidUserCodeException("This plugin should only be applied to the root project.");
         }
 
-        var neoForm = NeoFormExtension.fromProject(project);
+        var objects = project.getObjects();
         var tasks = project.getTasks();
         var buildDir = project.getLayout().getBuildDirectory();
+
+        var neoForm = NeoFormExtension.fromProject(project);
         var inputsDir = buildDir.dir("neoform/inputs");
         var minecraftVersion = neoForm.getMinecraftVersion();
 
-        var timestamp = DateTimeFormatter.ofPattern("uuuuMMdd.HHmmss").format(OffsetDateTime.now(ZoneId.of("UTC")));
         project.setGroup("net.neoforged");
-        project.setVersion(minecraftVersion.get() + "-" + timestamp);
+        project.setVersion(minecraftVersion.get() + "-SNAPSHOT");
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // Download the Version Manifest
@@ -149,21 +152,50 @@ public class NeoFormProjectPlugin implements Plugin<Project> {
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // Publishing Tasks
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        var configurations = project.getConfigurations();
+        var neoformData = configurations.consumable("neoformData", configuration -> {
+            configuration.getAttributes().attributeProvider(TargetJvmVersion.TARGET_JVM_VERSION_ATTRIBUTE, neoForm.getJavaVersion());
+            configuration.getOutgoing().capability("net.neoforged:neoform:" + project.getVersion());
+        });
+        project.getArtifacts().add(neoformData.getName(), createDataZip);
+
+        var neoformLibraries = configurations.dependencyScope("neoformLibraries");
+        var neoformRuntimeElements = configurations.consumable("neoformRuntimeElements", configuration -> {
+            configuration.attributes(attributes -> {
+                        attributes.attributeProvider(TargetJvmVersion.TARGET_JVM_VERSION_ATTRIBUTE, neoForm.getJavaVersion());
+                        attributes.attribute(Usage.USAGE_ATTRIBUTE, objects.named(Usage.class, Usage.JAVA_RUNTIME));
+            });
+            configuration.getOutgoing().capability("net.neoforged:neoform-dependencies:" + project.getVersion());
+            configuration.extendsFrom(configurations.named("minecraftLibraries").get());
+            configuration.extendsFrom(neoformLibraries.get());
+        });
+        var neoformApiElements = configurations.consumable("neoformApiElements", configuration -> {
+            configuration.attributes(attributes -> {
+                attributes.attributeProvider(TargetJvmVersion.TARGET_JVM_VERSION_ATTRIBUTE, neoForm.getJavaVersion());
+                attributes.attribute(Usage.USAGE_ATTRIBUTE, objects.named(Usage.class, Usage.JAVA_API));
+            });
+            configuration.getOutgoing().capability("net.neoforged:neoform-dependencies:" + project.getVersion());
+            configuration.extendsFrom(neoformLibraries.get());
+        });
+
+        var neoformComponent = getComponentFactory().adhoc("neoform");
+        project.getComponents().add(neoformComponent);
+        neoformComponent.addVariantsFromConfiguration(neoformData, variant -> {});
+        neoformComponent.addVariantsFromConfiguration(neoformRuntimeElements, variant -> {});
+        neoformComponent.addVariantsFromConfiguration(neoformApiElements, variant -> {});
+
         project.getPlugins().apply(MavenPublishPlugin.class);
         project.getPlugins().apply("net.neoforged.gradleutils");
         var gradleUtilsExtension = project.getExtensions().getByType(GradleUtilsExtension.class);
         var publishing = project.getExtensions().getByType(PublishingExtension.class);
-        // publishing.getRepositories().maven(gradleUtilsExtension.getPublishingMaven());
-        publishing.getRepositories().maven(maven -> {
-            maven.setUrl(project.getRootDir().getAbsoluteFile().toURI());
-        });
+        publishing.getRepositories().maven(gradleUtilsExtension.getPublishingMaven());
 
         // Set common POM properties for all published artifacts
         publishing.getPublications().register("maven", MavenPublication.class, publication -> {
-            publication.artifact(createDataZip);
+            publication.from(neoformComponent);
             publication.pom(spec -> {
-               spec.getName().set("CLI Utils");
-               spec.getDescription().set("CLI Utilities for NeoForge's projects");
+               spec.getName().set("NeoForm");
+               spec.getDescription().set("Data and patches required to produce recompilable Minecraft source code");
             });
         });
         publishing.getPublications().withType(MavenPublication.class).configureEach(it -> {
@@ -179,4 +211,7 @@ public class NeoFormProjectPlugin implements Plugin<Project> {
     static Provider<RegularFile> prefixFilenameWithVersion(NeoFormExtension neoForm, Provider<Directory> dirProvider, String suffix) {
         return dirProvider.zip(neoForm.getMinecraftVersion(), (dir, version) -> dir.file(version + "_" + suffix));
     }
+
+    @Inject
+    protected abstract SoftwareComponentFactory getComponentFactory();
 }
