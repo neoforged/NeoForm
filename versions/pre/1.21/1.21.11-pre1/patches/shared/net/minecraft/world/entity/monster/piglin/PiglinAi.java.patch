@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/entity/monster/piglin/PiglinAi.java
 +++ b/net/minecraft/world/entity/monster/piglin/PiglinAi.java
-@@ -169,8 +169,8 @@
+@@ -172,8 +172,8 @@
          p_34905_.addActivityAndRemoveMemoryWhenStopped(
              Activity.FIGHT,
              10,
@@ -10,8 +10,8 @@
 +                StopAttackingIfTargetInvalid.<Piglin>create((p_375910_, p_375911_) -> !isNearestValidAttackTarget(p_375910_, p_34904_, p_375911_)),
                  BehaviorBuilder.triggerIf(PiglinAi::hasCrossbow, BackUpIfTooClose.create(5, 0.75F)),
                  SetWalkTargetFromAttackTargetIfTargetOutOfReach.create(1.0F),
-                 MeleeAttack.create(20),
-@@ -186,13 +186,13 @@
+                 new SpearApproach(1.0, 10.0F),
+@@ -192,13 +192,13 @@
          p_34921_.addActivityAndRemoveMemoryWhenStopped(
              Activity.CELEBRATE,
              10,
@@ -29,7 +29,7 @@
                      ImmutableList.of(
                          Pair.of(SetEntityLookTarget.create(EntityType.PIGLIN, 8.0F), 1),
                          Pair.of(RandomStroll.stroll(0.6F, 2, 1), 1),
-@@ -225,7 +225,7 @@
+@@ -231,7 +231,7 @@
                  SetWalkTargetAwayFrom.entity(MemoryModuleType.AVOID_TARGET, 1.0F, 12, true),
                  createIdleLookBehaviors(),
                  createIdleMovementBehaviors(),
@@ -38,7 +38,7 @@
              ),
              MemoryModuleType.AVOID_TARGET
          );
-@@ -247,7 +247,7 @@
+@@ -253,7 +253,7 @@
                              .build()
                      )
                  ),
