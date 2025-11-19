@@ -21,15 +21,15 @@
         "args": ["--input", "{input}", "--output", "{output}", "--map", "{mappings}", "--cfg", "{libraries}", "--ann-fix", "--ids-fix", "--src-fix", "--record-fix", "--unfinal-params"]
     },
     "bundler_extract_jar": {
-        "version": "net.neoforged.installertools:installertools:4.0.1:fatjar",
+        "version": "net.neoforged.installertools:installertools:4.0.4:fatjar",
         "args": ["--task", "bundler_extract", "--input", "{input}", "--output", "{output}", "--jar-only"]
     },
     "bundler_extract_libs": {
-        "version": "net.neoforged.installertools:installertools:4.0.1:fatjar",
+        "version": "net.neoforged.installertools:installertools:4.0.4:fatjar",
         "args": ["--task", "bundler_extract", "--input", "{input}", "--output", "{output}", "--libraries"]
     },
     "mergemap": {
-        "version": "net.neoforged.installertools:installertools:4.0.1:fatjar",
+        "version": "net.neoforged.installertools:installertools:4.0.4:fatjar",
         "args": ["--task", "MERGE_MAPPING", "--base", "{official}", "--merge", "{mappings}", "--reverse-base", "--output", "{output}"]
     },
     "libraries": {
