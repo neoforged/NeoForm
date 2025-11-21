@@ -1,8 +1,8 @@
 --- a/net/minecraft/world/item/component/KineticWeapon.java
 +++ b/net/minecraft/world/item/component/KineticWeapon.java
-@@ -121,7 +121,7 @@
+@@ -122,7 +122,7 @@
              for (EntityHitResult entityhitresult : ProjectileUtil.getHitEntitiesAlong(
-                     p_456105_, attackrange, p_455632_ -> PiercingWeapon.canHitEntity(p_456105_, p_455632_)
+                     p_456105_, attackrange, p_455632_ -> PiercingWeapon.canHitEntity(p_456105_, p_455632_), ClipContext.Block.COLLIDER
                  )
 -                .map(p_477897_ -> List.of(), p_477899_ -> (Collection)p_477899_)) {
 +                .<Collection<EntityHitResult>>map(p_477897_ -> List.of(), p_477899_ -> p_477899_)) {

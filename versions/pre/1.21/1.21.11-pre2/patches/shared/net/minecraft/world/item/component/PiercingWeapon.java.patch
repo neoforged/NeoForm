@@ -1,9 +1,9 @@
 --- a/net/minecraft/world/item/component/PiercingWeapon.java
 +++ b/net/minecraft/world/item/component/PiercingWeapon.java
-@@ -84,7 +84,7 @@
-         boolean flag = false;
- 
-         for (EntityHitResult entityhitresult : ProjectileUtil.getHitEntitiesAlong(p_457703_, attackrange, p_455447_ -> canHitEntity(p_457703_, p_455447_))
+@@ -87,7 +87,7 @@
+         for (EntityHitResult entityhitresult : ProjectileUtil.getHitEntitiesAlong(
+                 p_457703_, attackrange, p_455447_ -> canHitEntity(p_457703_, p_455447_), ClipContext.Block.COLLIDER
+             )
 -            .map(p_477900_ -> List.of(), p_477901_ -> (Collection)p_477901_)) {
 +            .<Collection<EntityHitResult>>map(p_477900_ -> List.of(), p_477901_ -> p_477901_)) {
              flag |= p_457703_.stabAttack(p_455828_, entityhitresult.getEntity(), f, true, this.dealsKnockback, this.dismounts);
