@@ -1,0 +1,11 @@
+--- a/net/minecraft/client/gui/screens/worldselection/EditGameRulesScreen.java
++++ b/net/minecraft/client/gui/screens/worldselection/EditGameRulesScreen.java
+@@ -161,7 +161,7 @@
+         private final List<FormattedCharSequence> label;
+         protected final List<AbstractWidget> children = Lists.newArrayList();
+ 
+-        public GameRuleEntry(List<FormattedCharSequence> p_101164_, Component p_101165_) {
++        public GameRuleEntry(@Nullable List<FormattedCharSequence> p_101164_, Component p_101165_) {
+             super(p_101164_);
+             this.label = EditGameRulesScreen.this.minecraft.font.split(p_101165_, 175);
+         }

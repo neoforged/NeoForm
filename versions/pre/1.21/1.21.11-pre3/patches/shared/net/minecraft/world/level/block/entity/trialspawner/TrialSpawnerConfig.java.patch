@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/level/block/entity/trialspawner/TrialSpawnerConfig.java
++++ b/net/minecraft/world/level/block/entity/trialspawner/TrialSpawnerConfig.java
+@@ -30,7 +30,7 @@
+     public static final TrialSpawnerConfig DEFAULT = builder().build();
+     public static final Codec<TrialSpawnerConfig> DIRECT_CODEC = RecordCodecBuilder.create(
+         p_338041_ -> p_338041_.group(
+-                Codec.intRange(1, 128).optionalFieldOf("spawn_range", DEFAULT.spawnRange).forGetter(TrialSpawnerConfig::spawnRange),
++                Codec.intRange(1, 128).optionalFieldOf("spawn_range", DEFAULT.spawnRange()).forGetter(TrialSpawnerConfig::spawnRange),
+                 Codec.floatRange(0.0F, Float.MAX_VALUE).optionalFieldOf("total_mobs", DEFAULT.totalMobs).forGetter(TrialSpawnerConfig::totalMobs),
+                 Codec.floatRange(0.0F, Float.MAX_VALUE)
+                     .optionalFieldOf("simultaneous_mobs", DEFAULT.simultaneousMobs)

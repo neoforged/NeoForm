@@ -1,0 +1,10 @@
+--- a/com/mojang/blaze3d/buffers/GpuBuffer.java
++++ b/com/mojang/blaze3d/buffers/GpuBuffer.java
+@@ -65,6 +65,7 @@
+ 
+     @Retention(RetentionPolicy.CLASS)
+     @Target({ElementType.FIELD, ElementType.PARAMETER, ElementType.LOCAL_VARIABLE, ElementType.METHOD, ElementType.TYPE_USE})
++    @org.intellij.lang.annotations.MagicConstant(flagsFromClass = GpuBuffer.class)
+     public @interface Usage {
+     }
+ }

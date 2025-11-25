@@ -1,0 +1,10 @@
+--- a/com/mojang/blaze3d/platform/InputConstants.java
++++ b/com/mojang/blaze3d/platform/InputConstants.java
+@@ -493,6 +493,7 @@
+ 
+     @Retention(RetentionPolicy.CLASS)
+     @Target({ElementType.FIELD, ElementType.PARAMETER, ElementType.LOCAL_VARIABLE, ElementType.METHOD, ElementType.TYPE_USE})
++    @org.intellij.lang.annotations.MagicConstant(valuesFromClass = InputConstants.class)
+     public @interface Value {
+     }
+ }

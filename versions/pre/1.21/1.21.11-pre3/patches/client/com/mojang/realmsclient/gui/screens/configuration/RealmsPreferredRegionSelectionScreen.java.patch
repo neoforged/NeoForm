@@ -1,0 +1,11 @@
+--- a/com/mojang/realmsclient/gui/screens/configuration/RealmsPreferredRegionSelectionScreen.java
++++ b/com/mojang/realmsclient/gui/screens/configuration/RealmsPreferredRegionSelectionScreen.java
+@@ -122,7 +122,7 @@
+             final RealmsSettingsTab.RegionSelection regionSelection;
+             private final Component name;
+ 
+-            public Entry(@Nullable RegionSelectionPreference p_426132_, RealmsRegion p_420055_) {
++            public Entry(RegionSelectionPreference p_426132_, @Nullable RealmsRegion p_420055_) {
+                 this(new RealmsSettingsTab.RegionSelection(p_426132_, p_420055_));
+             }
+ 
