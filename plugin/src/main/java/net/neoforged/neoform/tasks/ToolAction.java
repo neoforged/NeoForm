@@ -44,6 +44,7 @@ public abstract class ToolAction extends DefaultTask {
     public abstract Property<JavaLauncher> getLauncher();
 
     @Input
+    @Optional
     public abstract Property<String> getMainClass();
 
     @Classpath
@@ -91,7 +92,9 @@ public abstract class ToolAction extends DefaultTask {
                 var writer = new OutputStreamWriter(logOutput, StandardCharsets.UTF_8);
                 try {
                     writer.append("Running using:\n");
-                    writer.append(" Main Class: ").append(getMainClass().get()).append('\n');
+                    if (getMainClass().isPresent()) {
+                        writer.append(" Main Class: ").append(getMainClass().get()).append('\n');
+                    }
                     writer.append(" Classpath:\n");
                     for (var file : getToolClasspath()) {
                         writer.append("  - ").append(file.getAbsolutePath()).append('\n');
@@ -136,13 +139,11 @@ public abstract class ToolAction extends DefaultTask {
         var dependencyScope = configurations.dependencyScope(taskName + "Tool", spec -> {
             var dependencies = project.getDependencyFactory();
             spec.getDependencies().addLater(settings.getVersion().map(dependencies::create));
+            spec.setTransitive(false);
         });
         var classpath = configurations.resolvable(taskName + "Classpath", spec -> {
             spec.extendsFrom(dependencyScope.get());
-            spec.getAttributes().attribute(
-                    // Since we specify the classpath anyway, just use "normal" dependency bundling.
-                    Bundling.BUNDLING_ATTRIBUTE, project.getObjects().named(Bundling.class, Bundling.EXTERNAL)
-            );
+            spec.getAttributes().attribute(Bundling.BUNDLING_ATTRIBUTE, project.getObjects().named(Bundling.class, Bundling.SHADOWED));
         });
 
         taskProvider.configure(task -> {

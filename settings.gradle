@@ -19,10 +19,10 @@ dependencyResolutionManagement {
 }
 
 neoForm {
-    minecraftVersion = '25w45a_unobfuscated'
+    minecraftVersion = '1.21.11-pre1_unobfuscated'
     minecraftLauncherManifestUrl = 'https://shartte.github.io/Minecraft1.21.11UnobfuscatedMeta/manifest.json'
     minecraftDependencies = [
-            'net.neoforged:minecraft-dependencies:25w45a'
+            'net.neoforged:minecraft-dependencies:1.21.11-pre1'
     ]
 
     additionalCompileDependencies = [

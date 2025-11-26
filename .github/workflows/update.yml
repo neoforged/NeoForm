@@ -23,16 +23,6 @@ on:
       new_version:
         description: 'New version'
         required: true
-      fix-mapping-error:
-        description: 'Fix known error(s) in mapping file'
-        required: false
-        default: true
-        type: boolean
-      copy-extras:
-        description: 'Copy extras'
-        required: false
-        default: true
-        type: boolean
       publish:
         description: 'Publish'
         required: false

@@ -15,7 +15,6 @@ import net.neoforged.neoform.tasks.ToolAction;
 import org.gradle.api.InvalidUserCodeException;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
-import org.gradle.api.attributes.Category;
 import org.gradle.api.attributes.Usage;
 import org.gradle.api.attributes.java.TargetJvmVersion;
 import org.gradle.api.component.SoftwareComponentFactory;
@@ -25,10 +24,10 @@ import org.gradle.api.provider.Provider;
 import org.gradle.api.publish.PublishingExtension;
 import org.gradle.api.publish.maven.MavenPublication;
 import org.gradle.api.publish.maven.plugins.MavenPublishPlugin;
+import org.gradle.api.tasks.Delete;
 import org.gradle.api.tasks.bundling.Zip;
 
 import javax.inject.Inject;
-import java.io.File;
 
 public abstract class NeoFormProjectPlugin implements Plugin<Project> {
     public void apply(Project project) {
@@ -97,17 +96,25 @@ public abstract class NeoFormProjectPlugin implements Plugin<Project> {
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // Workflow Tasks
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        var workspaceDir = project.getLayout().getProjectDirectory().dir("workspace");
+        var cleanPatchWorkspace = tasks.register("cleanPatchWorkspace", Delete.class, task -> {
+            task.setGroup("neoform");
+            task.setDescription("Removes the current patch workspace, if it exists.");
+            task.delete(workspaceDir);
+        });
         var createPatchWorkspace = tasks.register("createPatchWorkspace", CreatePatchWorkspace.class, task -> {
             task.setGroup("neoform");
+            task.setDescription("Creates a Gradle subproject under 'workspace' that contains the patched Minecraft sources to work on modifying the patches easily. Run the createPatches task to generate new patches from this workspace.");
             task.getPatchesDir().set(project.getLayout().getProjectDirectory().dir("src/patches"));
             task.getSourcesZip().set(decompile.flatMap(Decompile::getOutput));
-            task.getWorkspace().set(project.getLayout().getProjectDirectory().dir("workspace"));
+            task.getWorkspace().set(workspaceDir);
         });
         var createPatchWorkspaceForUpdate = tasks.register("createPatchWorkspaceForUpdate", CreatePatchWorkspace.class, task -> {
             task.setGroup("neoform");
+            task.setDescription("Same as the createWorkspace task, but patches are applied fuzzily and rejected patches will be stored in the 'rejects' folder.");
             task.getPatchesDir().set(project.getLayout().getProjectDirectory().dir("src/patches"));
             task.getSourcesZip().set(decompile.flatMap(Decompile::getOutput));
-            task.getWorkspace().set(project.getLayout().getProjectDirectory().dir("workspace"));
+            task.getWorkspace().set(workspaceDir);
             task.getUpdateMode().set(true);
         });
         var createPatches = tasks.register("createPatches", CreatePatches.class, task -> {
