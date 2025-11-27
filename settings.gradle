@@ -35,6 +35,8 @@ neoForm {
     ]
 
     javaVersion = 21
+    // Additional Java versions to test decompile+recompile with
+    testJavaVersions = [25]
 
     preProcessJar {
         version = 'net.neoforged.installertools:installertools:4.0.25-pr-30-patchformat:fatjar'

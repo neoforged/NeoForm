@@ -10,7 +10,7 @@ import net.neoforged.neoform.tasks.Decompile;
 import net.neoforged.neoform.tasks.DownloadVersionArtifact;
 import net.neoforged.neoform.tasks.DownloadVersionManifest;
 import net.neoforged.neoform.tasks.PrepareJarForDecompiler;
-import net.neoforged.neoform.tasks.TestNeoFormData;
+import net.neoforged.neoform.tasks.TestWithNeoFormRuntime;
 import net.neoforged.neoform.tasks.ToolAction;
 import org.gradle.api.InvalidUserCodeException;
 import org.gradle.api.Plugin;
@@ -26,10 +26,16 @@ import org.gradle.api.publish.maven.MavenPublication;
 import org.gradle.api.publish.maven.plugins.MavenPublishPlugin;
 import org.gradle.api.tasks.Delete;
 import org.gradle.api.tasks.bundling.Zip;
+import org.gradle.jvm.toolchain.JavaLanguageVersion;
+import org.gradle.jvm.toolchain.JavaToolchainService;
 
 import javax.inject.Inject;
 
 public abstract class NeoFormProjectPlugin implements Plugin<Project> {
+
+    @Inject
+    protected abstract JavaToolchainService getJavaToolchains();
+
     public void apply(Project project) {
         if (project.getRootProject() != project) {
             throw new InvalidUserCodeException("This plugin should only be applied to the root project.");
@@ -149,12 +155,26 @@ public abstract class NeoFormProjectPlugin implements Plugin<Project> {
         // Testing Tasks
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////
         var check = tasks.register("check", task -> task.setGroup("verification"));
-        var testData = tasks.register("testData", TestNeoFormData.class, task -> {
+        var testData = tasks.register("testData", TestWithNeoFormRuntime.class, task -> {
             task.setGroup("verification");
+            task.setDescription("Tests that the data produced by this project can be consumed by NFRT to generate compilable sources and compile them.");
             task.getNeoFormDataArchive().set(createDataZip.flatMap(Zip::getArchiveFile));
             task.getResultsDirectory().set(project.getLayout().getBuildDirectory().dir("test-results"));
         });
         check.configure(task -> task.dependsOn(testData));
+
+        // Explicitly test with a variety of different JDKs, this tests both running the decompile & recompile using that JDK.
+        for (var testJavaVersion : neoForm.getTestJavaVersions().get()) {
+            tasks.register("testDataWithJava" + testJavaVersion, TestWithNeoFormRuntime.class, task -> {
+                task.setGroup("verification");
+                task.setDescription("Tests that the data produced by this project can be consumed by NFRT to generate compilable sources and compile them.");
+                task.getNeoFormDataArchive().set(createDataZip.flatMap(Zip::getArchiveFile));
+                task.getResultsDirectory().set(project.getLayout().getBuildDirectory().dir("test-results"));
+                task.getJavaExecutable().convention(getJavaToolchains()
+                        .launcherFor(spec -> spec.getLanguageVersion().set(JavaLanguageVersion.of(testJavaVersion)))
+                        .map(javaLauncher -> javaLauncher.getExecutablePath().getAsFile().getAbsolutePath()));
+            });
+        }
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // Publishing Tasks

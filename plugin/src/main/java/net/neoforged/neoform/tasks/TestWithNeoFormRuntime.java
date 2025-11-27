@@ -4,6 +4,7 @@ import net.neoforged.nfrtgradle.NeoFormRuntimeTask;
 import org.gradle.api.GradleException;
 import org.gradle.api.file.DirectoryProperty;
 import org.gradle.api.file.RegularFileProperty;
+import org.gradle.api.provider.Property;
 import org.gradle.api.tasks.InputFile;
 import org.gradle.api.tasks.OutputDirectory;
 import org.gradle.api.tasks.TaskAction;
@@ -13,12 +14,15 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Map;
 
-public abstract class TestNeoFormData extends NeoFormRuntimeTask {
+public abstract class TestWithNeoFormRuntime extends NeoFormRuntimeTask {
     @InputFile
     public abstract RegularFileProperty getNeoFormDataArchive();
 
     @OutputDirectory
     public abstract DirectoryProperty getResultsDirectory();
+
+    @Override
+    public abstract Property<String> getJavaExecutable();
 
     @TaskAction
     public void test() {

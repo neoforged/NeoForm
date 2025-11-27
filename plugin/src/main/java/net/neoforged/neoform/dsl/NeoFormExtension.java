@@ -6,6 +6,7 @@ import org.gradle.api.model.ObjectFactory;
 import org.gradle.api.provider.ListProperty;
 import org.gradle.api.provider.Property;
 import org.gradle.api.provider.ProviderFactory;
+import org.gradle.jvm.toolchain.JavaLanguageVersion;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -119,4 +120,10 @@ public abstract class NeoFormExtension {
      * NeoFormRuntime artifact to use, this will default to the version used by MDG if not set.
      */
     public abstract Property<String> getNeoFormRuntimeVersion();
+
+    /**
+     * The Java versions that the decompile & recompile cycle should be explicitly tested with. Note that
+     * only javac from these JDKs is really used, not the runtime behavior.
+     */
+    public abstract ListProperty<Integer> getTestJavaVersions();
 }
