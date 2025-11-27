@@ -9,6 +9,7 @@ import org.gradle.api.DefaultTask;
 import org.gradle.api.GradleException;
 import org.gradle.api.file.DirectoryProperty;
 import org.gradle.api.file.RegularFileProperty;
+import org.gradle.api.problems.Problem;
 import org.gradle.api.problems.ProblemGroup;
 import org.gradle.api.problems.ProblemId;
 import org.gradle.api.problems.ProblemReporter;
@@ -27,8 +28,10 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.zip.ZipFile;
 
@@ -51,11 +54,11 @@ public abstract class CreatePatchWorkspace extends DefaultTask {
     @OutputDirectory
     public abstract DirectoryProperty getWorkspace();
 
-    private final ProblemReporter problemReporter;
+    private final ProblemReporter reporter;
 
     @Inject
     public CreatePatchWorkspace(Problems problems) {
-        this.problemReporter = problems.getReporter();
+        this.reporter = problems.getReporter();
         this.getUpdateMode().convention(false);
     }
 
@@ -64,7 +67,7 @@ public abstract class CreatePatchWorkspace extends DefaultTask {
 
     @TaskAction
     public void createWorkspace() throws IOException {
-        var updateMode = getUpdateMode().get();
+        boolean updateMode = getUpdateMode().get();
         if (updateMode) {
             getLogger().lifecycle("************************************************************************");
             getLogger().lifecycle("RUNNING IN UPDATE MODE");
@@ -93,6 +96,7 @@ public abstract class CreatePatchWorkspace extends DefaultTask {
             patches.put(targetPath, new Patch(patchPath, patchContent));
         }
 
+        List<Problem> problems = new ArrayList<>();
         var failedPatches = new HashSet<String>();
         var successfulPatches = 0;
         var dirsCreated = new HashSet<Path>();
@@ -130,20 +134,21 @@ public abstract class CreatePatchWorkspace extends DefaultTask {
 
                         if (updateMode) {
                             builder.mode(PatchMode.FUZZY)
-                                .minFuzz(0.5f)
-                                .level(io.codechicken.diffpatch.util.LogLevel.ALL)
-                                .rejectsOutput(Output.SingleOutput.pipe(rejectsOutput));
+                                    .minFuzz(0.5f)
+                                    .level(io.codechicken.diffpatch.util.LogLevel.ALL)
+                                    .rejectsOutput(Output.SingleOutput.pipe(rejectsOutput));
                         }
 
                         var result = builder.build().operate();
 
                         if (result.exit != 0) {
-                            problemReporter.report(PATCH_FAILED, problem -> {
+                            problems.add(reporter.create(PATCH_FAILED, problem -> {
                                 problem
                                         .details("Applying the patch to " + entry.getName() + " failed.")
                                         .fileLocation(patch.patchPath.toAbsolutePath().toString())
-                                        .severity(Severity.WARNING);
-                            });
+                                        .severity(Severity.ERROR);
+                            }));
+                            getLogger().error("Applying the patch to {}} failed.", entry.getName());
 
                             if (updateMode && rejectsOutput.size() > 0) {
                                 Path rejectsPath = workspace.resolve("rejects").resolve(entry.getName() + ".patch");
@@ -167,15 +172,16 @@ public abstract class CreatePatchWorkspace extends DefaultTask {
         // Report patches we didn't use as unused
         for (var patch : patches.values()) {
             var patchPath = patch.patchPath.toAbsolutePath().toString();
-            problemReporter.report(PATCH_TARGET_MISSING, problem -> {
-                problem
-                        .details("The file targetted by the patch does not exist.")
-                        .fileLocation(patchPath)
-                        .severity(Severity.WARNING);
-            });
+            problems.add(reporter.create(PATCH_TARGET_MISSING, problem -> problem
+                    .details("The file targeted by " + patchPath + " does not exist.")
+                    .fileLocation(patchPath)
+                    .severity(Severity.ERROR)));
+            failedPatches.add(patchPath);
+            getLogger().error("The file targeted by {} does not exist.", patchPath);
         }
 
-        if (!failedPatches.isEmpty()) {
+        if (!problems.isEmpty()) {
+            reporter.report(problems);
             var totalApplied = failedPatches.size() + successfulPatches;
             throw new GradleException(failedPatches.size() + " out of " + totalApplied + " patches failed to apply.");
         }
