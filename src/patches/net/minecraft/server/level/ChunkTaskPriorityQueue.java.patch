@@ -1,6 +1,6 @@
 --- a/net/minecraft/server/level/ChunkTaskPriorityQueue.java
 +++ b/net/minecraft/server/level/ChunkTaskPriorityQueue.java
-@@ -10,7 +_,7 @@
+@@ -10,7 +10,7 @@
  public class ChunkTaskPriorityQueue {
      public static final int PRIORITY_LEVEL_COUNT = ChunkLevel.MAX_LEVEL + 2;
      private final List<Long2ObjectLinkedOpenHashMap<List<Runnable>>> queuesPerPriority = IntStream.range(0, PRIORITY_LEVEL_COUNT)

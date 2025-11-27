@@ -1,19 +1,11 @@
 --- a/net/minecraft/client/renderer/item/ConditionalItemModel.java
 +++ b/net/minecraft/client/renderer/item/ConditionalItemModel.java
-@@ -8,6 +_,7 @@
- import net.minecraft.client.renderer.item.properties.conditional.ConditionalItemModelProperty;
- import net.minecraft.client.renderer.item.properties.conditional.ItemModelPropertyTest;
- import net.minecraft.client.resources.model.ResolvableModel;
-+import net.minecraft.core.HolderLookup;
- import net.minecraft.util.RegistryContextSwapper;
- import net.minecraft.world.entity.ItemOwner;
- import net.minecraft.world.item.ItemDisplayContext;
-@@ -79,7 +_,7 @@
+@@ -79,7 +79,7 @@
          }
  
          private static <T extends ConditionalItemModelProperty> T swapContext(T originalProperty, RegistryContextSwapper contextSwapper, ClientLevel context) {
 -            return (T)contextSwapper.swapTo(originalProperty.type().codec(), originalProperty, context.registryAccess()).result().orElse(originalProperty);
-+            return (T)contextSwapper.swapTo((com.mojang.serialization.Codec<T>) originalProperty.type().codec(), originalProperty, context.registryAccess()).result().orElse(originalProperty);
++            return (T)contextSwapper.swapTo((com.mojang.serialization.Codec<T>)originalProperty.type().codec(), originalProperty, context.registryAccess()).result().orElse(originalProperty);
          }
  
          @Override

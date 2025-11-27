@@ -1,46 +1,34 @@
 --- a/net/minecraft/client/renderer/blockentity/BeaconRenderer.java
 +++ b/net/minecraft/client/renderer/blockentity/BeaconRenderer.java
-@@ -111,14 +_,14 @@
+@@ -92,6 +92,7 @@
+         float scroll = height < 0 ? animationTime : -animationTime;
+         float texVOff = Mth.frac(scroll * 0.2F - Mth.floor(scroll * 0.1F));
+         poseStack.pushPose();
++        {
+         poseStack.mulPose(Axis.YP.rotationDegrees(animationTime * 2.25F - 45.0F));
+         float wnx = 0.0F;
+         float enz = 0.0F;
+@@ -110,15 +111,16 @@
+                 pose, buffer, color, beamStart, beamEnd, 0.0F, solidBeamRadius, solidBeamRadius, 0.0F, wsx, 0.0F, 0.0F, esz, 0.0F, 1.0F, vv1, vv2
              )
          );
++        }
          poseStack.popPose();
 -        wnx = -beamGlowRadius;
-+        float wnx_glow = -beamGlowRadius;
++        float wnx = -beamGlowRadius;
          float wnz = -beamGlowRadius;
 -        enz = -beamGlowRadius;
 -        wsx = -beamGlowRadius;
-+        float enz_glow = -beamGlowRadius;
-+        float wsx_glow = -beamGlowRadius;
-         uu1 = 0.0F;
-         uu2 = 1.0F;
+-        uu1 = 0.0F;
+-        uu2 = 1.0F;
 -        vv2 = -1.0F + texVOff;
 -        vv1 = height * scale + vv2;
-+        float vv2_glow = -1.0F + texVOff;
-+        float vv1_glow = height * scale + vv2_glow;
++        float enz = -beamGlowRadius;
++        float wsx = -beamGlowRadius;
++        float uu1 = 0.0F;
++        float uu2 = 1.0F;
++        float vv2 = -1.0F + texVOff;
++        float vv1 = height * scale + vv2;
          submitNodeCollector.submitCustomGeometry(
              poseStack,
              RenderTypes.beaconBeam(beamLocation, true),
-@@ -128,18 +_,18 @@
-                 ARGB.color(32, color),
-                 beamStart,
-                 beamEnd,
--                wnx,
-+                wnx_glow,
-                 wnz,
-                 beamGlowRadius,
--                enz,
--                wsx,
-+                enz_glow,
-+                wsx_glow,
-                 beamGlowRadius,
-                 beamGlowRadius,
-                 beamGlowRadius,
-                 0.0F,
-                 1.0F,
--                vv1,
--                vv2
-+                vv1_glow,
-+                vv2_glow
-             )
-         );
-         poseStack.popPose();

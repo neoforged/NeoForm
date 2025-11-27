@@ -1,0 +1,17 @@
+--- a/net/minecraft/world/entity/AgeableMob.java
++++ b/net/minecraft/world/entity/AgeableMob.java
+@@ -69,12 +69,13 @@
+ 
+     public void ageUp(int seconds, boolean forced) {
+         int age = this.getAge();
++        int oldAge = age;
+         age += seconds * 20;
+         if (age > 0) {
+             age = 0;
+         }
+ 
+-        int delta = age - age;
++        int delta = age - oldAge;
+         this.setAge(age);
+         if (forced) {
+             this.forcedAge += delta;

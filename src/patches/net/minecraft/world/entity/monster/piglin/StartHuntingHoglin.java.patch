@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/entity/monster/piglin/StartHuntingHoglin.java
 +++ b/net/minecraft/world/entity/monster/piglin/StartHuntingHoglin.java
-@@ -16,12 +_,12 @@
+@@ -16,12 +16,12 @@
                      i.registered(MemoryModuleType.NEAREST_VISIBLE_ADULT_PIGLINS)
                  )
                  .apply(i, (huntable, angryAt, huntedRecently, nearestPiglins) -> (level, body, timestamp) -> {

@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/attribute/modifier/ColorModifier.java
 +++ b/net/minecraft/world/attribute/modifier/ColorModifier.java
-@@ -25,10 +_,10 @@
+@@ -25,10 +25,10 @@
              return LerpFunction.ofColor();
          }
      };
