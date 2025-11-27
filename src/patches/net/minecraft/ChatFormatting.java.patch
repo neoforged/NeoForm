@@ -1,0 +1,20 @@
+--- a/net/minecraft/ChatFormatting.java
++++ b/net/minecraft/ChatFormatting.java
+@@ -57,7 +_,7 @@
+         return name.toLowerCase(Locale.ROOT).replaceAll("[^a-z]", "");
+     }
+ 
+-    private ChatFormatting(String name, @Nullable char code, int id, Integer color) {
++    private ChatFormatting(String name, char code, int id, @Nullable Integer color) {
+         this(name, code, false, id, color);
+     }
+ 
+@@ -65,7 +_,7 @@
+         this(name, code, isFormat, -1, null);
+     }
+ 
+-    private ChatFormatting(String name, char code, @Nullable boolean isFormat, int id, Integer color) {
++    private ChatFormatting(String name, char code, boolean isFormat, int id, @Nullable Integer color) {
+         this.name = name;
+         this.code = code;
+         this.isFormat = isFormat;

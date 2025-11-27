@@ -1,6 +1,6 @@
 --- a/net/minecraft/server/jsonrpc/api/MethodInfo.java
 +++ b/net/minecraft/server/jsonrpc/api/MethodInfo.java
-@@ -29,7 +29,7 @@
+@@ -29,7 +_,7 @@
          return RecordCodecBuilder.mapCodec(
              i -> i.group(
                      Codec.STRING.fieldOf("description").forGetter(MethodInfo::description),
@@ -9,7 +9,7 @@
                      ResultInfo.<Result>typedCodec().optionalFieldOf("result").forGetter(MethodInfo::result)
                  )
                  .apply(i, MethodInfo::new)
-@@ -41,7 +41,7 @@
+@@ -41,7 +_,7 @@
      }
  
      public record Named<Params, Result>(Identifier name, MethodInfo<Params, Result> contents) {

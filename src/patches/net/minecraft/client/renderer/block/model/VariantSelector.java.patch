@@ -1,6 +1,6 @@
 --- a/net/minecraft/client/renderer/block/model/VariantSelector.java
 +++ b/net/minecraft/client/renderer/block/model/VariantSelector.java
-@@ -29,7 +29,7 @@
+@@ -29,7 +_,7 @@
                  Property<?> property = stateDefinition.getProperty(propertyName);
                  if (property != null && iterator.hasNext()) {
                      String propertyValue = iterator.next();

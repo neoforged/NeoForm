@@ -1,6 +1,6 @@
 --- a/net/minecraft/client/renderer/blockentity/BeaconRenderer.java
 +++ b/net/minecraft/client/renderer/blockentity/BeaconRenderer.java
-@@ -92,6 +92,7 @@
+@@ -92,6 +_,7 @@
          float scroll = height < 0 ? animationTime : -animationTime;
          float texVOff = Mth.frac(scroll * 0.2F - Mth.floor(scroll * 0.1F));
          poseStack.pushPose();
@@ -8,7 +8,7 @@
          poseStack.mulPose(Axis.YP.rotationDegrees(animationTime * 2.25F - 45.0F));
          float wnx = 0.0F;
          float enz = 0.0F;
-@@ -110,15 +111,16 @@
+@@ -110,15 +_,16 @@
                  pose, buffer, color, beamStart, beamEnd, 0.0F, solidBeamRadius, solidBeamRadius, 0.0F, wsx, 0.0F, 0.0F, esz, 0.0F, 1.0F, vv1, vv2
              )
          );

@@ -1,6 +1,6 @@
 --- a/net/minecraft/TracingExecutor.java
 +++ b/net/minecraft/TracingExecutor.java
-@@ -21,7 +21,7 @@
+@@ -21,7 +_,7 @@
                  }
              });
          } else {

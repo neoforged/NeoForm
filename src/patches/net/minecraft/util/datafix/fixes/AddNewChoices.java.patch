@@ -1,6 +1,6 @@
 --- a/net/minecraft/util/datafix/fixes/AddNewChoices.java
 +++ b/net/minecraft/util/datafix/fixes/AddNewChoices.java
-@@ -33,7 +33,7 @@
+@@ -33,7 +_,7 @@
              return this.fixTypeEverywhere(
                  this.name,
                  inputType,

@@ -1,6 +1,6 @@
 --- a/net/minecraft/network/protocol/ProtocolInfoBuilder.java
 +++ b/net/minecraft/network/protocol/ProtocolInfoBuilder.java
-@@ -41,7 +41,7 @@
+@@ -41,7 +_,7 @@
          PacketType<P> bundlerPacket, Function<Iterable<Packet<? super T>>, P> constructor, D delimiterPacket
      ) {
          StreamCodec<ByteBuf, D> delimitedCodec = StreamCodec.unit(delimiterPacket);

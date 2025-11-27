@@ -1,6 +1,6 @@
 --- a/net/minecraft/util/datafix/fixes/EntitySpawnerItemVariantComponentFix.java
 +++ b/net/minecraft/util/datafix/fixes/EntitySpawnerItemVariantComponentFix.java
-@@ -32,9 +32,9 @@
+@@ -32,9 +_,9 @@
                  String id = input.getOptional(idFinder).map(Pair::getSecond).orElse("");
  
                  return switch (id) {

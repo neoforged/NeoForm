@@ -1,6 +1,6 @@
 --- a/net/minecraft/server/level/ServerLevel.java
 +++ b/net/minecraft/server/level/ServerLevel.java
-@@ -1682,7 +1682,7 @@
+@@ -1685,7 +_,7 @@
  
              return countByType.object2IntEntrySet()
                  .stream()

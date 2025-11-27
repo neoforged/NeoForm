@@ -1,6 +1,6 @@
 --- a/net/minecraft/commands/execution/tasks/BuildContexts.java
 +++ b/net/minecraft/commands/execution/tasks/BuildContexts.java
-@@ -52,7 +52,8 @@
+@@ -52,7 +_,8 @@
                      }
  
                      RedirectModifier<T> modifier = contextToRun.getRedirectModifier();
@@ -10,7 +10,7 @@
                          customModifierExecutor.apply(originalSource, currentSources, currentStage, modifiers, ExecutionControl.create(context, frame));
                          return;
                      }
-@@ -89,11 +90,13 @@
+@@ -89,11 +_,13 @@
  
          if (currentSources.isEmpty()) {
              if (modifiers.isReturn()) {

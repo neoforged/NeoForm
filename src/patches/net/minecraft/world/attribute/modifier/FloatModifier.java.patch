@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/attribute/modifier/FloatModifier.java
 +++ b/net/minecraft/world/attribute/modifier/FloatModifier.java
-@@ -21,11 +21,11 @@
+@@ -21,11 +_,11 @@
              return (alpha, from, to) -> new FloatWithAlpha(Mth.lerp(alpha, from.value(), to.value()), Mth.lerp(alpha, from.alpha(), to.alpha()));
          }
      };

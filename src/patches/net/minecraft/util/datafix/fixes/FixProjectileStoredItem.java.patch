@@ -1,6 +1,6 @@
 --- a/net/minecraft/util/datafix/fixes/FixProjectileStoredItem.java
 +++ b/net/minecraft/util/datafix/fixes/FixProjectileStoredItem.java
-@@ -46,7 +46,7 @@
+@@ -46,7 +_,7 @@
          String entityName, FixProjectileStoredItem.SubFixer<?> fixer, Type<?> inputEntityChoiceType, Type<T> outputEntityChoiceType
      ) {
          OpticFinder<?> entityF = DSL.namedChoice(entityName, inputEntityChoiceType);

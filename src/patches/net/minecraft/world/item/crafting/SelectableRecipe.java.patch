@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/item/crafting/SelectableRecipe.java
 +++ b/net/minecraft/world/item/crafting/SelectableRecipe.java
-@@ -17,7 +17,7 @@
+@@ -17,7 +_,7 @@
  
      public record SingleInputEntry<T extends Recipe<?>>(Ingredient input, SelectableRecipe<T> recipe) {
          public static <T extends Recipe<?>> StreamCodec<RegistryFriendlyByteBuf, SelectableRecipe.SingleInputEntry<T>> noRecipeCodec() {

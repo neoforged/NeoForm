@@ -1,6 +1,6 @@
 --- a/net/minecraft/server/jsonrpc/methods/DiscoveryService.java
 +++ b/net/minecraft/server/jsonrpc/methods/DiscoveryService.java
-@@ -40,7 +40,7 @@
+@@ -40,7 +_,7 @@
  
          private static MapCodec<DiscoveryService.DiscoverComponents> typedSchema() {
              return RecordCodecBuilder.mapCodec(
