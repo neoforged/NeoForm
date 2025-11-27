@@ -6,7 +6,6 @@ import org.gradle.api.model.ObjectFactory;
 import org.gradle.api.provider.ListProperty;
 import org.gradle.api.provider.Property;
 import org.gradle.api.provider.ProviderFactory;
-import org.gradle.jvm.toolchain.JavaLanguageVersion;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -70,7 +69,7 @@ public abstract class NeoFormExtension {
                 "-Xlint:-removal"
         )));
 
-        getNeoFormRuntimeVersion().set("1.0.45-pr-93-remove-hard-coding");
+        getNeoFormRuntimeVersion().set("1.0.44");
     }
 
     public ToolSettings getDecompiler() {

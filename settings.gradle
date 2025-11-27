@@ -6,23 +6,11 @@ plugins {
     id 'net.neoforged.neoform'
 }
 
-dependencyResolutionManagement {
-    repositories {
-        maven {
-            name = "Maven for PR #91" // https://github.com/neoforged/NeoFormRuntime/pull/93
-            url = uri("https://prmaven.neoforged.net/NeoFormRuntime/pr93")
-            content {
-                includeModule("net.neoforged", "neoform-runtime")
-            }
-        }
-    }
-}
-
 neoForm {
-    minecraftVersion = '1.21.11-pre1_unobfuscated'
+    minecraftVersion = '1.21.11-pre2_unobfuscated'
     minecraftLauncherManifestUrl = 'https://shartte.github.io/Minecraft1.21.11UnobfuscatedMeta/manifest.json'
     minecraftDependencies = [
-            'net.neoforged:minecraft-dependencies:1.21.11-pre1'
+            'net.neoforged:minecraft-dependencies:1.21.11-pre2'
     ]
 
     additionalCompileDependencies = [
@@ -35,29 +23,16 @@ neoForm {
     ]
 
     javaVersion = 21
-    // Additional Java versions to test decompile+recompile with
-    testJavaVersions = [25]
+    testJavaVersions = [25] // Additional Java versions to test with
 
     preProcessJar {
-        version = 'net.neoforged.installertools:installertools:4.0.25-pr-30-patchformat:fatjar'
-        repositoryUrl = 'https://prmaven.neoforged.net/InstallerTools/pr30'
-        args = [
-                '--task',
-                'PROCESS_MINECRAFT_JAR',
-                '--input',
-                '{downloadClientOutput}',
-                '--input',
-                '{downloadServerOutput}',
-                '--output',
-                '{output}'
-        ]
+        version = 'net.neoforged.installertools:installertools:4.0.6:fatjar'
+        args = ['--task', 'PROCESS_MINECRAFT_JAR', '--input', '{downloadClientOutput}', '--input', '{downloadServerOutput}', '--output', '{output}']
     }
 
     decompiler {
         version = 'net.neoforged:vineflower-plugins:0.1.5:vfbundle'
-        jvmArgs = [
-                '-Xmx4g'
-        ]
+        jvmArgs = ['-Xmx4g']
         args = [
                 '--decompile-inner',
                 '--remove-bridge',

@@ -54,13 +54,6 @@ public class NeoFormSettingsPlugin implements Plugin<Settings> {
                     repo.setUrl(URI.create("https://libraries.minecraft.net/"));
                     repo.metadataSources(sources -> sources.mavenPom());
                 });
-//                repositories.maven(repo -> {
-//                    repo.setName("Maven for PR #91"); // https://github.com/neoforged/NeoFormRuntime/pull/91
-//                    repo.setUrl(URI.create("https://prmaven.neoforged.net/NeoFormRuntime/pr91"));
-//                    repo.content(content -> {
-//                        content.includeModule("net.neoforged", "neoform-runtime");
-//                    });
-//                });
             });
         });
 
