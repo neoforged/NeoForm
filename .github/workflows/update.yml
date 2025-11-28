@@ -1,7 +1,7 @@
 # This is a basic workflow that is manually triggered
 
 name: Update
-run-name: Update to ${{ inputs.new_version }}
+run-name: ${{ inputs.new_version && format('Update to {0}', inputs.new_version) || (input.update_tools && 'Update Tools' || 'Update') }}
 
 permissions:
   contents: write
@@ -16,7 +16,7 @@ on:
         required: false
       new_version:
         description: 'New version'
-        required: true
+        required: false
       update_tools:
         description: 'Update tools'
         required: false
