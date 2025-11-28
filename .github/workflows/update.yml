@@ -38,10 +38,10 @@ jobs:
       NEW_VERSION: ${{ inputs.new_version }}
     steps:
     - uses: actions/checkout@v4
-    - name: Set up JDK ${{ vars.JAVA_VERSION }}
+    - name: Set up JDK
       uses: actions/setup-java@v4
       with:
-        java-version: '${{ vars.JAVA_VERSION }}'
+        java-version: '21'
         distribution: 'temurin'
     - name: Setup Gradle
       uses: gradle/actions/setup-gradle@v4
