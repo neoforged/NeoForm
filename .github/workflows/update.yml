@@ -66,7 +66,7 @@ jobs:
         git add .
         git commit -m "$GITHUB_WORKFLOW" || true
     - name: Push Changes
-      run: git push
+      run: git push -u
 
   #check:
   #  needs: update
