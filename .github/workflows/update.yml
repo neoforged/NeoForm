@@ -60,9 +60,10 @@ jobs:
     - name: Update Patches
       run: ./gradlew createPatchWorkspaceForUpdate && ./gradlew createPatches
     - name: Commit Changes
+      # See https://github.com/actions/checkout?tab=readme-ov-file#push-a-commit-using-the-built-in-token
       run: |
-        git config --global user.name "github-actions"
-        git config --global user.email "github-actions@github.com"
+        git config user.name "github-actions[bot]"
+        git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
         git add .
         git commit -m "$COMMIT_MESSAGE" || true
       env:
