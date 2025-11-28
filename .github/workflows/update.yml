@@ -62,7 +62,7 @@ jobs:
     - name: Commit Changes
       run: |
         git config --global user.name "$COMITTER_NAME"
-        git config --global user.email $COMITTER_EMAIL"
+        git config --global user.email "$COMITTER_EMAIL"
         git add .
         git commit -m "$COMMIT_MESSAGE" || true
       env:
