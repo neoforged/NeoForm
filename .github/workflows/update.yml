@@ -61,13 +61,11 @@ jobs:
       run: ./gradlew createPatchWorkspaceForUpdate && ./gradlew createPatches
     - name: Commit Changes
       run: |
-        git config --global user.name "$COMITTER_NAME"
-        git config --global user.email "$COMITTER_EMAIL"
+        git config --global user.name "github-actions"
+        git config --global user.email "github-actions@github.com"
         git add .
         git commit -m "$COMMIT_MESSAGE" || true
       env:
-        COMITTER_NAME: github-actions
-        COMITTER_EMAIL: 41898282+github-actions[bot]@users.noreply.github.com
         COMMIT_MESSAGE: ${{ inputs.new_version && format('Update to {0}', inputs.new_version) || (inputs.update_tools && 'Update Tools' || 'Update') }}
     - name: Push Changes
       run: git push -u origin HEAD
