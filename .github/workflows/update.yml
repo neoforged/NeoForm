@@ -12,13 +12,13 @@ on:
   workflow_dispatch:
     inputs:
       new_branch:
-        description: 'New branch'
+        description: 'New Branch'
         required: false
       new_version:
-        description: 'New version'
+        description: 'New Minecraft Version'
         required: false
       update_tools:
-        description: 'Update tools'
+        description: 'Update Tools to Latest Versions'
         required: false
         default: true
         type: boolean
