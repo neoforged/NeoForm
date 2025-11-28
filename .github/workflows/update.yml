@@ -56,7 +56,7 @@ jobs:
       run: ./gradlew updateTools
     - name: Update Minecraft Version
       if: ${{ inputs.new_version }}
-      run: ./gradlew updateMinecraft "--version=$NEW_VERSION"
+      run: ./gradlew -- updateMinecraft "--version=$NEW_VERSION"
     - name: Update Patches
       run: ./gradlew createPatchWorkspaceForUpdate && ./gradlew createPatches
     - name: Commit Changes
