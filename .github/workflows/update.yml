@@ -1,7 +1,7 @@
 # This is a basic workflow that is manually triggered
 
 name: Update
-run-name: Update to ${{ inputs.new_version }} from ${{ inputs.old_version }}
+run-name: Update to ${{ inputs.new_version }}
 
 permissions:
   contents: write
@@ -11,18 +11,17 @@ permissions:
 on:
   workflow_dispatch:
     inputs:
-      old_version:
-        description: 'Old version'
-        required: true
-      patch_src:
-        description: 'Patches version'
-        required: false
       new_branch:
         description: 'New branch'
         required: false
       new_version:
         description: 'New version'
-        required: true
+        required: false
+      update_tools:
+        description: 'Update tools'
+        required: false
+        default: true
+        type: boolean
       publish:
         description: 'Publish'
         required: false
@@ -31,238 +30,38 @@ on:
 
 jobs:
   update:
-
     name: Update
     runs-on: ubuntu-latest
-    outputs:
-      old_version_type: ${{ fromJson(steps.split_version.outputs.result).old_version_type }}
-      old_version_name: ${{ fromJson(steps.split_version.outputs.result).old_version_name }}
-      new_version_type: ${{ fromJson(steps.split_version.outputs.result).new_version_type }}
-      new_version_name: ${{ fromJson(steps.split_version.outputs.result).new_version_name }}
+    # We are using environment variables here since that lets the shell take care of escaping them as CLI params.
+    env:
+      NEW_BRANCH: ${{ inputs.new_branch }}
+      NEW_VERSION: ${{ inputs.new_version }}
     steps:
-    - name: "Log arguments"
-      run: |
-        echo "Old version: ${{ inputs.old_version }}"
-        echo "Patches version: ${{ inputs.patch_src }}"
-        echo "New branch: ${{ inputs.new_branch }}"
-        echo "New version: ${{ inputs.new_version }}"
-    - uses: actions/github-script@v7
-      name: Check arguments
-      env:
-        OLD_VERSION: ${{ inputs.old_version }}
-        PATCHES_VERSION: ${{ inputs.patch_src }}
-        NEW_BRANCH: ${{ inputs.new_branch }}
-        NEW_VERSION: ${{ inputs.new_version }}
-      with:
-        script: |
-          const oldVersion = process.env.OLD_VERSION;
-          const patchesVersion = process.env.PATCHES_VERSION;
-          const newBranch = process.env.NEW_BRANCH;
-          const newVersion = process.env.NEW_VERSION;
-          
-          const versionRegex = /^(release|(snapshot|pre)\/[^/]+)\/[^/]+$/;
-          var failed = 0
-          
-          if (!versionRegex.test(oldVersion)) {
-            core.error("Old version needs to be set to a version that is on the old branch and needs to be in the format of either `release/<version>`, `pre/<target>/<version>`, or `snapshot/<target>/<version>`")
-            failed++;
-          }
-          
-          if (patchesVersion == oldVersion) {
-            core.error("Patches version inputted as the same as the old version only the oldVersion is needed")
-            failed++;
-          }
-          
-          if (patchesVersion != "" && !versionRegex.test(patchesVersion)) {
-            core.error("Patches version either needs to be kept empty or needs to be set to a version that is on the old branch and needs to be in the format of either `release/<version>`, `pre/<target>/<version>`, or `snapshot/<target>/<version>`")
-            failed++;
-          }
-          
-          if (!versionRegex.test(newVersion)) {
-            core.error("New version needs to be a version that doesn't exist on the new branch and needs to be in the format of either `release/<version>`, `pre/<target>/<version>`, or `snapshot/<target>/<version>`")
-            failed++;
-          }
-          
-          if (failed > 0) {
-            core.setFailed(failed + " errors detected in arguments. Check logs for more details")
-          }
-    - name: Install fast-xml-parser
-      run: sudo npm install -g fast-xml-parser@4.5.1
-    - name: Get library versions
-      id: lib-versions
-      run: |
-        # $1 is name
-        # $2 is maven-metadata.xml url
-        get_version() {
-          echo "$1=$(wget -O - $2 | fxparser -c | jq .metadata.versioning.latest -r)" >> $GITHUB_OUTPUT
-        }
-
-        get_version srgutils https://maven.neoforged.net/releases/net/neoforged/srgutils/maven-metadata.xml
-        get_version forgeautorenamingtool https://maven.neoforged.net/releases/net/neoforged/AutoRenamingTool/maven-metadata.xml
-        get_version forgeflower https://maven.neoforged.net/releases/org/vineflower/vineflower/maven-metadata.xml
-        get_version installertools https://maven.neoforged.net/releases/net/neoforged/installertools/installertools/maven-metadata.xml
-        get_version mergetool https://maven.neoforged.net/releases/net/neoforged/mergetool/maven-metadata.xml
-        get_version jetbrains_annotations https://maven.neoforged.net/org/jetbrains/annotations/maven-metadata.xml
     - uses: actions/checkout@v4
-      with:
-        fetch-depth: 0
-    - uses: actions/github-script@v7
-      id: split_version
-      env:
-        OLD_VERSION: ${{ inputs.old_version }}
-        NEW_VERSION: ${{ inputs.new_version }}
-        PATCH_SRC_VERSION: ${{ inputs.patch_src }}
-      with:
-        script: |
-          const oldVersion = process.env.OLD_VERSION.split("/");
-          const newVersion = process.env.NEW_VERSION.split("/");
-          var returnValue = {old_version_type: oldVersion[0], old_version_name: oldVersion[oldVersion.length - 1], new_version_type: newVersion[0], new_version_name: newVersion[newVersion.length - 1]}
-          if (process.env.PATCH_SRC_VERSION) {
-            var pathSrcVersion = process.env.PATCH_SRC_VERSION.split("/");
-            returnValue.patch_src_version_name = pathSrcVersion[pathSrcVersion.length - 1]
-          }
-          return returnValue;
     - name: Set up JDK ${{ vars.JAVA_VERSION }}
       uses: actions/setup-java@v4
       with:
         java-version: '${{ vars.JAVA_VERSION }}'
         distribution: 'temurin'
-    - id: get_versions
-      run: |
-        mkdir -p ~/.minecraft/versions/
-        wget https://piston-meta.mojang.com/mc/game/version_manifest_v2.json -O ~/.minecraft/version_manifest_v2.json
-    - uses: actions/github-script@v7
-      env:
-        OLD_VERSION: ${{ fromJson(steps.split_version.outputs.result).old_version_name }}
-        NEW_VERSION: ${{ fromJson(steps.split_version.outputs.result).new_version_name }}
-        PATCH_SRC_VERSION: ${{ fromJson(steps.split_version.outputs.result).patch_src_version_name }}
-      with:
-        script: |
-          const os = require('os')
-          const fs = require('fs')
-          const versions = JSON.parse(fs.readFileSync(os.homedir() + '/.minecraft/version_manifest_v2.json', 'utf8')).versions
-          for (var i = 0; i < versions.length; i++) {
-            var version = versions[i]
-            if (version.id == process.env.OLD_VERSION || version.id == process.env.NEW_VERSION || version.id == process.env.PATCH_SRC_VERSION) {
-                var file = os.homedir() + '/.minecraft/versions/' + version.id + '/' + version.id
-                io.mkdirP(os.homedir() + '/.minecraft/versions/' + version.id + '/')
-                await exec.exec('wget ' + version.url + ' -O '  + file + '.json')
-                var versionJson = JSON.parse(fs.readFileSync(file + '.json', 'utf8'))
-                await exec.exec('wget ' + versionJson.downloads.client.url + ' -O ' + file + '.jar')
-            }
-          }
-    - name: Update SrgUtils
-      if: ${{ vars.SRGUTILS_UPDATE == 'true' }}
-      run: |
-        sed -i -E "s/SRGUTILS_VERSION = '[0-9]+\.[0-9]+\.[0-9]+'/SRGUTILS_VERSION = '$SRGUTILS_VERSION'/g" build.gradle
-        sed -i -E "s/net.neoforged:srgutils:[0-9]+\.[0-9]+\.[0-9]+/net.neoforged:srgutils:$SRGUTILS_VERSION/g" buildSrc/build.gradle
-      env:
-        SRGUTILS_VERSION: ${{ steps.lib-versions.outputs.srgutils }}
     - name: Setup Gradle
       uses: gradle/actions/setup-gradle@v4
-    - if: ${{ inputs.patch_src && inputs.patch_src != inputs.new_version }}
-      env:
-        PATCH_SRC: ${{ inputs.patch_src }}
-        NEW_VERSION: ${{ inputs.new_version }}
-      run: ./gradlew update -Pold_version=$PATCH_SRC -Pnew_version=$NEW_VERSION
-    - if: ${{ inputs.patch_src }}
-      run: cp versions/${{ inputs.new_version }}/joined.tsrg ../old_joined.tsrg
-    - name: Update task
-      env:
-        OLD_VERSION: ${{ inputs.old_version }}
-        NEW_VERSION: ${{ inputs.new_version }}
-      run: ./gradlew update -Pold_version=$OLD_VERSION -Pnew_version=$NEW_VERSION
-    - name: Write summary for update
+    - name: Create new Branch
+      if: ${{ inputs.new_branch }}
+      run: git checkout -b "NEW_BRANCH" || git checkout -B ${{ inputs.new_branch }} HEAD
+    - name: Update Tools
+      if: ${{ inputs.update_tools }}
+      run: ./gradlew updateTools
+    - name: Update Minecraft Version
+      if: ${{ inputs.new_version }}
+      run: ./gradlew updateMinecraft "--version=$NEW_VERSION"
+    - name: Update Patches
+      run: ./gradlew createPatchWorkspaceForUpdate && ./gradlew createPatches
+    - name: Push Changes
       run: |
-        cat versions/${{ inputs.new_version }}/statistics.md >> $GITHUB_STEP_SUMMARY
-        rm -f versions/${{ inputs.new_version }}/statistics.md
-    - name: Upload metadata
-      uses: actions/upload-artifact@v4
-      with:
-        name: mapping-metadata
-        path: build/update/data/**/joined_a_meta.json
-    - if: ${{ inputs.patch_src && inputs.copy-extras }}
-      run: cp versions/${{ inputs.new_version }}/joined.tsrg ../new_joined.tsrg
-    - if: ${{ inputs.patch_src != inputs.new_version && inputs.copy-extras }}
-      run: |
-        rm -rf versions/${{ inputs.new_version}}/patches
-        cp -r versions/${{ inputs.patch_src || inputs.old_version }}/patches versions/${{ inputs.new_version}}/patches
-    - if: ${{ inputs.patch_src && inputs.copy-extras }}
-      run: |
-        cd ..
-        wget https://github.com/coehlrich/remap-patches/releases/download/1.0.6/remap-patches-all.jar
-        java -jar remap-patches-all.jar old_joined.tsrg new_joined.tsrg MCPConfig/versions/${{ inputs.new_version }}/patches
-        cd MCPConfig
-    - run: git add .
-    - name: Store other updated files
-      if: ${{ inputs.new_branch && inputs.copy-extras }}
-      run: |
-        mkdir ../tmp
-        for ITEM in buildSrc gradle templates .gitattributes .gitignore build.gradle gradlew gradlew.bat settings.gradle update.gradle
-        do
-          echo "Copying $ITEM"
-          cp -rv ./$ITEM ../tmp/$ITEM
-        done
-    - if: ${{ inputs.new_branch }}
-      run: |
-        git stash
-        git checkout ${{ inputs.new_branch }} || git checkout -B ${{ inputs.new_branch }} remotes/origin/main
-        git push -u origin ${{ inputs.new_branch }}
-    - if: ${{ inputs.new_branch && inputs.copy-extras }}
-      run: rm -rf versions/${{ inputs.new_version }}
-    - if: ${{ inputs.new_branch && !inputs.copy-extras }}
-      run: |
-        rm -f versions/${{ inputs.new_version }}/joined.tsrg
-        rm -f versions/${{ inputs.new_version }}/config.json
-        rm -rf versions/${{ inputs.new_version }}/inject
-    - if: ${{ inputs.new_branch }}
-      run: |
-        git add .
-        git stash apply
-    
-    - name: Restore other updated files
-      if: ${{ inputs.new_branch && inputs.copy-extras }}
-      run: |
-        cp -rvT ../tmp .
-        git add .
-    - run: |
         git config --global user.name github-actions
         git config --global user.email 41898282+github-actions[bot]@users.noreply.github.com
-        git commit -m "Start ${{ inputs.new_version }}" && git push || true
-    - name: Update vineflower
-      if: ${{ vars.FORGEFLOWER_UPDATE == 'true' }}
-      run: sed -i -E "s/org.vineflower:vineflower:[^\":]*/org.vineflower:vineflower:$VINEFLOWER_VERSION/g" $CONFIG
-      env:
-        VINEFLOWER_VERSION: ${{ steps.lib-versions.outputs.forgeflower }}
-        CONFIG: versions/${{ inputs.new_version }}/config.json
-    - name: Update AutoRenamingTool
-      if: ${{ vars.FORGEAUTORENAMINGTOOL_UPDATE == 'true' }}
-      run: sed -i -E "s/net.neoforged:AutoRenamingTool:[^\":]*/net.neoforged:AutoRenamingTool:$AUTORENAMINGTOOL_VERSION/g" $CONFIG
-      env:
-        AUTORENAMINGTOOL_VERSION: ${{ steps.lib-versions.outputs.forgeautorenamingtool }}
-        CONFIG: versions/${{ inputs.new_version }}/config.json
-    - name: Update installertools
-      if: ${{ vars.INSTALLERTOOLS_UPDATE == 'true' }}
-      run: sed -i -E "s/net.neoforged.installertools:installertools:[^\":]*/net.neoforged.installertools:installertools:$INSTALLERTOOLS_VERSION/g" $CONFIG
-      env:
-        INSTALLERTOOLS_VERSION: ${{ steps.lib-versions.outputs.installertools }}
-        CONFIG: versions/${{ inputs.new_version }}/config.json
-    - name: Update Jetbrains Annotations
-      if: ${{ vars.JETBRAINS_ANNOTATIONS_UPDATE == 'true' }}
-      run: sed -i -E "s/org.jetbrains:annotations:[^\":]*/org.jetbrains:annotations:$JETBRAINS_ANNOTATIONS_VERSION/g" $CONFIG
-      env:
-        JETBRAINS_ANNOTATIONS_VERSION: ${{ steps.lib-versions.outputs.jetbrains_annotations }}
-        CONFIG: versions/${{ inputs.new_version }}/config.json
-    - name: Update Mergetool
-      if: ${{ vars.MERGETOOL_UPDATE == 'true' }}
-      run: sed -i -E "s/net.neoforged:mergetool:[^\":]*/net.neoforged:mergetool:$MERGETOOLS_VERSION/g" $CONFIG
-      env:
-        MERGETOOLS_VERSION: ${{ steps.lib-versions.outputs.mergetool }}
-        CONFIG: versions/${{ inputs.new_version }}/config.json
-    - name: Push library changes
-      run: |
         git add .
-        git commit -m "Update libraries" && git push || true
+        git commit -m "Start ${{ inputs.new_version }}" && git push || true
 
   get-diff:
     needs: update
@@ -273,12 +72,12 @@ jobs:
       new_branch: ${{ inputs.new_branch }}
       new_version: ${{ inputs.new_version }}
 
-  check:
-    needs: update
-    uses: ./.github/workflows/check.yml
-    with:
-      branch: ${{ inputs.new_branch || '' }}
-      version: ${{ inputs.new_version }}
-      push_changed: true
-      publish: ${{ inputs.publish }}
-    secrets: inherit
+  #check:
+  #  needs: update
+  #  uses: ./.github/workflows/check.yml
+  #  with:
+  #    branch: ${{ inputs.new_branch || '' }}
+  #    version: ${{ inputs.new_version }}
+  #    push_changed: true
+  #    publish: ${{ inputs.publish }}
+  #  secrets: inherit

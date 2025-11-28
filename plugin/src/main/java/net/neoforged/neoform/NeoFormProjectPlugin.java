@@ -12,6 +12,8 @@ import net.neoforged.neoform.tasks.DownloadVersionManifest;
 import net.neoforged.neoform.tasks.PrepareJarForDecompiler;
 import net.neoforged.neoform.tasks.TestWithNeoFormRuntime;
 import net.neoforged.neoform.tasks.ToolAction;
+import net.neoforged.neoform.tasks.UpdateMinecraft;
+import net.neoforged.neoform.tasks.UpdateTools;
 import org.gradle.api.InvalidUserCodeException;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
@@ -150,6 +152,8 @@ public abstract class NeoFormProjectPlugin implements Plugin<Project> {
             task.getArchiveAppendix().set(project.provider(() -> project.getVersion().toString()));
             task.getDestinationDirectory().set(project.getLayout().getBuildDirectory().dir("libs"));
         });
+        tasks.register("updateMinecraft", UpdateMinecraft.class);
+        tasks.register("updateTools", UpdateTools.class);
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // Testing Tasks
