@@ -164,6 +164,9 @@ public abstract class NeoFormProjectPlugin implements Plugin<Project> {
             task.setDescription("Tests that the data produced by this project can be consumed by NFRT to generate compilable sources and compile them.");
             task.getNeoFormDataArchive().set(createDataZip.flatMap(Zip::getArchiveFile));
             task.getResultsDirectory().set(project.getLayout().getBuildDirectory().dir("test-results"));
+            task.getJavaExecutable().convention(getJavaToolchains()
+                    .launcherFor(spec -> spec.getLanguageVersion().set(JavaLanguageVersion.of(neoForm.getJavaVersion().get())))
+                    .map(javaLauncher -> javaLauncher.getExecutablePath().getAsFile().getAbsolutePath()));
         });
         check.configure(task -> task.dependsOn(testData));
 

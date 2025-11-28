@@ -16,7 +16,7 @@ on:
         required: false
       new_version:
         description: 'New version'
-        required: false
+        required: true
       update_tools:
         description: 'Update tools'
         required: false
@@ -62,15 +62,6 @@ jobs:
         git config --global user.email 41898282+github-actions[bot]@users.noreply.github.com
         git add .
         git commit -m "Start ${{ inputs.new_version }}" && git push || true
-
-  get-diff:
-    needs: update
-    name: Get diff
-    uses: ./.github/workflows/get-diff.yml
-    with:
-      old_version: ${{ inputs.old_version }}
-      new_branch: ${{ inputs.new_branch }}
-      new_version: ${{ inputs.new_version }}
 
   #check:
   #  needs: update
