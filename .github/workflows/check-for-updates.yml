@@ -69,9 +69,12 @@ jobs:
   run-update:
     if: ${{ always() && !cancelled() && !failure() && needs.check.result == 'success' && needs.check.outputs.new_version }}
     uses: ./.github/workflows/update.yml
+    permissions:
+      contents: write
     needs:
       - check
     with:
       new_version: ${{ needs.check.outputs.new_version }}
       new_branch: ${{ needs.check.outputs.new_branch }}
       publish: ${{ inputs.publish }}
+    secrets: inherit
