@@ -3,6 +3,7 @@ package net.neoforged.neoform;
 import net.neoforged.gradleutils.GradleUtilsExtension;
 import net.neoforged.gradleutils.PomUtilsExtension;
 import net.neoforged.neoform.dsl.NeoFormExtension;
+import net.neoforged.neoform.tasks.CheckForMinecraftUpdate;
 import net.neoforged.neoform.tasks.CreateConfig;
 import net.neoforged.neoform.tasks.CreatePatchWorkspace;
 import net.neoforged.neoform.tasks.CreatePatches;
@@ -154,6 +155,7 @@ public abstract class NeoFormProjectPlugin implements Plugin<Project> {
         });
         tasks.register("updateMinecraft", UpdateMinecraft.class);
         tasks.register("updateTools", UpdateTools.class);
+        tasks.register("checkForMinecraftUpdate", CheckForMinecraftUpdate.class);
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // Testing Tasks

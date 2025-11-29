@@ -1,7 +1,19 @@
 name: publish.yml
 
 on:
+  workflow_call:
+    #
+    release:
+      default: false
+      required: false
+      type: boolean
   workflow_dispatch:
+    inputs:
+      release:
+        default: false
+        required: false
+        type: boolean
+        description: ...
 
 permissions:
   contents: read

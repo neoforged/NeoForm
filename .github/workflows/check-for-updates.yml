@@ -1,165 +1,70 @@
-name: Check For New Snapshots
-on: 
-#  schedule:
-#    - cron: "*/30 6-19 * * *"
+name: Check For New Minecraft Version
+on:
+  # This is triggered by n8n after a new Minecraft version has been detected
   workflow_dispatch:
 concurrency: 
   group: check-for-updates
 permissions:
   actions: write
-  
-jobs:
-  check:
-    env:
-      LATEST_VERSION: ${{ vars.LATEST_MC_VERSION }}
-      LATEST_MAINLINE: ${{ vars.LATEST_MAINLINE_VERSION }}
-    runs-on: ubuntu-latest
-    if: ${{ vars.LATEST_MC_VERSION != vars.TARGET_MC_VERSION }}
-    outputs:
-      is_new: ${{ fromJson(steps.check.outputs.result).is_new }}
-      old_version: ${{ toJson(fromJson(steps.check.outputs.result).old_version) }}
-      new_version: ${{ toJson(fromJson(steps.check.outputs.result).new_version) }}
-    steps:
-      - name: Get Version Manifest
-        id: version_manifest
-        run: echo "latest_snapshot=$(wget -O - https://piston-meta.mojang.com/mc/game/version_manifest_v2.json | jq -r .latest.snapshot)" >> $GITHUB_OUTPUT
-      - name: Check latest snapshot
-        id: check
-        uses: actions/github-script@v7
-        env:
-          NEW_LATEST_VERSION: ${{ steps.version_manifest.outputs.latest_snapshot }}
-        with:
-          script: |
-            function getInfo(name) {
-              var type = "";
-              var april = false;
-              if (/^\d+\.\d+(\.\d+)?$/.test(name)) {
-                type = "release";
-              } else if (/^\d{2}w\d{2}[a-z]$/.test(name)) {
-                type = "snapshot";
-              } else if (/^\d+\.\d+(.\d+)?-(pre|rc)\d+$/.test(name) || /^\d+\.\d+.\d+-rc\d+$/.test(name)) {
-                type = "pre";
-              } else {
-                // If it doesn't match anything guess that it's an april fools release
-                type = "snapshot";
-                april = true;
-              }
-              return {type: type, april: april, version: name}
-            }
-            
-            const latestSnapshot = process.env.NEW_LATEST_VERSION
-            
-            const newVersionInfo = getInfo(latestSnapshot);
-            const oldVersion = process.env.LATEST_MAINLINE;
-            const oldVersionInfo = getInfo(oldVersion);
-            
-            if (process.env.LATEST_VERSION === latestSnapshot) {
-              core.info("No new snapshots have been released since " + process.env.LATEST_VERSION)
-              return {old_version: oldVersionInfo, new_version: newVersionInfo, is_new: false};
-            }
 
-            core.info("Found new snapshot: " + latestSnapshot)
-            return {old_version: oldVersionInfo, new_version: newVersionInfo, is_new: true};
-  check-srgutils:
+jobs:
+  # This job will run a Gradle task to check for a new version
+  check:
     runs-on: ubuntu-latest
-    needs: check
-    if: ${{ needs.check.outputs.is_new == 'true' && fromJson(needs.check.outputs.new_version).april }}
+    outputs:
+      new_branch: ${{ steps.postprocess.outputs.new_branch }}
+      new_version: ${{ steps.postprocess.outputs.new_version }}
     steps:
       - name: Setup Java
         uses: actions/setup-java@v4
-        with: 
+        with:
           distribution: temurin
-          java-version: ${{ vars.JAVA_VERSION }}
-      - name: Install fast-xml-parser
-        run: sudo npm install -g fast-xml-parser@4.5.1
-      - name: Get latest version of srgutils
-        id: srgutils_version
-        run: echo "srgutils_version=$(wget -O - https://maven.neoforged.net/releases/net/neoforged/srgutils/maven-metadata.xml | fxparser -c | jq .metadata.versioning.latest -r)" >> $GITHUB_OUTPUT
-      - name: Download srgutils
-        run: wget https://maven.neoforged.net/releases/net/neoforged/srgutils/${{ steps.srgutils_version.outputs.srgutils_version }}/srgutils-${{ steps.srgutils_version.outputs.srgutils_version }}.jar -O srgutils.jar
-      - name: Download parser
-        run: wget ${{ vars.PARSE_VERSION_JAVA }}
-      - name: Run parser
-        run: java -cp srgutils.jar Main.java ${{ fromJson(needs.check.outputs.new_version).version }}
-  run-update:
-    runs-on: ubuntu-latest
-    needs:
-      - check
-      - check-srgutils
-    if: ${{ always() && !cancelled() && !failure() && needs.check.result == 'success' && needs.check.outputs.is_new == 'true' }}
-    env:
-      TARGET_VERSION: ${{ vars.TARGET_MC_VERSION }}
-    steps:
-      - name: Run update workflow
-        id: update
-        uses: actions/github-script@v7
+          java-version: 21
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v5
+      # This job will create outputs:
+      # - release_type ('special' for anything that's not mainline)
+      # - latest_version
+      # - current_version
+      - id: check_for_update
+        name: Check for Minecraft Updates
+        run: ./gradlew :checkForMinecraftUpdate
+      - name: Check latest snapshot
+        uses: actions/github-script@v8
         env:
-          OLD_VERSION_INFO: ${{ needs.check.outputs.old_version }}
-          NEW_VERSION_INFO: ${{ needs.check.outputs.new_version }}
+          LATEST_VERSION: ${{ steps.check_for_update.outputs.latest_version }}
+          CURRENT_VERSION: ${{ steps.check_for_update.outputs.current_version }}
+          RELEASE_TYPE: ${{ steps.check_for_update.outputs.release_type }}
         with:
           script: |
-            const oldVersionInfo = JSON.parse(process.env.OLD_VERSION_INFO);
-            const newVersionInfo = JSON.parse(process.env.NEW_VERSION_INFO);
-            function getVersionPrefix(info) {
-              if (info.april) {
-                return "snapshot/april/";
-              } else if (info.type === "snapshot" || info.type === "pre") {
-                const targetSplit = process.env.TARGET_VERSION.split(".")
-                return info.type + "/" + targetSplit[0] + "." + targetSplit[1] + "/";
-              } else {
-                return info.type + "/";
-              }
+            const currentVersion = process.env.LATEST_VERSION;
+            const latestVersion = process.env.LATEST_VERSION;
+            const releaseType = process.env.RELEASE_TYPE;
+            
+            if (currentVersion === latestVersion) {
+              console.log('No new version has been released.');
+              return;
             }
-             
-            function getBranch(info) {
-              var release = info.type === "release";
-              if (release || info.april) {
-                return "main";
-              } else {
-                return process.env.TARGET_VERSION + "-dev";
-              }
+            
+            fs.appendFileSync(process.env.GITHUB_OUTPUT, `new_version=${latestVersion}\n`, 'utf8');
+            
+            // if we're on the default branch, create a new branch for special releases
+            // otherwise just stay on the same branch.
+            const defaultBranch = context.payload.repository.default_branch;
+            const currentBranch = currentBranch = context.ref.replace('refs/heads/', '');
+            console.log('Default branch: {}. Current branch: {}', defaultBranch, currentBranch); 
+            const isDefaultBranch = currentBranch === defaultBranch;
+            
+            const fs = require('fs');
+            if (!isDefaultBranch && releaseType === 'special') {
+              fs.appendFileSync(process.env.GITHUB_OUTPUT, `new_branch=${releaseType}/${latestVersion}\n`, 'utf8');
             }
 
-            var inputs = {}
-            inputs.old_version = getVersionPrefix(oldVersionInfo) + oldVersionInfo.version;
-            inputs.new_version = getVersionPrefix(newVersionInfo) + newVersionInfo.version;
-            inputs.publish = true
-            
-            var oldBranch = getBranch(oldVersionInfo);
-            var newBranch = getBranch(newVersionInfo);
-            if (oldBranch !== newBranch) {
-              inputs.new_branch = newBranch;
-            }
-            
-            core.info("Using inputs:");
-            for (const key in inputs) {
-              core.info(key + ": " + inputs[key]);
-            }
-            
-            github.rest.actions.createWorkflowDispatch({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              workflow_id: "update.yml",
-              ref: oldBranch,
-              inputs: inputs
-            });
-            
-      - name: Store Latest Version
-        uses: octokit/request-action@872c5c97b3c85c23516a572f02b31401ef82415d
-        with:
-          route: PATCH /repos/{repo}/actions/variables/{name}
-          repo: ${{ github.repository }}
-          name: LATEST_MC_VERSION
-          value: "\"${{ fromJson(needs.check.outputs.new_version).version }}\""
-        env:
-          GITHUB_TOKEN: ${{ secrets.VARIABLES_TOKEN }}
-      - name: Store Latest Version
-        if: ${{ !fromJson(needs.check.outputs.new_version).april }}
-        uses: octokit/request-action@872c5c97b3c85c23516a572f02b31401ef82415d
-        with:
-          route: PATCH /repos/{repo}/actions/variables/{name}
-          repo: ${{ github.repository }}
-          name: LATEST_MAINLINE_VERSION
-          value: "\"${{ fromJson(needs.check.outputs.new_version).version }}\""
-        env:
-          GITHUB_TOKEN: ${{ secrets.VARIABLES_TOKEN }}
+  run-update:
+    if: ${{ always() && !cancelled() && !failure() && needs.check.result == 'success' && needs.check.outputs.new_version }}
+    uses: ./.github/workflows/update.yml
+    needs:
+      - check
+    with:
+      new_version: ${{ needs.check.outputs.new_version }}
+      new_branch: ${{ needs.check.outputs.new_branch }}
