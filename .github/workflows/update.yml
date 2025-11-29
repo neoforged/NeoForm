@@ -9,6 +9,23 @@ permissions:
 # Controls when the action will run. Workflow runs when manually triggered using the UI
 # or API.
 on:
+  workflow_call:
+    inputs:
+      new_branch:
+        description: 'New Branch'
+        required: false
+        type: string
+      new_version:
+        description: 'New Minecraft Version'
+        required: false
+        type: string
+      update_tools:
+        default: true
+        type: boolean
+      publish:
+        required: false
+        default: false
+        type: boolean
   workflow_dispatch:
     inputs:
       new_branch:
