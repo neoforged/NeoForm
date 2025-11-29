@@ -2,7 +2,13 @@ name: Check For New Minecraft Version
 on:
   # This is triggered by n8n after a new Minecraft version has been detected
   workflow_dispatch:
-concurrency: 
+    inputs:
+      publish:
+        description: 'Publish'
+        required: false
+        default: false
+        type: boolean
+concurrency:
   group: check-for-updates
 permissions:
   actions: write
@@ -68,3 +74,4 @@ jobs:
     with:
       new_version: ${{ needs.check.outputs.new_version }}
       new_branch: ${{ needs.check.outputs.new_branch }}
+      publish: ${{ inputs.publish }}
