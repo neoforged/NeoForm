@@ -37,7 +37,8 @@ jobs:
       - id: check_for_update
         name: Check for Minecraft Updates
         run: ./gradlew :checkForMinecraftUpdate
-      - name: Check latest snapshot
+      - id: postprocess
+        name: Post-Process Update Variables
         uses: actions/github-script@v8
         env:
           LATEST_VERSION: ${{ steps.check_for_update.outputs.latest_version }}
@@ -61,11 +62,11 @@ jobs:
             // otherwise just stay on the same branch.
             const defaultRef = 'refs/heads' + context.payload.repository.default_branch;
             const currentRef = context.ref;
-            console.log('Default ref: {}. Current ref: {}', defaultRef, currentRef); 
+            console.log('Default ref: %s. Current ref: %s', defaultRef, currentRef); 
             const isDefaultRef = currentRef === defaultRef;
             
-            if (!isDefaultRef && releaseType === 'special') {
-              console.log('Using new branch for special release found on default branch: {}', releaseType);
+            if (isDefaultRef && releaseType === 'special') {
+              console.log('Using new branch for special release found on default branch: %s', releaseType);
               fs.appendFileSync(process.env.GITHUB_OUTPUT, `new_branch=${releaseType}/${latestVersion}\n`, 'utf8');
             }
 
