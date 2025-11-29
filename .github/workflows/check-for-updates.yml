@@ -59,8 +59,8 @@ jobs:
             
             // if we're on the default branch, create a new branch for special releases
             // otherwise just stay on the same branch.
-            const defaultBranch = context.payload.repository.default_branch;
-            const currentBranch = currentBranch = context.ref.replace('refs/heads/', '');
+            const defaultRef = 'refs/heads' + context.payload.repository.default_branch;
+            const currentBranch = context.ref;
             console.log('Default branch: {}. Current branch: {}', defaultBranch, currentBranch); 
             const isDefaultBranch = currentBranch === defaultBranch;
             
