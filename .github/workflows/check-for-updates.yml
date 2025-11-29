@@ -4,9 +4,9 @@ on:
   workflow_dispatch:
     inputs:
       publish:
-        description: 'Publish'
+        description: 'Auto Publish'
         required: false
-        default: false
+        default: true
         type: boolean
 concurrency:
   group: check-for-updates
@@ -65,7 +65,7 @@ jobs:
             const isDefaultRef = currentRef === defaultRef;
             
             if (!isDefaultRef && releaseType === 'special') {
-              console.log('Using new branch for special release found on default branch: {}", releaseType);
+              console.log('Using new branch for special release found on default branch: {}', releaseType);
               fs.appendFileSync(process.env.GITHUB_OUTPUT, `new_branch=${releaseType}/${latestVersion}\n`, 'utf8');
             }
 
