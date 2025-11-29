@@ -45,7 +45,7 @@ jobs:
           RELEASE_TYPE: ${{ steps.check_for_update.outputs.release_type }}
         with:
           script: |
-            const currentVersion = process.env.LATEST_VERSION;
+            const currentVersion = process.env.CURRENT_VERSION;
             const latestVersion = process.env.LATEST_VERSION;
             const releaseType = process.env.RELEASE_TYPE;
             
