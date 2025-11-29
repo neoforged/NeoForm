@@ -21,6 +21,7 @@ jobs:
       new_branch: ${{ steps.postprocess.outputs.new_branch }}
       new_version: ${{ steps.postprocess.outputs.new_version }}
     steps:
+      - uses: actions/checkout@v4
       - name: Setup Java
         uses: actions/setup-java@v4
         with:
