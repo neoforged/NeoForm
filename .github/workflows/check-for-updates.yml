@@ -16,6 +16,7 @@ permissions:
 jobs:
   # This job will run a Gradle task to check for a new version
   check:
+    name: Check for new versions
     runs-on: ubuntu-latest
     outputs:
       new_branch: ${{ steps.postprocess.outputs.new_branch }}
@@ -68,6 +69,7 @@ jobs:
             }
 
   run-update:
+    name: Perform update
     if: ${{ always() && !cancelled() && !failure() && needs.check.result == 'success' && needs.check.outputs.new_version }}
     uses: ./.github/workflows/update.yml
     permissions:
