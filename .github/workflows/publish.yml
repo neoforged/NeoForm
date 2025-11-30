@@ -2,10 +2,18 @@ name: publish.yml
 
 on:
   workflow_call:
-    release:
-      default: false
-      required: false
-      type: boolean
+    inputs:
+      release:
+        default: false
+        required: false
+        type: boolean
+    secrets:
+      DISCORD_WEBHOOK:
+        required: true
+      MAVEN_USER:
+        required: true
+      MAVEN_PASSWORD:
+        required: true
   workflow_dispatch:
     inputs:
       release:
