@@ -54,7 +54,7 @@ public abstract class NeoFormProjectPlugin implements Plugin<Project> {
         var minecraftVersion = neoForm.getMinecraftVersion();
 
         project.setGroup("net.neoforged");
-        project.setVersion(minecraftVersion.get() + "-" + project.getProviders().gradleProperty("neoform_release").orElse("SNAPSHOT"));
+        TagBasedVersioning.configureVersion(project, minecraftVersion.get());
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // Download the Version Manifest
