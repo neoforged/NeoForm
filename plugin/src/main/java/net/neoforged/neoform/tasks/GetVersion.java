@@ -2,6 +2,7 @@ package net.neoforged.neoform.tasks;
 
 import net.neoforged.neoform.dsl.NeoFormExtension;
 import org.gradle.api.DefaultTask;
+import org.gradle.api.GradleException;
 import org.gradle.api.Project;
 import org.gradle.api.provider.Property;
 import org.gradle.api.tasks.Internal;
@@ -34,15 +35,23 @@ public abstract class GetVersion extends DefaultTask {
     }
 
     @TaskAction
-    public void printMinecraftVersion() throws IOException {
+    public void getVersion() throws IOException {
         boolean release = getRelease().get();
 
-        getLogger().lifecycle("Version: {}", getMinecraftVersion().get());
+        var minecraftVersion = getMinecraftVersion().get();
+        String version;
+        if (!release) {
+            version = minecraftVersion + "-SNAPSHOT";
+        } else {
+            throw new GradleException("Doesn't work yet.");
+        }
+
+        getLogger().lifecycle("Version: {}", version);
 
         // Make these properties easily available to the CI/CD workflow
         var githubOutput = System.getenv("GITHUB_OUTPUT");
         if (githubOutput != null) {
-            Files.writeString(Path.of(githubOutput), "minecraft_version" + getMinecraftVersion().get() + "\n");
+            Files.writeString(Path.of(githubOutput), "version=" + version + "\n");
         }
     }
 }
