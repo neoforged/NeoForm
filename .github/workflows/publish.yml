@@ -2,7 +2,6 @@ name: publish.yml
 
 on:
   workflow_call:
-    #
     release:
       default: false
       required: false
@@ -13,7 +12,7 @@ on:
         default: false
         required: false
         type: boolean
-        description: ...
+        description: Create a Release
 
 permissions:
   contents: read
@@ -28,6 +27,7 @@ jobs:
     with:
       java: 21
       gradle_tasks: check publish
+      version_task: getVersion -Pneoform_release=${{ inputs.release }}
     secrets:
       DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
       MAVEN_USER: ${{ secrets.MAVEN_USER }}

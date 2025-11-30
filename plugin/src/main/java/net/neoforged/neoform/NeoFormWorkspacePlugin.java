@@ -6,7 +6,6 @@ import net.neoforged.neoform.dsl.NeoFormExtension;
 import net.neoforged.neoform.tasks.DownloadVersionManifest;
 import net.neoforged.neoform.tasks.GenerateRunClientClass;
 import net.neoforged.nfrtgradle.DownloadAssets;
-import net.neoforged.nfrtgradle.NeoFormRuntimeExtension;
 import net.neoforged.nfrtgradle.NeoFormRuntimePlugin;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
@@ -117,6 +116,10 @@ public class NeoFormWorkspacePlugin implements Plugin<Project> {
             task.getVersionManifest().set(versionManifest);
         });
         NeoDevFacade.runTaskOnProjectSync(project, generateRunClientClass);
+        // Move the ide sync task into neoform/internal
+        tasks.named("neoForgeIdeSync").configure(task -> {
+            task.setGroup("neoform/internal");
+        });
 
         tasks.register("runClient", JavaExec.class, task -> {
             task.setGroup("neoform");

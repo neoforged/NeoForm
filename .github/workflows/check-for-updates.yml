@@ -23,10 +23,9 @@ jobs:
       new_version: ${{ steps.postprocess.outputs.new_version }}
     steps:
       - uses: actions/checkout@v4
-      - name: Setup Java
-        uses: actions/setup-java@v4
+      - name: Setup Java 21
+        uses: neoforged/actions/setup-java@main
         with:
-          distribution: temurin
           java-version: 21
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v5
@@ -60,7 +59,7 @@ jobs:
             
             // if we're on the default branch, create a new branch for special releases
             // otherwise just stay on the same branch.
-            const defaultRef = 'refs/heads' + context.payload.repository.default_branch;
+            const defaultRef = 'refs/heads/' + context.payload.repository.default_branch;
             const currentRef = context.ref;
             console.log('Default ref: %s. Current ref: %s', defaultRef, currentRef); 
             const isDefaultRef = currentRef === defaultRef;

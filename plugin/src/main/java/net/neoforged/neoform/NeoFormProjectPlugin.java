@@ -10,6 +10,7 @@ import net.neoforged.neoform.tasks.CreatePatches;
 import net.neoforged.neoform.tasks.Decompile;
 import net.neoforged.neoform.tasks.DownloadVersionArtifact;
 import net.neoforged.neoform.tasks.DownloadVersionManifest;
+import net.neoforged.neoform.tasks.GetVersion;
 import net.neoforged.neoform.tasks.PrepareJarForDecompiler;
 import net.neoforged.neoform.tasks.TestWithNeoFormRuntime;
 import net.neoforged.neoform.tasks.ToolAction;
@@ -53,7 +54,7 @@ public abstract class NeoFormProjectPlugin implements Plugin<Project> {
         var minecraftVersion = neoForm.getMinecraftVersion();
 
         project.setGroup("net.neoforged");
-        project.setVersion(minecraftVersion.get() + "-SNAPSHOT");
+        project.setVersion(minecraftVersion.get() + "-" + project.getProviders().gradleProperty("neoform_release").orElse("SNAPSHOT"));
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // Download the Version Manifest
@@ -156,6 +157,7 @@ public abstract class NeoFormProjectPlugin implements Plugin<Project> {
         tasks.register("updateMinecraft", UpdateMinecraft.class);
         tasks.register("updateTools", UpdateTools.class);
         tasks.register("checkForMinecraftUpdate", CheckForMinecraftUpdate.class);
+        tasks.register("getVersion", GetVersion.class);
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // Testing Tasks
@@ -198,8 +200,8 @@ public abstract class NeoFormProjectPlugin implements Plugin<Project> {
         var neoformLibraries = configurations.dependencyScope("neoformLibraries");
         var neoformRuntimeElements = configurations.consumable("neoformRuntimeElements", configuration -> {
             configuration.attributes(attributes -> {
-                        attributes.attributeProvider(TargetJvmVersion.TARGET_JVM_VERSION_ATTRIBUTE, neoForm.getJavaVersion());
-                        attributes.attribute(Usage.USAGE_ATTRIBUTE, objects.named(Usage.class, Usage.JAVA_RUNTIME));
+                attributes.attributeProvider(TargetJvmVersion.TARGET_JVM_VERSION_ATTRIBUTE, neoForm.getJavaVersion());
+                attributes.attribute(Usage.USAGE_ATTRIBUTE, objects.named(Usage.class, Usage.JAVA_RUNTIME));
             });
             configuration.getOutgoing().capability("net.neoforged:neoform-dependencies:" + project.getVersion());
             configuration.extendsFrom(configurations.named("minecraftLibraries").get());
@@ -216,9 +218,12 @@ public abstract class NeoFormProjectPlugin implements Plugin<Project> {
 
         var neoformComponent = getComponentFactory().adhoc("neoform");
         project.getComponents().add(neoformComponent);
-        neoformComponent.addVariantsFromConfiguration(neoformData, variant -> {});
-        neoformComponent.addVariantsFromConfiguration(neoformRuntimeElements, variant -> {});
-        neoformComponent.addVariantsFromConfiguration(neoformApiElements, variant -> {});
+        neoformComponent.addVariantsFromConfiguration(neoformData, variant -> {
+        });
+        neoformComponent.addVariantsFromConfiguration(neoformRuntimeElements, variant -> {
+        });
+        neoformComponent.addVariantsFromConfiguration(neoformApiElements, variant -> {
+        });
 
         project.getPlugins().apply(MavenPublishPlugin.class);
         project.getPlugins().apply("net.neoforged.gradleutils");
@@ -230,8 +235,8 @@ public abstract class NeoFormProjectPlugin implements Plugin<Project> {
         publishing.getPublications().register("maven", MavenPublication.class, publication -> {
             publication.from(neoformComponent);
             publication.pom(spec -> {
-               spec.getName().set("NeoForm");
-               spec.getDescription().set("Data and patches required to produce recompilable Minecraft source code");
+                spec.getName().set("NeoForm");
+                spec.getDescription().set("Data and patches required to produce recompilable Minecraft source code");
             });
         });
         publishing.getPublications().withType(MavenPublication.class).configureEach(it -> {
