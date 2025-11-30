@@ -26,9 +26,6 @@ permissions:
   contents: read
   statuses: write
 
-env:
-  MAVEN_URL_SNAPSHOTS: https://maven.neoforged.net/snapshots/
-
 jobs:
   release:
     uses: neoforged/actions/.github/workflows/gradle-publish.yml@main
