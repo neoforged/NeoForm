@@ -7,7 +7,7 @@ plugins {
 }
 
 neoForm {
-    minecraftVersion = '1.21.11-pre2_unobfuscated'
+    minecraftVersion = '1.21.11-pre3_unobfuscated'
     minecraftLauncherManifestUrl = 'https://shartte.github.io/Minecraft1.21.11UnobfuscatedMeta/manifest.json'
     minecraftDependencies = [
             'net.neoforged:minecraft-dependencies:' + minecraftVersion.get().replace('_unobfuscated', '')
