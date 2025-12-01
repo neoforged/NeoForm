@@ -14,8 +14,6 @@ concurrency:
 
 permissions:
   actions: write
-  contents: write
-  statuses: write
 
 jobs:
   # This job will run a Gradle task to check for a new version
@@ -79,6 +77,7 @@ jobs:
     uses: ./.github/workflows/update.yml
     permissions:
       contents: write
+      statuses: write
     needs:
       - check
     with:
