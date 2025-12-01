@@ -1,9 +1,13 @@
 package net.neoforged.neoform;
 
+import joptsimple.internal.Strings;
+import org.gradle.api.GradleException;
 import org.gradle.api.Project;
+import org.gradle.api.provider.Provider;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
@@ -41,29 +45,22 @@ final class TagBasedVersioning {
         var release = project.getProviders().gradleProperty("neoform_release").orElse("false").map(Boolean::parseBoolean);
 
         // Get the current HEAD commit SHA
-        var currentCommit = project.getProviders().exec(spec -> {
-            spec.commandLine("git", "rev-parse", "HEAD");
-            spec.setWorkingDir(project.getRootDir());
-        }).getStandardOutput().getAsText().map(String::trim);
+        var currentCommit = runGit(project, "git", "rev-parse", "HEAD");
 
         // List all tags matching the pattern for the Minecraft version remotely
         // Example output:
         // f2ba5b04b8accc92453ffee37644886f56b9ca1b        refs/tags/v1.21.11-pre2_unobfuscated-1
         // 2132246adfcef540620d9a5944fb33ad99d3b896        refs/tags/v1.21.11-pre2_unobfuscated-2
         // f2ba5b04b8accc92453ffee37644886f56b9ca1b        refs/tags/v1.21.11-pre2_unobfuscated-2^{}
-        var remoteReleases = project.getProviders().exec(spec -> {
-            spec.commandLine("git", "ls-remote", "-t", "origin", "v" + minecraftVersion + "-*");
-            spec.setWorkingDir(project.getRootDir());
-        }).getStandardOutput().getAsText().map(output -> parseRevList(output, minecraftVersion));
+        var remoteReleases = runGit(project, "git", "ls-remote", "-t", "origin", "v" + minecraftVersion + "-*")
+                .map(output -> parseRevList(output, minecraftVersion));
         // List all tags matching the pattern for the Minecraft version locally. Note this is NOT filtered by Minecraft version
         // Example output:
         // f2ba5b04b8accc92453ffee37644886f56b9ca1b refs/tags/v1.21.11-pre2_unobfuscated-1
         // 2132246adfcef540620d9a5944fb33ad99d3b896 refs/tags/v1.21.11-pre2_unobfuscated-2
         // f2ba5b04b8accc92453ffee37644886f56b9ca1b refs/tags/v1.21.11-pre2_unobfuscated-2^{}
-        var localReleases = project.getProviders().exec(spec -> {
-            spec.commandLine("git", "show-ref", "--tags", "-d");
-            spec.setWorkingDir(project.getRootDir());
-        }).getStandardOutput().getAsText().map(output -> parseRevList(output, minecraftVersion));
+        var localReleases = runGit(project, "git", "show-ref", "--tags", "-d")
+                .map(output -> parseRevList(output, minecraftVersion));
 
         // Joined releases
         var allReleases = remoteReleases.zip(localReleases, (a, b) -> Stream.concat(a.stream(), b.stream()).toList());
@@ -103,5 +100,33 @@ final class TagBasedVersioning {
         }
 
         project.setVersion(new VersionSource());
+    }
+
+    private static Provider<String> runGit(Project project, String... args) {
+        var execOutput = project.getProviders().exec(spec -> {
+            spec.commandLine(args);
+            spec.setWorkingDir(project.getRootDir());
+            spec.setIgnoreExitValue(true); // we have to do manual error checking, otherwise we do not get reporting on the STDERR/STDOUT
+        });
+
+        return execOutput.getResult()
+                .zip(execOutput.getStandardOutput().getAsText(), Map::entry)
+                .zip(execOutput.getStandardError().getAsText(), (combined, stderr) -> {
+                    int exitCode = combined.getKey().getExitValue();
+                    String stdout = combined.getValue();
+
+                    if (exitCode != 0) {
+                        var error = new StringBuilder(Strings.join(args, " ") + " failed with exit code: %d\n");
+                        if (!stdout.isEmpty()) {
+                            error.append("\nSTDOUT:\n").append(stdout).append("\n");
+                        }
+                        if (!stderr.isEmpty()) {
+                            error.append("\nSTDERR:\n").append(stderr).append("\n");
+                        }
+                        throw new GradleException(error.toString());
+                    }
+
+                    return stdout.trim();
+                });
     }
 }
