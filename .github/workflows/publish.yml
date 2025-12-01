@@ -1,5 +1,7 @@
 name: publish.yml
 
+run-name: ${{ inputs.release && 'Publish Release' || 'Publish Snapshot' }}
+
 on:
   workflow_call:
     inputs:

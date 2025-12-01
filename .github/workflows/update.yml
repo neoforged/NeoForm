@@ -5,6 +5,7 @@ run-name: ${{ inputs.new_version && format('Update to {0}', inputs.new_version) 
 
 permissions:
   contents: write
+  statuses: write
 
 # Controls when the action will run. Workflow runs when manually triggered using the UI
 # or API.
@@ -87,12 +88,10 @@ jobs:
     - name: Push Changes
       run: git push -u origin HEAD
 
-  #check:
-  #  needs: update
-  #  uses: ./.github/workflows/check.yml
-  #  with:
-  #    branch: ${{ inputs.new_branch || '' }}
-  #    version: ${{ inputs.new_version }}
-  #    push_changed: true
-  #    publish: ${{ inputs.publish }}
-  #  secrets: inherit
+  publish:
+    if: inputs.publish
+    needs: update
+    uses: ./.github/workflows/publish.yml
+    with:
+      release: true
+    secrets: inherit
