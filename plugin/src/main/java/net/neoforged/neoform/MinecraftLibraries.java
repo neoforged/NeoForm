@@ -10,6 +10,8 @@ import org.gradle.api.attributes.Attribute;
 import java.util.ArrayList;
 
 final class MinecraftLibraries {
+    static final String DEPENDENCY_SCOPE = "minecraftLibraries";
+
     private MinecraftLibraries() {
     }
 
@@ -17,7 +19,7 @@ final class MinecraftLibraries {
         var configurations = project.getConfigurations();
         var neoForm = NeoFormExtension.fromProject(project);
 
-        var minecraftLibraries = configurations.dependencyScope("minecraftLibraries", spec -> {
+        var minecraftLibraries = configurations.dependencyScope(DEPENDENCY_SCOPE, spec -> {
             var dependencyFactory = project.getDependencyFactory();
             var classpath = neoForm.getMinecraftDependencies();
             spec.getDependencies().addAllLater(classpath.map(notations -> {

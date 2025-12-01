@@ -3,6 +3,7 @@ package net.neoforged.neoform;
 import net.neoforged.gradleutils.GradleUtilsExtension;
 import net.neoforged.gradleutils.PomUtilsExtension;
 import net.neoforged.neoform.dsl.NeoFormExtension;
+import net.neoforged.neoform.dsl.ToolSettings;
 import net.neoforged.neoform.tasks.CheckForMinecraftUpdate;
 import net.neoforged.neoform.tasks.CreateConfig;
 import net.neoforged.neoform.tasks.CreatePatchWorkspace;
@@ -18,6 +19,8 @@ import net.neoforged.neoform.tasks.UpdateTools;
 import org.gradle.api.InvalidUserCodeException;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
+import org.gradle.api.artifacts.Dependency;
+import org.gradle.api.attributes.Bundling;
 import org.gradle.api.attributes.Usage;
 import org.gradle.api.attributes.java.TargetJvmVersion;
 import org.gradle.api.component.SoftwareComponentFactory;
@@ -33,6 +36,7 @@ import org.gradle.jvm.toolchain.JavaLanguageVersion;
 import org.gradle.jvm.toolchain.JavaToolchainService;
 
 import javax.inject.Inject;
+import java.util.List;
 
 public abstract class NeoFormProjectPlugin implements Plugin<Project> {
 
@@ -46,6 +50,7 @@ public abstract class NeoFormProjectPlugin implements Plugin<Project> {
 
         var objects = project.getObjects();
         var tasks = project.getTasks();
+        var configurations = project.getConfigurations();
         var buildDir = project.getLayout().getBuildDirectory();
 
         var neoForm = NeoFormExtension.fromProject(project);
@@ -54,6 +59,21 @@ public abstract class NeoFormProjectPlugin implements Plugin<Project> {
 
         project.setGroup("net.neoforged");
         TagBasedVersioning.configureVersion(project, minecraftVersion.get());
+
+        // Configuration that declares any additional compile-time libraries needed by NeoForm
+        var dependencyFactory = project.getDependencyFactory();
+        var neoFormLibraries = configurations.dependencyScope("neoFormLibraries", spec -> {
+            spec.defaultDependencies(dependencies -> {
+                for (var notation : neoForm.getAdditionalCompileDependencies().get()) {
+                    dependencies.add(dependencyFactory.create(notation));
+                }
+            });
+        });
+        var neoFormTools = configurations.dependencyScope("neoFormTools", spec -> {
+            spec.setDescription("Tools that are declared in this projects NeoForm config file.");
+            spec.getDependencies().addAll(createDependencies(project, neoForm.getPreProcessJar()));
+            spec.getDependencies().addAll(createDependencies(project, neoForm.getDecompiler()));
+        });
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // Download the Version Manifest
@@ -160,10 +180,18 @@ public abstract class NeoFormProjectPlugin implements Plugin<Project> {
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // Testing Tasks
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        var neoFormRuntimeLibrariesClasspath = configurations.resolvable("neoFormRuntimeLibrariesClasspath", spec -> {
+            spec.setDescription("Classpath used to pre-resolve tools and libraries for NFRT");
+            spec.extendsFrom(neoFormTools.get());
+            spec.extendsFrom(neoFormLibraries.get());
+            spec.getAttributes().attribute(Bundling.BUNDLING_ATTRIBUTE, project.getObjects().named(Bundling.class, Bundling.SHADOWED));
+        });
         var check = tasks.register("check", task -> task.setGroup("verification"));
         var testData = tasks.register("testData", TestWithNeoFormRuntime.class, task -> {
             task.setGroup("verification");
             task.setDescription("Tests that the data produced by this project can be consumed by NFRT to generate compilable sources and compile them.");
+            task.addArtifactsToManifest(neoFormRuntimeLibrariesClasspath.get());
+            task.addArtifactsToManifest(minecraftLibrariesClasspath.get());
             task.getNeoFormDataArchive().set(createDataZip.flatMap(Zip::getArchiveFile));
             task.getResultsDirectory().set(project.getLayout().getBuildDirectory().dir("test-results"));
             task.getJavaExecutable().convention(getJavaToolchains()
@@ -177,6 +205,8 @@ public abstract class NeoFormProjectPlugin implements Plugin<Project> {
             tasks.register("testDataWithJava" + testJavaVersion, TestWithNeoFormRuntime.class, task -> {
                 task.setGroup("verification");
                 task.setDescription("Tests that the data produced by this project can be consumed by NFRT to generate compilable sources and compile them.");
+                task.addArtifactsToManifest(neoFormRuntimeLibrariesClasspath.get());
+                task.addArtifactsToManifest(minecraftLibrariesClasspath.get());
                 task.getNeoFormDataArchive().set(createDataZip.flatMap(Zip::getArchiveFile));
                 task.getResultsDirectory().set(project.getLayout().getBuildDirectory().dir("test-results"));
                 task.getJavaExecutable().convention(getJavaToolchains()
@@ -188,22 +218,20 @@ public abstract class NeoFormProjectPlugin implements Plugin<Project> {
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // Publishing Tasks
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        var configurations = project.getConfigurations();
         var neoformData = configurations.consumable("neoformData", configuration -> {
             configuration.getAttributes().attributeProvider(TargetJvmVersion.TARGET_JVM_VERSION_ATTRIBUTE, neoForm.getJavaVersion());
             configuration.getOutgoing().capability("net.neoforged:neoform:" + project.getVersion());
         });
         project.getArtifacts().add(neoformData.getName(), createDataZip);
 
-        var neoformLibraries = configurations.dependencyScope("neoformLibraries");
         var neoformRuntimeElements = configurations.consumable("neoformRuntimeElements", configuration -> {
             configuration.attributes(attributes -> {
                 attributes.attributeProvider(TargetJvmVersion.TARGET_JVM_VERSION_ATTRIBUTE, neoForm.getJavaVersion());
                 attributes.attribute(Usage.USAGE_ATTRIBUTE, objects.named(Usage.class, Usage.JAVA_RUNTIME));
             });
             configuration.getOutgoing().capability("net.neoforged:neoform-dependencies:" + project.getVersion());
-            configuration.extendsFrom(configurations.named("minecraftLibraries").get());
-            configuration.extendsFrom(neoformLibraries.get());
+            configuration.extendsFrom(configurations.named(MinecraftLibraries.DEPENDENCY_SCOPE).get());
+            configuration.extendsFrom(neoFormLibraries.get());
         });
         var neoformApiElements = configurations.consumable("neoformApiElements", configuration -> {
             configuration.attributes(attributes -> {
@@ -211,7 +239,7 @@ public abstract class NeoFormProjectPlugin implements Plugin<Project> {
                 attributes.attribute(Usage.USAGE_ATTRIBUTE, objects.named(Usage.class, Usage.JAVA_API));
             });
             configuration.getOutgoing().capability("net.neoforged:neoform-dependencies:" + project.getVersion());
-            configuration.extendsFrom(neoformLibraries.get());
+            configuration.extendsFrom(neoFormLibraries.get());
         });
 
         var neoformComponent = getComponentFactory().adhoc("neoform");
@@ -253,4 +281,11 @@ public abstract class NeoFormProjectPlugin implements Plugin<Project> {
 
     @Inject
     protected abstract SoftwareComponentFactory getComponentFactory();
+
+    private static List<? extends Dependency> createDependencies(Project project, ToolSettings toolSettings) {
+        var dependencyFactory = project.getDependencyFactory();
+        return List.of(
+                dependencyFactory.create(toolSettings.getVersion().get())
+        );
+    }
 }
