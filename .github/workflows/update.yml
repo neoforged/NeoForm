@@ -5,7 +5,6 @@ run-name: ${{ inputs.new_version && format('Update to {0}', inputs.new_version) 
 
 permissions:
   contents: write
-  statuses: write
 
 # Controls when the action will run. Workflow runs when manually triggered using the UI
 # or API.
@@ -58,40 +57,43 @@ jobs:
       NEW_BRANCH: ${{ inputs.new_branch }}
       NEW_VERSION: ${{ inputs.new_version }}
     steps:
-    - uses: actions/checkout@v4
-    - name: Setup Java 21
-      uses: neoforged/actions/setup-java@main
-      with:
-        java-version: 21
-    - name: Setup Gradle
-      uses: gradle/actions/setup-gradle@v4
-    - name: Create new Branch
-      if: ${{ inputs.new_branch }}
-      run: git checkout -b "$NEW_BRANCH" || git checkout -B ${{ inputs.new_branch }} HEAD
-    - name: Update Tools
-      if: ${{ inputs.update_tools }}
-      run: ./gradlew updateTools
-    - name: Update Minecraft Version
-      if: ${{ inputs.new_version }}
-      run: ./gradlew -- updateMinecraft "--version=$NEW_VERSION"
-    - name: Update Patches
-      run: ./gradlew createPatchWorkspaceForUpdate && ./gradlew createPatches
-    - name: Commit Changes
-      # See https://github.com/actions/checkout?tab=readme-ov-file#push-a-commit-using-the-built-in-token
-      run: |
-        git config user.name "github-actions[bot]"
-        git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-        git add .
-        git commit -m "$COMMIT_MESSAGE" || true
-      env:
-        COMMIT_MESSAGE: ${{ inputs.new_version && format('Update to {0}', inputs.new_version) || (inputs.update_tools && 'Update Tools' || 'Update') }}
-    - name: Push Changes
-      run: git push -u origin HEAD
+      - uses: actions/checkout@v4
+      - name: Setup Java 21
+        uses: neoforged/actions/setup-java@main
+        with:
+          java-version: 21
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+      - name: Create new Branch
+        if: ${{ inputs.new_branch }}
+        run: git checkout -b "$NEW_BRANCH" || git checkout -B ${{ inputs.new_branch }} HEAD
+      - name: Update Tools
+        if: ${{ inputs.update_tools }}
+        run: ./gradlew updateTools
+      - name: Update Minecraft Version
+        if: ${{ inputs.new_version }}
+        run: ./gradlew -- updateMinecraft "--version=$NEW_VERSION"
+      - name: Update Patches
+        run: ./gradlew createPatchWorkspaceForUpdate && ./gradlew createPatches
+      - name: Commit Changes
+        # See https://github.com/actions/checkout?tab=readme-ov-file#push-a-commit-using-the-built-in-token
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add .
+          git commit -m "$COMMIT_MESSAGE" || true
+        env:
+          COMMIT_MESSAGE: ${{ inputs.new_version && format('Update to {0}', inputs.new_version) || (inputs.update_tools && 'Update Tools' || 'Update') }}
+      - name: Push Changes
+        run: git push -u origin HEAD
 
   publish:
     if: inputs.publish
     needs: update
     uses: ./.github/workflows/publish.yml
+    permissions:
+      contents: write
+      statuses: write
     with:
       release: true
     secrets: inherit
