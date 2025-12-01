@@ -1,6 +1,8 @@
 package net.neoforged.neoform;
 
 import joptsimple.internal.Strings;
+import net.neoforged.neoform.tasks.GetVersion;
+import net.neoforged.neoform.tasks.TagRelease;
 import org.gradle.api.GradleException;
 import org.gradle.api.Project;
 import org.gradle.api.provider.Provider;
@@ -59,6 +61,7 @@ final class TagBasedVersioning {
         // f2ba5b04b8accc92453ffee37644886f56b9ca1b refs/tags/v1.21.11-pre2_unobfuscated-1
         // 2132246adfcef540620d9a5944fb33ad99d3b896 refs/tags/v1.21.11-pre2_unobfuscated-2
         // f2ba5b04b8accc92453ffee37644886f56b9ca1b refs/tags/v1.21.11-pre2_unobfuscated-2^{}
+        // The rather complicated looking format is used to show the *target commit* rather than the tags own SHA1 for annotated tags.
         var localReleases = runGit(project, "git", "for-each-ref", "refs/tags", "--format=%(if)%(*objectname)%(then)%(*objectname)%(else)%(objectname)%(end) %(refname)")
                 .map(output -> parseRevList(output, minecraftVersion));
 
@@ -100,6 +103,10 @@ final class TagBasedVersioning {
         }
 
         project.setVersion(new VersionSource());
+
+        var tasks = project.getTasks();
+        tasks.register("getVersion", GetVersion.class);
+        tasks.register("tagRelease", TagRelease.class);
     }
 
     private static Provider<String> runGit(Project project, String... args) {

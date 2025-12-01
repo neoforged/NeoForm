@@ -10,7 +10,6 @@ import net.neoforged.neoform.tasks.CreatePatches;
 import net.neoforged.neoform.tasks.Decompile;
 import net.neoforged.neoform.tasks.DownloadVersionArtifact;
 import net.neoforged.neoform.tasks.DownloadVersionManifest;
-import net.neoforged.neoform.tasks.GetVersion;
 import net.neoforged.neoform.tasks.PrepareJarForDecompiler;
 import net.neoforged.neoform.tasks.TestWithNeoFormRuntime;
 import net.neoforged.neoform.tasks.ToolAction;
@@ -157,7 +156,6 @@ public abstract class NeoFormProjectPlugin implements Plugin<Project> {
         tasks.register("updateMinecraft", UpdateMinecraft.class);
         tasks.register("updateTools", UpdateTools.class);
         tasks.register("checkForMinecraftUpdate", CheckForMinecraftUpdate.class);
-        tasks.register("getVersion", GetVersion.class);
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // Testing Tasks
