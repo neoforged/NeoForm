@@ -104,7 +104,7 @@ final class TagBasedVersioning {
 
     private static Provider<String> runGit(Project project, String... args) {
         var execOutput = project.getProviders().exec(spec -> {
-            spec.commandLine(args);
+            spec.commandLine((Object[]) args);
             spec.setWorkingDir(project.getRootDir());
             spec.setIgnoreExitValue(true); // we have to do manual error checking, otherwise we do not get reporting on the STDERR/STDOUT
         });
