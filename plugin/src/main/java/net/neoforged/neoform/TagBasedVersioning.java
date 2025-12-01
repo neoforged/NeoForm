@@ -59,7 +59,7 @@ final class TagBasedVersioning {
         // f2ba5b04b8accc92453ffee37644886f56b9ca1b refs/tags/v1.21.11-pre2_unobfuscated-1
         // 2132246adfcef540620d9a5944fb33ad99d3b896 refs/tags/v1.21.11-pre2_unobfuscated-2
         // f2ba5b04b8accc92453ffee37644886f56b9ca1b refs/tags/v1.21.11-pre2_unobfuscated-2^{}
-        var localReleases = runGit(project, "git", "show-ref", "--tags", "-d")
+        var localReleases = runGit(project, "git", "for-each-ref", "refs/tags", "--format=%(if)%(*objectname)%(then)%(*objectname)%(else)%(objectname)%(end) %(refname)")
                 .map(output -> parseRevList(output, minecraftVersion));
 
         // Joined releases
