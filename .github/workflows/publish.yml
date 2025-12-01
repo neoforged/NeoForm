@@ -31,8 +31,8 @@ jobs:
     uses: neoforged/actions/.github/workflows/gradle-publish.yml@main
     with:
       java: 21
-      pre_gradle_tasks: check
-      gradle_tasks: tagRelease publish
+      pre_gradle_tasks: check -Pneoform_release=${{ inputs.release }}
+      gradle_tasks: tagRelease publish -Pneoform_release=${{ inputs.release }}
       version_task: getVersion -Pneoform_release=${{ inputs.release }}
     secrets:
       DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
