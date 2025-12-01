@@ -8,10 +8,14 @@ on:
         required: false
         default: true
         type: boolean
+
 concurrency:
   group: check-for-updates
+
 permissions:
   actions: write
+  contents: write
+  statuses: write
 
 jobs:
   # This job will run a Gradle task to check for a new version
