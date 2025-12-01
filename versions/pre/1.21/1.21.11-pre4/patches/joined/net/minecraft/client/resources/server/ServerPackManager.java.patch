@@ -1,0 +1,11 @@
+--- a/net/minecraft/client/resources/server/ServerPackManager.java
++++ b/net/minecraft/client/resources/server/ServerPackManager.java
+@@ -356,7 +356,7 @@
+ 
+         final PackLoadFeedback.@Nullable FinalResult serverResponse;
+ 
+-        private RemovalReason(PackLoadFeedback.FinalResult p_314987_) {
++        private RemovalReason(PackLoadFeedback.@Nullable FinalResult p_314987_) {
+             this.serverResponse = p_314987_;
+         }
+     }

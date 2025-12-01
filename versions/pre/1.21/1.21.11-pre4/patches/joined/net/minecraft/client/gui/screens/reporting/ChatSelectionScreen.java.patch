@@ -1,0 +1,11 @@
+--- a/net/minecraft/client/gui/screens/reporting/ChatSelectionScreen.java
++++ b/net/minecraft/client/gui/screens/reporting/ChatSelectionScreen.java
+@@ -298,7 +298,7 @@
+             private final boolean playerMessage;
+ 
+             public MessageEntry(
+-                int p_240650_, Component p_240525_, @Nullable Component p_240539_, GuiMessageTag p_240551_, boolean p_240596_, boolean p_240615_
++                int p_240650_, Component p_240525_, Component p_240539_, @Nullable GuiMessageTag p_240551_, boolean p_240596_, boolean p_240615_
+             ) {
+                 this.chatId = p_240650_;
+                 this.tagIcon = Optionull.map(p_240551_, GuiMessageTag::icon);

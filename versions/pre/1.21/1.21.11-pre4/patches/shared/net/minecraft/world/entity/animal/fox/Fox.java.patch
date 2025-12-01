@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/entity/animal/fox/Fox.java
++++ b/net/minecraft/world/entity/animal/fox/Fox.java
+@@ -737,7 +737,7 @@
+         private @Nullable LivingEntity trustedLastHurt;
+         private int timestamp;
+ 
+-        public DefendTrustedTargetGoal(Class<LivingEntity> p_481431_, boolean p_481039_, @Nullable boolean p_480762_, TargetingConditions.Selector p_478066_) {
++        public DefendTrustedTargetGoal(Class<LivingEntity> p_481431_, boolean p_481039_, boolean p_480762_, TargetingConditions.@Nullable Selector p_478066_) {
+             super(Fox.this, p_481431_, 10, p_481039_, p_480762_, p_478066_);
+         }
+ 

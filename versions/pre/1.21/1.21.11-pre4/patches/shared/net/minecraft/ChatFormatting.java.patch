@@ -1,0 +1,20 @@
+--- a/net/minecraft/ChatFormatting.java
++++ b/net/minecraft/ChatFormatting.java
+@@ -57,7 +57,7 @@
+         return p_126663_.toLowerCase(Locale.ROOT).replaceAll("[^a-z]", "");
+     }
+ 
+-    private ChatFormatting(String p_126627_, @Nullable char p_126628_, int p_126629_, Integer p_126630_) {
++    private ChatFormatting(String p_126627_, char p_126628_, int p_126629_, @Nullable Integer p_126630_) {
+         this(p_126627_, p_126628_, false, p_126629_, p_126630_);
+     }
+ 
+@@ -65,7 +65,7 @@
+         this(p_126634_, p_126635_, p_126636_, -1, null);
+     }
+ 
+-    private ChatFormatting(String p_126640_, char p_126641_, @Nullable boolean p_126642_, int p_126643_, Integer p_126644_) {
++    private ChatFormatting(String p_126640_, char p_126641_, boolean p_126642_, int p_126643_, @Nullable Integer p_126644_) {
+         this.name = p_126640_;
+         this.code = p_126641_;
+         this.isFormat = p_126642_;

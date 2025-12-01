@@ -1,0 +1,11 @@
+--- a/net/minecraft/client/resources/model/ModelBakery.java
++++ b/net/minecraft/client/resources/model/ModelBakery.java
+@@ -227,7 +227,7 @@
+ 
+         @Override
+         public <T> T compute(ModelBaker.SharedOperationKey<T> p_409780_) {
+-            return (T)this.operationCache.computeIfAbsent(p_409780_, this.cacheComputeFunction);
++            return (T)this.operationCache.computeIfAbsent((ModelBaker.SharedOperationKey<Object>)p_409780_, this.cacheComputeFunction);
+         }
+     }
+ 
