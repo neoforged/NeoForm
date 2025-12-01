@@ -23,7 +23,7 @@ on:
         description: Create a Release
 
 permissions:
-  contents: read
+  contents: write
   statuses: write
 
 jobs:
