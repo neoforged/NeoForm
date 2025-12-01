@@ -34,6 +34,7 @@ jobs:
       pre_gradle_tasks: check -Pneoform_release=${{ inputs.release }}
       gradle_tasks: tagRelease publish -Pneoform_release=${{ inputs.release }}
       version_task: getVersion -Pneoform_release=${{ inputs.release }}
+      configure_git_user: true
     secrets:
       DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
       MAVEN_USER: ${{ secrets.MAVEN_USER }}
