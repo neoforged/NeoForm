@@ -116,7 +116,7 @@ final class TagBasedVersioning {
                     String stdout = combined.getValue();
 
                     if (exitCode != 0) {
-                        var error = new StringBuilder(Strings.join(args, " ") + " failed with exit code: %d\n");
+                        var error = new StringBuilder(Strings.join(args, " ") + " failed with exit code: ").append(exitCode).append("\n");
                         if (!stdout.isEmpty()) {
                             error.append("\nSTDOUT:\n").append(stdout).append("\n");
                         }
