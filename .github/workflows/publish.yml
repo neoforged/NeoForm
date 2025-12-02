@@ -32,36 +32,32 @@ env:
   ORG_GRADLE_PROJECT_neoform_release: ${{ inputs.release }}
 
 jobs:
-  compute-version:
+  publish:
     name: Compute version
     runs-on: ubuntu-latest
     outputs:
-      version: ${{ steps.gradle.outputs.version }}
+      version: ${{ steps.get-version.outputs.version }}
     steps:
-      - uses: neoforged/action-tag-versioning@v1
-        name: Calculate version
-        id: version
-        if: ${{ !inputs.version_task }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          labels: ${{ inputs.version_labels }}
       - uses: actions/checkout@v4
+
       - name: Setup Java
         uses: neoforged/actions/setup-java@main
         with:
           java-version: 21
+
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
+
       - name: Gradle version task
-        id: gradle
+        id: get-version
         run: ./gradlew :getVersion
+
       - uses: neoforged/action-webhooks@v1
         name: Send Discord start notification
         with:
           webhook_url: ${{ secrets.DISCORD_WEBHOOK }}
           status: 'started'
-          version: ${{ needs.compute-version.outputs.version }}
+          version: ${{ steps.get-version.outputs.version }}
           include_commit_message: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -71,26 +67,27 @@ jobs:
           authToken: ${{ secrets.GITHUB_TOKEN }}
           context: 'Publishing'
           state: 'pending'
-          description: "Version: ${{ needs.compute-version.outputs.version }}"
+          description: "Version: ${{ steps.get-version.outputs.version }}"
           target_url: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
 
-  publish:
-    name: Publish
-    needs: ["compute-version"] # Make sure we now the version before starting to build
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Setup Java
-        uses: neoforged/actions/setup-java@main
-        with:
-          java-version: 21
-
-      - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v4
+#  publish:
+#    name: Publish
+#    needs: ["compute-version"] # Make sure we now the version before starting to build
+#    runs-on: ubuntu-latest
+#    steps:
+#      - uses: actions/checkout@v4
+#
+#      - name: Setup Java
+#        uses: neoforged/actions/setup-java@main
+#        with:
+#          java-version: 21
+#
+#      - name: Setup Gradle
+#        uses: gradle/actions/setup-gradle@v4
 
       - name: Tests
-        run: ./gradlew check
+        run: exit 1
+        #run: ./gradlew check
 
       - name: Tag Release
         if: ${{ inputs.release }}
@@ -121,8 +118,8 @@ jobs:
           
           git push origin "$TAG_NAME"
         env:
-          VERSION: ${{ needs.compute-version.outputs.version }}
-          TAG_NAME: v${{ needs.compute-version.outputs.version }}
+          VERSION: ${{ steps.get-version.outputs.version }}
+          TAG_NAME: v${{ steps.get-version.outputs.version }}
 
       - name: Publish
         run: ./gradlew publish
@@ -132,7 +129,7 @@ jobs:
 
   notify-build-end:
     name: Build notifications (end)
-    needs: [ "compute-version", "publish" ]
+    needs: [ "publish" ]
     if: ${{ always() }}
     runs-on: ubuntu-latest
     steps:
@@ -141,7 +138,7 @@ jobs:
         with:
           webhook_url: ${{ secrets.DISCORD_WEBHOOK }}
           status: ${{ needs.publish.result }}
-          version: ${{ needs.compute-version.outputs.version }}
+          version: ${{ needs.publish.outputs.version }}
           include_commit_message: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -151,5 +148,5 @@ jobs:
           authToken: ${{ secrets.GITHUB_TOKEN }}
           context: 'Publishing'
           state: ${{ needs.publish.result }}
-          description: "Version: ${{ needs.compute-version.outputs.version }}"
+          description: "Version: ${{ needs.publish.outputs.version }}"
           target_url: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
