@@ -76,31 +76,25 @@ jobs:
       - name: Tag Release
         if: ${{ inputs.release }}
         run: |          
-          # If the tag exists, it must point to the current ref or the build fails.
-          if git rev-parse "$TAG_NAME" >/dev/null 2>&1; then
-            echo "Tag $TAG_NAME already exists"
-          
-            # Get the commit that the tag points to
-            TAG_COMMIT=$(git rev-list -n 1 "$TAG_NAME")
-            HEAD_COMMIT=$(git rev-parse HEAD)
-          
-            # Check if tag points to current HEAD
-            if [ "$TAG_COMMIT" != "$HEAD_COMMIT" ]; then
-              echo "Error: Tag $TAG_NAME exists but points to $TAG_COMMIT, not current HEAD $HEAD_COMMIT"
-              exit 1
-            fi
-          
-            exit 0
-          fi
-          
           # Create and push tag.
           echo "Creating and pushing tag $TAG_NAME"
           # See https://github.com/actions/checkout?tab=readme-ov-file#push-a-commit-using-the-built-in-token
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git tag -a "$TAG_NAME" -m "Release $VERSION"
-          
-          git push origin "$TAG_NAME"
+                
+          # Try to push the tag (will fail if it exists remotely)
+          if ! git push origin "$TAG_NAME" 2>&1; then
+            echo "Tag already exists on remote, verifying..."        
+            git fetch origin tag "$TAG_NAME"
+            TAG_COMMIT=$(git rev-list -n 1 "$TAG_NAME")
+            HEAD_COMMIT=$(git rev-parse HEAD)        
+            if [ "$TAG_COMMIT" != "$HEAD_COMMIT" ]; then
+              echo "Error: Tag $TAG_NAME points to $TAG_COMMIT, not HEAD $HEAD_COMMIT"
+              exit 1
+            fi
+            echo "Tag $TAG_NAME exists, but correctly points to current HEAD"
+          fi
         env:
           VERSION: ${{ steps.get-version.outputs.version }}
           TAG_NAME: v${{ steps.get-version.outputs.version }}
