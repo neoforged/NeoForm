@@ -86,7 +86,6 @@ jobs:
           # Try to push the tag (will fail if it exists remotely)
           if ! git push origin "$TAG_NAME" 2>&1; then
             echo "Tag already exists on remote, verifying..."        
-            git fetch origin tag "$TAG_NAME"
             TAG_COMMIT=$(git ls-remote origin "refs/tags/$TAG_NAME" | awk '{print $1}')
             HEAD_COMMIT=$(git rev-parse HEAD)
             if [ "$TAG_COMMIT" != "$HEAD_COMMIT" ]; then
