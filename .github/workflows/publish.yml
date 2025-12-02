@@ -150,6 +150,6 @@ jobs:
         with:
           authToken: ${{ secrets.GITHUB_TOKEN }}
           context: 'Publishing'
-          state: ${{ needs.gradle.result }}
+          state: ${{ needs.publish.result }}
           description: "Version: ${{ needs.compute-version.outputs.version }}"
           target_url: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
