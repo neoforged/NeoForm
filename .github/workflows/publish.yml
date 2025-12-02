@@ -75,6 +75,7 @@ jobs:
           target_url: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
 
   publish:
+    name: Publish
     needs: ["compute-version"] # Make sure we now the version before starting to build
     runs-on: ubuntu-latest
     steps:
@@ -138,7 +139,7 @@ jobs:
         name: Send Discord end notification
         with:
           webhook_url: ${{ secrets.DISCORD_WEBHOOK }}
-          status: ${{ needs.gradle.result }}
+          status: ${{ needs.publish.result }}
           version: ${{ needs.compute-version.outputs.version }}
           include_commit_message: true
         env:
