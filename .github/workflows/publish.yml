@@ -33,7 +33,7 @@ env:
 
 jobs:
   publish:
-    name: Compute version
+    name: ${{ inputs.release && 'Publish Release' || 'Publish Snapshot' }}
     runs-on: ubuntu-latest
     outputs:
       version: ${{ steps.get-version.outputs.version }}
@@ -48,7 +48,7 @@ jobs:
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
 
-      - name: Gradle version task
+      - name: Compute Project Version
         id: get-version
         run: ./gradlew :getVersion
 
@@ -70,24 +70,8 @@ jobs:
           description: "Version: ${{ steps.get-version.outputs.version }}"
           target_url: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
 
-#  publish:
-#    name: Publish
-#    needs: ["compute-version"] # Make sure we now the version before starting to build
-#    runs-on: ubuntu-latest
-#    steps:
-#      - uses: actions/checkout@v4
-#
-#      - name: Setup Java
-#        uses: neoforged/actions/setup-java@main
-#        with:
-#          java-version: 21
-#
-#      - name: Setup Gradle
-#        uses: gradle/actions/setup-gradle@v4
-
       - name: Tests
-        run: exit 1
-        #run: ./gradlew check
+        run: ./gradlew check
 
       - name: Tag Release
         if: ${{ inputs.release }}
