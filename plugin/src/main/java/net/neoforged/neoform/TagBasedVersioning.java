@@ -2,7 +2,6 @@ package net.neoforged.neoform;
 
 import joptsimple.internal.Strings;
 import net.neoforged.neoform.tasks.GetVersion;
-import net.neoforged.neoform.tasks.TagRelease;
 import org.gradle.api.GradleException;
 import org.gradle.api.Project;
 import org.gradle.api.provider.Provider;
@@ -106,7 +105,6 @@ final class TagBasedVersioning {
 
         var tasks = project.getTasks();
         tasks.register("getVersion", GetVersion.class);
-        tasks.register("tagRelease", TagRelease.class);
     }
 
     private static Provider<String> runGit(Project project, String... args) {

@@ -28,19 +28,126 @@ permissions:
   contents: write
   statuses: write
 
+env:
+  ORG_GRADLE_PROJECT_neoform_release: ${{ inputs.release }}
+
 jobs:
-  release:
-    uses: neoforged/actions/.github/workflows/gradle-publish.yml@main
-    with:
-      java: 21
-      pre_gradle_tasks: check -Pneoform_release=${{ inputs.release }}
-      gradle_tasks: tagRelease publish -Pneoform_release=${{ inputs.release }}
-      version_task: getVersion -Pneoform_release=${{ inputs.release }}
-      configure_git_user: true
-    permissions:
-      contents: write
-      statuses: write
-    secrets:
-      DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
-      MAVEN_USER: ${{ secrets.MAVEN_USER }}
-      MAVEN_PASSWORD: ${{ secrets.MAVEN_PASSWORD }}
+  compute-version:
+    name: Compute version
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.gradle.outputs.version }}
+    steps:
+      - uses: neoforged/action-tag-versioning@v1
+        name: Calculate version
+        id: version
+        if: ${{ !inputs.version_task }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          labels: ${{ inputs.version_labels }}
+      - uses: actions/checkout@v4
+      - name: Setup Java
+        uses: neoforged/actions/setup-java@main
+        with:
+          java-version: 21
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+      - name: Gradle version task
+        id: gradle
+        run: ./gradlew :getVersion
+      - uses: neoforged/action-webhooks@v1
+        name: Send Discord start notification
+        with:
+          webhook_url: ${{ secrets.DISCORD_WEBHOOK }}
+          status: 'started'
+          version: ${{ needs.compute-version.outputs.version }}
+          include_commit_message: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - uses: neoforged/action-github-status@v1
+        name: Set pending status
+        with:
+          authToken: ${{ secrets.GITHUB_TOKEN }}
+          context: 'Publishing'
+          state: 'pending'
+          description: "Version: ${{ needs.compute-version.outputs.version }}"
+          target_url: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+
+  publish:
+    needs: ["compute-version"] # Make sure we now the version before starting to build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Java
+        uses: neoforged/actions/setup-java@main
+        with:
+          java-version: 21
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Tests
+        run: ./gradlew check
+
+      - name: Tag Release
+        if: ${{ inputs.release }}
+        run: |          
+          # If the tag exists, it must point to the current ref or the build fails.
+          if git rev-parse "$TAG_NAME" >/dev/null 2>&1; then
+            echo "Tag $TAG_NAME already exists"
+          
+            # Get the commit that the tag points to
+            TAG_COMMIT=$(git rev-list -n 1 "$TAG_NAME")
+            HEAD_COMMIT=$(git rev-parse HEAD)
+          
+            # Check if tag points to current HEAD
+            if [ "$TAG_COMMIT" != "$HEAD_COMMIT" ]; then
+              echo "Error: Tag $TAG_NAME exists but points to $TAG_COMMIT, not current HEAD $HEAD_COMMIT"
+              exit 1
+            fi
+          
+            exit 0
+          fi
+          
+          # Create and push tag.
+          # See https://github.com/actions/checkout?tab=readme-ov-file#push-a-commit-using-the-built-in-token
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git tag -a "$TAG_NAME" -m "Release $VERSION"
+          
+          git push origin "$TAG_NAME"
+        env:
+          VERSION: ${{ needs.compute-version.outputs.version }}
+          TAG_NAME: v${{ needs.compute-version.outputs.version }}
+
+      - name: Publish
+        run: ./gradlew publish
+        env:
+          MAVEN_USER: ${{ secrets.MAVEN_USER }}
+          MAVEN_PASSWORD: ${{ secrets.MAVEN_PASSWORD }}
+
+  notify-build-end:
+    name: Build notifications (end)
+    needs: [ "compute-version", "publish" ]
+    if: ${{ always() }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: neoforged/action-webhooks@v1
+        name: Send Discord end notification
+        with:
+          webhook_url: ${{ secrets.DISCORD_WEBHOOK }}
+          status: ${{ needs.gradle.result }}
+          version: ${{ needs.compute-version.outputs.version }}
+          include_commit_message: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - uses: neoforged/action-github-status@v1
+        name: Set build status
+        with:
+          authToken: ${{ secrets.GITHUB_TOKEN }}
+          context: 'Publishing'
+          state: ${{ needs.gradle.result }}
+          description: "Version: ${{ needs.compute-version.outputs.version }}"
+          target_url: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
