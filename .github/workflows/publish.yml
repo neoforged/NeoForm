@@ -75,17 +75,17 @@ jobs:
 
       - name: Tag Release
         if: ${{ inputs.release }}
-        run: |          
+        run: |
           # Create and push tag.
           echo "Creating and pushing tag $TAG_NAME"
           # See https://github.com/actions/checkout?tab=readme-ov-file#push-a-commit-using-the-built-in-token
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git tag -a "$TAG_NAME" -m "Release $VERSION"
-                
+          
           # Try to push the tag (will fail if it exists remotely)
           if ! git push origin "$TAG_NAME" 2>&1; then
-            echo "Tag already exists on remote, verifying..."        
+            echo "Tag already exists on remote, verifying..."
             TAG_COMMIT=$(git ls-remote origin "refs/tags/$TAG_NAME^{}" | awk '{print $1}')
             HEAD_COMMIT=$(git rev-parse HEAD)
             if [ "$TAG_COMMIT" != "$HEAD_COMMIT" ]; then

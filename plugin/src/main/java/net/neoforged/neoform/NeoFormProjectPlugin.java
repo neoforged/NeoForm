@@ -12,15 +12,21 @@ import net.neoforged.neoform.tasks.Decompile;
 import net.neoforged.neoform.tasks.DownloadVersionArtifact;
 import net.neoforged.neoform.tasks.DownloadVersionManifest;
 import net.neoforged.neoform.tasks.PrepareJarForDecompiler;
+import net.neoforged.neoform.tasks.TestWithEclipseCompiler;
 import net.neoforged.neoform.tasks.TestWithNeoFormRuntime;
 import net.neoforged.neoform.tasks.ToolAction;
 import net.neoforged.neoform.tasks.UpdateMinecraft;
 import net.neoforged.neoform.tasks.UpdateTools;
+import net.neoforged.nfrtgradle.CreateMinecraftArtifacts;
+import net.neoforged.nfrtgradle.NeoFormRuntimeTask;
+import org.gradle.api.Action;
 import org.gradle.api.InvalidUserCodeException;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
+import org.gradle.api.artifacts.Configuration;
 import org.gradle.api.artifacts.Dependency;
 import org.gradle.api.attributes.Bundling;
+import org.gradle.api.attributes.Category;
 import org.gradle.api.attributes.Usage;
 import org.gradle.api.attributes.java.TargetJvmVersion;
 import org.gradle.api.component.SoftwareComponentFactory;
@@ -37,6 +43,7 @@ import org.gradle.jvm.toolchain.JavaToolchainService;
 
 import javax.inject.Inject;
 import java.util.List;
+import java.util.stream.Stream;
 
 public abstract class NeoFormProjectPlugin implements Plugin<Project> {
 
@@ -65,9 +72,18 @@ public abstract class NeoFormProjectPlugin implements Plugin<Project> {
         var neoFormLibraries = configurations.dependencyScope("neoFormLibraries", spec -> {
             spec.defaultDependencies(dependencies -> {
                 for (var notation : neoForm.getAdditionalCompileDependencies().get()) {
-                    dependencies.add(dependencyFactory.create(notation));
+                    var dependency = dependencyFactory.create(notation);
+                    dependencies.add(dependency);
                 }
             });
+            spec.setTransitive(false);
+        });
+        var neoFormLibrariesClasspath = configurations.resolvable("neoFormLibrariesClasspath", spec -> {
+            spec.extendsFrom(neoFormLibraries.get());
+            spec.setTransitive(false);
+            spec.getAttributes().attribute(Category.CATEGORY_ATTRIBUTE, project.getObjects().named(Category.class, Category.LIBRARY));
+            spec.getAttributes().attribute(Usage.USAGE_ATTRIBUTE, project.getObjects().named(Usage.class, Usage.JAVA_API));
+            spec.getAttributes().attribute(Bundling.BUNDLING_ATTRIBUTE, project.getObjects().named(Bundling.class, Bundling.EXTERNAL));
         });
         var neoFormTools = configurations.dependencyScope("neoFormTools", spec -> {
             spec.setDescription("Tools that are declared in this projects NeoForm config file.");
@@ -173,6 +189,7 @@ public abstract class NeoFormProjectPlugin implements Plugin<Project> {
             task.getArchiveAppendix().set(project.provider(() -> project.getVersion().toString()));
             task.getDestinationDirectory().set(project.getLayout().getBuildDirectory().dir("libs"));
         });
+        var dataZip = createDataZip.flatMap(Zip::getArchiveFile);
         tasks.register("updateMinecraft", UpdateMinecraft.class);
         tasks.register("updateTools", UpdateTools.class);
         tasks.register("checkForMinecraftUpdate", CheckForMinecraftUpdate.class);
@@ -187,33 +204,30 @@ public abstract class NeoFormProjectPlugin implements Plugin<Project> {
             spec.getAttributes().attribute(Bundling.BUNDLING_ATTRIBUTE, project.getObjects().named(Bundling.class, Bundling.SHADOWED));
         });
         var check = tasks.register("check", task -> task.setGroup("verification"));
-        var testData = tasks.register("testData", TestWithNeoFormRuntime.class, task -> {
-            task.setGroup("verification");
-            task.setDescription("Tests that the data produced by this project can be consumed by NFRT to generate compilable sources and compile them.");
+
+        Action<NeoFormRuntimeTask> nfrtConfigurer = task -> {
             task.addArtifactsToManifest(neoFormRuntimeLibrariesClasspath.get());
             task.addArtifactsToManifest(minecraftLibrariesClasspath.get());
-            task.getNeoFormDataArchive().set(createDataZip.flatMap(Zip::getArchiveFile));
-            task.getResultsDirectory().set(project.getLayout().getBuildDirectory().dir("test-results"));
-            task.getJavaExecutable().convention(getJavaToolchains()
-                    .launcherFor(spec -> spec.getLanguageVersion().set(JavaLanguageVersion.of(neoForm.getJavaVersion().get())))
-                    .map(javaLauncher -> javaLauncher.getExecutablePath().getAsFile().getAbsolutePath()));
-        });
-        check.configure(task -> task.dependsOn(testData));
+        };
 
         // Explicitly test with a variety of different JDKs, this tests both running the decompile & recompile using that JDK.
-        for (var testJavaVersion : neoForm.getTestJavaVersions().get()) {
-            tasks.register("testDataWithJava" + testJavaVersion, TestWithNeoFormRuntime.class, task -> {
+        var javaVersions = Stream.concat(Stream.of(neoForm.getJavaVersion().get()), neoForm.getTestJavaVersions().get().stream()).toList();
+        for (int testJavaVersion : javaVersions) {
+            String taskName = testJavaVersion == neoForm.getJavaVersion().get() ? "testData" : "testDataJava" + testJavaVersion;
+
+            var testData = tasks.register(taskName, TestWithNeoFormRuntime.class, task -> {
                 task.setGroup("verification");
                 task.setDescription("Tests that the data produced by this project can be consumed by NFRT to generate compilable sources and compile them.");
-                task.addArtifactsToManifest(neoFormRuntimeLibrariesClasspath.get());
-                task.addArtifactsToManifest(minecraftLibrariesClasspath.get());
-                task.getNeoFormDataArchive().set(createDataZip.flatMap(Zip::getArchiveFile));
-                task.getResultsDirectory().set(project.getLayout().getBuildDirectory().dir("test-results"));
+                nfrtConfigurer.execute(task);
+                task.getNeoFormDataArchive().set(dataZip);
+                task.getResultsDirectory().set(project.getLayout().getBuildDirectory().dir("test-results/" + taskName));
                 task.getJavaExecutable().convention(getJavaToolchains()
-                        .launcherFor(spec -> spec.getLanguageVersion().set(JavaLanguageVersion.of(testJavaVersion)))
+                        .launcherFor(spec -> spec.getLanguageVersion().set(JavaLanguageVersion.of(neoForm.getJavaVersion().get())))
                         .map(javaLauncher -> javaLauncher.getExecutablePath().getAsFile().getAbsolutePath()));
             });
+            check.configure(task -> task.dependsOn(testData));
         }
+        configureEclipseTestTask(project, neoForm, dataZip, neoFormLibrariesClasspath.get(), minecraftLibrariesClasspath.get(), nfrtConfigurer);
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // Publishing Tasks
@@ -273,6 +287,47 @@ public abstract class NeoFormProjectPlugin implements Plugin<Project> {
                 pomUtils.neoForgedDeveloper(pom);
             });
         });
+    }
+
+    private void configureEclipseTestTask(Project project,
+                                          NeoFormExtension neoForm,
+                                          Provider<RegularFile> dataZip,
+                                          Configuration additionalCompileDependencies,
+                                          Configuration minecraftLibraries,
+                                          Action<NeoFormRuntimeTask> nfrtConfigurer) {
+
+        var eclipseCompiler = project.getConfigurations().dependencyScope("eclipseCompiler", spec -> {
+            spec.defaultDependencies(dependencies -> {
+                dependencies.add(project.getDependencyFactory().create("org.eclipse.jdt:ecj:3.43.0"));
+            });
+        });
+        var eclipseCompilerClasspath = project.getConfigurations().resolvable("eclipseCompilerClasspath", spec -> {
+            spec.extendsFrom(eclipseCompiler.get());
+        });
+
+        var tasks = project.getTasks();
+
+        // Use NFRT to produce a source zip we can then compile with ECJ
+        var sourcesZip = tasks.register("createSourceZip", CreateMinecraftArtifacts.class, task -> {
+            task.setGroup("neoform/internal");
+            task.setDescription("Creates a patched sources zip with NFRT to test further compilers.");
+            nfrtConfigurer.execute(task);
+            task.getNeoFormArtifact().set(dataZip.map(f -> f.getAsFile().getAbsolutePath()));
+            task.getSourcesArtifact().set(project.getLayout().getBuildDirectory().file("test-data/sources.zip"));
+        });
+
+        var testTask = tasks.register("testDataWithEclipseCompiler", TestWithEclipseCompiler.class, task -> {
+            task.setGroup("verification");
+            task.getSourcesZip().set(sourcesZip.flatMap(CreateMinecraftArtifacts::getSourcesArtifact));
+            task.getEclipseCompilerClasspath().from(eclipseCompilerClasspath);
+            task.getCompileClasspath().from(minecraftLibraries);
+            task.getCompileClasspath().from(additionalCompileDependencies);
+            task.getJavaVersion().set(neoForm.getJavaVersion());
+            task.getJavaExecutable().convention(getJavaToolchains()
+                    .launcherFor(spec -> spec.getLanguageVersion().set(JavaLanguageVersion.of(neoForm.getJavaVersion().get())))
+                    .map(javaLauncher -> javaLauncher.getExecutablePath().getAsFile().getAbsolutePath()));
+        });
+        project.getTasks().named("check").configure(check -> check.dependsOn(testTask));
     }
 
     static Provider<RegularFile> prefixFilenameWithVersion(NeoFormExtension neoForm, Provider<Directory> dirProvider, String suffix) {

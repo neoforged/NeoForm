@@ -19,7 +19,7 @@ dependencies {
 
     implementation 'net.neoforged.gradleutils:net.neoforged.gradleutils.gradle.plugin:5.0.5'
     implementation 'org.gradle.toolchains.foojay-resolver-convention:org.gradle.toolchains.foojay-resolver-convention.gradle.plugin:1.0.0'
-    implementation 'net.neoforged.moddev:net.neoforged.moddev.gradle.plugin:2.0.117'
+    implementation 'net.neoforged.moddev:net.neoforged.moddev.gradle.plugin:2.0.121'
 }
 
 gradlePlugin {
