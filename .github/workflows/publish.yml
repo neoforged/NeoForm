@@ -113,6 +113,7 @@ jobs:
           fi
           
           # Create and push tag.
+          echo "Creating and pushing tag $TAG_NAME"
           # See https://github.com/actions/checkout?tab=readme-ov-file#push-a-commit-using-the-built-in-token
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
