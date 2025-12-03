@@ -1,6 +1,6 @@
 --- a/net/minecraft/client/Minecraft.java
 +++ b/net/minecraft/client/Minecraft.java
-@@ -2418,7 +2418,7 @@
+@@ -2421,7 +2421,7 @@
      }
  
      public CompletableFuture<Void> delayTextureReload() {
