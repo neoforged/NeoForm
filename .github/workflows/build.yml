@@ -14,33 +14,25 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      #- name: Checkout repository
-      #  uses: neoforged/actions/checkout@main
-#
-      #- name: Setup JDK 21
-      #  uses: neoforged/actions/setup-java@main
-      #  with:
-      #    java-version: 21
-#
-      #- name: Setup Gradle
-      #  uses: gradle/actions/setup-gradle@v4
-      #  with:
-      #    cache-read-only: false
-#
-      #- name: Test
-      #  run: ./gradlew :check
-#
-      #- name: Publish PR artifacts
-      #  if: ${{ github.event_name == 'pull_request' }}
-      #  uses: neoforged/action-pr-publishing/upload@v1
+      - name: Checkout repository
+        uses: neoforged/actions/checkout@main
 
-      - name: Echo info
-        run: |
-          echo "${{ github.event.repository.default_branch }}"
-          echo "${{ github.ref }}"
-          echo "${{ github.ref == format('refs/heads/{0}', github.event.repository.default_branch) }}"
-          echo "${{ format('refs/heads/{0}', github.event.repository.default_branch) }}"
-          echo "${{ github.event_name }}"
+      - name: Setup JDK 21
+        uses: neoforged/actions/setup-java@main
+        with:
+          java-version: 21
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          cache-read-only: false
+
+      - name: Test
+        run: ./gradlew :check
+
+      - name: Publish PR artifacts
+        if: ${{ github.event_name == 'pull_request' }}
+        uses: neoforged/action-pr-publishing/upload@v1
 
       - name: Publish Snapshot Build
         if: ${{ github.event_name == 'push' && github.ref == format('refs/heads/{0}', github.event.repository.default_branch) }}
