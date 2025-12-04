@@ -1,6 +1,6 @@
 --- a/net/minecraft/client/multiplayer/ClientCommonPacketListenerImpl.java
 +++ b/net/minecraft/client/multiplayer/ClientCommonPacketListenerImpl.java
-@@ -433,11 +433,11 @@
+@@ -432,11 +432,11 @@
          private final @Nullable Screen parentScreen;
  
          PackConfirmScreen(
