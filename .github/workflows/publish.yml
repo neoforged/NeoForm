@@ -3,19 +3,6 @@ name: publish.yml
 run-name: ${{ inputs.release && 'Publish Release' || 'Publish Snapshot' }}
 
 on:
-  workflow_call:
-    inputs:
-      release:
-        default: false
-        required: false
-        type: boolean
-    secrets:
-      DISCORD_WEBHOOK:
-        required: true
-      MAVEN_USER:
-        required: true
-      MAVEN_PASSWORD:
-        required: true
   workflow_dispatch:
     inputs:
       release:

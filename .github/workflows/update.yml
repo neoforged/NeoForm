@@ -5,6 +5,7 @@ run-name: ${{ inputs.new_version && format('Update to {0}', inputs.new_version) 
 
 permissions:
   contents: write
+  actions: write # Needed to trigger publish workflow
 
 # Controls when the action will run. Workflow runs when manually triggered using the UI
 # or API.
@@ -77,23 +78,34 @@ jobs:
         run: ./gradlew createPatchWorkspaceForUpdate && ./gradlew createPatches
       - name: Commit Changes
         # See https://github.com/actions/checkout?tab=readme-ov-file#push-a-commit-using-the-built-in-token
+        id: commit-changes
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add .
-          git commit -m "$COMMIT_MESSAGE" || true
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "$COMMIT_MESSAGE"
+            echo "ref=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
+          fi
         env:
           COMMIT_MESSAGE: ${{ inputs.new_version && format('Update to {0}', inputs.new_version) || (inputs.update_tools && 'Update Tools' || 'Update') }}
       - name: Push Changes
+        if: steps.commit-changes.outputs.ref
         run: git push -u origin HEAD
-
-  publish:
-    if: inputs.publish
-    needs: update
-    uses: ./.github/workflows/publish.yml
-    permissions:
-      contents: write
-      statuses: write
-    with:
-      release: true
-    secrets: inherit
+      - name: Trigger Publish Workflow
+        if: inputs.publish && steps.commit-changes.outputs.ref
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            await github.rest.actions.createWorkflowDispatch({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              workflow_id: 'publish.yml',
+              ref: '${{ steps.commit-changes.outputs.ref }}',
+              inputs: {
+                release: 'true'
+              }
+            });
