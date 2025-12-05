@@ -69,7 +69,7 @@ jobs:
             }
 
       - name: Trigger Update Workflow
-        if: ${{ always() && !cancelled() && !failure() && needs.check.result == 'success' && needs.check.outputs.new_version }}
+        if: ${{ steps.postprocess.outputs.new_version }}
         uses: actions/github-script@v8
         # We need to use environment variables here to avoid untrusted input injection into the javascript code below.
         env:
