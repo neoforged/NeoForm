@@ -87,19 +87,19 @@ jobs:
             echo "No changes to commit"
           else
             git commit -m "$COMMIT_MESSAGE"
-            echo "ref=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
+            echo "changed=true" >> $GITHUB_OUTPUT
           fi
         env:
           COMMIT_MESSAGE: ${{ inputs.new_version && format('Update to {0}', inputs.new_version) || (inputs.update_tools && 'Update Tools' || 'Update') }}
       - name: Push Changes
-        if: steps.commit-changes.outputs.ref
+        if: steps.commit-changes.outputs.changed
         run: git push -u origin HEAD
       - name: Trigger Publish Workflow
-        if: inputs.publish && steps.commit-changes.outputs.ref
+        if: inputs.publish && steps.commit-changes.outputs.changed
         uses: actions/github-script@v8
         # We need to use environment variables here to avoid untrusted input injection into the javascript code below.
         env:
-          COMMIT_REF: ${{ steps.commit-changes.outputs.ref }}
+          BRANCH_REF: ${{ inputs.new_branch || github.ref_name }}
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
@@ -107,7 +107,7 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               workflow_id: 'publish.yml',
-              ref: process.env.COMMIT_REF,
+              ref: process.env.BRANCH_REF,
               inputs: {
                 release: 'true'
               }
