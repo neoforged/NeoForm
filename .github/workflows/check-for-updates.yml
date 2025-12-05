@@ -13,16 +13,13 @@ concurrency:
   group: check-for-updates
 
 permissions:
-  actions: write
+  actions: write # Needed to trigger the update workflow
 
 jobs:
   # This job will run a Gradle task to check for a new version
   check:
     name: Check for new versions
     runs-on: ubuntu-latest
-    outputs:
-      new_branch: ${{ steps.postprocess.outputs.new_branch }}
-      new_version: ${{ steps.postprocess.outputs.new_version }}
     steps:
       - uses: actions/checkout@v4
       - name: Setup Java 21
@@ -71,17 +68,26 @@ jobs:
               fs.appendFileSync(process.env.GITHUB_OUTPUT, `new_branch=${releaseType}/${latestVersion}\n`, 'utf8');
             }
 
-  run-update:
-    name: Perform update
-    if: ${{ always() && !cancelled() && !failure() && needs.check.result == 'success' && needs.check.outputs.new_version }}
-    uses: ./.github/workflows/update.yml
-    permissions:
-      contents: write
-      statuses: write
-    needs:
-      - check
-    with:
-      new_version: ${{ needs.check.outputs.new_version }}
-      new_branch: ${{ needs.check.outputs.new_branch }}
-      publish: ${{ inputs.publish }}
-    secrets: inherit
+      - name: Trigger Update Workflow
+        if: ${{ always() && !cancelled() && !failure() && needs.check.result == 'success' && needs.check.outputs.new_version }}
+        uses: actions/github-script@v8
+        # We need to use environment variables here to avoid untrusted input injection into the javascript code below.
+        env:
+          COMMIT_REF: ${{ github.ref }}
+          NEW_VERSION: ${{ steps.postprocess.outputs.new_version }}
+          NEW_BRANCH: ${{ steps.postprocess.outputs.new_branch }}
+          PUBLISH: ${{ inputs.publish }}
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            await github.rest.actions.createWorkflowDispatch({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              workflow_id: 'update.yml',
+              ref: process.env.COMMIT_REF,
+              inputs: {
+                'new_version': process.env.NEW_VERSION,
+                'new_branch': process.env.NEW_BRANCH,
+                'publish': process.env.PUBLISH,
+              }
+            });
