@@ -1,8 +1,11 @@
 {
-    "version": 2,
     "official": true,
+    "merge_patches": true,
     "java_target": 21,
     "encoding": "UTF-8",
+    "test_remap_official": false,
+    "only_include_parameter_mappings": true,
+    "no_obfuscation": true,
     "version_zip": "https://piston-data.mojang.com/v1/objects/de334d80d9ddc5abb94c611b8ad10f9125c4c421/25w45a_unobfuscated.zip",
     "fernflower": {
         "version": "org.vineflower:vineflower:1.11.2",

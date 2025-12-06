@@ -9,9 +9,11 @@ ext.versions = [] as Set
 def addDirectory(path) {
     path.eachDir() {
         def relative = rootDir.toPath().relativize(it.toPath()).toFile()
-        include relative.path
-        project(':' + relative.path).name = it.name
-        versions.add(it.name)
+        if (new File(relative, "config.json").exists()) {
+            include relative.path
+            project(':' + relative.path).name = it.name
+            versions.add(it.name)
+        }
     }
 }
 

@@ -208,7 +208,7 @@ jobs:
       if: ${{ inputs.new_branch && inputs.copy-extras }}
       run: |
         mkdir ../tmp
-        for ITEM in buildSrc config_versions gradle templates .gitattributes .gitignore build.gradle gradlew gradlew.bat settings.gradle update.gradle
+        for ITEM in buildSrc gradle templates .gitattributes .gitignore build.gradle gradlew gradlew.bat settings.gradle update.gradle
         do
           echo "Copying $ITEM"
           cp -rv ./$ITEM ../tmp/$ITEM
