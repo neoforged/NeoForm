@@ -110,7 +110,7 @@ jobs:
         get_version srgutils https://maven.neoforged.net/releases/net/neoforged/srgutils/maven-metadata.xml
         get_version forgeautorenamingtool https://maven.neoforged.net/releases/net/neoforged/AutoRenamingTool/maven-metadata.xml
         get_version forgeflower https://maven.neoforged.net/releases/org/vineflower/vineflower/maven-metadata.xml
-        get_version installertools https://maven.neoforged.net/releases/net/neoforged/installertools/maven-metadata.xml
+        get_version installertools https://maven.neoforged.net/releases/net/neoforged/installertools/installertools/maven-metadata.xml
         get_version mergetool https://maven.neoforged.net/releases/net/neoforged/mergetool/maven-metadata.xml
         get_version jetbrains_annotations https://maven.neoforged.net/org/jetbrains/annotations/maven-metadata.xml
     - uses: actions/checkout@v4
@@ -253,7 +253,7 @@ jobs:
         CONFIG: versions/${{ inputs.new_version }}/config.json
     - name: Update installertools
       if: ${{ vars.INSTALLERTOOLS_UPDATE == 'true' }}
-      run: sed -i -E "s/net.minecraftforge:installertools:[^\":]*/net.minecraftforge:installertools:$INSTALLERTOOLS_VERSION/g" $CONFIG
+      run: sed -i -E "s/net.neoforged.installertools:installertools:[^\":]*/net.neoforged.installertools:installertools:$INSTALLERTOOLS_VERSION/g" $CONFIG
       env:
         INSTALLERTOOLS_VERSION: ${{ steps.lib-versions.outputs.installertools }}
         CONFIG: versions/${{ inputs.new_version }}/config.json
