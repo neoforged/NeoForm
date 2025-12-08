@@ -22,7 +22,7 @@ ext {
     PATH_BUILD = file('build').absolutePath
 
     ASM_VERSION = '9.7'
-    SRGUTILS_VERSION = '1.0.10'
+    SRGUTILS_VERSION = '1.0.11'
 }
 
 logger.lifecycle('Timestamp: ' + TIMESTAMP)

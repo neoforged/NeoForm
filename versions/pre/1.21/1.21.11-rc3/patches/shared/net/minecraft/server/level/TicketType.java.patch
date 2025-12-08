@@ -1,0 +1,10 @@
+--- a/net/minecraft/server/level/TicketType.java
++++ b/net/minecraft/server/level/TicketType.java
+@@ -54,6 +54,7 @@
+ 
+     @Retention(RetentionPolicy.CLASS)
+     @Target({ElementType.FIELD, ElementType.PARAMETER, ElementType.LOCAL_VARIABLE, ElementType.METHOD, ElementType.TYPE_USE})
++    @org.intellij.lang.annotations.MagicConstant(flagsFromClass = TicketType.class)
+     public @interface Flags {
+     }
+ }
