@@ -17,6 +17,9 @@ abstract class ToolJarExec extends JavaExec {
                 it.languageVersion = JavaLanguageVersion.of(cfg.java_version)
             })
         }
+        if (cfg.main_class != null) {
+            mainClass.set(cfg.main_class)
+        }
     }
 
     ToolJarExec() {

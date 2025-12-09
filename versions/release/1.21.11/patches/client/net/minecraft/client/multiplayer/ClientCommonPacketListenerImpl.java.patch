@@ -1,0 +1,18 @@
+--- a/net/minecraft/client/multiplayer/ClientCommonPacketListenerImpl.java
++++ b/net/minecraft/client/multiplayer/ClientCommonPacketListenerImpl.java
+@@ -432,11 +432,11 @@
+         private final @Nullable Screen parentScreen;
+ 
+         PackConfirmScreen(
+-            @Nullable Minecraft p_314973_,
+-            Screen p_315016_,
++            Minecraft p_314973_,
++            @Nullable Screen p_315016_,
+             List<ClientCommonPacketListenerImpl.PackConfirmScreen.PendingRequest> p_314994_,
+-            @Nullable boolean p_314923_,
+-            Component p_314940_
++            boolean p_314923_,
++            @Nullable Component p_314940_
+         ) {
+             super(
+                 p_315005_ -> {

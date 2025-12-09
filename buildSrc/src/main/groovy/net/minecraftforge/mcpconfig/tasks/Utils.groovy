@@ -73,14 +73,21 @@ class Utils {
         def ent = cfg.get(name)
         def version = ent?.version ?: defaults.version ?: null
         def java_version = ent?.java_version ?: defaults.java_version
+        def classpath = ent?.classpath ?: defaults.classpath
+        def main_class = ent?.main_class ?: defaults.main_class
         
         def map = [
-            version: version,
             args: ent?.args ?: defaults.args ?: [],
             jvmargs: ent?.jvmargs ?: defaults.jvmargs ?: [],
-            path: version?.toMavenPath(),
             repo: ent?.repo ?: defaults.repo
         ]
+        
+        if (version) {
+          map["version"] = version
+        } else if (classpath) {
+          map["classpath"] = classpath
+          map["main_class"] = main_class
+        }
 
         if (java_version != null)
             map.java_version = java_version
