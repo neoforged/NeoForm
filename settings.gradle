@@ -7,7 +7,7 @@ plugins {
 }
 
 neoForm {
-    minecraftVersion = '1.21.11-rc2_unobfuscated'
+    minecraftVersion = '1.21.11_unobfuscated'
     minecraftLauncherManifestUrl = 'https://shartte.github.io/Minecraft1.21.11UnobfuscatedMeta/manifest.json'
     minecraftDependencies = [
             'net.neoforged:minecraft-dependencies:' + minecraftVersion.get().replace('_unobfuscated', '')
@@ -26,7 +26,7 @@ neoForm {
     testJavaVersions = [25] // Additional Java versions to test with
 
     preProcessJar {
-        version = 'net.neoforged.installertools:installertools:4.0.6:fatjar'
+        version = 'net.neoforged.installertools:installertools:4.0.7:fatjar'
         args = ['--task', 'PROCESS_MINECRAFT_JAR', '--input', '{downloadClientOutput}', '--input', '{downloadServerOutput}', '--output', '{output}']
     }
 
