@@ -42,6 +42,7 @@ import org.gradle.jvm.toolchain.JavaLanguageVersion;
 import org.gradle.jvm.toolchain.JavaToolchainService;
 
 import javax.inject.Inject;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -70,12 +71,13 @@ public abstract class NeoFormProjectPlugin implements Plugin<Project> {
         // Configuration that declares any additional compile-time libraries needed by NeoForm
         var dependencyFactory = project.getDependencyFactory();
         var neoFormLibraries = configurations.dependencyScope("neoFormLibraries", spec -> {
-            spec.defaultDependencies(dependencies -> {
-                for (var notation : neoForm.getAdditionalCompileDependencies().get()) {
-                    var dependency = dependencyFactory.create(notation);
-                    dependencies.add(dependency);
+            spec.getDependencies().addAllLater(neoForm.getAdditionalCompileDependencies().map(depStrings -> {
+                var deps = new ArrayList<Dependency>();
+                for (var depString : depStrings) {
+                    deps.add(dependencyFactory.create(depString));
                 }
-            });
+                return deps;
+            }));
             spec.setTransitive(false);
         });
         var neoFormLibrariesClasspath = configurations.resolvable("neoFormLibrariesClasspath", spec -> {
@@ -235,6 +237,7 @@ public abstract class NeoFormProjectPlugin implements Plugin<Project> {
         var neoformData = configurations.consumable("neoformData", configuration -> {
             configuration.getAttributes().attributeProvider(TargetJvmVersion.TARGET_JVM_VERSION_ATTRIBUTE, neoForm.getJavaVersion());
             configuration.getOutgoing().capability("net.neoforged:neoform:" + project.getVersion());
+            configuration.extendsFrom(neoFormTools.get());
         });
         project.getArtifacts().add(neoformData.getName(), createDataZip);
 
@@ -253,6 +256,7 @@ public abstract class NeoFormProjectPlugin implements Plugin<Project> {
                 attributes.attribute(Usage.USAGE_ATTRIBUTE, objects.named(Usage.class, Usage.JAVA_API));
             });
             configuration.getOutgoing().capability("net.neoforged:neoform-dependencies:" + project.getVersion());
+            configuration.extendsFrom(configurations.named(MinecraftLibraries.DEPENDENCY_SCOPE).get());
             configuration.extendsFrom(neoFormLibraries.get());
         });
 
@@ -297,9 +301,7 @@ public abstract class NeoFormProjectPlugin implements Plugin<Project> {
                                           Action<NeoFormRuntimeTask> nfrtConfigurer) {
 
         var eclipseCompiler = project.getConfigurations().dependencyScope("eclipseCompiler", spec -> {
-            spec.defaultDependencies(dependencies -> {
-                dependencies.add(project.getDependencyFactory().create("org.eclipse.jdt:ecj:3.43.0"));
-            });
+            spec.getDependencies().add(project.getDependencyFactory().create("org.eclipse.jdt:ecj:3.43.0"));
         });
         var eclipseCompilerClasspath = project.getConfigurations().resolvable("eclipseCompilerClasspath", spec -> {
             spec.extendsFrom(eclipseCompiler.get());

@@ -28,7 +28,9 @@ final class MinecraftLibraries {
             spec.getDependencies().addAllLater(classpath.map(notations -> {
                 var result = new ArrayList<Dependency>(notations.size());
                 for (var notation : notations) {
-                    result.add(dependencyFactory.create(notation));
+                    var dependency = dependencyFactory.create(notation);
+                    dependency.endorseStrictVersions();
+                    result.add(dependency);
                 }
                 return result;
             }));
