@@ -178,7 +178,6 @@ public abstract class NeoFormProjectPlugin implements Plugin<Project> {
             task.from(createConfig, spec -> spec.into("/").rename(".*", "config.json"));
             task.from(project.files("src/patches"), spec -> spec.into("/patches"));
             task.getArchiveBaseName().set("neoform");
-            task.getArchiveAppendix().set(project.provider(() -> project.getVersion().toString()));
             task.getDestinationDirectory().set(project.getLayout().getBuildDirectory().dir("libs"));
         });
         tasks.named(LifecycleBasePlugin.ASSEMBLE_TASK_NAME).configure(task -> task.dependsOn(createDataZip));
