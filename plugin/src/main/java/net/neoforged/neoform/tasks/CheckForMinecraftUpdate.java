@@ -29,7 +29,7 @@ public abstract class CheckForMinecraftUpdate extends DefaultTask {
 
         var neoForm = NeoFormExtension.fromProject(getProject());
         currentVersion = neoForm.getMinecraftVersion().get();
-        manifestUrl = neoForm.getMinecraftLauncherManifestUrl().get();
+        manifestUrl = neoForm.getMinecraftLauncherManifestUrl().getOrElse("https://piston-meta.mojang.com/mc/game/version_manifest_v2.json");
     }
 
     @TaskAction
