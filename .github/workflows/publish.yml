@@ -1,4 +1,4 @@
-name: publish.yml
+name: Publish
 
 run-name: ${{ inputs.release && 'Publish Release' || 'Publish Snapshot' }}
 
