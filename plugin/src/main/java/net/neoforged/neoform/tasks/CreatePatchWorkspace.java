@@ -79,7 +79,14 @@ public abstract class CreatePatchWorkspace extends DefaultTask {
 
         // Set up and clear rejects directory
         var rejectsDir = workspace.resolve("rejects");
-        DirectoryCleaner.cleanDirectory(rejectsDir, f -> f.getFileName().toString().endsWith(".patch"));
+        if (Files.isDirectory(rejectsDir)) {
+            DirectoryCleaner.cleanDirectory(rejectsDir, f -> f.getFileName().toString().endsWith(".patch"));
+            try {
+                Files.delete(rejectsDir);
+            } catch (IOException ignored) {
+                // Ignore if not emtpy
+            }
+        }
 
         var sourcesDir = workspace.resolve("src/main/java");
         var resourcesDir = workspace.resolve("src/main/resources");

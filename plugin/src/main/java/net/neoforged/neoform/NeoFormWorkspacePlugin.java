@@ -14,6 +14,7 @@ import org.gradle.api.plugins.JavaPluginExtension;
 import org.gradle.api.tasks.JavaExec;
 import org.gradle.api.tasks.SourceSet;
 import org.gradle.api.tasks.compile.JavaCompile;
+import org.gradle.jvm.toolchain.JavaLanguageVersion;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -27,13 +28,19 @@ public class NeoFormWorkspacePlugin implements Plugin<Project> {
         var layout = project.getLayout();
         var tasks = project.getTasks();
         var configurations = project.getConfigurations();
-        var sourceSets = project.getExtensions().getByType(JavaPluginExtension.class).getSourceSets();
+        var java = project.getExtensions().getByType(JavaPluginExtension.class);
+        var sourceSets = java.getSourceSets();
         var neoForm = NeoFormExtension.fromProject(project);
+
+        java.toolchain(spec -> {
+            spec.getLanguageVersion().set(neoForm.getJavaVersion().map(JavaLanguageVersion::of));
+        });
 
         tasks.withType(JavaCompile.class).configureEach(task -> {
             Collections.addAll(task.getOptions().getCompilerArgs(), "-Xmaxerrs", "9999");
             // There are just too many, and we use a lot of raw casts to fix compile errors.
             task.getOptions().getCompilerArgs().addAll(neoForm.getJavaCompilerOptions().get());
+            task.getOptions().forkOptions(options -> options.setMemoryMaximumSize("2g"));
         });
 
         var dependencyFactory = project.getDependencyFactory();
