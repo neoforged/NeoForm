@@ -5,7 +5,7 @@ NeoForm provides steps to create reproducible and recompilable Minecraft source 
 ## Version Availability
 
 The `main` branch contains the latest available version. Versions prior to the availability of
-unobfuscated Minecraft (the first 1.21.12 snapshot) are contained in the `legacy` branch, and
+unobfuscated Minecraft (the first 1.21.12 snapshot) are contained in the `obfuscated` branch, and
 corresponding `<mcversion>-dev` branches. Any version released for unobfuscated Minecraft will
 have a corresponding tag as well.
 
