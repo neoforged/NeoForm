@@ -4,7 +4,6 @@ import net.neoforged.neoform.dsl.ToolSettings;
 import org.gradle.api.DefaultTask;
 import org.gradle.api.Project;
 import org.gradle.api.artifacts.Dependency;
-import org.gradle.api.attributes.Bundling;
 import org.gradle.api.file.ConfigurableFileCollection;
 import org.gradle.api.file.RegularFileProperty;
 import org.gradle.api.provider.ListProperty;
@@ -139,16 +138,19 @@ public abstract class ToolAction extends DefaultTask {
         var taskName = taskProvider.getName();
         var dependencyScope = configurations.dependencyScope(taskName + "Tool", spec -> {
             var dependencies = project.getDependencyFactory();
-            spec.getDependencies().addAllLater(settings.getClasspath().map(items -> items.stream().<Dependency>map(dependencies::create).toList()));
-            spec.setTransitive(false);
+            spec.getDependencies().addAllLater(settings.getClasspath().map(i -> i.stream().<Dependency>map(notation -> {
+                var dependency = dependencies.create(notation);
+                dependency.setTransitive(false);
+                return dependency;
+            }).toList()));
         });
         var classpath = configurations.resolvable(taskName + "Classpath", spec -> {
             spec.extendsFrom(dependencyScope.get());
-            spec.getAttributes().attribute(Bundling.BUNDLING_ATTRIBUTE, project.getObjects().named(Bundling.class, Bundling.SHADOWED));
         });
 
         taskProvider.configure(task -> {
             task.getToolClasspath().from(classpath);
+            task.getMainClass().set(settings.getMainClass());
             task.getArgs().set(settings.getArgs());
             task.getJvmArgs().set(settings.getJvmArgs());
             task.getJavaVersion().set(settings.getJavaVersion());

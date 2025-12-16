@@ -102,7 +102,6 @@ public abstract class NeoFormProjectPlugin implements Plugin<Project> {
             task.setGroup("neoform/internal");
             task.setDescription("Downloads the version manifest, client and server jar for the Minecraft version");
             task.getMinecraftVersion().set(minecraftVersion);
-            task.getLauncherManifestUrl().set(neoForm.getMinecraftLauncherManifestUrl());
             task.getVersionManifest().set(prefixFilenameWithVersion(neoForm, inputsDir, "version.json"));
             task.getClient().set(prefixFilenameWithVersion(neoForm, inputsDir, "client.jar"));
             task.getServer().set(prefixFilenameWithVersion(neoForm, inputsDir, "server.jar"));

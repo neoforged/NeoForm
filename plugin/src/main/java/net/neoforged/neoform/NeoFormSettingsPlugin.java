@@ -83,8 +83,12 @@ public class NeoFormSettingsPlugin implements Plugin<Settings> {
         var neoForm = NeoFormExtension.fromProject(project);
         project.getPlugins().apply(NeoFormRuntimePlugin.class);
         var neoFormRuntime = project.getExtensions().getByType(NeoFormRuntimeExtension.class);
-        neoFormRuntime.getVersion().set(neoForm.getNeoFormRuntimeVersion());
-        neoFormRuntime.getLauncherManifestUrl().set(neoForm.getMinecraftLauncherManifestUrl());
+        if (neoForm.getNeoFormRuntimeVersion().isPresent()) {
+            neoFormRuntime.getVersion().set(neoForm.getNeoFormRuntimeVersion().get());
+        }
+        if (neoForm.getMinecraftLauncherManifestUrl().isPresent()) {
+            neoFormRuntime.getLauncherManifestUrl().set(neoForm.getMinecraftLauncherManifestUrl().get());
+        }
     }
 
     private static void addToolRepository(DependencyResolutionManagement resolutionManagement, ToolSettings toolSettings) {

@@ -93,7 +93,6 @@ public class NeoFormWorkspacePlugin implements Plugin<Project> {
             task.setGroup("neoform/internal");
             task.setDescription("Download the client-side assets to be able to run the game.");
             task.getMinecraftVersion().set(neoForm.getMinecraftVersion());
-            task.getLauncherManifestUrl().set(neoForm.getMinecraftLauncherManifestUrl());
 
             task.getAssetPropertiesFile().set(assetsResourceDir.map(dir -> dir.file("neoform_assets.properties")));
             task.getOutputs().dir(assetsResourceDir);
@@ -102,7 +101,6 @@ public class NeoFormWorkspacePlugin implements Plugin<Project> {
         var downloadManifest = tasks.register("downloadVersionManifest", DownloadVersionArtifacts.class, task -> {
             task.setGroup("neoform/internal");
             task.getMinecraftVersion().set(neoForm.getMinecraftVersion());
-            task.getLauncherManifestUrl().set(neoForm.getMinecraftLauncherManifestUrl());
             task.getVersionManifest().set(project.getLayout().getBuildDirectory().file("minecraft_version.json"));
         });
         var versionManifest = downloadManifest.flatMap(DownloadVersionArtifacts::getVersionManifest);

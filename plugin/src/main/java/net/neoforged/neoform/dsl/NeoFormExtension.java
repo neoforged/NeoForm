@@ -68,8 +68,6 @@ public abstract class NeoFormExtension {
                 "-Xlint:-rawtypes",
                 "-Xlint:-removal"
         )));
-
-        getNeoFormRuntimeVersion().set("2.0.14");
     }
 
     public ToolSettings getDecompiler() {
