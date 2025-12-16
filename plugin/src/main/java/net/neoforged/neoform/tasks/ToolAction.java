@@ -2,6 +2,7 @@ package net.neoforged.neoform.tasks;
 
 import net.neoforged.neoform.dsl.ToolSettings;
 import org.gradle.api.DefaultTask;
+import org.gradle.api.GradleException;
 import org.gradle.api.Project;
 import org.gradle.api.artifacts.Dependency;
 import org.gradle.api.file.ConfigurableFileCollection;
@@ -18,6 +19,7 @@ import org.gradle.jvm.toolchain.JavaLanguageVersion;
 import org.gradle.jvm.toolchain.JavaLauncher;
 import org.gradle.jvm.toolchain.JavaToolchainService;
 import org.gradle.process.ExecOperations;
+import org.gradle.process.ExecResult;
 
 import javax.inject.Inject;
 import java.io.BufferedOutputStream;
@@ -25,6 +27,9 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.io.RandomAccessFile;
+import java.io.StringWriter;
 import java.io.UncheckedIOException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -77,8 +82,10 @@ public abstract class ToolAction extends DefaultTask {
             logFile = new File(getTemporaryDir(), "tool.log");
         }
 
+        ExecResult result;
         try (var logOutput = new BufferedOutputStream(new FileOutputStream(logFile))) {
-            getExecOps().javaexec(spec -> {
+            result = getExecOps().javaexec(spec -> {
+                spec.setIgnoreExitValue(true);
                 spec.setStandardOutput(logOutput);
                 spec.setErrorOutput(logOutput);
 
@@ -113,6 +120,13 @@ public abstract class ToolAction extends DefaultTask {
                     throw new UncheckedIOException(e);
                 }
             });
+        }
+
+        if (result.getExitValue() != 0) {
+            // Tail the log file
+            var logFileExcerpt = tailLogFile(logFile);
+
+            throw new GradleException("Executing external tool failed with status code " + result.getExitValue() + "\n" + logFileExcerpt);
         }
     }
 
@@ -155,5 +169,35 @@ public abstract class ToolAction extends DefaultTask {
             task.getJvmArgs().set(settings.getJvmArgs());
             task.getJavaVersion().set(settings.getJavaVersion());
         });
+    }
+
+    private static String tailLogFile(File logFile) {
+        var result = new StringWriter();
+        var writer = new PrintWriter(result); 
+        writer.println("Last lines of " + logFile + ":");
+        writer.println("------------------------------------------------------------");
+        try (var raf = new RandomAccessFile(logFile, "r")) {
+            raf.seek(Math.max(0, raf.length() - 1));
+            int bytesRead = 0;
+            int linesRead = 0;
+            while (raf.getFilePointer() > 0 && raf.getFilePointer() < raf.length() && bytesRead < 2048 && linesRead < 30) {
+                byte b = raf.readByte();
+                bytesRead++;
+                if (b == '\n') {
+                    linesRead++;
+                }
+                raf.seek(Math.max(0, raf.getFilePointer() - 2));
+            }
+
+            var toRead = raf.length() - raf.getFilePointer();
+            var data = new byte[(int) toRead];
+            raf.readFully(data);
+            writer.println(new String(data, StandardCharsets.UTF_8));
+
+        } catch (IOException e) {
+            writer.println("Failed to tail log-file " + logFile);
+        }
+        writer.println("------------------------------------------------------------");
+        return result.toString();
     }
 }
