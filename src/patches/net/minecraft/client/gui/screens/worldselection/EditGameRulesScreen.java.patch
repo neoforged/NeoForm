@@ -1,11 +1,11 @@
 --- a/net/minecraft/client/gui/screens/worldselection/EditGameRulesScreen.java
 +++ b/net/minecraft/client/gui/screens/worldselection/EditGameRulesScreen.java
-@@ -167,8 +_,8 @@
+@@ -167,8 +_,7 @@
          private final List<FormattedCharSequence> label;
          protected final List<AbstractWidget> children;
  
 -        public GameRuleEntry(List<FormattedCharSequence> tooltip, Component label) {
-             Objects.requireNonNull(EditGameRulesScreen.this);
+-            Objects.requireNonNull(EditGameRulesScreen.this);
 +        public GameRuleEntry(@Nullable List<FormattedCharSequence> tooltip, Component label) {
              super(tooltip);
              this.children = Lists.newArrayList();

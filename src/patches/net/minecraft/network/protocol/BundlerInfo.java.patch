@@ -1,0 +1,11 @@
+--- a/net/minecraft/network/protocol/BundlerInfo.java
++++ b/net/minecraft/network/protocol/BundlerInfo.java
+@@ -33,7 +_,7 @@
+                     private final List<Packet<? super T>> bundlePackets;
+ 
+                     {
+-                        Objects.requireNonNull(<VAR_NAMELESS_ENCLOSURE>);
++                        
+                         this.bundlePackets = new ArrayList<>();
+                     }
+ 
