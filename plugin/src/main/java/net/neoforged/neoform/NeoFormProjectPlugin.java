@@ -289,7 +289,7 @@ public abstract class NeoFormProjectPlugin implements Plugin<Project> {
                                           Action<NeoFormRuntimeTask> nfrtConfigurer) {
 
         var eclipseCompiler = project.getConfigurations().dependencyScope("eclipseCompiler", spec -> {
-            spec.getDependencies().add(project.getDependencyFactory().create("org.eclipse.jdt:ecj:3.43.0"));
+            spec.getDependencies().add(project.getDependencyFactory().create("org.eclipse.jdt:ecj:3.44.0"));
         });
         var eclipseCompilerClasspath = project.getConfigurations().resolvable("eclipseCompilerClasspath", spec -> {
             spec.extendsFrom(eclipseCompiler.get());
