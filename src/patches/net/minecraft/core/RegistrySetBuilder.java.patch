@@ -1,6 +1,6 @@
 --- a/net/minecraft/core/RegistrySetBuilder.java
 +++ b/net/minecraft/core/RegistrySetBuilder.java
-@@ -413,13 +_,13 @@
+@@ -422,13 +_,13 @@
          }
  
          private <T> Holder.Reference<T> getOrCreate(ResourceKey<T> id) {

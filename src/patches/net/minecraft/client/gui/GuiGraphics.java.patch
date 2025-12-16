@@ -1,11 +1,11 @@
 --- a/net/minecraft/client/gui/GuiGraphics.java
 +++ b/net/minecraft/client/gui/GuiGraphics.java
-@@ -1221,7 +_,7 @@
+@@ -1239,7 +_,7 @@
          private final @Nullable Consumer<Style> additionalConsumer;
  
          private RenderingTextCollector(
 -            ActiveTextCollector.Parameters initialParameters, GuiGraphics.@Nullable HoveredTextEffects hoveredTextEffects, Consumer<Style> additonalConsumer
 +            ActiveTextCollector.Parameters initialParameters, GuiGraphics.HoveredTextEffects hoveredTextEffects, @Nullable Consumer<Style> additonalConsumer
          ) {
-             this.defaultParameters = initialParameters;
-             this.hoveredTextEffects = hoveredTextEffects;
+             Objects.requireNonNull(GuiGraphics.this);
+             super();

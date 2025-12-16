@@ -1,6 +1,6 @@
 --- a/net/minecraft/client/multiplayer/ClientCommonPacketListenerImpl.java
 +++ b/net/minecraft/client/multiplayer/ClientCommonPacketListenerImpl.java
-@@ -436,11 +_,11 @@
+@@ -439,11 +_,11 @@
          private final @Nullable Screen parentScreen;
  
          private PackConfirmScreen(
@@ -14,5 +14,5 @@
 +            boolean required,
 +            @Nullable Component prompt
          ) {
+             Objects.requireNonNull(ClientCommonPacketListenerImpl.this);
              super(
-                 result -> {
