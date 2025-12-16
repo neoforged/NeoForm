@@ -18,12 +18,12 @@ neoForm {
             'ca.weblite:java-objc-bridge:1.1'
     ]
 
-    javaVersion = 21
-    testJavaVersions = [25] // Additional Java versions to test with
+    javaVersion = 25
+    testJavaVersions = [] // Additional Java versions to test with
 
     preProcessJar {
-        classpath = ['net.neoforged.installertools:installertools:4.0.7:fatjar']
-        args = ['--task', 'PROCESS_MINECRAFT_JAR', '--input', '{downloadClientOutput}', '--input', '{downloadServerOutput}', '--output', '{output}']
+        classpath = ['net.neoforged.installertools:installertools:4.0.8:fatjar']
+        args = ['--task', 'PROCESS_MINECRAFT_JAR', '--no-dist-annotations', '--input', '{downloadClientOutput}', '--input', '{downloadServerOutput}', '--output', '{output}']
     }
 
     decompiler {
