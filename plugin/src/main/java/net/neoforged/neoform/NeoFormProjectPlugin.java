@@ -9,8 +9,7 @@ import net.neoforged.neoform.tasks.CreateConfig;
 import net.neoforged.neoform.tasks.CreatePatchWorkspace;
 import net.neoforged.neoform.tasks.CreatePatches;
 import net.neoforged.neoform.tasks.Decompile;
-import net.neoforged.neoform.tasks.DownloadVersionArtifact;
-import net.neoforged.neoform.tasks.DownloadVersionManifest;
+import net.neoforged.neoform.tasks.DownloadVersionArtifacts;
 import net.neoforged.neoform.tasks.PrepareJarForDecompiler;
 import net.neoforged.neoform.tasks.TestWithEclipseCompiler;
 import net.neoforged.neoform.tasks.TestWithNeoFormRuntime;
@@ -25,13 +24,13 @@ import org.gradle.api.Plugin;
 import org.gradle.api.Project;
 import org.gradle.api.artifacts.Configuration;
 import org.gradle.api.artifacts.Dependency;
-import org.gradle.api.attributes.Bundling;
-import org.gradle.api.attributes.Category;
 import org.gradle.api.attributes.Usage;
 import org.gradle.api.attributes.java.TargetJvmVersion;
 import org.gradle.api.component.SoftwareComponentFactory;
 import org.gradle.api.file.Directory;
 import org.gradle.api.file.RegularFile;
+import org.gradle.api.plugins.BasePlugin;
+import org.gradle.api.plugins.JvmEcosystemPlugin;
 import org.gradle.api.provider.Provider;
 import org.gradle.api.publish.PublishingExtension;
 import org.gradle.api.publish.maven.MavenPublication;
@@ -40,6 +39,7 @@ import org.gradle.api.tasks.Delete;
 import org.gradle.api.tasks.bundling.Zip;
 import org.gradle.jvm.toolchain.JavaLanguageVersion;
 import org.gradle.jvm.toolchain.JavaToolchainService;
+import org.gradle.language.base.plugins.LifecycleBasePlugin;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
@@ -55,6 +55,11 @@ public abstract class NeoFormProjectPlugin implements Plugin<Project> {
         if (project.getRootProject() != project) {
             throw new InvalidUserCodeException("This plugin should only be applied to the root project.");
         }
+
+        // This plugin is required to have resolving jars via configurations work
+        // (it adds the required attribute disambiguation rules)
+        project.getPlugins().apply(BasePlugin.class);
+        project.getPlugins().apply(JvmEcosystemPlugin.class);
 
         var objects = project.getObjects();
         var tasks = project.getTasks();
@@ -83,9 +88,6 @@ public abstract class NeoFormProjectPlugin implements Plugin<Project> {
         var neoFormLibrariesClasspath = configurations.resolvable("neoFormLibrariesClasspath", spec -> {
             spec.extendsFrom(neoFormLibraries.get());
             spec.setTransitive(false);
-            spec.getAttributes().attribute(Category.CATEGORY_ATTRIBUTE, project.getObjects().named(Category.class, Category.LIBRARY));
-            spec.getAttributes().attribute(Usage.USAGE_ATTRIBUTE, project.getObjects().named(Usage.class, Usage.JAVA_API));
-            spec.getAttributes().attribute(Bundling.BUNDLING_ATTRIBUTE, project.getObjects().named(Bundling.class, Bundling.EXTERNAL));
         });
         var neoFormTools = configurations.dependencyScope("neoFormTools", spec -> {
             spec.setDescription("Tools that are declared in this projects NeoForm config file.");
@@ -94,27 +96,16 @@ public abstract class NeoFormProjectPlugin implements Plugin<Project> {
         });
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        // Download the Version Manifest
+        // Download Version Manifest and Artifacts using NFRT
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        var downloadManifest = tasks.register("downloadVersionManifest", DownloadVersionManifest.class, task -> {
+        var downloadVersionArtifacts = tasks.register("downloadVersionArtifacts", DownloadVersionArtifacts.class, task -> {
+            task.setGroup("neoform/internal");
+            task.setDescription("Downloads the version manifest, client and server jar for the Minecraft version");
             task.getMinecraftVersion().set(minecraftVersion);
             task.getLauncherManifestUrl().set(neoForm.getMinecraftLauncherManifestUrl());
-            task.getOutput().set(prefixFilenameWithVersion(neoForm, inputsDir, "version.json"));
-        });
-        var versionManifest = downloadManifest.flatMap(DownloadVersionManifest::getOutput);
-
-        //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        // Download Artifacts from Version Manifest
-        //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        var downloadClient = tasks.register("downloadClient", DownloadVersionArtifact.class, task -> {
-            task.getVersionManifest().set(versionManifest);
-            task.getArtifactName().set("client");
-            task.getOutput().set(prefixFilenameWithVersion(neoForm, inputsDir, "client.jar"));
-        });
-        var downloadServer = tasks.register("downloadServer", DownloadVersionArtifact.class, task -> {
-            task.getVersionManifest().set(versionManifest);
-            task.getArtifactName().set("server");
-            task.getOutput().set(prefixFilenameWithVersion(neoForm, inputsDir, "server.jar"));
+            task.getVersionManifest().set(prefixFilenameWithVersion(neoForm, inputsDir, "version.json"));
+            task.getClient().set(prefixFilenameWithVersion(neoForm, inputsDir, "client.jar"));
+            task.getServer().set(prefixFilenameWithVersion(neoForm, inputsDir, "server.jar"));
         });
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -122,8 +113,8 @@ public abstract class NeoFormProjectPlugin implements Plugin<Project> {
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////
         var prepareJarForDecompiler = tasks.register("prepareJarForDecompiler", PrepareJarForDecompiler.class, task -> {
             task.setGroup("neoform/internal");
-            task.getClient().set(downloadClient.flatMap(DownloadVersionArtifact::getOutput));
-            task.getServer().set(downloadServer.flatMap(DownloadVersionArtifact::getOutput));
+            task.getClient().set(downloadVersionArtifacts.flatMap(DownloadVersionArtifacts::getClient));
+            task.getServer().set(downloadVersionArtifacts.flatMap(DownloadVersionArtifacts::getServer));
             task.getOutput().set(prefixFilenameWithVersion(neoForm, inputsDir, "joined.jar"));
         });
         ToolAction.configure(project, prepareJarForDecompiler, neoForm.getPreProcessJar());
@@ -191,6 +182,7 @@ public abstract class NeoFormProjectPlugin implements Plugin<Project> {
             task.getArchiveAppendix().set(project.provider(() -> project.getVersion().toString()));
             task.getDestinationDirectory().set(project.getLayout().getBuildDirectory().dir("libs"));
         });
+        tasks.named(LifecycleBasePlugin.ASSEMBLE_TASK_NAME).configure(task -> task.dependsOn(createDataZip));
         var dataZip = createDataZip.flatMap(Zip::getArchiveFile);
         tasks.register("updateMinecraft", UpdateMinecraft.class);
         tasks.register("updateTools", UpdateTools.class);
@@ -203,9 +195,7 @@ public abstract class NeoFormProjectPlugin implements Plugin<Project> {
             spec.setDescription("Classpath used to pre-resolve tools and libraries for NFRT");
             spec.extendsFrom(neoFormTools.get());
             spec.extendsFrom(neoFormLibraries.get());
-            spec.getAttributes().attribute(Bundling.BUNDLING_ATTRIBUTE, project.getObjects().named(Bundling.class, Bundling.SHADOWED));
         });
-        var check = tasks.register("check", task -> task.setGroup("verification"));
 
         Action<NeoFormRuntimeTask> nfrtConfigurer = task -> {
             task.addArtifactsToManifest(neoFormRuntimeLibrariesClasspath.get());
@@ -227,7 +217,7 @@ public abstract class NeoFormProjectPlugin implements Plugin<Project> {
                         .launcherFor(spec -> spec.getLanguageVersion().set(JavaLanguageVersion.of(neoForm.getJavaVersion().get())))
                         .map(javaLauncher -> javaLauncher.getExecutablePath().getAsFile().getAbsolutePath()));
             });
-            check.configure(task -> task.dependsOn(testData));
+            tasks.named(LifecycleBasePlugin.CHECK_TASK_NAME).configure(task -> task.dependsOn(testData));
         }
         configureEclipseTestTask(project, neoForm, dataZip, neoFormLibrariesClasspath.get(), minecraftLibrariesClasspath.get(), nfrtConfigurer);
 
@@ -315,12 +305,12 @@ public abstract class NeoFormProjectPlugin implements Plugin<Project> {
             task.setDescription("Creates a patched sources zip with NFRT to test further compilers.");
             nfrtConfigurer.execute(task);
             task.getNeoFormArtifact().set(dataZip.map(f -> f.getAsFile().getAbsolutePath()));
-            task.getSourcesArtifact().set(project.getLayout().getBuildDirectory().file("test-data/sources.zip"));
+            task.getGameSourcesArtifact().set(project.getLayout().getBuildDirectory().file("test-data/sources.zip"));
         });
 
         var testTask = tasks.register("testDataWithEclipseCompiler", TestWithEclipseCompiler.class, task -> {
             task.setGroup("verification");
-            task.getSourcesZip().set(sourcesZip.flatMap(CreateMinecraftArtifacts::getSourcesArtifact));
+            task.getSourcesZip().set(sourcesZip.flatMap(CreateMinecraftArtifacts::getGameSourcesArtifact));
             task.getEclipseCompilerClasspath().from(eclipseCompilerClasspath);
             task.getCompileClasspath().from(minecraftLibraries);
             task.getCompileClasspath().from(additionalCompileDependencies);
@@ -341,8 +331,6 @@ public abstract class NeoFormProjectPlugin implements Plugin<Project> {
 
     private static List<? extends Dependency> createDependencies(Project project, ToolSettings toolSettings) {
         var dependencyFactory = project.getDependencyFactory();
-        return List.of(
-                dependencyFactory.create(toolSettings.getVersion().get())
-        );
+        return toolSettings.getClasspath().get().stream().map(dependencyFactory::create).toList();
     }
 }

@@ -4,7 +4,9 @@ import org.gradle.api.provider.ListProperty;
 import org.gradle.api.provider.Property;
 
 public abstract class ToolSettings {
-    public abstract Property<String> getVersion();
+    public abstract ListProperty<String> getClasspath();
+
+    public abstract Property<String> getMainClass();
 
     public abstract ListProperty<String> getArgs();
 

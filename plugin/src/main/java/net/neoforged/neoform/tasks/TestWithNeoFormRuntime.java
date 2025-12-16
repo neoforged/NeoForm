@@ -37,9 +37,9 @@ public abstract class TestWithNeoFormRuntime extends NeoFormRuntimeTask {
 
         Map<String, File> requestedResults = Map.of(
                 "vanillaDeobfuscated", new File(resultsDir, "minecraft-processed.jar"),
-                "compiled", new File(resultsDir, "minecraft-recompiled.jar"),
-                "sources", new File(resultsDir, "minecraft-sources.zip"),
-                "sourcesAndCompiled", new File(resultsDir, "minecraft-recompiled-with-sources.jar")
+                "gameJar", new File(resultsDir, "minecraft-recompiled.jar"),
+                "gameSources", new File(resultsDir, "minecraft-sources.zip"),
+                "gameJarWithSources", new File(resultsDir, "minecraft-recompiled-with-sources.jar")
         );
 
         for (var entry : requestedResults.entrySet()) {

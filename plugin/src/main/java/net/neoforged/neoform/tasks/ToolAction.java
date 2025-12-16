@@ -3,6 +3,7 @@ package net.neoforged.neoform.tasks;
 import net.neoforged.neoform.dsl.ToolSettings;
 import org.gradle.api.DefaultTask;
 import org.gradle.api.Project;
+import org.gradle.api.artifacts.Dependency;
 import org.gradle.api.attributes.Bundling;
 import org.gradle.api.file.ConfigurableFileCollection;
 import org.gradle.api.file.RegularFileProperty;
@@ -138,7 +139,7 @@ public abstract class ToolAction extends DefaultTask {
         var taskName = taskProvider.getName();
         var dependencyScope = configurations.dependencyScope(taskName + "Tool", spec -> {
             var dependencies = project.getDependencyFactory();
-            spec.getDependencies().addLater(settings.getVersion().map(dependencies::create));
+            spec.getDependencies().addAllLater(settings.getClasspath().map(items -> items.stream().<Dependency>map(dependencies::create).toList()));
             spec.setTransitive(false);
         });
         var classpath = configurations.resolvable(taskName + "Classpath", spec -> {

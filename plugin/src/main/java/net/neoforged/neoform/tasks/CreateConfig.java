@@ -7,7 +7,6 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import net.neoforged.neoform.dsl.ToolSettings;
 import org.gradle.api.DefaultTask;
-import org.gradle.api.InvalidUserCodeException;
 import org.gradle.api.file.RegularFileProperty;
 import org.gradle.api.provider.ListProperty;
 import org.gradle.api.provider.Property;
@@ -80,7 +79,7 @@ public abstract class CreateConfig extends DefaultTask {
 
         // Build final JSON
         var root = new JsonObject();
-        root.addProperty("spec", 5);
+        root.addProperty("spec", 6);
         root.addProperty("version", getMinecraftVersion().get());
         root.addProperty("java_target", getJavaVersion().get());
         root.addProperty("encoding", getEncoding().get());
@@ -118,7 +117,14 @@ public abstract class CreateConfig extends DefaultTask {
 
     private static JsonElement createFunction(ToolSettings settings) {
         var function = new JsonObject();
-        function.addProperty("version", settings.getVersion().get());
+        var classpath = new JsonArray();
+        for (String classpathItem : settings.getClasspath().get()) {
+            classpath.add(classpathItem);
+        }
+        function.add("classpath", classpath);
+        if (settings.getMainClass().isPresent()) {
+            function.addProperty("main_class", settings.getMainClass().get());
+        }
         var args = new JsonArray();
         for (String entry : settings.getArgs().get()) {
             args.add(entry);

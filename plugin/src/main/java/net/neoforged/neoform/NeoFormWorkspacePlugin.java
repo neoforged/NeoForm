@@ -3,10 +3,9 @@ package net.neoforged.neoform;
 import net.neoforged.minecraftdependencies.MinecraftDependenciesPlugin;
 import net.neoforged.moddevgradle.internal.NeoDevFacade;
 import net.neoforged.neoform.dsl.NeoFormExtension;
-import net.neoforged.neoform.tasks.DownloadVersionManifest;
+import net.neoforged.neoform.tasks.DownloadVersionArtifacts;
 import net.neoforged.neoform.tasks.GenerateRunClientClass;
 import net.neoforged.nfrtgradle.DownloadAssets;
-import net.neoforged.nfrtgradle.NeoFormRuntimePlugin;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
 import org.gradle.api.artifacts.Dependency;
@@ -22,7 +21,6 @@ import java.util.Collections;
 public class NeoFormWorkspacePlugin implements Plugin<Project> {
     @Override
     public void apply(Project project) {
-        project.getPlugins().apply(NeoFormRuntimePlugin.class);
         project.getPlugins().apply(JavaPlugin.class);
         project.getPlugins().apply(MinecraftDependenciesPlugin.class);
 
@@ -95,18 +93,19 @@ public class NeoFormWorkspacePlugin implements Plugin<Project> {
             task.setGroup("neoform/internal");
             task.setDescription("Download the client-side assets to be able to run the game.");
             task.getMinecraftVersion().set(neoForm.getMinecraftVersion());
+            task.getLauncherManifestUrl().set(neoForm.getMinecraftLauncherManifestUrl());
 
             task.getAssetPropertiesFile().set(assetsResourceDir.map(dir -> dir.file("neoform_assets.properties")));
             task.getOutputs().dir(assetsResourceDir);
         });
 
-        var downloadManifest = tasks.register("downloadVersionManifest", DownloadVersionManifest.class, task -> {
+        var downloadManifest = tasks.register("downloadVersionManifest", DownloadVersionArtifacts.class, task -> {
             task.setGroup("neoform/internal");
             task.getMinecraftVersion().set(neoForm.getMinecraftVersion());
             task.getLauncherManifestUrl().set(neoForm.getMinecraftLauncherManifestUrl());
-            task.getOutput().set(project.getLayout().getBuildDirectory().file("minecraft_version.json"));
+            task.getVersionManifest().set(project.getLayout().getBuildDirectory().file("minecraft_version.json"));
         });
-        var versionManifest = downloadManifest.flatMap(DownloadVersionManifest::getOutput);
+        var versionManifest = downloadManifest.flatMap(DownloadVersionArtifacts::getVersionManifest);
 
         var generateRunClientClass = tasks.register("generateRunClientClass", GenerateRunClientClass.class, task -> {
             task.setGroup("neoform/internal");

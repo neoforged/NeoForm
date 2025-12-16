@@ -17,11 +17,9 @@ import org.gradle.internal.component.external.model.ModuleComponentArtifactIdent
 import javax.inject.Inject;
 import java.io.File;
 import java.nio.file.Files;
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Objects;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public abstract class UpdateTools extends DefaultTask {
@@ -34,10 +32,9 @@ public abstract class UpdateTools extends DefaultTask {
         getSettingsScript().set(new File(project.getRootDir(), "settings.gradle"));
 
         var dependencyFactory = project.getDependencyFactory();
-        var tools = List.of(
-                dependencyFactory.create(neoForm.getPreProcessJar().getVersion().get()),
-                dependencyFactory.create(neoForm.getDecompiler().getVersion().get())
-        );
+        var tools = new ArrayList<ExternalModuleDependency>();
+        tools.addAll(neoForm.getPreProcessJar().getClasspath().map(i -> i.stream().map(dependencyFactory::create).toList()).get());
+        tools.addAll(neoForm.getDecompiler().getClasspath().map(i -> i.stream().map(dependencyFactory::create).toList()).get());
         getCurrentVersions().set(tools.stream().collect(Collectors.toMap(
                 tool -> tool.getModule().toString(),
                 Dependency::getVersion

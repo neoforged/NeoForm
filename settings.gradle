@@ -26,12 +26,16 @@ neoForm {
     testJavaVersions = [25] // Additional Java versions to test with
 
     preProcessJar {
-        version = 'net.neoforged.installertools:installertools:4.0.7:fatjar'
+        classpath = ['net.neoforged.installertools:installertools:4.0.7:fatjar']
         args = ['--task', 'PROCESS_MINECRAFT_JAR', '--input', '{downloadClientOutput}', '--input', '{downloadServerOutput}', '--output', '{output}']
     }
 
     decompiler {
-        version = 'net.neoforged:vineflower-plugins:0.1.5:vfbundle'
+        classpath = [
+                'org.vineflower:vineflower:1.11.2',
+                'net.neoforged:vineflower-plugins:0.1.5'
+        ]
+        mainClass = 'org.jetbrains.java.decompiler.main.decompiler.ConsoleDecompiler'
         jvmArgs = ['-Xmx4g']
         args = [
                 '--decompile-inner',
