@@ -78,11 +78,8 @@ public class NeoFormWorkspacePlugin implements Plugin<Project> {
         // Create the machinery to download assets and announce their availability
         // through a file on the classpath to the startup class.
         var mainSourceSet = sourceSets.named(SourceSet.MAIN_SOURCE_SET_NAME);
-        var assetsResourceDir = layout.getBuildDirectory().dir("generated/sources/assets");
+        var assetsResourceDir = layout.getBuildDirectory().dir("assets");
         var clientSourceSet = sourceSets.register("client", spec -> {
-            // Add the generated dir that contains the asset properties
-            spec.getResources().srcDir(assetsResourceDir);
-
             // Make main source set output available
             spec.setCompileClasspath(spec.getCompileClasspath().plus(mainSourceSet.get().getOutput()));
             spec.setRuntimeClasspath(spec.getRuntimeClasspath().plus(mainSourceSet.get().getOutput()));

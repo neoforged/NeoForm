@@ -11,8 +11,10 @@ import org.gradle.api.tasks.OutputDirectory;
 import org.gradle.api.tasks.TaskAction;
 
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -54,7 +56,22 @@ public abstract class GenerateRunClientClass extends DefaultTask {
             templateContent = new String(in.readAllBytes(), StandardCharsets.UTF_8);
         }
 
+        // Read where the assets have been downloaded to and interpolate those locations into the generated file
+        var assetProperties = new Properties();
+        try (var reader = Files.newBufferedReader(getAssetProperties().getAsFile().get().toPath())) {
+            assetProperties.load(reader);
+        }
 
+        // Replace placeholders of the form {{xxx}} with property xxx from the assets properties.
+        templateContent = Pattern.compile("\\{\\{([^}]+)}}").matcher(templateContent).replaceAll(match -> {
+            var value = assetProperties.getProperty(match.group(1));
+            if (value == null) {
+                throw new IllegalArgumentException("Unknown placeholder in start client class: " + match.group());
+            }
+            return Matcher.quoteReplacement(value.replace("\\", "\\\\"));
+        });
+
+        Files.writeString(destination.resolve("StartClient.java"), templateContent);
     }
 
     private String resolvePlaceholder(String argument) {
