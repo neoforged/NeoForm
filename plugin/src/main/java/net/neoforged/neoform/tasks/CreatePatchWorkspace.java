@@ -5,6 +5,7 @@ import io.codechicken.diffpatch.util.Input;
 import io.codechicken.diffpatch.util.LogLevel;
 import io.codechicken.diffpatch.util.Output;
 import io.codechicken.diffpatch.util.PatchMode;
+import net.neoforged.neoform.DirectoryCleaner;
 import org.gradle.api.DefaultTask;
 import org.gradle.api.GradleException;
 import org.gradle.api.file.DirectoryProperty;
@@ -75,6 +76,10 @@ public abstract class CreatePatchWorkspace extends DefaultTask {
         }
 
         var workspace = getWorkspace().getAsFile().get().toPath();
+
+        // Set up and clear rejects directory
+        var rejectsDir = workspace.resolve("rejects");
+        DirectoryCleaner.cleanDirectory(rejectsDir, f -> f.getFileName().toString().endsWith(".patch"));
 
         var sourcesDir = workspace.resolve("src/main/java");
         var resourcesDir = workspace.resolve("src/main/resources");
@@ -151,7 +156,7 @@ public abstract class CreatePatchWorkspace extends DefaultTask {
                             getLogger().error("Applying the patch to {}} failed.", entry.getName());
 
                             if (updateMode && rejectsOutput.size() > 0) {
-                                Path rejectsPath = workspace.resolve("rejects").resolve(entry.getName() + ".patch");
+                                Path rejectsPath = rejectsDir.resolve(entry.getName() + ".patch");
                                 if (dirsCreated.add(rejectsPath.getParent())) {
                                     Files.createDirectories(rejectsPath.getParent());
                                 }
@@ -186,5 +191,4 @@ public abstract class CreatePatchWorkspace extends DefaultTask {
             throw new GradleException(failedPatches.size() + " out of " + totalApplied + " patches failed to apply.");
         }
     }
-
 }

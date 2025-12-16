@@ -3,6 +3,7 @@ package net.neoforged.neoform.tasks;
 import io.codechicken.diffpatch.cli.DiffOperation;
 import io.codechicken.diffpatch.util.Input;
 import io.codechicken.diffpatch.util.Output;
+import net.neoforged.neoform.DirectoryCleaner;
 import org.gradle.api.DefaultTask;
 import org.gradle.api.GradleException;
 import org.gradle.api.file.DirectoryProperty;
@@ -81,7 +82,6 @@ public abstract class CreatePatches extends DefaultTask {
         var newPatches = new AtomicInteger();
         var unchangedPatches = new AtomicInteger();
         var modifiedPatches = new AtomicInteger();
-        var removedPatches = new AtomicInteger();
         Files.walkFileTree(patchesDir, new SimpleFileVisitor<>() {
             @Override
             public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
@@ -114,34 +114,12 @@ public abstract class CreatePatches extends DefaultTask {
         });
 
         // Delete orphaned patches
-        Files.walkFileTree(patchesDestination, new SimpleFileVisitor<>() {
-            @Override
-            public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
-                if (file.getFileName().toString().endsWith(".patch") && !patchesWritten.contains(file.toAbsolutePath())) {
-                    Files.delete(file);
-                    removedPatches.incrementAndGet();
-                }
-                return FileVisitResult.CONTINUE;
-            }
-
-            @Override
-            public FileVisitResult postVisitDirectory(Path dir, @Nullable IOException exc) throws IOException {
-                // Delete empty patch dirs
-                if (dir.startsWith(patchesDestination) && !dir.equals(patchesDestination)) {
-                    var deleteDir = true;
-                    try (var content = Files.list(dir)) {
-                        deleteDir = content.findAny().isEmpty();
-                    }
-                    if (deleteDir) {
-                        Files.delete(dir);
-                    }
-                }
-                return FileVisitResult.CONTINUE;
-            }
+        var removedPatches = DirectoryCleaner.cleanDirectory(patchesDestination, file -> {
+            return file.getFileName().toString().endsWith(".patch") && !patchesWritten.contains(file.toAbsolutePath());
         });
 
         getLogger().lifecycle("Patches added: {}, modified: {}, deleted: {}, unchanged: {}",
-                newPatches.get(), modifiedPatches.get(), removedPatches.get(), unchangedPatches.get());
+                newPatches.get(), modifiedPatches.get(), removedPatches, unchangedPatches.get());
     }
 
     private static void buildJavaSourceZip(File fullSourceZip, File javaSourceZip) throws IOException {
