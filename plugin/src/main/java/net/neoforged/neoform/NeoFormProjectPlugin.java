@@ -302,6 +302,7 @@ public abstract class NeoFormProjectPlugin implements Plugin<Project> {
             task.setGroup("neoform/internal");
             task.setDescription("Creates a patched sources zip with NFRT to test further compilers.");
             nfrtConfigurer.execute(task);
+            task.getInputs().file(dataZip); // Ensure there's a task dependency.
             task.getNeoFormArtifact().set(dataZip.map(f -> f.getAsFile().getAbsolutePath()));
             task.getGameSourcesArtifact().set(project.getLayout().getBuildDirectory().file("test-data/sources.zip"));
         });
