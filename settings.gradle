@@ -22,8 +22,8 @@ neoForm {
     testJavaVersions = [] // Additional Java versions to test with
 
     preProcessJar {
-        classpath = ['net.neoforged.installertools:installertools:4.0.10:fatjar']
-        args = ['--task', 'PROCESS_MINECRAFT_JAR', '--no-dist-annotations', '--input', '{downloadClientOutput}', '--input', '{downloadServerOutput}', '--output', '{output}', '--no-mod-manifest']
+        classpath = ['net.neoforged.installertools:installertools:4.0.12:fatjar']
+        args = ['--task', 'PROCESS_MINECRAFT_JAR', '--input', '{downloadClientOutput}', '--input', '{downloadServerOutput}', '--output', '{output}', '--no-mod-manifest']
     }
 
     decompiler {

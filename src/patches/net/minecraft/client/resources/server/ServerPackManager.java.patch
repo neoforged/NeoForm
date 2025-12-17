@@ -1,6 +1,6 @@
 --- a/net/minecraft/client/resources/server/ServerPackManager.java
 +++ b/net/minecraft/client/resources/server/ServerPackManager.java
-@@ -352,7 +_,7 @@
+@@ -356,7 +_,7 @@
  
          private final PackLoadFeedback.@Nullable FinalResult serverResponse;
  

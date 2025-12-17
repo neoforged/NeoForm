@@ -1,6 +1,6 @@
 --- a/net/minecraft/client/gui/screens/reporting/ChatSelectionScreen.java
 +++ b/net/minecraft/client/gui/screens/reporting/ChatSelectionScreen.java
-@@ -292,9 +_,7 @@
+@@ -297,9 +_,7 @@
              private final boolean canReport;
              private final boolean playerMessage;
  

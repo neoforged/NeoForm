@@ -1,6 +1,6 @@
 --- a/net/minecraft/client/gui/screens/worldselection/EditGameRulesScreen.java
 +++ b/net/minecraft/client/gui/screens/worldselection/EditGameRulesScreen.java
-@@ -167,8 +_,7 @@
+@@ -171,8 +_,7 @@
          private final List<FormattedCharSequence> label;
          protected final List<AbstractWidget> children;
  
