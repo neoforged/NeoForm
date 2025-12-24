@@ -63,8 +63,8 @@ public abstract class CreateConfig extends DefaultTask {
         steps.add(createStep("downloadServer", Map.of("json", "{downloadJsonOutput}")));
         steps.add(createStep("listLibraries", Map.of("json", "{downloadJsonOutput}")));
         steps.add(createStep("preProcessJar", Map.of(
-                "inputClient", "{downloadClientOutput}",
-                "inputServer", "{downloadServerOutput}"
+                "inputClientJar", "{downloadClientOutput}",
+                "inputServerJar", "{downloadServerOutput}"
         )));
         steps.add(createStep("decompile", Map.of(
                 "libraries", "{listLibrariesOutput}",

@@ -23,7 +23,7 @@ neoForm {
 
     preProcessJar {
         classpath = ['net.neoforged.installertools:installertools:4.0.12:fatjar']
-        args = ['--task', 'PROCESS_MINECRAFT_JAR', '--input', '{downloadClientOutput}', '--input', '{downloadServerOutput}', '--output', '{output}', '--no-mod-manifest']
+        args = ['--task', 'PROCESS_MINECRAFT_JAR', '--input', '{inputClientJar}', '--input', '{inputServerJar}', '--output', '{output}', '--no-mod-manifest']
     }
 
     decompiler {
