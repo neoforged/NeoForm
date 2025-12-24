@@ -67,7 +67,7 @@ public abstract class CreateConfig extends DefaultTask {
                 "inputServerJar", "{downloadServerOutput}"
         )));
         steps.add(createStep("decompile", Map.of(
-                "libraries", "{listLibrariesOutput}",
+                "inputLibraries", "{listLibrariesOutput}",
                 "input", "{preProcessJarOutput}"
         )));
         steps.add(createStep("patch", Map.of("input", "{decompileOutput}")));

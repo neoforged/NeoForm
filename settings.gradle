@@ -45,8 +45,8 @@ neoForm {
                 '--dump-code-lines',
                 '--indent-string=    ',
                 '--log-level=WARN',
-                '-cfg={listLibrariesOutput}',
-                '{preProcessJarOutput}',
+                '-cfg={inputLibraries}',
+                '{input}',
                 '{output}'
         ]
     }
