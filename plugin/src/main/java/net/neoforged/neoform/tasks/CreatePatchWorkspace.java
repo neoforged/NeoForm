@@ -145,9 +145,8 @@ public abstract class CreatePatchWorkspace extends DefaultTask {
                                 .mode(PatchMode.OFFSET);
 
                         if (updateMode) {
-                            builder.mode(PatchMode.FUZZY)
-                                    .minFuzz(0.5f)
-                                    .level(io.codechicken.diffpatch.util.LogLevel.ALL)
+                            builder.mode(PatchMode.OFFSET)
+                                    .level(io.codechicken.diffpatch.util.LogLevel.INFO)
                                     .rejectsOutput(Output.SingleOutput.pipe(rejectsOutput));
                         }
 

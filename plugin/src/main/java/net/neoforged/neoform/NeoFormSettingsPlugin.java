@@ -32,6 +32,7 @@ public class NeoFormSettingsPlugin implements Plugin<Settings> {
             spec.getRepositoriesMode().set(RepositoriesMode.FAIL_ON_PROJECT_REPOS);
             spec.repositories(repositories -> {
                 // Automatically include repositories for the tools
+                repositories.mavenLocal();
                 repositories.maven(repo -> {
                     repo.setName("Neoforge");
                     repo.setUrl("https://maven.neoforged.net/releases/");
