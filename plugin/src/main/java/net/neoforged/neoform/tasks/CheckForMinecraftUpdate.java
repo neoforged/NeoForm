@@ -71,9 +71,12 @@ public abstract class CheckForMinecraftUpdate extends DefaultTask {
         // For anything else, we need to split "main-line snapshots" from any other special release like
         // experiments, unobfuscated previews or april fools snapshots.
         if (type.equals("snapshot")
-                // -pre and -rc versions are always considered mainline
+                // Newer snapshtos and pre-releases follow this format:
+                // 25.4-(snapshot|pre|rc)-()
+                && !latestVersion.id().matches("^\\d+\\.\\d+(\\.\\d+)?-(snapshot|pre|rc)-\\d+$")
+                // Older version format -pre and -rc versions are always considered mainline
                 && !latestVersion.id().matches("^\\d+\\.\\d+(\\.\\d+)?(?:-(pre|rc)\\d+)?$")
-                // Standard snapshots are also considered mainline
+                // Older version format snapshots following the year-week-formatting are also considered mainline
                 && !latestVersion.id().matches("^\\d{2}w\\d{2}[a-z]$")) {
             return "special";
         }
