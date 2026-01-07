@@ -47,9 +47,9 @@ public abstract class Decompile extends ToolAction {
         }
 
         exec(Map.of(
-                "preProcessJarOutput", inputJar.getAbsolutePath(),
-                "output", outputZip.getAbsolutePath(),
-                "listLibrariesOutput", librariesFile.getAbsolutePath()
+                "input", inputJar.getAbsolutePath(),
+                "inputLibraries", librariesFile.getAbsolutePath(),
+                "output", outputZip.getAbsolutePath()
         ));
     }
 }

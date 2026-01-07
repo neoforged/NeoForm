@@ -25,8 +25,8 @@ public abstract class PrepareJarForDecompiler extends ToolAction {
         var joinedJar = getOutput().getAsFile().get();
 
         exec(Map.of(
-                "downloadClientOutput", clientJar.getAbsolutePath(),
-                "downloadServerOutput", serverJar.getAbsolutePath(),
+                "inputClientJar", clientJar.getAbsolutePath(),
+                "inputServerJar", serverJar.getAbsolutePath(),
                 "output", joinedJar.getAbsolutePath()
         ));
     }
