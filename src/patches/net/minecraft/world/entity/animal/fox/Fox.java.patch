@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/entity/animal/fox/Fox.java
 +++ b/net/minecraft/world/entity/animal/fox/Fox.java
-@@ -734,8 +_,7 @@
+@@ -737,8 +_,7 @@
          private @Nullable LivingEntity trustedLastHurt;
          private int timestamp;
  
