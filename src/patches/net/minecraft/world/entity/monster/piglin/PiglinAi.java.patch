@@ -1,7 +1,7 @@
 --- a/net/minecraft/world/entity/monster/piglin/PiglinAi.java
 +++ b/net/minecraft/world/entity/monster/piglin/PiglinAi.java
-@@ -173,7 +_,7 @@
-         brain.addActivityAndRemoveMemoryWhenStopped(
+@@ -172,7 +_,7 @@
+         return ActivityData.create(
              Activity.FIGHT,
              10,
 -            ImmutableList.of(
@@ -9,8 +9,8 @@
                  StopAttackingIfTargetInvalid.create((level, target) -> !isNearestValidAttackTarget(level, body, target)),
                  BehaviorBuilder.triggerIf(PiglinAi::hasCrossbow, BackUpIfTooClose.create(5, 0.75F)),
                  SetWalkTargetFromAttackTargetIfTargetOutOfReach.create(1.0F),
-@@ -193,13 +_,13 @@
-         brain.addActivityAndRemoveMemoryWhenStopped(
+@@ -192,15 +_,15 @@
+         return ActivityData.create(
              Activity.CELEBRATE,
              10,
 -            ImmutableList.of(
@@ -18,16 +18,18 @@
                  avoidRepellent(),
                  SetEntityLookTarget.create(PiglinAi::isPlayerHoldingLovedItem, 14.0F),
                  StartAttacking.<Piglin>create((level, piglin) -> piglin.isAdult(), PiglinAi::findNearestValidAttackTarget),
--                BehaviorBuilder.triggerIf(body -> !body.isDancing(), GoToTargetLocation.create(MemoryModuleType.CELEBRATE_LOCATION, 2, 1.0F)),
+-                BehaviorBuilder.triggerIf(
++                BehaviorBuilder.<Piglin>triggerIf(
+                     body -> body instanceof Piglin && !body.isDancing(), GoToTargetLocation.create(MemoryModuleType.CELEBRATE_LOCATION, 2, 1.0F)
+                 ),
 -                BehaviorBuilder.triggerIf(Piglin::isDancing, GoToTargetLocation.create(MemoryModuleType.CELEBRATE_LOCATION, 4, 0.6F)),
 -                new RunOne<LivingEntity>(
-+                BehaviorBuilder.<Piglin>triggerIf(body -> !body.isDancing(), GoToTargetLocation.create(MemoryModuleType.CELEBRATE_LOCATION, 2, 1.0F)),
 +                BehaviorBuilder.<Piglin>triggerIf(Piglin::isDancing, GoToTargetLocation.create(MemoryModuleType.CELEBRATE_LOCATION, 4, 0.6F)),
 +                new RunOne<Piglin>(
                      ImmutableList.of(
                          Pair.of(SetEntityLookTarget.create(EntityType.PIGLIN, 8.0F), 1),
                          Pair.of(RandomStroll.stroll(0.6F, 2, 1), 1),
-@@ -232,7 +_,7 @@
+@@ -233,7 +_,7 @@
                  SetWalkTargetAwayFrom.entity(MemoryModuleType.AVOID_TARGET, 1.0F, 12, true),
                  createIdleLookBehaviors(),
                  createIdleMovementBehaviors(),
@@ -36,7 +38,7 @@
              ),
              MemoryModuleType.AVOID_TARGET
          );
-@@ -254,7 +_,7 @@
+@@ -255,7 +_,7 @@
                              .build()
                      )
                  ),
