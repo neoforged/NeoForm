@@ -3,7 +3,7 @@
 @@ -52,7 +_,7 @@
      }
  
-     private static ActivityData<PiglinBrute> initCoreActivity(PiglinBrute body) {
+     private static ActivityData<PiglinBrute> initCoreActivity() {
 -        return ActivityData.create(
 +        return ActivityData.<PiglinBrute>create(
              Activity.CORE,
@@ -12,7 +12,7 @@
 @@ -60,7 +_,7 @@
      }
  
-     private static ActivityData<PiglinBrute> initIdleActivity(PiglinBrute body) {
+     private static ActivityData<PiglinBrute> initIdleActivity() {
 -        return ActivityData.create(
 +        return ActivityData.<PiglinBrute>create(
              Activity.IDLE,

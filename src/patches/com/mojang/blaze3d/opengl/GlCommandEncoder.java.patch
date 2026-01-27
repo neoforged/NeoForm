@@ -1,6 +1,6 @@
 --- a/com/mojang/blaze3d/opengl/GlCommandEncoder.java
 +++ b/com/mojang/blaze3d/opengl/GlCommandEncoder.java
-@@ -927,10 +_,10 @@
+@@ -528,10 +_,10 @@
              Uniform var10 = var10000;
              byte var11 = 0;
  
@@ -15,7 +15,7 @@
                          Uniform.Ubo var62 = var12;
  
                          try {
-@@ -950,86 +_,19 @@
+@@ -551,86 +_,19 @@
  
                          var11 = 1;
                          break;
@@ -106,7 +106,7 @@
                                  GlRenderPass.TextureViewAndSampler viewAndSamplerxx = renderPass.samplers.get(namex);
                                  if (viewAndSamplerxx == null) {
                                      continue label200;
-@@ -1037,10 +_,10 @@
+@@ -638,10 +_,10 @@
  
                                  GlTextureView textureViewx = viewAndSamplerxx.view();
                                  if (differentProgram || isDirty) {
@@ -119,7 +119,7 @@
                                  GlTexture texture = textureViewx.texture();
                                  int target;
                                  if ((texture.usage() & 16) != 0) {
-@@ -1051,15 +_,10 @@
+@@ -652,15 +_,10 @@
                                      GlStateManager._bindTexture(texture.id);
                                  }
  

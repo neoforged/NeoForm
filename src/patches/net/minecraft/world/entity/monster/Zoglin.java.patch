@@ -18,3 +18,12 @@
              Activity.FIGHT,
              10,
              ImmutableList.of(
+@@ -208,7 +_,7 @@
+ 
+     @Override
+     public Brain<Zoglin> getBrain() {
+-        return super.getBrain();
++        return (Brain<Zoglin>) super.getBrain();
+     }
+ 
+     protected void updateActivity() {
