@@ -1,0 +1,10 @@
+--- a/net/minecraft/client/waypoints/ClientWaypointManager.java
++++ b/net/minecraft/client/waypoints/ClientWaypointManager.java
+@@ -34,6 +_,6 @@
+     }
+ 
+     public void forEachWaypoint(final Entity fromEntity, final Consumer<TrackedWaypoint> consumer) {
+-        waypoints.values().stream().sorted(Comparator.comparingDouble(waypoint -> waypoint.distanceSquared(fromEntity)).reversed()).forEachOrdered(consumer);
++        waypoints.values().stream().sorted(Comparator.<TrackedWaypoint>comparingDouble(waypoint -> waypoint.distanceSquared(fromEntity)).reversed()).forEachOrdered(consumer);
+     }
+ }

@@ -1,0 +1,11 @@
+--- a/net/minecraft/nbt/CompoundTag.java
++++ b/net/minecraft/nbt/CompoundTag.java
+@@ -541,7 +_,7 @@
+     }
+ 
+     public <T> void store(final MapCodec<T> codec, final DynamicOps<Tag> ops, final T value) {
+-        merge(codec.encoder().<CompoundTag>encodeStart((DynamicOps) ops, value).getOrThrow());
++        merge(codec.encoder().encodeStart((DynamicOps<CompoundTag>) (DynamicOps) ops, value).getOrThrow());
+     }
+ 
+     public <T> Optional<T> read(final String name, final Codec<T> codec) {

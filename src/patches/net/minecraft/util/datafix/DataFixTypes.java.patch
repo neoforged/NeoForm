@@ -1,0 +1,11 @@
+--- a/net/minecraft/util/datafix/DataFixTypes.java
++++ b/net/minecraft/util/datafix/DataFixTypes.java
+@@ -74,7 +_,7 @@
+     }
+ 
+     public CompoundTag update(final DataFixer fixer, final CompoundTag tag, final int fromVersion, final int toVersion) {
+-        return this.<CompoundTag>update(fixer, (Dynamic) new Dynamic<>(NbtOps.INSTANCE, tag), fromVersion, toVersion).getValue();
++        return this.<CompoundTag>update(fixer, new Dynamic<CompoundTag>((DynamicOps) NbtOps.INSTANCE, tag), fromVersion, toVersion).getValue();
+     }
+ 
+     public CompoundTag updateToCurrentVersion(final DataFixer fixer, final CompoundTag tag, final int fromVersion) {

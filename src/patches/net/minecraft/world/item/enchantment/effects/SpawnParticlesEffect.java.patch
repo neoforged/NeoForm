@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/item/enchantment/effects/SpawnParticlesEffect.java
++++ b/net/minecraft/world/item/enchantment/effects/SpawnParticlesEffect.java
+@@ -78,7 +_,7 @@
+ 
+     public record PositionSource(PositionSourceType type, float offset, float scale) {
+ 
+-        public static final MapCodec<PositionSource> CODEC = RecordCodecBuilder.mapCodec(i -> i.group(PositionSourceType.CODEC.fieldOf("type").forGetter(PositionSource::type), Codec.FLOAT.optionalFieldOf("offset", Float.valueOf(0F)).forGetter(PositionSource::offset), ExtraCodecs.POSITIVE_FLOAT.optionalFieldOf("scale", Float.valueOf(1F)).forGetter(PositionSource::scale)).apply(i, PositionSource::new)).validate(positioning -> {
++        public static final MapCodec<PositionSource> CODEC = RecordCodecBuilder.<PositionSource>mapCodec(i -> i.group(PositionSourceType.CODEC.fieldOf("type").forGetter(PositionSource::type), Codec.FLOAT.optionalFieldOf("offset", Float.valueOf(0F)).forGetter(PositionSource::offset), ExtraCodecs.POSITIVE_FLOAT.optionalFieldOf("scale", Float.valueOf(1F)).forGetter(PositionSource::scale)).apply(i, PositionSource::new)).validate(positioning -> {
+             if (positioning.type() == PositionSourceType.ENTITY_POSITION && positioning.scale() != 1F) {
+                 return DataResult.error(() -> "Cannot scale an entity position coordinate source");
+             }

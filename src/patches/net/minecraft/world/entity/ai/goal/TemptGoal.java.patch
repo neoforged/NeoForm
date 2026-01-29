@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/entity/ai/goal/TemptGoal.java
++++ b/net/minecraft/world/entity/ai/goal/TemptGoal.java
+@@ -36,7 +_,7 @@
+     }
+ 
+     public TemptGoal(final PathfinderMob mob, final double speedModifier, final Predicate<ItemStack> items, final boolean canScare, final double stopDistance) {
+-        this(mob, speedModifier, items, canScare, stopDistance);
++        this((Mob) mob, speedModifier, items, canScare, stopDistance);
+     }
+ 
+     private TemptGoal(final Mob mob, final double speedModifier, final Predicate<ItemStack> items, final boolean canScare, final double stopDistance) {

@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/item/crafting/SelectableRecipe.java
++++ b/net/minecraft/world/item/crafting/SelectableRecipe.java
+@@ -28,7 +_,7 @@
+         }
+ 
+         public static <T extends Recipe<?>> StreamCodec<RegistryFriendlyByteBuf, SingleInputSet<T>> noRecipeCodec() {
+-            return StreamCodec.composite(SingleInputEntry.noRecipeCodec().apply(ByteBufCodecs.list()), SingleInputSet::entries, SingleInputSet::new);
++            return StreamCodec.composite(SingleInputEntry.<T>noRecipeCodec().apply(ByteBufCodecs.list()), SingleInputSet::entries, SingleInputSet::new);
+         }
+ 
+         public boolean acceptsInput(final ItemStack input) {

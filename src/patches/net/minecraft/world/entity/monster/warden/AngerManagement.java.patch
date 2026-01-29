@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/entity/monster/warden/AngerManagement.java
++++ b/net/minecraft/world/entity/monster/warden/AngerManagement.java
+@@ -62,7 +_,7 @@
+     }
+ 
+     private List<Pair<UUID, Integer>> createUuidAngerPairs() {
+-        return Streams.<Pair<UUID, Integer>>concat(new Stream[] { suspects.stream().map(e -> Pair.of(e.getUUID(), Integer.valueOf(angerBySuspect.getInt(e)))), angerByUuid.object2IntEntrySet().stream().map(e -> Pair.of(e.getKey(), Integer.valueOf(e.getIntValue()))) }).collect(Collectors.toList());
++        return Streams.<Pair<UUID, Integer>>concat(suspects.stream().map(e -> Pair.of(e.getUUID(), Integer.valueOf(angerBySuspect.getInt(e)))), angerByUuid.object2IntEntrySet().stream().map(e -> Pair.of(e.getKey(), Integer.valueOf(e.getIntValue())))).collect(Collectors.toList());
+     }
+ 
+     public void tick(final ServerLevel level, final Predicate<Entity> validEntity) {

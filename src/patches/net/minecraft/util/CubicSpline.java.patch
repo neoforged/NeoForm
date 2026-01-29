@@ -1,0 +1,11 @@
+--- a/net/minecraft/util/CubicSpline.java
++++ b/net/minecraft/util/CubicSpline.java
+@@ -38,7 +_,7 @@
+             }
+             return Multipoint.create(coordinate, locations, values.build(), derivatives);
+         }));
+-        result.setValue((Codec) Codec.either(Codec.FLOAT, multipointCodec).xmap(e -> (CubicSpline<?, ?>) e.map(Constant::new, m -> m), s -> s instanceof Constant<C, I> c ? Either.left(Float.valueOf(c.value())) : (Either) Either.right((CubicSpline.Multipoint) s)));
++        result.setValue(Codec.either(Codec.FLOAT, multipointCodec).xmap(e -> e.map(Constant::new, m -> m), s -> s instanceof CubicSpline.Constant<C, I> c ? Either.left(c.value()) : Either.right((CubicSpline.Multipoint<C, I>) s)));
+         return result.get();
+     }
+ 

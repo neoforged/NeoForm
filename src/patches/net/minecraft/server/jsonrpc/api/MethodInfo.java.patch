@@ -1,20 +1,25 @@
 --- a/net/minecraft/server/jsonrpc/api/MethodInfo.java
 +++ b/net/minecraft/server/jsonrpc/api/MethodInfo.java
-@@ -29,7 +_,7 @@
-         return RecordCodecBuilder.mapCodec(
-             i -> i.group(
-                     Codec.STRING.fieldOf("description").forGetter(MethodInfo::description),
--                    paramsTypedCodec().fieldOf("params").forGetter(MethodInfo::params),
-+                    MethodInfo.<Params>paramsTypedCodec().fieldOf("params").forGetter(MethodInfo::params),
-                     ResultInfo.<Result>typedCodec().optionalFieldOf("result").forGetter(MethodInfo::result)
-                 )
-                 .apply(i, MethodInfo::new)
-@@ -41,7 +_,7 @@
+@@ -26,11 +_,11 @@
      }
  
-     public record Named<Params, Result>(Identifier name, MethodInfo<Params, Result> contents) {
--        public static final Codec<MethodInfo.Named<?, ?>> CODEC = typedCodec();
-+        public static final Codec<MethodInfo.Named<?, ?>> CODEC = (Codec<MethodInfo.Named<?, ?>>)(Codec<?>)typedCodec();
+     private static <Params> Codec<Optional<ParamInfo<Params>>> paramsTypedCodec() {
+-        return ParamInfo.typedCodec().codec().listOf().xmap(MethodInfo::toOptional, MethodInfo::toList);
++        return ParamInfo.<Params>typedCodec().codec().listOf().xmap(MethodInfo::toOptional, MethodInfo::toList);
+     }
  
-         public static <Params, Result> Codec<MethodInfo.Named<Params, Result>> typedCodec() {
-             return RecordCodecBuilder.create(
+     private static <Params, Result> MapCodec<MethodInfo<Params, Result>> typedCodec() {
+-        return RecordCodecBuilder.mapCodec(i -> i.group(Codec.STRING.fieldOf("description").forGetter(MethodInfo::description), paramsTypedCodec().fieldOf("params").forGetter(MethodInfo::params), ResultInfo.typedCodec().optionalFieldOf("result").forGetter(MethodInfo::result)).apply(i, MethodInfo::new));
++        return RecordCodecBuilder.mapCodec(i -> i.group(Codec.STRING.fieldOf("description").forGetter(MethodInfo::description), MethodInfo.<Params>paramsTypedCodec().fieldOf("params").forGetter(MethodInfo::params), ResultInfo.<Result>typedCodec().optionalFieldOf("result").forGetter(MethodInfo::result)).apply(i, MethodInfo::new));
+     }
+ 
+     public Named<Params, Result> named(final Identifier name) {
+@@ -42,7 +_,7 @@
+         public static final Codec<Named<?, ?>> CODEC = (Codec) typedCodec();
+ 
+         public static <Params, Result> Codec<Named<Params, Result>> typedCodec() {
+-            return RecordCodecBuilder.create(i -> i.group(Identifier.CODEC.fieldOf("name").forGetter(Named::name), MethodInfo.typedCodec().forGetter(Named::contents)).apply(i, Named::new));
++            return RecordCodecBuilder.create(i -> i.group(Identifier.CODEC.fieldOf("name").forGetter(Named::name), MethodInfo.<Params, Result>typedCodec().forGetter(Named::contents)).apply(i, Named::new));
+         }
+     }
+ }

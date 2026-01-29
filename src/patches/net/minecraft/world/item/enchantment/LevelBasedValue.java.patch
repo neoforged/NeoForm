@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/item/enchantment/LevelBasedValue.java
++++ b/net/minecraft/world/item/enchantment/LevelBasedValue.java
+@@ -86,7 +_,7 @@
+ 
+     public record Clamped(LevelBasedValue value, float min, float max) implements LevelBasedValue {
+ 
+-        public static final MapCodec<Clamped> CODEC = RecordCodecBuilder.mapCodec(i -> i.group(LevelBasedValue.CODEC.fieldOf("value").forGetter(Clamped::value), Codec.FLOAT.fieldOf("min").forGetter(Clamped::min), Codec.FLOAT.fieldOf("max").forGetter(Clamped::max)).apply(i, Clamped::new)).validate(u -> {
++        public static final MapCodec<Clamped> CODEC = RecordCodecBuilder.<Clamped>mapCodec(i -> i.group(LevelBasedValue.CODEC.fieldOf("value").forGetter(Clamped::value), Codec.FLOAT.fieldOf("min").forGetter(Clamped::min), Codec.FLOAT.fieldOf("max").forGetter(Clamped::max)).apply(i, Clamped::new)).validate(u -> {
+             if (u.max <= u.min) {
+                 return DataResult.error(() -> "Max must be larger than min, min: " + u.min + ", max: " + u.max);
+             }

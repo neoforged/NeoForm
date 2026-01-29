@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/level/levelgen/blending/BlendingData.java
++++ b/net/minecraft/world/level/levelgen/blending/BlendingData.java
+@@ -380,7 +_,7 @@
+     public record Packed(int minSection, int maxSection, Optional<double[]> heights) {
+ 
+         private static final Codec<double[]> DOUBLE_ARRAY_CODEC = Codec.DOUBLE.listOf().xmap(Doubles::toArray, Doubles::asList);
+-        public static final Codec<Packed> CODEC = RecordCodecBuilder.create(i -> i.group(Codec.INT.fieldOf("min_section").forGetter(Packed::minSection), Codec.INT.fieldOf("max_section").forGetter(Packed::maxSection), DOUBLE_ARRAY_CODEC.lenientOptionalFieldOf("heights").forGetter(Packed::heights)).apply(i, Packed::new)).validate(Packed::validateArraySize);
++        public static final Codec<Packed> CODEC = RecordCodecBuilder.<Packed>create(i -> i.group(Codec.INT.fieldOf("min_section").forGetter(Packed::minSection), Codec.INT.fieldOf("max_section").forGetter(Packed::maxSection), DOUBLE_ARRAY_CODEC.lenientOptionalFieldOf("heights").forGetter(Packed::heights)).apply(i, Packed::new)).validate(Packed::validateArraySize);
+ 
+         private static DataResult<Packed> validateArraySize(final Packed blendingData) {
+             if (blendingData.heights.isPresent() && blendingData.heights.get().length != CELL_COLUMN_COUNT) {

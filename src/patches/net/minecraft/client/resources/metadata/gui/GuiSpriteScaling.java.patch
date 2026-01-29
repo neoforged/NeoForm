@@ -1,0 +1,11 @@
+--- a/net/minecraft/client/resources/metadata/gui/GuiSpriteScaling.java
++++ b/net/minecraft/client/resources/metadata/gui/GuiSpriteScaling.java
+@@ -42,7 +_,7 @@
+     @OnlyIn (Dist.CLIENT)
+     public record NineSlice(int width, int height, Border border, boolean stretchInner) implements GuiSpriteScaling {
+ 
+-        public static final MapCodec<NineSlice> CODEC = RecordCodecBuilder.mapCodec(i -> i.group(ExtraCodecs.POSITIVE_INT.fieldOf("width").forGetter(NineSlice::width), ExtraCodecs.POSITIVE_INT.fieldOf("height").forGetter(NineSlice::height), Border.CODEC.fieldOf("border").forGetter(NineSlice::border), Codec.BOOL.optionalFieldOf("stretch_inner", Boolean.valueOf(false)).forGetter(NineSlice::stretchInner)).apply(i, NineSlice::new)).validate(NineSlice::validate);
++        public static final MapCodec<NineSlice> CODEC = RecordCodecBuilder.<NineSlice>mapCodec(i -> i.group(ExtraCodecs.POSITIVE_INT.fieldOf("width").forGetter(NineSlice::width), ExtraCodecs.POSITIVE_INT.fieldOf("height").forGetter(NineSlice::height), Border.CODEC.fieldOf("border").forGetter(NineSlice::border), Codec.BOOL.optionalFieldOf("stretch_inner", Boolean.valueOf(false)).forGetter(NineSlice::stretchInner)).apply(i, NineSlice::new)).validate(NineSlice::validate);
+ 
+         private static DataResult<NineSlice> validate(final NineSlice nineSlice) {
+             Border border = nineSlice.border();

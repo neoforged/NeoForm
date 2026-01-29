@@ -1,0 +1,11 @@
+--- a/net/minecraft/util/datafix/fixes/ItemStackComponentizationFix.java
++++ b/net/minecraft/util/datafix/fixes/ItemStackComponentizationFix.java
+@@ -143,7 +_,7 @@
+     }
+ 
+     private static Dynamic<?> fixBlockStateTag(final Dynamic<?> blockStateTag) {
+-        return DataFixUtils.orElse(blockStateTag.asMapOpt().result().<Map<Dynamic<?>, Dynamic>>map(entries -> entries.collect(Collectors.toMap(Pair::getFirst, entry -> {
++        return DataFixUtils.orElse(blockStateTag.asMapOpt().result().map(entries -> entries.collect(Collectors.toMap(Pair::getFirst, entry -> {
+             String key = entry.getFirst().asString("");
+             Dynamic<?> value = entry.getSecond();
+             if (BOOLEAN_BLOCK_STATE_PROPERTIES.contains(key)) {

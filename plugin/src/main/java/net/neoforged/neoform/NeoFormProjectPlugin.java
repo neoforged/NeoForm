@@ -144,6 +144,7 @@ public abstract class NeoFormProjectPlugin implements Plugin<Project> {
             task.setDescription("Creates a Gradle subproject under 'workspace' that contains the patched Minecraft sources to work on modifying the patches easily. Run the createPatches task to generate new patches from this workspace.");
             task.getPatchesDir().set(project.getLayout().getProjectDirectory().dir("src/patches"));
             task.getSourcesZip().set(decompile.flatMap(Decompile::getOutput));
+            task.getResourcesZip().set(prepareJarForDecompiler.flatMap(PrepareJarForDecompiler::getOutput));
             task.getWorkspace().set(workspaceDir);
         });
         var createPatchWorkspaceForUpdate = tasks.register("createPatchWorkspaceForUpdate", CreatePatchWorkspace.class, task -> {
@@ -151,6 +152,7 @@ public abstract class NeoFormProjectPlugin implements Plugin<Project> {
             task.setDescription("Same as the createWorkspace task, but patches are applied fuzzily and rejected patches will be stored in the 'rejects' folder.");
             task.getPatchesDir().set(project.getLayout().getProjectDirectory().dir("src/patches"));
             task.getSourcesZip().set(decompile.flatMap(Decompile::getOutput));
+            task.getResourcesZip().set(prepareJarForDecompiler.flatMap(PrepareJarForDecompiler::getOutput));
             task.getWorkspace().set(workspaceDir);
             task.getUpdateMode().set(true);
         });

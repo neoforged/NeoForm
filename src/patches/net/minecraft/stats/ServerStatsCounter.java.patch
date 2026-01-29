@@ -1,0 +1,11 @@
+--- a/net/minecraft/stats/ServerStatsCounter.java
++++ b/net/minecraft/stats/ServerStatsCounter.java
+@@ -51,7 +_,7 @@
+             stats.putAll((Map<? extends Stat<?>, ? extends Integer>) values);
+         });
+         return stats;
+-    }, map -> map.entrySet().stream().collect(Collectors.groupingBy(entry -> entry.getKey().getType(), (Collector) Util.toMap())));
++    }, map -> map.entrySet().stream().collect(Collectors.groupingBy(entry -> entry.getKey().getType(), Util.toMap())));
+     private final Path file;
+     private final Set<Stat<?>> dirty = Sets.newHashSet();
+ 

@@ -1,0 +1,11 @@
+--- a/net/minecraft/server/dialog/input/SingleOptionInput.java
++++ b/net/minecraft/server/dialog/input/SingleOptionInput.java
+@@ -13,7 +_,7 @@
+ 
+ public record SingleOptionInput(int width, List<Entry> entries, Component label, boolean labelVisible) implements InputControl {
+ 
+-    public static final MapCodec<SingleOptionInput> MAP_CODEC = RecordCodecBuilder.mapCodec(i -> i.group(Dialog.WIDTH_CODEC.optionalFieldOf("width", Integer.valueOf(200)).forGetter(SingleOptionInput::width), ExtraCodecs.nonEmptyList(Entry.CODEC.listOf()).fieldOf("options").forGetter(SingleOptionInput::entries), ComponentSerialization.CODEC.fieldOf("label").forGetter(SingleOptionInput::label), Codec.BOOL.optionalFieldOf("label_visible", Boolean.valueOf(true)).forGetter(SingleOptionInput::labelVisible)).apply(i, SingleOptionInput::new)).validate(o -> {
++    public static final MapCodec<SingleOptionInput> MAP_CODEC = RecordCodecBuilder.<SingleOptionInput>mapCodec(i -> i.group(Dialog.WIDTH_CODEC.optionalFieldOf("width", Integer.valueOf(200)).forGetter(SingleOptionInput::width), ExtraCodecs.nonEmptyList(Entry.CODEC.listOf()).fieldOf("options").forGetter(SingleOptionInput::entries), ComponentSerialization.CODEC.fieldOf("label").forGetter(SingleOptionInput::label), Codec.BOOL.optionalFieldOf("label_visible", Boolean.valueOf(true)).forGetter(SingleOptionInput::labelVisible)).apply(i, SingleOptionInput::new)).validate(o -> {
+         long initialCount = o.entries.stream().filter(Entry::initial).count();
+         if (initialCount > 1L) {
+             return DataResult.error(() -> "Multiple initial values");

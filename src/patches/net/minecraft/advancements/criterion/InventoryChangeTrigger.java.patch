@@ -1,0 +1,11 @@
+--- a/net/minecraft/advancements/criterion/InventoryChangeTrigger.java
++++ b/net/minecraft/advancements/criterion/InventoryChangeTrigger.java
+@@ -48,7 +_,7 @@
+         public static final Codec<TriggerInstance> CODEC = RecordCodecBuilder.create(i -> i.group(EntityPredicate.ADVANCEMENT_CODEC.optionalFieldOf("player").forGetter(TriggerInstance::player), Slots.CODEC.optionalFieldOf("slots", Slots.ANY).forGetter(TriggerInstance::slots), ItemPredicate.CODEC.listOf().optionalFieldOf("items", List.of()).forGetter(TriggerInstance::items)).apply(i, TriggerInstance::new));
+ 
+         public static Criterion<TriggerInstance> hasItems(final ItemPredicate.Builder... items) {
+-            return hasItems(Stream.of(items).map(ItemPredicate.Builder::build).toArray(x$0 -> new ItemPredicate[x$0]));
++            return hasItems(Stream.of(items).map(ItemPredicate.Builder::build).toArray(ItemPredicate[]::new));
+         }
+ 
+         public static Criterion<TriggerInstance> hasItems(final ItemPredicate... items) {

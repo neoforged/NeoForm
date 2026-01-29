@@ -1,0 +1,11 @@
+--- a/net/minecraft/server/dialog/input/NumberRangeInput.java
++++ b/net/minecraft/server/dialog/input/NumberRangeInput.java
+@@ -25,7 +_,7 @@
+ 
+     public record RangeInfo(float start, float end, Optional<Float> initial, Optional<Float> step) {
+ 
+-        public static final MapCodec<RangeInfo> MAP_CODEC = RecordCodecBuilder.mapCodec(i -> i.group(Codec.FLOAT.fieldOf("start").forGetter(RangeInfo::start), Codec.FLOAT.fieldOf("end").forGetter(RangeInfo::end), Codec.FLOAT.optionalFieldOf("initial").forGetter(RangeInfo::initial), ExtraCodecs.POSITIVE_FLOAT.optionalFieldOf("step").forGetter(RangeInfo::step)).apply(i, RangeInfo::new)).validate(range -> {
++        public static final MapCodec<RangeInfo> MAP_CODEC = RecordCodecBuilder.<RangeInfo>mapCodec(i -> i.group(Codec.FLOAT.fieldOf("start").forGetter(RangeInfo::start), Codec.FLOAT.fieldOf("end").forGetter(RangeInfo::end), Codec.FLOAT.optionalFieldOf("initial").forGetter(RangeInfo::initial), ExtraCodecs.POSITIVE_FLOAT.optionalFieldOf("step").forGetter(RangeInfo::step)).apply(i, RangeInfo::new)).validate(range -> {
+             if (range.initial.isPresent()) {
+                 double initial = (double) range.initial.get().floatValue();
+                 double min = (double) Math.min(range.start, range.end);

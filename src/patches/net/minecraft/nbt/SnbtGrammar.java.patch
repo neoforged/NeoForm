@@ -1,0 +1,25 @@
+--- a/net/minecraft/nbt/SnbtGrammar.java
++++ b/net/minecraft/nbt/SnbtGrammar.java
+@@ -345,11 +_,11 @@
+         Atom<String> stringEscapeSequence = Atom.of("string_escape_sequence");
+         rules.putComplex(stringEscapeSequence, Term.alternative(new Term[] { Term.sequence(new Term[] { StringReaderTerms.character('b'), Term.marker(stringEscapeSequence, "\b") }), Term.sequence(new Term[] { StringReaderTerms.character('s'), Term.marker(stringEscapeSequence, " ") }), Term.sequence(new Term[] { StringReaderTerms.character('t'), Term.marker(stringEscapeSequence, "\t") }), Term.sequence(new Term[] { StringReaderTerms.character('n'), Term.marker(stringEscapeSequence, "\n") }), Term.sequence(new Term[] { StringReaderTerms.character('f'), Term.marker(stringEscapeSequence, "\f") }), Term.sequence(new Term[] { StringReaderTerms.character('r'), Term.marker(stringEscapeSequence, "\r") }), Term.sequence(new Term[] { StringReaderTerms.character('\\'), Term.marker(stringEscapeSequence, "\\") }), Term.sequence(new Term[] { StringReaderTerms.character('\''), Term.marker(stringEscapeSequence, "'") }), Term.sequence(new Term[] { StringReaderTerms.character('\"'), Term.marker(stringEscapeSequence, "\"") }), Term.sequence(new Term[] { StringReaderTerms.character('x'), rules.named(stringHex2) }), Term.sequence(new Term[] { StringReaderTerms.character('u'), rules.named(stringHex4) }), Term.sequence(new Term[] { StringReaderTerms.character('U'), rules.named(stringHex8) }), Term.sequence(new Term[] { StringReaderTerms.character('N'), StringReaderTerms.character('{'), rules.named(stringUnicodeName), StringReaderTerms.character('}') }) }), state -> {
+             Scope scope = state.scope();
+-            String plainEscape = scope.getAny(new Atom[] { stringEscapeSequence });
++            String plainEscape = scope.getAny(stringEscapeSequence);
+             if (plainEscape != null) {
+                 return plainEscape;
+             }
+-            String hexEscape = scope.getAny(new Atom[] { stringHex2, stringHex4, stringHex8 });
++            String hexEscape = scope.getAny(stringHex2, stringHex4, stringHex8);
+             if (hexEscape != null) {
+                 int codePoint = HexFormat.fromHexDigits(hexEscape);
+                 if (!Character.isValidCodePoint(codePoint)) {
+@@ -414,7 +_,7 @@
+             return ops.createString(contents);
+         });
+         Atom<String> mapKey = Atom.of("map_key");
+-        rules.put(mapKey, Term.alternative(new Term[] { rules.named(quotedStringLiteral), rules.named(unquotedString) }), scope -> scope.getAnyOrThrow(new Atom[] { quotedStringLiteral, unquotedString }));
++        rules.put(mapKey, Term.alternative(rules.named(quotedStringLiteral), rules.named(unquotedString)), scope -> scope.getAnyOrThrow(quotedStringLiteral, unquotedString));
+         Atom<Map.Entry<String, T>> mapEntry = Atom.of("map_entry");
+         NamedRule<StringReader, Map.Entry<String, T>> mapEntryRule = rules.putComplex(mapEntry, Term.sequence(new Term[] { rules.named(mapKey), StringReaderTerms.character(':'), rules.named(literal) }), state -> {
+             Scope scope = state.scope();

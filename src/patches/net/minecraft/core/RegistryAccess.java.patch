@@ -1,0 +1,20 @@
+--- a/net/minecraft/core/RegistryAccess.java
++++ b/net/minecraft/core/RegistryAccess.java
+@@ -79,7 +_,7 @@
+         private final Map<? extends ResourceKey<? extends Registry<?>>, ? extends Registry<?>> registries;
+ 
+         public ImmutableRegistryAccess(final List<? extends Registry<?>> registries) {
+-            this.registries = registries.stream().collect((Collector) Collectors.toUnmodifiableMap(Registry::key, v -> v));
++            this.registries = registries.stream().collect(Collectors.toUnmodifiableMap(Registry::key, v -> v));
+         }
+ 
+         public ImmutableRegistryAccess(final Map<? extends ResourceKey<? extends Registry<?>>, ? extends Registry<?>> registries) {
+@@ -91,7 +_,7 @@
+         }
+ 
+         public <E> Optional<Registry<E>> lookup(final ResourceKey<? extends Registry<? extends E>> registryKey) {
+-            return (Optional) Optional.ofNullable(registries.get(registryKey)).map(r -> r);
++            return Optional.ofNullable(registries.get(registryKey)).map(r -> (Registry<E>) r);
+         }
+ 
+         public Stream<RegistryEntry<?>> registries() {

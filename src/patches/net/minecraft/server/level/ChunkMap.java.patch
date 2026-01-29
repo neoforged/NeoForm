@@ -1,0 +1,11 @@
+--- a/net/minecraft/server/level/ChunkMap.java
++++ b/net/minecraft/server/level/ChunkMap.java
+@@ -254,7 +_,7 @@
+             result += "Ch: \u00A7" + chunk.getPersistedStatus().getIndex() + chunk.getPersistedStatus() + "\u00A7r\n";
+         }
+         FullChunkStatus fullStatus = chunkHolder.getFullStatus();
+-        result += '\u00A7' + fullStatus.ordinal() + fullStatus;
++        result = result + '\u00A7' + fullStatus.ordinal() + fullStatus;
+         return result + "\u00A7r";
+     }
+ 

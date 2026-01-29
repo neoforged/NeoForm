@@ -1,0 +1,11 @@
+--- a/net/minecraft/util/StringRepresentable.java
++++ b/net/minecraft/util/StringRepresentable.java
+@@ -45,7 +_,7 @@
+ 
+     static <T> Function<String, @Nullable T> createNameLookup(final T[] valueArray, final Function<T, String> converter) {
+         if (valueArray.length > 16) {
+-            Map<String, T> byName = Arrays.stream(valueArray).collect((Collector) Collectors.toMap(converter, d -> d));
++            Map<String, T> byName = Arrays.stream(valueArray).collect(Collectors.toMap(converter, d -> d));
+             return byName::get;
+         }
+         return id -> {

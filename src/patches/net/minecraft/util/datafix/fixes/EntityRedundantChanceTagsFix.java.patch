@@ -1,0 +1,10 @@
+--- a/net/minecraft/util/datafix/fixes/EntityRedundantChanceTagsFix.java
++++ b/net/minecraft/util/datafix/fixes/EntityRedundantChanceTagsFix.java
+@@ -29,6 +_,6 @@
+     }
+ 
+     private static boolean isZeroList(final OptionalDynamic<?> element, final int size) {
+-        return element.<List>flatMap(FLOAT_LIST_CODEC::parse).map(floats -> Boolean.valueOf(floats.size() == size && floats.stream().allMatch(f -> f.floatValue() == 0F))).result().orElse(Boolean.valueOf(false)).booleanValue();
++        return element.<List<Float>>flatMap(FLOAT_LIST_CODEC::parse).map(floats -> Boolean.valueOf(floats.size() == size && floats.stream().allMatch(f -> f.floatValue() == 0F))).result().orElse(Boolean.valueOf(false)).booleanValue();
+     }
+ }

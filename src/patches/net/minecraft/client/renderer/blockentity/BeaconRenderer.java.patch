@@ -1,34 +1,64 @@
 --- a/net/minecraft/client/renderer/blockentity/BeaconRenderer.java
 +++ b/net/minecraft/client/renderer/blockentity/BeaconRenderer.java
-@@ -92,6 +_,7 @@
-         float scroll = height < 0 ? animationTime : -animationTime;
-         float texVOff = Mth.frac(scroll * 0.2F - Mth.floor(scroll * 0.1F));
+@@ -68,34 +_,36 @@
+         float texVOff = Mth.frac(scroll * 0.2F - (float) Mth.floor(scroll * 0.1F));
          poseStack.pushPose();
+         poseStack.mulPose(Axis.YP.rotationDegrees(animationTime * 2.25F - 45));
+-        float wnx = 0F;
+-        float wnz = solidBeamRadius;
+-        float enx = solidBeamRadius;
+-        float enz = 0F;
+-        float wsx = -solidBeamRadius;
+-        float wsz = 0F;
+-        float esx = 0F;
+-        float esz = -solidBeamRadius;
 +        {
-         poseStack.mulPose(Axis.YP.rotationDegrees(animationTime * 2.25F - 45.0F));
-         float wnx = 0.0F;
-         float enz = 0.0F;
-@@ -110,15 +_,16 @@
-                 pose, buffer, color, beamStart, beamEnd, 0.0F, solidBeamRadius, solidBeamRadius, 0.0F, wsx, 0.0F, 0.0F, esz, 0.0F, 1.0F, vv1, vv2
-             )
-         );
++            float wnx = 0F;
++            float wnz = solidBeamRadius;
++            float enx = solidBeamRadius;
++            float enz = 0F;
++            float wsx = -solidBeamRadius;
++            float wsz = 0F;
++            float esx = 0F;
++            float esz = -solidBeamRadius;
++            float uu1 = 0F;
++            float uu2 = 1F;
++            float vv2 = -1 + texVOff;
++            float vv1 = (float) height * scale * (0.5F / solidBeamRadius) + vv2;
++            submitNodeCollector.submitCustomGeometry(poseStack, RenderTypes.beaconBeam(beamLocation, false), (pose, buffer) -> {
++                renderPart(pose, buffer, color, beamStart, beamEnd, 0F, wnz, enx, 0F, wsx, 0F, 0F, esz, 0F, 1F, vv1, vv2);
++            });
 +        }
-         poseStack.popPose();
--        wnx = -beamGlowRadius;
++        poseStack.popPose();
 +        float wnx = -beamGlowRadius;
-         float wnz = -beamGlowRadius;
--        enz = -beamGlowRadius;
--        wsx = -beamGlowRadius;
--        uu1 = 0.0F;
--        uu2 = 1.0F;
--        vv2 = -1.0F + texVOff;
--        vv1 = height * scale + vv2;
++        float wnz = -beamGlowRadius;
++        float enx = beamGlowRadius;
 +        float enz = -beamGlowRadius;
 +        float wsx = -beamGlowRadius;
-+        float uu1 = 0.0F;
-+        float uu2 = 1.0F;
-+        float vv2 = -1.0F + texVOff;
-+        float vv1 = height * scale + vv2;
-         submitNodeCollector.submitCustomGeometry(
-             poseStack,
-             RenderTypes.beaconBeam(beamLocation, true),
++        float wsz = beamGlowRadius;
++        float esx = beamGlowRadius;
++        float esz = beamGlowRadius;
+         float uu1 = 0F;
+         float uu2 = 1F;
+         float vv2 = -1 + texVOff;
+-        float vv1 = (float) height * scale * (0.5F / solidBeamRadius) + vv2;
+-        submitNodeCollector.submitCustomGeometry(poseStack, RenderTypes.beaconBeam(beamLocation, false), (pose, buffer) -> {
+-            renderPart(pose, buffer, color, beamStart, beamEnd, 0F, wnz, enx, 0F, wsx, 0F, 0F, esz, 0F, 1F, vv1, vv2);
+-        });
+-        poseStack.popPose();
+-        wnx = -beamGlowRadius;
+-        wnz = -beamGlowRadius;
+-        enx = beamGlowRadius;
+-        enz = -beamGlowRadius;
+-        wsx = -beamGlowRadius;
+-        wsz = beamGlowRadius;
+-        esx = beamGlowRadius;
+-        esz = beamGlowRadius;
+-        uu1 = 0F;
+-        uu2 = 1F;
+-        vv2 = -1 + texVOff;
+-        vv1 = (float) height * scale + vv2;
++        float vv1 = (float) height * scale + vv2;
+         submitNodeCollector.submitCustomGeometry(poseStack, RenderTypes.beaconBeam(beamLocation, true), (pose, buffer) -> {
+             renderPart(pose, buffer, ARGB.color(32, color), beamStart, beamEnd, wnx, wnz, enx, enz, wsx, wsz, esx, esz, 0F, 1F, vv1, vv2);
+         });

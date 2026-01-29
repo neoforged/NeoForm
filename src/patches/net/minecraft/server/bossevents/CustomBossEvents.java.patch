@@ -1,0 +1,11 @@
+--- a/net/minecraft/server/bossevents/CustomBossEvents.java
++++ b/net/minecraft/server/bossevents/CustomBossEvents.java
+@@ -46,7 +_,7 @@
+ 
+     public CompoundTag save(final HolderLookup.Provider registries) {
+         Map<Identifier, CustomBossEvent.Packed> packedEvents = Util.mapValues(events, CustomBossEvent::pack);
+-        return EVENTS_CODEC.<CompoundTag>encodeStart((DynamicOps) registries.createSerializationContext(NbtOps.INSTANCE), packedEvents).getOrThrow();
++        return EVENTS_CODEC.<CompoundTag>encodeStart((DynamicOps<CompoundTag>) (DynamicOps) registries.createSerializationContext(NbtOps.INSTANCE), packedEvents).getOrThrow();
+     }
+ 
+     public void load(final CompoundTag tag, final HolderLookup.Provider registries) {

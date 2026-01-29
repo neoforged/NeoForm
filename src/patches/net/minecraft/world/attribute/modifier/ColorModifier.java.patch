@@ -12,6 +12,6 @@
 +    ColorModifier<Integer> SUBTRACT = (RgbModifier) ARGB::subtractRgb;
 +    ColorModifier<Integer> MULTIPLY_RGB = (RgbModifier) ARGB::multiply;
 +    ColorModifier<Integer> MULTIPLY_ARGB = (ArgbModifier) ARGB::multiply;
-     ColorModifier<ColorModifier.BlendToGray> BLEND_TO_GRAY = new ColorModifier<ColorModifier.BlendToGray>() {
-         public Integer apply(Integer subject, ColorModifier.BlendToGray argument) {
-             int multipliedGreyscale = ARGB.scaleRGB(ARGB.greyscale(subject), argument.brightness);
+     ColorModifier<BlendToGray> BLEND_TO_GRAY = new ColorModifier<BlendToGray>() {
+ 
+         public Integer apply(final Integer subject, final BlendToGray argument) {

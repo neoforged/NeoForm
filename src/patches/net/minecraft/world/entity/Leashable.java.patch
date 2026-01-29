@@ -1,0 +1,272 @@
+--- a/net/minecraft/world/entity/Leashable.java
++++ b/net/minecraft/world/entity/Leashable.java
+@@ -71,7 +_,7 @@
+ 
+     default void setDelayedLeashHolderId(final int entityId) {
+         setLeashData(new LeashData(entityId));
+-        dropLeash((E) (Entity) this, false, false);
++        dropLeash((Entity & Leashable) this, false, false);
+     }
+ 
+     default void readLeashData(final ValueInput input) {
+@@ -108,11 +_,11 @@
+     }
+ 
+     default void dropLeash() {
+-        dropLeash((E) (Entity) this, true, true);
++        dropLeash((Entity & Leashable) this, true, true);
+     }
+ 
+     default void removeLeash() {
+-        dropLeash((E) (Entity) this, true, false);
++        dropLeash((Entity & Leashable) this, true, false);
+     }
+ 
+     default void onLeashRemoved() {
+@@ -163,7 +_,7 @@
+                 entity.closeRangeLeashBehaviour(leashHolder);
+             }
+             entity.setYRot((float) ((double) entity.getYRot() - leashData.angularMomentum));
+-            leashData.angularMomentum *= (double) angularFriction(entity);
++            leashData.angularMomentum *= angularFriction(entity);
+         }
+     }
+ 
+@@ -201,158 +_,23 @@
+     default void closeRangeLeashBehaviour(final Entity leashHolder) {
+     }
+ 
+-    /* Method skipped as requested
+     default boolean checkElasticInteractions(final Entity leashHolder, final LeashData leashData) {
+-        Entity s_0 = leashHolder;
+-        boolean s_1 = s_0.supportQuadLeashAsHolder();
+-        if (s_1 == 0) {
+-            goto L1;
+-        }
+-        goto L0_1;
+-
+-        L0_1:
+-        {
+-            Leashable s_2 = this;
+-            boolean s_3 = s_2.supportQuadLeash();
+-            if (s_3 == 0) {
+-                goto L1;
+-            }
+-            goto L0_2;
+-        }
+-
+-        L0_2:
+-        {
+-            int_constant(1) | int_constant(0) s_4 = 1;
+-            goto L2;
+-        }
+-
+-        L1:
+-        {
+-            s_4 = 0;
+-            goto L2;
+-        }
+-
+-        L2:
+-        {
+-            boolean quadConnection = s_4;
+-            Leashable s_6 = this;
+-            Entity s_7 = (Entity) s_6;
+-            Entity s_8 = leashHolder;
+-            boolean s_9 = quadConnection;
+-            if (s_9 == 0) {
+-                goto L5;
+-            }
+-            goto L2_1;
+-        }
+-
+-        L2_1:
+-        {
+-            List s_10 = SHARED_QUAD_ATTACHMENT_POINTS;
+-            goto L6;
+-        }
+-
+-        L5:
+-        {
+-            s_10 = ENTITY_ATTACHMENT_POINT;
+-            goto L6;
+-        }
+-
+-        L6:
+-        {
+-            boolean s_12 = quadConnection;
+-            if (s_12 == 0) {
+-                goto L7;
+-            }
+-            goto L6_1;
+-        }
+-
+-        L6_1:
+-        {
+-            List s_13 = SHARED_QUAD_ATTACHMENT_POINTS;
+-            goto L8;
+-        }
+-
+-        L7:
+-        {
+-            s_13 = LEASHER_ATTACHMENT_POINT;
+-            goto L8;
+-        }
+-
+-        L8:
+-        {
+-            List s_15 = computeElasticInteraction(s_7, s_8, s_10, s_13);
+-            List wrenches = s_15;
+-            List s_16 = wrenches;
+-            boolean s_17 = s_16.isEmpty();
+-            if (s_17 == 0) {
+-                goto L11;
+-            }
+-            goto L8_1;
+-        }
+-
+-        L8_1:
+-        {
+-            int_constant(0) s_18 = 0;
+-            return s_18;
+-        }
+-
+-        L11:
+-        {
+-            List s_19 = wrenches;
+-            Wrench s_20 = Wrench.accumulate(s_19);
+-            boolean s_21 = quadConnection;
+-            if (s_21 == 0) {
+-                goto L12;
+-            }
+-            goto L11_1;
+-        }
+-
+-        L11_1:
+-        {
+-            double s_22 = 0.25;
+-            goto L13;
+-        }
+-
+-        L12:
+-        {
+-            s_22 = 1.0;
+-            goto L13;
+-        }
+-
+-        L13:
+-        {
+-            Wrench s_24 = s_20.scale(s_22);
+-            Wrench result = s_24;
+-            LeashData s_25 = leashData;
+-            double s_26 = s_25.angularMomentum;
+-            double s_27 = 10.0;
+-            Wrench s_28 = result;
+-            double s_29 = s_28.torque();
+-            double s_30 = s_27 * s_29;
+-            double s_31 = s_26 + s_30;
+-            s_25.angularMomentum = s_31;
+-            Entity s_32 = leashHolder;
+-            Vec3 s_33 = getHolderMovement(s_32);
+-            Leashable s_34 = this;
+-            Entity s_35 = (Entity) s_34;
+-            Vec3 s_36 = s_35.getKnownMovement();
+-            Vec3 s_37 = s_33.subtract(s_36);
+-            Vec3 relativeVelocityToLeasher = s_37;
+-            Leashable s_38 = this;
+-            Entity s_39 = (Entity) s_38;
+-            Wrench s_40 = result;
+-            Vec3 s_41 = s_40.force();
+-            Vec3 s_42 = AXIS_SPECIFIC_ELASTICITY;
+-            Vec3 s_43 = s_41.multiply(s_42);
+-            Vec3 s_44 = relativeVelocityToLeasher;
+-            double s_45 = 0.11;
+-            Vec3 s_46 = s_44.scale(s_45);
+-            Vec3 s_47 = s_43.add(s_46);
+-            s_39.addDeltaMovement(s_47);
+-            int_constant(1) s_48 = 1;
+-            return s_48;
+-        }
+-    }*/
++        boolean quadConnection = leashHolder.supportQuadLeashAsHolder() && supportQuadLeash();
++        List<Leashable.Wrench> wrenches = computeElasticInteraction(
++                (Entity & Leashable)this,
++                leashHolder,
++                quadConnection ? SHARED_QUAD_ATTACHMENT_POINTS : ENTITY_ATTACHMENT_POINT,
++                quadConnection ? SHARED_QUAD_ATTACHMENT_POINTS : LEASHER_ATTACHMENT_POINT);
++        if (wrenches.isEmpty()) {
++            return false;
++        } else {
++            Leashable.Wrench result = Leashable.Wrench.accumulate(wrenches).scale(quadConnection ? 0.25 : 1.0);
++            leashData.angularMomentum = leashData.angularMomentum + 10.0 * result.torque();
++            Vec3 relativeVelocityToLeasher = getHolderMovement(leashHolder).subtract(((Entity)this).getKnownMovement());
++            ((Entity)this).addDeltaMovement(result.force().multiply(AXIS_SPECIFIC_ELASTICITY).add(relativeVelocityToLeasher.scale(0.11)));
++            return true;
++        }
++    }
+ 
+     private static Vec3 getHolderMovement(final Entity leashHolder) {
+         if (leashHolder instanceof Mob mob && mob.isNoAi()) {
+@@ -365,9 +_,9 @@
+         double slackDistance = entity.leashElasticDistance();
+         Vec3 currentMovement = getHolderMovement(entity);
+         float entityYRot = entity.getYRot() * ((float) Math.PI / 180);
+-        Vec3 entityDimensions = new Vec3((double) entity.getBbWidth(), (double) entity.getBbHeight(), (double) entity.getBbWidth());
++        Vec3 entityDimensions = new Vec3(entity.getBbWidth(), entity.getBbHeight(), entity.getBbWidth());
+         float leashHolderYRot = leashHolder.getYRot() * ((float) Math.PI / 180);
+-        Vec3 leasherDimensions = new Vec3((double) leashHolder.getBbWidth(), (double) leashHolder.getBbHeight(), (double) leashHolder.getBbWidth());
++        Vec3 leasherDimensions = new Vec3(leashHolder.getBbWidth(), leashHolder.getBbHeight(), leashHolder.getBbWidth());
+         List<Wrench> wrenches = new ArrayList<>();
+         for (int i = 0; i < entityAttachmentPoints.size(); i++) {
+             Vec3 entityAttachVector = entityAttachmentPoints.get(i).multiply(entityDimensions).yRot(-entityYRot);
+@@ -416,14 +_,14 @@
+ 
+     default Vec3 getLeashOffset() {
+         Entity entity = (Entity) this;
+-        return new Vec3(0.0, (double) entity.getEyeHeight(), (double) (entity.getBbWidth() * 0.4F));
++        return new Vec3(0.0, entity.getEyeHeight(), entity.getBbWidth() * 0.4F);
+     }
+ 
+     default void setLeashedTo(final Entity holder, final boolean synch) {
+         if (this == holder) {
+             return;
+         }
+-        setLeashedTo((E) (Entity) this, holder, synch);
++        setLeashedTo((Entity & Leashable) this, holder, synch);
+     }
+ 
+     private static <E extends Entity & Leashable> void setLeashedTo(final E entity, final Entity holder, final boolean synch) {
+@@ -446,13 +_,9 @@
+         }
+     }
+ 
+-    /* Method skipped as requested
+     default @Nullable Entity getLeashHolder() {
+-        Leashable s_0 = this;
+-        Entity s_1 = (Entity) s_0;
+-        Entity s_2 = getLeashHolder(s_1);
+-        return s_2;
+-    }*/
++        return getLeashHolder((Entity & Leashable) this);
++    }
+ 
+     private static <E extends Entity & Leashable> @Nullable Entity getLeashHolder(final E entity) {
+         LeashData leashData = entity.getLeashData();
+@@ -479,7 +_,7 @@
+         return level.getEntitiesOfClass(Entity.class, scanArea, e -> e instanceof Leashable leashable && test.test(leashable)).stream().map(Leashable.class::cast).toList();
+     }
+ 
+-    public static final class LeashData {
++    final class LeashData {
+ 
+         public static final Codec<LeashData> CODEC = Codec.xor(UUIDUtil.CODEC.fieldOf("UUID").codec(), BlockPos.CODEC).xmap(LeashData::new, data -> {
+             if (data.leashHolder instanceof LeashFenceKnotEntity leashKnot) {
+@@ -514,7 +_,7 @@
+         }
+     }
+ 
+-    public record Wrench(Vec3 force, double torque) {
++    record Wrench(Vec3 force, double torque) {
+ 
+         static final Wrench ZERO = new Wrench(Vec3.ZERO, 0.0);
+ 

@@ -1,0 +1,11 @@
+--- a/net/minecraft/client/renderer/blockentity/ChestRenderer.java
++++ b/net/minecraft/client/renderer/blockentity/ChestRenderer.java
+@@ -73,7 +_,7 @@
+         }
+         state.open = combineResult.apply(ChestBlock.opennessCombiner(blockEntity)).get(partialTicks);
+         if (state.type != ChestType.SINGLE) {
+-            state.lightCoords = combineResult.apply((DoubleBlockCombiner.Combiner) new BrightnessCombiner<>()).applyAsInt(state.lightCoords);
++            state.lightCoords = combineResult.apply(new BrightnessCombiner<>()).applyAsInt(state.lightCoords);
+         }
+     }
+ 

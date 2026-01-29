@@ -1,11 +1,11 @@
 --- a/net/minecraft/util/Util.java
 +++ b/net/minecraft/util/Util.java
-@@ -566,7 +_,7 @@
-     public static <K extends Enum<K>, V> Map<K, V> makeEnumMap(Class<K> keyType, Function<K, V> function) {
-         EnumMap<K, V> map = new EnumMap<>(keyType);
+@@ -531,7 +_,7 @@
+     }
  
--        for (K key : (Enum[])keyType.getEnumConstants()) {
-+        for (K key : keyType.getEnumConstants()) {
-             map.put(key, function.apply(key));
-         }
+     public static <K, V1, V2> Map<K, V2> mapValues(final Map<K, V1> map, final Function<? super V1, V2> valueMapper) {
+-        return map.entrySet().stream().collect((Collector) Collectors.toMap(Map.Entry::getKey, e -> valueMapper.apply(e.getValue())));
++        return map.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, e -> valueMapper.apply(e.getValue())));
+     }
  
+     public static <K, V1, V2> Map<K, V2> mapValuesLazy(final Map<K, V1> map, final com.google.common.base.Function<V1, V2> valueMapper) {

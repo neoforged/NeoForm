@@ -1,0 +1,90 @@
+--- a/net/minecraft/network/protocol/game/ClientboundLevelChunkPacketData.java
++++ b/net/minecraft/network/protocol/game/ClientboundLevelChunkPacketData.java
+@@ -40,74 +_,20 @@
+     private final byte[] buffer;
+     private final List<BlockEntityInfo> blockEntitiesData;
+ 
+-    /* Method skipped as requested
+     public ClientboundLevelChunkPacketData(final LevelChunk levelChunk) {
+-        ClientboundLevelChunkPacketData s_0 = this;
+-        s_0.super();
+-        ClientboundLevelChunkPacketData s_1 = this;
+-        LevelChunk s_2 = levelChunk;
+-        Collection s_3 = s_2.getHeightmaps();
+-        Stream s_4 = s_3.stream();
+-        Predicate s_5 = __invokedynamic LambdaMetafactory.metafactory("test", "(Ljava/lang/Object;)Z", METHOD ClientboundLevelChunkPacketData.lambda$new$0, "(Ljava/util/Map$Entry;)Z")();
+-        Stream s_6 = s_4.filter(s_5);
+-        Function s_7 = __invokedynamic LambdaMetafactory.metafactory("apply", "(Ljava/lang/Object;)Ljava/lang/Object;", METHOD Map.Entry.getKey, "(Ljava/util/Map$Entry;)Lnet/minecraft/world/level/levelgen/Heightmap$Types;")();
+-        Function s_8 = __invokedynamic LambdaMetafactory.metafactory("apply", "(Ljava/lang/Object;)Ljava/lang/Object;", METHOD ClientboundLevelChunkPacketData.lambda$new$1, "(Ljava/util/Map$Entry;)[J")();
+-        Collector s_9 = Collectors.toMap(s_7, s_8);
+-        Object s_10 = s_6.collect(s_9);
+-        Map s_11 = (Map) s_10;
+-        s_1.heightmaps = s_11;
+-        ClientboundLevelChunkPacketData s_12 = this;
+-        LevelChunk s_13 = levelChunk;
+-        int s_14 = calculateChunkSize(s_13);
+-        byte[] s_15 = new byte[s_14];
+-        s_12.buffer = s_15;
+-        FriendlyByteBuf s_16 = __newobject FriendlyByteBuf;
+-        ClientboundLevelChunkPacketData s_17 = this;
+-        ByteBuf s_18 = s_17.getWriteBuffer();
+-        s_16.super(s_18);
+-        FriendlyByteBuf s_19 = s_16;
+-        LevelChunk s_20 = levelChunk;
+-        extractChunkData(s_19, s_20);
+-        ClientboundLevelChunkPacketData s_21 = this;
+-        ArrayList s_22 = Lists.newArrayList();
+-        s_21.blockEntitiesData = s_22;
+-        LevelChunk s_23 = levelChunk;
+-        Map s_24 = s_23.getBlockEntities();
+-        Set s_25 = s_24.entrySet();
+-        Iterator s_26 = s_25.iterator();
+-        Iterator var_0 = s_26;
+-        goto L8;
+-
+-        L8:
+-        {
+-            Iterator s_27 = var_0;
+-            boolean s_28 = s_27.hasNext();
+-            if (s_28 == 0) {
+-                goto L11;
+-            }
+-            goto L8_1;
+-        }
+-
+-        L8_1:
+-        {
+-            Iterator s_29 = var_0;
+-            Object s_30 = s_29.next();
+-            Map.Entry s_31 = (Map.Entry) s_30;
+-            Map.Entry entry = s_31;
+-            ClientboundLevelChunkPacketData s_32 = this;
+-            List s_33 = s_32.blockEntitiesData;
+-            Map.Entry s_34 = entry;
+-            Object s_35 = s_34.getValue();
+-            BlockEntity s_36 = (BlockEntity) s_35;
+-            BlockEntityInfo s_37 = BlockEntityInfo.create(s_36);
+-            boolean s_38 = s_33.add(s_37);
+-            goto L8;
+-        }
+-
+-        L11:
+-        {
+-        }
+-    }*/
++        super();
++        this.heightmaps = levelChunk.getHeightmaps().stream()
++                .filter(entry -> entry.getKey().sendToClient())
++                .collect(Collectors.toMap(
++                        Map.Entry::getKey,
++                        entry -> entry.getValue().getRawData().clone()));
++        this.buffer = new byte[calculateChunkSize(levelChunk)];
++        extractChunkData(new FriendlyByteBuf(this.getWriteBuffer()), levelChunk);
++        this.blockEntitiesData = Lists.newArrayList();
++        for (var entry : levelChunk.getBlockEntities().entrySet()) {
++            this.blockEntitiesData.add(BlockEntityInfo.create(entry.getValue()));
++        }
++    }
+ 
+     public ClientboundLevelChunkPacketData(final RegistryFriendlyByteBuf input, final int x, final int z) {
+         heightmaps = HEIGHTMAPS_STREAM_CODEC.decode(input);

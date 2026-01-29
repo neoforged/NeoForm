@@ -1,0 +1,11 @@
+--- a/net/minecraft/util/valueproviders/ClampedNormalInt.java
++++ b/net/minecraft/util/valueproviders/ClampedNormalInt.java
+@@ -9,7 +_,7 @@
+ 
+ public class ClampedNormalInt extends IntProvider {
+ 
+-    public static final MapCodec<ClampedNormalInt> CODEC = RecordCodecBuilder.mapCodec(i -> i.group(Codec.FLOAT.fieldOf("mean").forGetter(c -> Float.valueOf(c.mean)), Codec.FLOAT.fieldOf("deviation").forGetter(c -> Float.valueOf(c.deviation)), Codec.INT.fieldOf("min_inclusive").forGetter(c -> Integer.valueOf(c.minInclusive)), Codec.INT.fieldOf("max_inclusive").forGetter(c -> Integer.valueOf(c.maxInclusive))).apply(i, ClampedNormalInt::new)).validate(c -> {
++    public static final MapCodec<ClampedNormalInt> CODEC = RecordCodecBuilder.<ClampedNormalInt>mapCodec(i -> i.group(Codec.FLOAT.fieldOf("mean").forGetter(c -> Float.valueOf(c.mean)), Codec.FLOAT.fieldOf("deviation").forGetter(c -> Float.valueOf(c.deviation)), Codec.INT.fieldOf("min_inclusive").forGetter(c -> Integer.valueOf(c.minInclusive)), Codec.INT.fieldOf("max_inclusive").forGetter(c -> Integer.valueOf(c.maxInclusive))).apply(i, ClampedNormalInt::new)).validate(c -> {
+         if (c.maxInclusive < c.minInclusive) {
+             return DataResult.error(() -> "Max must be larger than min: [" + c.minInclusive + ", " + c.maxInclusive + "]");
+         }

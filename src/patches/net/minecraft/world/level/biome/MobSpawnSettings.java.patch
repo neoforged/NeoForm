@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/level/biome/MobSpawnSettings.java
++++ b/net/minecraft/world/level/biome/MobSpawnSettings.java
+@@ -49,7 +_,7 @@
+ 
+     public record SpawnerData(EntityType<?> type, int minCount, int maxCount) {
+ 
+-        public static final MapCodec<SpawnerData> CODEC = RecordCodecBuilder.mapCodec(i -> i.group(BuiltInRegistries.ENTITY_TYPE.byNameCodec().fieldOf("type").forGetter(d -> d.type), ExtraCodecs.POSITIVE_INT.fieldOf("minCount").forGetter(e -> Integer.valueOf(e.minCount)), ExtraCodecs.POSITIVE_INT.fieldOf("maxCount").forGetter(e -> Integer.valueOf(e.maxCount))).apply(i, SpawnerData::new)).validate(spawnerData -> {
++        public static final MapCodec<SpawnerData> CODEC = RecordCodecBuilder.<SpawnerData>mapCodec(i -> i.group(BuiltInRegistries.ENTITY_TYPE.byNameCodec().fieldOf("type").forGetter(d -> d.type), ExtraCodecs.POSITIVE_INT.fieldOf("minCount").forGetter(e -> Integer.valueOf(e.minCount)), ExtraCodecs.POSITIVE_INT.fieldOf("maxCount").forGetter(e -> Integer.valueOf(e.maxCount))).apply(i, SpawnerData::new)).validate(spawnerData -> {
+             if (spawnerData.minCount > spawnerData.maxCount) {
+                 return DataResult.error(() -> "minCount needs to be smaller or equal to maxCount");
+             }

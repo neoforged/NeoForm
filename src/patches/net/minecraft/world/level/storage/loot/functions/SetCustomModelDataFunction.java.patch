@@ -3,9 +3,9 @@
 @@ -20,7 +_,7 @@
  
  public class SetCustomModelDataFunction extends LootItemConditionalFunction {
-     private static final Codec<NumberProvider> COLOR_PROVIDER_CODEC = Codec.withAlternative(
--        NumberProviders.CODEC, ExtraCodecs.RGB_COLOR_CODEC, ConstantValue::new
-+        NumberProviders.CODEC, ExtraCodecs.RGB_COLOR_CODEC, (Function<Integer, NumberProvider>)ConstantValue::new
-     );
-     public static final MapCodec<SetCustomModelDataFunction> MAP_CODEC = RecordCodecBuilder.mapCodec(
-         i -> commonFields(i)
+ 
+-    private static final Codec<NumberProvider> COLOR_PROVIDER_CODEC = Codec.withAlternative(NumberProviders.CODEC, ExtraCodecs.RGB_COLOR_CODEC, ConstantValue::new);
++    private static final Codec<NumberProvider> COLOR_PROVIDER_CODEC = Codec.<NumberProvider, Integer>withAlternative(NumberProviders.CODEC, ExtraCodecs.RGB_COLOR_CODEC, ConstantValue::new);
+     public static final MapCodec<SetCustomModelDataFunction> MAP_CODEC = RecordCodecBuilder.mapCodec(i -> commonFields(i).and(i.group(ListOperation.StandAlone.codec(NumberProviders.CODEC, Integer.MAX_VALUE).optionalFieldOf("floats").forGetter(o -> o.floats), ListOperation.StandAlone.codec(Codec.BOOL, Integer.MAX_VALUE).optionalFieldOf("flags").forGetter(o -> o.flags), ListOperation.StandAlone.codec(Codec.STRING, Integer.MAX_VALUE).optionalFieldOf("strings").forGetter(o -> o.strings), ListOperation.StandAlone.codec(COLOR_PROVIDER_CODEC, Integer.MAX_VALUE).optionalFieldOf("colors").forGetter(o -> o.colors))).apply(i, SetCustomModelDataFunction::new));
+     private final Optional<ListOperation.StandAlone<NumberProvider>> floats;
+     private final Optional<ListOperation.StandAlone<Boolean>> flags;

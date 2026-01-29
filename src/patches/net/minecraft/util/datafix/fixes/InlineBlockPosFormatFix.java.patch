@@ -1,0 +1,11 @@
+--- a/net/minecraft/util/datafix/fixes/InlineBlockPosFormatFix.java
++++ b/net/minecraft/util/datafix/fixes/InlineBlockPosFormatFix.java
+@@ -51,7 +_,7 @@
+         }
+         Optional<? extends Dynamic<?>> enteredNetherPos = tag.get("enteredNetherPosition").result();
+         if (enteredNetherPos.isPresent()) {
+-            tag = tag.remove("enteredNetherPosition").set("entered_nether_pos", tag.createList(Stream.of(new Dynamic[] { tag.createDouble(enteredNetherPos.get().get("x").asDouble(0.0)), tag.createDouble(enteredNetherPos.get().get("y").asDouble(0.0)), tag.createDouble(enteredNetherPos.get().get("z").asDouble(0.0)) })));
++            tag = tag.remove("enteredNetherPosition").set("entered_nether_pos", tag.createList(Stream.of(tag.createDouble(enteredNetherPos.get().get("x").asDouble(0.0)), tag.createDouble(enteredNetherPos.get().get("y").asDouble(0.0)), tag.createDouble(enteredNetherPos.get().get("z").asDouble(0.0)))));
+         }
+         return tag;
+     }

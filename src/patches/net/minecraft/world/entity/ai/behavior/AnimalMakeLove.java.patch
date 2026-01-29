@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/entity/ai/behavior/AnimalMakeLove.java
++++ b/net/minecraft/world/entity/ai/behavior/AnimalMakeLove.java
+@@ -73,7 +_,7 @@
+     }
+ 
+     private Animal getBreedTarget(final Animal body) {
+-        return body.getBrain().<Animal>getMemory((MemoryModuleType) MemoryModuleType.BREED_TARGET).get();
++        return body.getBrain().<Animal>getMemory((MemoryModuleType<Animal>) (MemoryModuleType) MemoryModuleType.BREED_TARGET).get();
+     }
+ 
+     private boolean hasBreedTargetOfRightType(final Animal body) {

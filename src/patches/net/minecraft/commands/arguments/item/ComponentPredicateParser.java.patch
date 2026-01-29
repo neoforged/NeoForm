@@ -1,0 +1,20 @@
+--- a/net/minecraft/commands/arguments/item/ComponentPredicateParser.java
++++ b/net/minecraft/commands/arguments/item/ComponentPredicateParser.java
+@@ -51,7 +_,7 @@
+             }
+             return builder.build();
+         });
+-        rules.put(type, Term.alternative(new Term[] { rules.named(elementType), Term.sequence(new Term[] { StringReaderTerms.character('#'), Term.cut(), rules.named(tagType) }), rules.named(anyType) }), scope -> Optional.ofNullable(scope.getAny(new Atom[] { elementType, tagType })));
++        rules.put(type, Term.alternative(rules.named(elementType), Term.sequence(StringReaderTerms.character('#'), Term.cut(), rules.named(tagType)), rules.named(anyType)), scope -> Optional.ofNullable(scope.getAny(elementType, tagType)));
+         rules.put(anyType, StringReaderTerms.character('*'), s -> Unit.INSTANCE);
+         rules.put(elementType, new ElementLookupRule<>(idRule, context));
+         rules.put(tagType, new TagLookupRule<>(idRule, context));
+@@ -63,7 +_,7 @@
+             T alternative = scope.getOrThrow(term);
+             return Optional.ofNullable(scope.get(alternatives)).map(rest -> Util.copyAndAdd(alternative, rest)).orElse(List.of(alternative));
+         });
+-        rules.put(term, Term.alternative(new Term[] { rules.named(test), Term.sequence(new Term[] { StringReaderTerms.character('!'), rules.named(negation) }) }), scope -> scope.getAnyOrThrow(new Atom[] { test, negation }));
++        rules.put(term, Term.alternative(rules.named(test), Term.sequence(StringReaderTerms.character('!'), rules.named(negation))), scope -> scope.getAnyOrThrow(test, negation));
+         rules.put(negation, rules.named(test), scope -> context.negate(scope.getOrThrow(test)));
+         rules.putComplex(test, Term.alternative(new Term[] { Term.sequence(new Term[] { rules.named(componentType), StringReaderTerms.character('='), Term.cut(), rules.named(tag) }), Term.sequence(new Term[] { rules.named(predicateType), StringReaderTerms.character('~'), Term.cut(), rules.named(tag) }), rules.named(componentType) }), state -> {
+             Scope scope = state.scope();

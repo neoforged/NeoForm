@@ -34,6 +34,17 @@ final class MinecraftLibraries {
                 }
                 return result;
             }));
+            // TODO: needs spec extension
+            var extraCompileDependencies = neoForm.getAdditionalCompileDependencies();
+            spec.getDependencies().addAllLater(extraCompileDependencies.map(notations -> {
+                var result = new ArrayList<Dependency>(notations.size());
+                for (var notation : notations) {
+                    var dependency = dependencyFactory.create(notation);
+                    dependency.endorseStrictVersions();
+                    result.add(dependency);
+                }
+                return result;
+            }));
         });
         return configurations.resolvable("minecraftLibrariesClasspath", spec -> spec.extendsFrom(minecraftLibraries.get()));
     }

@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/level/storage/loot/functions/CopyComponentsFunction.java
++++ b/net/minecraft/world/level/storage/loot/functions/CopyComponentsFunction.java
+@@ -65,7 +_,7 @@
+                 itemStack.applyComponents(sourceComponents.filter(bakedPredicate));
+             } else {
+                 Collection<DataComponentType<?>> exclude = this.exclude.orElse(List.of());
+-                include.<Stream<DataComponentType>>map(Collection::stream).orElse(BuiltInRegistries.DATA_COMPONENT_TYPE.listElements().map(Holder::value)).forEach(componentType -> {
++                include.<Stream<DataComponentType<?>>>map(Collection::stream).orElse(BuiltInRegistries.DATA_COMPONENT_TYPE.listElements().map(Holder::value)).forEach(componentType -> {
+                     if (exclude.contains(componentType)) {
+                         return;
+                     }

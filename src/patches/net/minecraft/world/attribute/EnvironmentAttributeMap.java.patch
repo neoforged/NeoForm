@@ -2,10 +2,19 @@
 +++ b/net/minecraft/world/attribute/EnvironmentAttributeMap.java
 @@ -17,7 +_,7 @@
  public final class EnvironmentAttributeMap {
+ 
      public static final EnvironmentAttributeMap EMPTY = new EnvironmentAttributeMap(Map.of());
-     public static final Codec<EnvironmentAttributeMap> CODEC = Codec.lazyInitialized(
--        () -> Codec.dispatchedMap(EnvironmentAttributes.CODEC, Util.memoize(EnvironmentAttributeMap.Entry::createCodec))
-+        () -> Codec.dispatchedMap(EnvironmentAttributes.CODEC, Util.memoize((java.util.function.Function<EnvironmentAttribute<?>, Codec<? extends Entry<?, ?>>>) EnvironmentAttributeMap.Entry::createCodec))
-             .xmap(EnvironmentAttributeMap::new, v -> v.entries)
-     );
-     public static final Codec<EnvironmentAttributeMap> NETWORK_CODEC = CODEC.xmap(
+-    public static final Codec<EnvironmentAttributeMap> CODEC = Codec.lazyInitialized(() -> Codec.dispatchedMap(EnvironmentAttributes.CODEC, Util.memoize(Entry::createCodec)).xmap(EnvironmentAttributeMap::new, v -> (Map) v.entries));
++    public static final Codec<EnvironmentAttributeMap> CODEC = Codec.lazyInitialized(() -> Codec.<EnvironmentAttribute<?>, Entry<?, ?>>dispatchedMap(EnvironmentAttributes.CODEC, Util.memoize(Entry::createCodec)).xmap(EnvironmentAttributeMap::new, v -> v.entries));
+     public static final Codec<EnvironmentAttributeMap> NETWORK_CODEC = CODEC.xmap(EnvironmentAttributeMap::filterSyncable, EnvironmentAttributeMap::filterSyncable);
+     public static final Codec<EnvironmentAttributeMap> CODEC_ONLY_POSITIONAL = CODEC.validate(map -> {
+         List<EnvironmentAttribute<?>> illegalAttributes = map.keySet().stream().filter(attribute -> !attribute.isPositional()).toList();
+@@ -78,7 +_,7 @@
+             Codec<Entry<Value, ?>> fullCodec = attribute.type().modifierCodec().dispatch("modifier", Entry::modifier, Util.memoize(modifier -> createFullCodec(attribute, modifier)));
+             return Codec.either(attribute.valueCodec(), fullCodec).xmap(either -> either.map(value -> new Entry<>(value, AttributeModifier.override()), e -> e), entry -> {
+                 if (entry.modifier == AttributeModifier.override()) {
+-                    return (Either<Value, Entry<Value, ?>>) Either.left(entry.argument());
++                    return (Either) Either.left(entry.argument());
+                 }
+                 return Either.right(entry);
+             });

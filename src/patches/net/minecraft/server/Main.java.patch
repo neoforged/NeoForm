@@ -1,0 +1,11 @@
+--- a/net/minecraft/server/Main.java
++++ b/net/minecraft/server/Main.java
+@@ -167,7 +_,7 @@
+                         return new WorldLoader.DataLoadOutput<>(worldData.worldData(), worldData.dimensions().dimensionsRegistryAccess());
+                     }
+                     LOGGER.info("No existing world data, creating new world");
+-                    return (WorldLoader.DataLoadOutput) createNewWorldData(settings, context, datapackDimensions, options.has(demo), options.has(bonusChest));
++                    return createNewWorldData(settings, context, datapackDimensions, options.has(demo), options.has(bonusChest));
+                 }, WorldStem::new, Util.backgroundExecutor(), executor)).get();
+             } catch (Exception e) {
+                 LOGGER.warn("Failed to load datapacks, can't proceed with server load. You can either fix your datapacks or reset to vanilla with --safeMode", e);

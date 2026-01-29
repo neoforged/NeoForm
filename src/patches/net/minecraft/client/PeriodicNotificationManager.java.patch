@@ -1,0 +1,11 @@
+--- a/net/minecraft/client/PeriodicNotificationManager.java
++++ b/net/minecraft/client/PeriodicNotificationManager.java
+@@ -32,7 +_,7 @@
+ @OnlyIn (Dist.CLIENT)
+ public class PeriodicNotificationManager extends SimplePreparableReloadListener<Map<String, List<PeriodicNotificationManager.Notification>>> implements AutoCloseable {
+ 
+-    private static final Codec<Map<String, List<Notification>>> CODEC = Codec.unboundedMap(Codec.STRING, RecordCodecBuilder.create(i -> i.group(Codec.LONG.optionalFieldOf("delay", Long.valueOf(0L)).forGetter(Notification::delay), Codec.LONG.fieldOf("period").forGetter(Notification::period), Codec.STRING.fieldOf("title").forGetter(Notification::title), Codec.STRING.fieldOf("message").forGetter(Notification::message)).apply(i, Notification::new)).listOf());
++    private static final Codec<Map<String, List<Notification>>> CODEC = Codec.unboundedMap(Codec.STRING, RecordCodecBuilder.<Notification>create(i -> i.group(Codec.LONG.optionalFieldOf("delay", Long.valueOf(0L)).forGetter(Notification::delay), Codec.LONG.fieldOf("period").forGetter(Notification::period), Codec.STRING.fieldOf("title").forGetter(Notification::title), Codec.STRING.fieldOf("message").forGetter(Notification::message)).apply(i, Notification::new)).listOf());
+     private static final Logger LOGGER = LogUtils.getLogger();
+     private final Identifier notifications;
+     private final Object2BooleanFunction<String> selector;

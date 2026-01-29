@@ -1,0 +1,11 @@
+--- a/net/minecraft/client/resources/WaypointStyle.java
++++ b/net/minecraft/client/resources/WaypointStyle.java
+@@ -19,7 +_,7 @@
+     public static final int DEFAULT_NEAR_DISTANCE = 128;
+     public static final int DEFAULT_FAR_DISTANCE = 332;
+     private static final Codec<Integer> DISTANCE_CODEC = Codec.intRange(0, 60000000);
+-    public static final Codec<WaypointStyle> CODEC = RecordCodecBuilder.create(i -> i.group(DISTANCE_CODEC.optionalFieldOf("near_distance", Integer.valueOf(128)).forGetter(WaypointStyle::nearDistance), DISTANCE_CODEC.optionalFieldOf("far_distance", Integer.valueOf(332)).forGetter(WaypointStyle::farDistance), ExtraCodecs.nonEmptyList(Identifier.CODEC.listOf()).fieldOf("sprites").forGetter(WaypointStyle::sprites)).apply(i, WaypointStyle::new)).validate(WaypointStyle::validate);
++    public static final Codec<WaypointStyle> CODEC = RecordCodecBuilder.<WaypointStyle>create(i -> i.group(DISTANCE_CODEC.optionalFieldOf("near_distance", Integer.valueOf(128)).forGetter(WaypointStyle::nearDistance), DISTANCE_CODEC.optionalFieldOf("far_distance", Integer.valueOf(332)).forGetter(WaypointStyle::farDistance), ExtraCodecs.nonEmptyList(Identifier.CODEC.listOf()).fieldOf("sprites").forGetter(WaypointStyle::sprites)).apply(i, WaypointStyle::new)).validate(WaypointStyle::validate);
+ 
+     public WaypointStyle(final int nearDistance, final int farDistance, final List<Identifier> sprites) {
+         this(nearDistance, farDistance, sprites, sprites.stream().map(sprite -> sprite.withPrefix("hud/locator_bar_dot/")).toList());

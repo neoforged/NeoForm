@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/level/levelgen/presets/WorldPreset.java
++++ b/net/minecraft/world/level/levelgen/presets/WorldPreset.java
+@@ -16,7 +_,7 @@
+ 
+ public class WorldPreset {
+ 
+-    public static final Codec<WorldPreset> DIRECT_CODEC = RecordCodecBuilder.create(i -> i.group(Codec.unboundedMap(ResourceKey.codec(Registries.LEVEL_STEM), LevelStem.CODEC).fieldOf("dimensions").forGetter(e -> e.dimensions)).apply(i, WorldPreset::new)).validate(WorldPreset::requireOverworld);
++    public static final Codec<WorldPreset> DIRECT_CODEC = RecordCodecBuilder.<WorldPreset>create(i -> i.group(Codec.unboundedMap(ResourceKey.codec(Registries.LEVEL_STEM), LevelStem.CODEC).fieldOf("dimensions").forGetter(e -> e.dimensions)).apply(i, WorldPreset::new)).validate(WorldPreset::requireOverworld);
+     public static final Codec<Holder<WorldPreset>> CODEC = RegistryFileCodec.create(Registries.WORLD_PRESET, DIRECT_CODEC);
+     private final Map<ResourceKey<LevelStem>, LevelStem> dimensions;
+ 

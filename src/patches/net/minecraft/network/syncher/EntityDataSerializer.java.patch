@@ -1,11 +1,11 @@
 --- a/net/minecraft/network/syncher/EntityDataSerializer.java
 +++ b/net/minecraft/network/syncher/EntityDataSerializer.java
-@@ -13,7 +_,7 @@
+@@ -14,7 +_,7 @@
      T copy(T value);
  
-     static <T> EntityDataSerializer<T> forValueType(StreamCodec<? super RegistryFriendlyByteBuf, T> codec) {
--        return () -> codec;
-+        return (EntityDataSerializer.ForValueType<T>)() -> codec;
+     static <T> EntityDataSerializer<T> forValueType(final StreamCodec<? super RegistryFriendlyByteBuf, T> codec) {
+-        return (EntityDataSerializer<T>) (ForValueType<?>) () -> codec;
++        return (EntityDataSerializer<T>) (ForValueType<T>) () -> codec;
      }
  
-     public interface ForValueType<T> extends EntityDataSerializer<T> {
+     public static interface ForValueType<T> extends EntityDataSerializer<T> {

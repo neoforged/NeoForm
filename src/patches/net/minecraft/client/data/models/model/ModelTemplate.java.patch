@@ -1,0 +1,10 @@
+--- a/net/minecraft/client/data/models/model/ModelTemplate.java
++++ b/net/minecraft/client/data/models/model/ModelTemplate.java
+@@ -69,6 +_,6 @@
+     }
+ 
+     private Map<TextureSlot, Identifier> createMap(final TextureMapping mapping) {
+-        return Streams.<TextureSlot>concat(new Stream[] { requiredSlots.stream(), mapping.getForced() }).collect(ImmutableMap.toImmutableMap(Function.identity(), mapping::get));
++        return Streams.<TextureSlot>concat(requiredSlots.stream(), mapping.getForced()).collect(ImmutableMap.toImmutableMap(Function.identity(), mapping::get));
+     }
+ }

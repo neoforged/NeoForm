@@ -1,121 +1,488 @@
 --- a/net/minecraft/client/renderer/PostChain.java
 +++ b/net/minecraft/client/renderer/PostChain.java
-@@ -99,114 +_,15 @@
-             PostChainConfig.Input var8 = input;
-             byte var9 = 0;
+@@ -62,443 +_,49 @@
+         return new PostChain(passes.build(), config.internalTargets(), referencedExternalTargets, projectionMatrixBuffer);
+     }
  
--            while (true) {
--                switch (SwitchBootstraps.typeSwitch<"typeSwitch",PostChainConfig.TextureInput,PostChainConfig.TargetInput>(var8, var9)) {
--                    case 0:
--                        PostChainConfig.TextureInput var10 = (PostChainConfig.TextureInput)var8;
--                        PostChainConfig.TextureInput var52 = var10;
+-    /* Method skipped as requested
+     private static PostPass createPass(final TextureManager textureManager, final PostChainConfig.Pass config, final Identifier id) throws ShaderManager.CompilationException {
+-        int_constant(1) s_0 = 1;
+-        RenderPipeline.Snippet[] s_1 = new RenderPipeline.Snippet[s_0];
+-        int_constant(0) s_2 = 0;
+-        RenderPipeline.Snippet s_3 = RenderPipelines.POST_PROCESSING_SNIPPET;
+-        s_1[s_2] = s_3;
+-        RenderPipeline.Builder s_4 = RenderPipeline.builder(s_1);
+-        PostChainConfig.Pass s_5 = config;
+-        Identifier s_6 = s_5.fragmentShaderId();
+-        RenderPipeline.Builder s_7 = s_4.withFragmentShader(s_6);
+-        PostChainConfig.Pass s_8 = config;
+-        Identifier s_9 = s_8.vertexShaderId();
+-        RenderPipeline.Builder s_10 = s_7.withVertexShader(s_9);
+-        Identifier s_11 = id;
+-        RenderPipeline.Builder s_12 = s_10.withLocation(s_11);
+-        RenderPipeline.Builder pipelineBuilder = s_12;
+-        PostChainConfig.Pass s_13 = config;
+-        List s_14 = s_13.inputs();
+-        Iterator s_15 = s_14.iterator();
+-        Iterator var_1 = s_15;
+-        goto L5;
 -
--                        try {
--                            var53 = var52.samplerName();
--                        } catch (Throwable var31) {
--                            throw new MatchException(var31.toString(), var31);
--                        }
+-        L5:
+-        {
+-            Iterator s_16 = var_1;
+-            boolean s_17 = s_16.hasNext();
+-            if (s_17 == 0) {
+-                goto L8;
+-            }
+-            goto L5_1;
+-        }
 -
--                        String var36 = var53;
--                        var52 = var10;
+-        L5_1:
+-        {
+-            Iterator s_18 = var_1;
+-            Object s_19 = s_18.next();
+-            PostChainConfig.Input s_20 = (PostChainConfig.Input) s_19;
+-            PostChainConfig.Input input = s_20;
+-            RenderPipeline.Builder s_21 = pipelineBuilder;
+-            PostChainConfig.Input s_22 = input;
+-            String s_23 = s_22.samplerName();
+-            String s_24 = __invokedynamic StringConcatFactory.makeConcatWithConstants("makeConcatWithConstants", "\u0001Sampler")(s_23);
+-            RenderPipeline.Builder s_25 = s_21.withSampler(s_24);
+-            goto L5;
+-        }
 -
--                        try {
--                            var55 = var52.location();
--                        } catch (Throwable var30) {
--                            throw new MatchException(var30.toString(), var30);
--                        }
+-        L8:
+-        {
+-            RenderPipeline.Builder s_26 = pipelineBuilder;
+-            String s_27 = "SamplerInfo";
+-            UniformType s_28 = UniformType.UNIFORM_BUFFER;
+-            RenderPipeline.Builder s_29 = s_26.withUniform(s_27, s_28);
+-            PostChainConfig.Pass s_30 = config;
+-            Map s_31 = s_30.uniforms();
+-            Set s_32 = s_31.keySet();
+-            Iterator s_33 = s_32.iterator();
+-            Iterator var_3 = s_33;
+-            goto L10;
+-        }
 -
--                        Identifier var37 = var55;
--                        var52 = var10;
+-        L10:
+-        {
+-            Iterator s_34 = var_3;
+-            boolean s_35 = s_34.hasNext();
+-            if (s_35 == 0) {
+-                goto L13;
+-            }
+-            goto L10_1;
+-        }
 -
--                        try {
--                            var57 = var52.width();
--                        } catch (Throwable var29) {
--                            throw new MatchException(var29.toString(), var29);
--                        }
+-        L10_1:
+-        {
+-            Iterator s_36 = var_3;
+-            Object s_37 = s_36.next();
+-            String s_38 = (String) s_37;
+-            String uniformGroupName = s_38;
+-            RenderPipeline.Builder s_39 = pipelineBuilder;
+-            String s_40 = uniformGroupName;
+-            UniformType s_41 = UniformType.UNIFORM_BUFFER;
+-            RenderPipeline.Builder s_42 = s_39.withUniform(s_40, s_41);
+-            goto L10;
+-        }
 -
--                        int var38 = var57;
--                        if (true) {
--                            var52 = var10;
+-        L13:
+-        {
+-            RenderPipeline.Builder s_43 = pipelineBuilder;
+-            RenderPipeline s_44 = s_43.build();
+-            RenderPipeline pipeline = s_44;
+-            ArrayList s_45 = __newobject ArrayList;
+-            s_45.<init>();
+-            ArrayList s_46 = s_45;
+-            List inputs = s_46;
+-            PostChainConfig.Pass s_47 = config;
+-            List s_48 = s_47.inputs();
+-            Iterator s_49 = s_48.iterator();
+-            Iterator var_7 = s_49;
+-            goto L16;
+-        }
 -
--                            try {
--                                var59 = var52.height();
--                            } catch (Throwable var28) {
--                                throw new MatchException(var28.toString(), var28);
--                            }
+-        L16:
+-        {
+-            Iterator s_50 = var_7;
+-            boolean s_51 = s_50.hasNext();
+-            if (s_51 == 0) {
+-                goto L65;
+-            }
+-            goto L16_1;
+-        }
 -
--                            int var39 = var59;
--                            if (true) {
--                                var52 = var10;
+-        L16_1:
+-        {
+-            Iterator s_52 = var_7;
+-            Object s_53 = s_52.next();
+-            PostChainConfig.Input s_54 = (PostChainConfig.Input) s_53;
+-            PostChainConfig.Input input$1 = s_54;
+-            PostChainConfig.Input s_55 = input$1;
+-            Object s_56 = Objects.requireNonNull(s_55);
+-            PostChainConfig.Input var_9 = s_55;
+-            int_constant(0) s_57 = 0;
+-            int_constant(0) | int_constant(1) | int_constant(2) var_10 = s_57;
+-            goto L18;
+-        }
 -
--                                try {
--                                    var61 = var52.bilinear();
--                                } catch (Throwable var27) {
--                                    throw new MatchException(var27.toString(), var27);
--                                }
+-        L18:
+-        {
+-            PostChainConfig.Input s_58 = var_9;
+-            int_constant(0) | int_constant(1) | int_constant(2) s_59 = var_10;
+-            int s_60 = __invokedynamic SwitchBootstraps.typeSwitch("typeSwitch", "Lnet/minecraft/client/renderer/PostChainConfig$TextureInput;", "Lnet/minecraft/client/renderer/PostChainConfig$TargetInput;")(s_58, s_59);
+-            default:
+-                goto L19;
+-            case 0:
+-                goto L20;
+-            case 1:
+-                goto L45;
+-        }
 -
--                                boolean var40 = var61;
--                                if (true) {
+-        L19:
+-        {
+-            MatchException s_61 = __newobject MatchException;
+-            null s_62 = null;
+-            null s_63 = null;
+-            s_61.<init>(s_62, s_63);
+-            MatchException s_64 = s_61;
+-            throw s_64;
+-        }
+-
+-        L20:
+-        {
+-            PostChainConfig.Input s_65 = var_9;
+-            PostChainConfig.TextureInput s_66 = (PostChainConfig.TextureInput) s_65;
+-            PostChainConfig.TextureInput var_11 = s_66;
+-            PostChainConfig.TextureInput s_67 = var_11;
+-            goto L21;
+-        }
+-
+-        L21:
+-        {
+-            try {
+-                String s_68 = s_67.samplerName();
+-                goto L22;
+-
+-                L25:
+-                {
+-                    Identifier s_71 = PostChainConfig.TextureInput s_70.location();
+-                    goto L26;
+-                }
+-
+-                L29:
+-                {
+-                    int s_74 = PostChainConfig.TextureInput s_73.width();
+-                    goto L30;
+-                }
+-
+-                L33:
+-                {
+-                    int s_79 = PostChainConfig.TextureInput s_78.height();
+-                    goto L34;
+-                }
+-
+-                L37:
+-                {
+-                    boolean s_84 = PostChainConfig.TextureInput s_83.bilinear();
+-                    goto L38;
+-                }
+-
+-                L46:
+-                {
+-                    String s_106 = PostChainConfig.TargetInput s_105.samplerName();
+-                    goto L47;
+-                }
+-
+-                L50:
+-                {
+-                    Identifier s_109 = PostChainConfig.TargetInput s_108.targetId();
+-                    goto L51;
+-                }
+-
+-                L54:
+-                {
+-                    boolean s_112 = PostChainConfig.TargetInput s_111.useDepthBuffer();
+-                    goto L55;
+-                }
+-
+-                L58:
+-                {
+-                    boolean s_117 = PostChainConfig.TargetInput s_116.bilinear();
+-                    goto L59;
+-                }
+-            } catch (Throwable e_0) {
+-                goto L66;
+-            }
+-        }
+-
+-        L22:
+-        {
+-            String var_12 = String s_68;
+-            String s_69 = var_12;
+-            String samplerName = s_69;
+-            PostChainConfig.TextureInput s_70 = var_11;
+-            goto L25;
+-        }
+-
+-        L26:
+-        {
+-            Identifier var_14 = Identifier s_71;
+-            Identifier s_72 = var_14;
+-            Identifier location = s_72;
+-            PostChainConfig.TextureInput s_73 = var_11;
+-            goto L29;
+-        }
+-
+-        L30:
+-        {
+-            int var_16 = int s_74;
+-            int s_75 = var_16;
+-            int var_17 = s_75;
+-            int_constant(1) s_76 = 1;
+-            if (s_76 == 0) {
+-                goto L41;
+-            }
+-            goto L30_1;
+-        }
+-
+-        L30_1:
+-        {
+-            int s_77 = var_16;
+-            int width = s_77;
+-            PostChainConfig.TextureInput s_78 = var_11;
+-            goto L33;
+-        }
+-
+-        L34:
+-        {
+-            int var_19 = int s_79;
+-            int s_80 = var_19;
+-            int var_20 = s_80;
+-            int_constant(1) s_81 = 1;
+-            if (s_81 == 0) {
+-                goto L41;
+-            }
+-            goto L34_1;
+-        }
+-
+-        L34_1:
+-        {
+-            int s_82 = var_19;
+-            int height = s_82;
+-            PostChainConfig.TextureInput s_83 = var_11;
+-            goto L37;
+-        }
+-
+-        L38:
+-        {
+-            boolean var_22 = boolean s_84;
+-            boolean s_85 = var_22;
+-            boolean var_23 = s_85;
+-            int_constant(1) s_86 = 1;
+-            if (s_86 == 0) {
+-                goto L41;
+-            }
+-            goto L38_1;
+-        }
+-
+-        L38_1:
+-        {
+-            boolean s_87 = var_22;
+-            boolean bilinear = s_87;
+-            goto L42;
+-        }
+-
+-        L41:
+-        {
+-            int_constant(1) s_88 = 1;
+-            var_10 = s_88;
+-            goto L18;
+-        }
+-
+-        L42:
+-        {
+-            TextureManager s_89 = textureManager;
+-            Identifier s_90 = location;
+-            UnaryOperator s_91 = __invokedynamic LambdaMetafactory.metafactory("apply", "(Ljava/lang/Object;)Ljava/lang/Object;", METHOD PostChain.lambda$createPass$0, "(Ljava/lang/String;)Ljava/lang/String;")();
+-            Identifier s_92 = s_90.withPath(s_91);
+-            AbstractTexture s_93 = s_89.getTexture(s_92);
+-            AbstractTexture texture = s_93;
+-            List s_94 = inputs;
+-            PostPass.TextureInput s_95 = __newobject PostPass.TextureInput;
+-            String s_96 = samplerName;
+-            AbstractTexture s_97 = texture;
+-            int s_98 = width;
+-            int s_99 = height;
+-            boolean s_100 = bilinear;
+-            s_95.<init>(s_96, s_97, s_98, s_99, s_100);
+-            PostPass.TextureInput s_101 = s_95;
+-            boolean s_102 = s_94.add(s_101);
+-            goto L64;
+-        }
+-
+-        L45:
+-        {
+-            PostChainConfig.Input s_103 = var_9;
+-            PostChainConfig.TargetInput s_104 = (PostChainConfig.TargetInput) s_103;
+-            PostChainConfig.TargetInput var_27 = s_104;
+-            PostChainConfig.TargetInput s_105 = var_27;
+-            goto L46;
+-        }
+-
+-        L47:
+-        {
+-            String var_28 = String s_106;
+-            String s_107 = var_28;
+-            String samplerName$1 = s_107;
+-            PostChainConfig.TargetInput s_108 = var_27;
+-            goto L50;
+-        }
+-
+-        L51:
+-        {
+-            Identifier var_30 = Identifier s_109;
+-            Identifier s_110 = var_30;
+-            Identifier targetId = s_110;
+-            PostChainConfig.TargetInput s_111 = var_27;
+-            goto L54;
+-        }
+-
+-        L55:
+-        {
+-            boolean var_32 = boolean s_112;
+-            boolean s_113 = var_32;
+-            boolean var_33 = s_113;
+-            int_constant(1) s_114 = 1;
+-            if (s_114 == 0) {
+-                goto L62;
+-            }
+-            goto L55_1;
+-        }
+-
+-        L55_1:
+-        {
+-            boolean s_115 = var_32;
+-            boolean useDepthBuffer = s_115;
+-            PostChainConfig.TargetInput s_116 = var_27;
+-            goto L58;
+-        }
+-
+-        L59:
+-        {
+-            boolean var_35 = boolean s_117;
+-            boolean s_118 = var_35;
+-            boolean var_36 = s_118;
+-            int_constant(1) s_119 = 1;
+-            if (s_119 == 0) {
+-                goto L62;
+-            }
+-            goto L59_1;
+-        }
+-
+-        L59_1:
+-        {
+-            boolean s_120 = var_35;
+-            boolean bilinear$1 = s_120;
+-            goto L63;
+-        }
+-
+-        L62:
+-        {
+-            int_constant(2) s_121 = 2;
+-            var_10 = s_121;
+-            goto L18;
+-        }
+-
+-        L63:
+-        {
+-            List s_122 = inputs;
+-            PostPass.TargetInput s_123 = __newobject PostPass.TargetInput;
+-            String s_124 = samplerName$1;
+-            Identifier s_125 = targetId;
+-            boolean s_126 = useDepthBuffer;
+-            boolean s_127 = bilinear$1;
+-            s_123.<init>(s_124, s_125, s_126, s_127);
+-            PostPass.TargetInput s_128 = s_123;
+-            boolean s_129 = s_122.add(s_128);
+-            goto L64;
+-        }
+-
+-        L64:
+-        {
+-            goto L16;
+-        }
+-
+-        L65:
+-        {
+-            PostPass s_130 = __newobject PostPass;
+-            RenderPipeline s_131 = pipeline;
+-            PostChainConfig.Pass s_132 = config;
+-            Identifier s_133 = s_132.outputTarget();
+-            PostChainConfig.Pass s_134 = config;
+-            Map s_135 = s_134.uniforms();
+-            List s_136 = inputs;
+-            s_130.<init>(s_131, s_133, s_135, s_136);
+-            PostPass s_137 = s_130;
+-            return s_137;
+-        }
+-
+-        L66:
+-        {
+-            Throwable var_39 = Throwable e_0;
+-            MatchException s_138 = __newobject MatchException;
+-            Throwable s_139 = var_39;
+-            String s_140 = s_139.toString();
+-            Throwable s_141 = var_39;
+-            s_138.<init>(s_140, s_141);
+-            MatchException s_142 = s_138;
+-            throw s_142;
+-        }
+-    }*/
++        // TODO: unfortunately I had to copy/paste this from the VF output
++        RenderPipeline.Builder pipelineBuilder = RenderPipeline.builder(RenderPipelines.POST_PROCESSING_SNIPPET)
++                .withFragmentShader(config.fragmentShaderId())
++                .withVertexShader(config.vertexShaderId())
++                .withLocation(id);
++
++        for (PostChainConfig.Input input : config.inputs()) {
++            pipelineBuilder.withSampler(input.samplerName() + "Sampler");
++        }
++
++        pipelineBuilder.withUniform("SamplerInfo", UniformType.UNIFORM_BUFFER);
++
++        for (String uniformGroupName : config.uniforms().keySet()) {
++            pipelineBuilder.withUniform(uniformGroupName, UniformType.UNIFORM_BUFFER);
++        }
++
++        RenderPipeline pipeline = pipelineBuilder.build();
++        List<PostPass.Input> inputs = new ArrayList<>();
++
++        label110:
++        for (PostChainConfig.Input input : config.inputs()) {
++            Objects.requireNonNull(input);
++            PostChainConfig.Input var8 = input;
++            byte var9 = 0;
++
 +            {
 +                switch (var8) {
 +                    case PostChainConfig.TextureInput(String var36, Identifier var37, int var38, int var39, boolean var40):
-                                     AbstractTexture var41 = textureManager.getTexture(var37.withPath(path -> "textures/effect/" + path + ".png"));
-                                     inputs.add(new PostPass.TextureInput(var36, var41, var38, var39, var40));
-                                     continue label110;
--                                }
--                            }
--                        }
--
--                        var9 = 1;
--                        break;
--                    case 1:
--                        PostChainConfig.TargetInput texture = (PostChainConfig.TargetInput)var8;
--                        PostChainConfig.TargetInput var10000 = texture;
--
--                        try {
--                            var45 = var10000.samplerName();
--                        } catch (Throwable var26) {
--                            throw new MatchException(var26.toString(), var26);
--                        }
--
--                        String var21 = var45;
--                        var10000 = texture;
--
--                        try {
--                            var47 = var10000.targetId();
--                        } catch (Throwable var25) {
--                            throw new MatchException(var25.toString(), var25);
--                        }
--
--                        Identifier var42 = var47;
--                        var10000 = texture;
--
--                        try {
--                            var49 = var10000.useDepthBuffer();
--                        } catch (Throwable var24) {
--                            throw new MatchException(var24.toString(), var24);
--                        }
--
--                        boolean var43 = var49;
--                        if (true) {
--                            var10000 = texture;
--
--                            try {
--                                var51 = var10000.bilinear();
--                            } catch (Throwable var23) {
--                                throw new MatchException(var23.toString(), var23);
--                            }
--
--                            boolean var44 = var51;
--                            if (true) {
++                        AbstractTexture var41 = textureManager.getTexture(var37.withPath(path -> "textures/effect/" + path + ".png"));
++                        inputs.add(new PostPass.TextureInput(var36, var41, var38, var39, var40));
++                        continue label110;
 +                    case PostChainConfig.TargetInput(String var21, Identifier var42, boolean var43, boolean var44):
-                                 inputs.add(new PostPass.TargetInput(var21, var42, var43, var44));
-                                 continue label110;
--                            }
--                        }
--
--                        var9 = 2;
--                        break;
-                     default:
-                         throw new MatchException(null, null);
-                 }
++                        inputs.add(new PostPass.TargetInput(var21, var42, var43, var44));
++                        continue label110;
++                    default:
++                        throw new MatchException(null, null);
++                }
++            }
++        }
++
++        return new PostPass(pipeline, config.outputTarget(), config.uniforms(), inputs);
++    }
+ 
+     public void addToFrame(final FrameGraphBuilder frame, final int screenWidth, final int screenHeight, final TargetBundle providedTargets) {
+         GpuBufferSlice projectionBuffer = projectionMatrixBuffer.getBuffer((float) screenWidth, (float) screenHeight);

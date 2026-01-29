@@ -1,0 +1,11 @@
+--- a/net/minecraft/util/profiling/jfr/parse/JfrStatsResult.java
++++ b/net/minecraft/util/profiling/jfr/parse/JfrStatsResult.java
+@@ -27,7 +_,7 @@
+ 
+     public List<Pair<ChunkStatus, TimedStatSummary<ChunkGenStat>>> chunkGenSummary() {
+         Map<ChunkStatus, List<ChunkGenStat>> byStatus = this.chunkGenStats.stream().collect(Collectors.groupingBy(ChunkGenStat::status));
+-        return byStatus.entrySet().stream().map(e -> Pair.of(e.getKey(), TimedStatSummary.summary(e.getValue()))).filter(pair -> pair.getSecond().isPresent()).map(e -> Pair.of(e.getFirst(), e.getSecond().get())).sorted(Comparator.comparing(pair -> ((TimedStatSummary) pair.getSecond()).totalDuration()).reversed()).toList();
++        return byStatus.entrySet().stream().map(e -> Pair.of(e.getKey(), TimedStatSummary.summary(e.getValue()))).filter(pair -> pair.getSecond().isPresent()).map(e -> Pair.of(e.getFirst(), e.getSecond().get())).sorted(Comparator.<Pair<ChunkStatus, TimedStatSummary<ChunkGenStat>>, Duration>comparing(pair -> pair.getSecond().totalDuration()).reversed()).toList();
+     }
+ 
+     public String asJson() {

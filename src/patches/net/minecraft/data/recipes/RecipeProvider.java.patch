@@ -1,0 +1,11 @@
+--- a/net/minecraft/data/recipes/RecipeProvider.java
++++ b/net/minecraft/data/recipes/RecipeProvider.java
+@@ -426,7 +_,7 @@
+     }
+ 
+     private static Criterion<InventoryChangeTrigger.TriggerInstance> inventoryTrigger(final ItemPredicate.Builder... predicates) {
+-        return inventoryTrigger(Arrays.stream(predicates).map(ItemPredicate.Builder::build).toArray(x$0 -> new ItemPredicate[x$0]));
++        return inventoryTrigger(Arrays.stream(predicates).map(ItemPredicate.Builder::build).toArray(ItemPredicate[]::new));
+     }
+ 
+     private static Criterion<InventoryChangeTrigger.TriggerInstance> inventoryTrigger(final ItemPredicate... predicates) {

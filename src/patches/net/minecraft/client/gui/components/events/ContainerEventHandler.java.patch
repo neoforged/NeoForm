@@ -1,0 +1,11 @@
+--- a/net/minecraft/client/gui/components/events/ContainerEventHandler.java
++++ b/net/minecraft/client/gui/components/events/ContainerEventHandler.java
+@@ -137,7 +_,7 @@
+         boolean forward = tabNavigation.forward();
+         GuiEventListener focus = getFocused();
+         List<? extends GuiEventListener> sortedChildren = new ArrayList<>(children());
+-        Collections.sort(sortedChildren, (Comparator) Comparator.comparingInt(child -> child.getTabOrderGroup()));
++        Collections.sort(sortedChildren, Comparator.comparingInt(child -> child.getTabOrderGroup()));
+         int index = sortedChildren.indexOf(focus);
+         int newIndex;
+         if (focus != null && index >= 0) {

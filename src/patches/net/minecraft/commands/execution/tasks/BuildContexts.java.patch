@@ -1,28 +1,29 @@
 --- a/net/minecraft/commands/execution/tasks/BuildContexts.java
 +++ b/net/minecraft/commands/execution/tasks/BuildContexts.java
-@@ -52,7 +_,8 @@
+@@ -50,7 +_,8 @@
+                         modifiers = modifiers.setForked();
                      }
- 
                      RedirectModifier<T> modifier = contextToRun.getRedirectModifier();
 -                    if (modifier instanceof CustomModifierExecutor<T> customModifierExecutor) {
 +                    if (modifier instanceof CustomModifierExecutor<?>) {
-+                        CustomModifierExecutor<T> customModifierExecutor = (CustomModifierExecutor<T>) modifier;
++                        var customModifierExecutor = (CustomModifierExecutor<T>) modifier;
                          customModifierExecutor.apply(originalSource, currentSources, currentStage, modifiers, ExecutionControl.create(context, frame));
                          return;
                      }
-@@ -89,11 +_,13 @@
- 
+@@ -83,13 +_,14 @@
+         }
          if (currentSources.isEmpty()) {
              if (modifiers.isReturn()) {
 -                context.queueNext(new CommandQueueEntry<>(frame, FallthroughTask.instance()));
-+                context.queueNext(new CommandQueueEntry<T>(frame, FallthroughTask.instance()));
++                context.queueNext(new CommandQueueEntry<>(frame, FallthroughTask.<T>instance()));
              }
-         } else {
-             CommandContext<T> executeContext = currentStage.getTopContext();
--            if (executeContext.getCommand() instanceof CustomCommandExecutor<T> customCommandExecutor) {
-+            com.mojang.brigadier.Command<T> command = executeContext.getCommand();
-+            if (command instanceof CustomCommandExecutor<?>) {
-+                CustomCommandExecutor<T> customCommandExecutor = (CustomCommandExecutor<T>) command;
-                 ExecutionControl<T> executionControl = ExecutionControl.create(context, frame);
- 
-                 for (T executionSource : currentSources) {
+             return;
+         }
+         CommandContext<T> executeContext = currentStage.getTopContext();
+         Command<T> command = executeContext.getCommand();
+-        if (command instanceof CustomCommandExecutor<T> customCommandExecutor) {
++        if (command instanceof CustomCommandExecutor<?>) {
++            var customCommandExecutor = (CustomCommandExecutor<T>) command;
+             ExecutionControl<T> executionControl = ExecutionControl.create(context, frame);
+             for (T executionSource : currentSources) {
+                 customCommandExecutor.run(executionSource, currentStage, modifiers, executionControl);

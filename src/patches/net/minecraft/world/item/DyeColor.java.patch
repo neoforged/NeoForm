@@ -1,0 +1,291 @@
+--- a/net/minecraft/world/item/DyeColor.java
++++ b/net/minecraft/world/item/DyeColor.java
+@@ -26,7 +_,23 @@
+ import org.jetbrains.annotations.Contract;
+ import org.jspecify.annotations.Nullable;
+ 
+-public enum DyeColor implements StringRepresentable {,,,,,,,,,,,,,,,;
++public enum DyeColor implements StringRepresentable {
++    WHITE(0, "white", 16383998, MapColor.SNOW, 15790320, 16777215),
++    ORANGE(1, "orange", 16351261, MapColor.COLOR_ORANGE, 15435844, 16738335),
++    MAGENTA(2, "magenta", 13061821, MapColor.COLOR_MAGENTA, 12801229, 16711935),
++    LIGHT_BLUE(3, "light_blue", 3847130, MapColor.COLOR_LIGHT_BLUE, 6719955, 10141901),
++    YELLOW(4, "yellow", 16701501, MapColor.COLOR_YELLOW, 14602026, 16776960),
++    LIME(5, "lime", 8439583, MapColor.COLOR_LIGHT_GREEN, 4312372, 12582656),
++    PINK(6, "pink", 15961002, MapColor.COLOR_PINK, 14188952, 16738740),
++    GRAY(7, "gray", 4673362, MapColor.COLOR_GRAY, 4408131, 8421504),
++    LIGHT_GRAY(8, "light_gray", 10329495, MapColor.COLOR_LIGHT_GRAY, 11250603, 13882323),
++    CYAN(9, "cyan", 1481884, MapColor.COLOR_CYAN, 2651799, 65535),
++    PURPLE(10, "purple", 8991416, MapColor.COLOR_PURPLE, 8073150, 10494192),
++    BLUE(11, "blue", 3949738, MapColor.COLOR_BLUE, 2437522, 255),
++    BROWN(12, "brown", 8606770, MapColor.COLOR_BROWN, 5320730, 9127187),
++    GREEN(13, "green", 6192150, MapColor.COLOR_GREEN, 3887386, 65280),
++    RED(14, "red", 11546150, MapColor.COLOR_RED, 11743532, 16711680),
++    BLACK(15, "black", 1908001, MapColor.COLOR_BLACK, 1973019, 0);
+ 
+     public static final List<DyeColor> VALUES;
+     private static final IntFunction<DyeColor> BY_ID;
+@@ -41,18 +_,8 @@
+     private final int textureDiffuseColor;
+     private final int fireworkColor;
+     private final int textColor;
+-    private static final synthetic DyeColor[] $VALUES;
+-
+-    public static DyeColor[] values() {
+-        return $VALUES.clone();
+-    }
+-
+-    public static DyeColor valueOf(mandated String name) {
+-        return Enum.valueOf(DyeColor.class, name);
+-    }
+-
+-    private DyeColor(synthetic String par_1, synthetic int par_2, final int id, final String name, final int textureDiffuseColor, final MapColor mapColor, final int fireworkColor, final int textColor) {
+-        super(par_1, par_2);
++
++    private DyeColor(final int id, final String name, final int textureDiffuseColor, final MapColor mapColor, final int fireworkColor, final int textColor) {
+         this.id = id;
+         this.name = name;
+         this.mapColor = mapColor;
+@@ -116,235 +_,12 @@
+         return CraftingInput.of(2, 1, List.of(new ItemStack(DyeItem.byColor(dyeColor1)), new ItemStack(DyeItem.byColor(dyeColor2))));
+     }
+ 
+-    /* Method skipped as requested
+     static {
+-        DyeColor s_0 = __newobject DyeColor;
+-        String s_1 = "WHITE";
+-        int_constant(0) s_2 = 0;
+-        int_constant(0) s_3 = 0;
+-        String s_4 = "white";
+-        int_constant(16383998) s_5 = 16383998;
+-        MapColor s_6 = MapColor.SNOW;
+-        int_constant(15790320) s_7 = 15790320;
+-        int_constant(16777215) s_8 = 16777215;
+-        s_0.<init>(s_1, s_2, s_3, s_4, s_5, s_6, s_7, s_8);
+-        DyeColor s_9 = s_0;
+-        DyeColor.WHITE = s_9;
+-        DyeColor s_10 = __newobject DyeColor;
+-        String s_11 = "ORANGE";
+-        int_constant(1) s_12 = 1;
+-        int_constant(1) s_13 = 1;
+-        String s_14 = "orange";
+-        int_constant(16351261) s_15 = 16351261;
+-        MapColor s_16 = MapColor.COLOR_ORANGE;
+-        int_constant(15435844) s_17 = 15435844;
+-        int_constant(16738335) s_18 = 16738335;
+-        s_10.<init>(s_11, s_12, s_13, s_14, s_15, s_16, s_17, s_18);
+-        DyeColor s_19 = s_10;
+-        DyeColor.ORANGE = s_19;
+-        DyeColor s_20 = __newobject DyeColor;
+-        String s_21 = "MAGENTA";
+-        int_constant(2) s_22 = 2;
+-        int_constant(2) s_23 = 2;
+-        String s_24 = "magenta";
+-        int_constant(13061821) s_25 = 13061821;
+-        MapColor s_26 = MapColor.COLOR_MAGENTA;
+-        int_constant(12801229) s_27 = 12801229;
+-        int_constant(16711935) s_28 = 16711935;
+-        s_20.<init>(s_21, s_22, s_23, s_24, s_25, s_26, s_27, s_28);
+-        DyeColor s_29 = s_20;
+-        DyeColor.MAGENTA = s_29;
+-        DyeColor s_30 = __newobject DyeColor;
+-        String s_31 = "LIGHT_BLUE";
+-        int_constant(3) s_32 = 3;
+-        int_constant(3) s_33 = 3;
+-        String s_34 = "light_blue";
+-        int_constant(3847130) s_35 = 3847130;
+-        MapColor s_36 = MapColor.COLOR_LIGHT_BLUE;
+-        int_constant(6719955) s_37 = 6719955;
+-        int_constant(10141901) s_38 = 10141901;
+-        s_30.<init>(s_31, s_32, s_33, s_34, s_35, s_36, s_37, s_38);
+-        DyeColor s_39 = s_30;
+-        DyeColor.LIGHT_BLUE = s_39;
+-        DyeColor s_40 = __newobject DyeColor;
+-        String s_41 = "YELLOW";
+-        int_constant(4) s_42 = 4;
+-        int_constant(4) s_43 = 4;
+-        String s_44 = "yellow";
+-        int_constant(16701501) s_45 = 16701501;
+-        MapColor s_46 = MapColor.COLOR_YELLOW;
+-        int_constant(14602026) s_47 = 14602026;
+-        int_constant(16776960) s_48 = 16776960;
+-        s_40.<init>(s_41, s_42, s_43, s_44, s_45, s_46, s_47, s_48);
+-        DyeColor s_49 = s_40;
+-        DyeColor.YELLOW = s_49;
+-        DyeColor s_50 = __newobject DyeColor;
+-        String s_51 = "LIME";
+-        int_constant(5) s_52 = 5;
+-        int_constant(5) s_53 = 5;
+-        String s_54 = "lime";
+-        int_constant(8439583) s_55 = 8439583;
+-        MapColor s_56 = MapColor.COLOR_LIGHT_GREEN;
+-        int_constant(4312372) s_57 = 4312372;
+-        int_constant(12582656) s_58 = 12582656;
+-        s_50.<init>(s_51, s_52, s_53, s_54, s_55, s_56, s_57, s_58);
+-        DyeColor s_59 = s_50;
+-        DyeColor.LIME = s_59;
+-        DyeColor s_60 = __newobject DyeColor;
+-        String s_61 = "PINK";
+-        int_constant(6) s_62 = 6;
+-        int_constant(6) s_63 = 6;
+-        String s_64 = "pink";
+-        int_constant(15961002) s_65 = 15961002;
+-        MapColor s_66 = MapColor.COLOR_PINK;
+-        int_constant(14188952) s_67 = 14188952;
+-        int_constant(16738740) s_68 = 16738740;
+-        s_60.<init>(s_61, s_62, s_63, s_64, s_65, s_66, s_67, s_68);
+-        DyeColor s_69 = s_60;
+-        DyeColor.PINK = s_69;
+-        DyeColor s_70 = __newobject DyeColor;
+-        String s_71 = "GRAY";
+-        int_constant(7) s_72 = 7;
+-        int_constant(7) s_73 = 7;
+-        String s_74 = "gray";
+-        int_constant(4673362) s_75 = 4673362;
+-        MapColor s_76 = MapColor.COLOR_GRAY;
+-        int_constant(4408131) s_77 = 4408131;
+-        int_constant(8421504) s_78 = 8421504;
+-        s_70.<init>(s_71, s_72, s_73, s_74, s_75, s_76, s_77, s_78);
+-        DyeColor s_79 = s_70;
+-        DyeColor.GRAY = s_79;
+-        DyeColor s_80 = __newobject DyeColor;
+-        String s_81 = "LIGHT_GRAY";
+-        int_constant(8) s_82 = 8;
+-        int_constant(8) s_83 = 8;
+-        String s_84 = "light_gray";
+-        int_constant(10329495) s_85 = 10329495;
+-        MapColor s_86 = MapColor.COLOR_LIGHT_GRAY;
+-        int_constant(11250603) s_87 = 11250603;
+-        int_constant(13882323) s_88 = 13882323;
+-        s_80.<init>(s_81, s_82, s_83, s_84, s_85, s_86, s_87, s_88);
+-        DyeColor s_89 = s_80;
+-        DyeColor.LIGHT_GRAY = s_89;
+-        DyeColor s_90 = __newobject DyeColor;
+-        String s_91 = "CYAN";
+-        int_constant(9) s_92 = 9;
+-        int_constant(9) s_93 = 9;
+-        String s_94 = "cyan";
+-        int_constant(1481884) s_95 = 1481884;
+-        MapColor s_96 = MapColor.COLOR_CYAN;
+-        int_constant(2651799) s_97 = 2651799;
+-        int_constant(65535) s_98 = 65535;
+-        s_90.<init>(s_91, s_92, s_93, s_94, s_95, s_96, s_97, s_98);
+-        DyeColor s_99 = s_90;
+-        DyeColor.CYAN = s_99;
+-        DyeColor s_100 = __newobject DyeColor;
+-        String s_101 = "PURPLE";
+-        int_constant(10) s_102 = 10;
+-        int_constant(10) s_103 = 10;
+-        String s_104 = "purple";
+-        int_constant(8991416) s_105 = 8991416;
+-        MapColor s_106 = MapColor.COLOR_PURPLE;
+-        int_constant(8073150) s_107 = 8073150;
+-        int_constant(10494192) s_108 = 10494192;
+-        s_100.<init>(s_101, s_102, s_103, s_104, s_105, s_106, s_107, s_108);
+-        DyeColor s_109 = s_100;
+-        DyeColor.PURPLE = s_109;
+-        DyeColor s_110 = __newobject DyeColor;
+-        String s_111 = "BLUE";
+-        int_constant(11) s_112 = 11;
+-        int_constant(11) s_113 = 11;
+-        String s_114 = "blue";
+-        int_constant(3949738) s_115 = 3949738;
+-        MapColor s_116 = MapColor.COLOR_BLUE;
+-        int_constant(2437522) s_117 = 2437522;
+-        int_constant(255) s_118 = 255;
+-        s_110.<init>(s_111, s_112, s_113, s_114, s_115, s_116, s_117, s_118);
+-        DyeColor s_119 = s_110;
+-        DyeColor.BLUE = s_119;
+-        DyeColor s_120 = __newobject DyeColor;
+-        String s_121 = "BROWN";
+-        int_constant(12) s_122 = 12;
+-        int_constant(12) s_123 = 12;
+-        String s_124 = "brown";
+-        int_constant(8606770) s_125 = 8606770;
+-        MapColor s_126 = MapColor.COLOR_BROWN;
+-        int_constant(5320730) s_127 = 5320730;
+-        int_constant(9127187) s_128 = 9127187;
+-        s_120.<init>(s_121, s_122, s_123, s_124, s_125, s_126, s_127, s_128);
+-        DyeColor s_129 = s_120;
+-        DyeColor.BROWN = s_129;
+-        DyeColor s_130 = __newobject DyeColor;
+-        String s_131 = "GREEN";
+-        int_constant(13) s_132 = 13;
+-        int_constant(13) s_133 = 13;
+-        String s_134 = "green";
+-        int_constant(6192150) s_135 = 6192150;
+-        MapColor s_136 = MapColor.COLOR_GREEN;
+-        int_constant(3887386) s_137 = 3887386;
+-        int_constant(65280) s_138 = 65280;
+-        s_130.<init>(s_131, s_132, s_133, s_134, s_135, s_136, s_137, s_138);
+-        DyeColor s_139 = s_130;
+-        DyeColor.GREEN = s_139;
+-        DyeColor s_140 = __newobject DyeColor;
+-        String s_141 = "RED";
+-        int_constant(14) s_142 = 14;
+-        int_constant(14) s_143 = 14;
+-        String s_144 = "red";
+-        int_constant(11546150) s_145 = 11546150;
+-        MapColor s_146 = MapColor.COLOR_RED;
+-        int_constant(11743532) s_147 = 11743532;
+-        int_constant(16711680) s_148 = 16711680;
+-        s_140.<init>(s_141, s_142, s_143, s_144, s_145, s_146, s_147, s_148);
+-        DyeColor s_149 = s_140;
+-        DyeColor.RED = s_149;
+-        DyeColor s_150 = __newobject DyeColor;
+-        String s_151 = "BLACK";
+-        int_constant(15) s_152 = 15;
+-        int_constant(15) s_153 = 15;
+-        String s_154 = "black";
+-        int_constant(1908001) s_155 = 1908001;
+-        MapColor s_156 = MapColor.COLOR_BLACK;
+-        int_constant(1973019) s_157 = 1973019;
+-        int_constant(0) s_158 = 0;
+-        s_150.<init>(s_151, s_152, s_153, s_154, s_155, s_156, s_157, s_158);
+-        DyeColor s_159 = s_150;
+-        DyeColor.BLACK = s_159;
+-        DyeColor[] s_160 = $values();
+-        $VALUES = s_160;
+-        DyeColor[] s_161 = values();
+-        List s_162 = List.of(s_161);
+-        VALUES = s_162;
+-        ToIntFunction s_163 = __invokedynamic LambdaMetafactory.metafactory("applyAsInt", "(Ljava/lang/Object;)I", METHOD DyeColor.getId, "(Lnet/minecraft/world/item/DyeColor;)I")();
+-        List s_164 = VALUES;
+-        IntFunction s_165 = __invokedynamic LambdaMetafactory.metafactory("apply", "(I)Ljava/lang/Object;", METHOD DyeColor.lambda$BY_ID$0, "(I)[Lnet/minecraft/world/item/DyeColor;")();
+-        Object[] s_166 = s_164.toArray(s_165);
+-        DyeColor[] s_167 = (DyeColor[]) s_166;
+-        ByIdMap.OutOfBoundsStrategy s_168 = ByIdMap.OutOfBoundsStrategy.ZERO;
+-        IntFunction s_169 = ByIdMap.continuous(s_163, s_167, s_168);
+-        BY_ID = s_169;
+-        Int2ObjectOpenHashMap s_170 = __newobject Int2ObjectOpenHashMap;
+-        List s_171 = VALUES;
+-        Stream s_172 = s_171.stream();
+-        Function s_173 = __invokedynamic LambdaMetafactory.metafactory("apply", "(Ljava/lang/Object;)Ljava/lang/Object;", METHOD DyeColor.lambda$static$0, "(Lnet/minecraft/world/item/DyeColor;)Ljava/lang/Integer;")();
+-        Function s_174 = __invokedynamic LambdaMetafactory.metafactory("apply", "(Ljava/lang/Object;)Ljava/lang/Object;", METHOD DyeColor.lambda$static$1, "(Lnet/minecraft/world/item/DyeColor;)Lnet/minecraft/world/item/DyeColor;")();
+-        Collector s_175 = Collectors.toMap(s_173, s_174);
+-        Object s_176 = s_172.collect(s_175);
+-        Map s_177 = (Map) s_176;
+-        s_170.<init>(s_177);
+-        Int2ObjectOpenHashMap s_178 = s_170;
+-        BY_FIREWORK_COLOR = s_178;
+-        Supplier s_179 = __invokedynamic LambdaMetafactory.metafactory("get", "()Ljava/lang/Object;", METHOD DyeColor.values, "()[Lnet/minecraft/world/item/DyeColor;")();
+-        StringRepresentable.EnumCodec s_180 = StringRepresentable.fromEnum(s_179);
+-        CODEC = s_180;
+-        IntFunction s_181 = BY_ID;
+-        ToIntFunction s_182 = __invokedynamic LambdaMetafactory.metafactory("applyAsInt", "(Ljava/lang/Object;)I", METHOD DyeColor.getId, "(Lnet/minecraft/world/item/DyeColor;)I")();
+-        StreamCodec s_183 = ByteBufCodecs.idMapper(s_181, s_182);
+-        STREAM_CODEC = s_183;
+-        PrimitiveCodec s_184 = Codec.BYTE;
+-        Function s_185 = __invokedynamic LambdaMetafactory.metafactory("apply", "(Ljava/lang/Object;)Ljava/lang/Object;", METHOD DyeColor.byId, "(Ljava/lang/Byte;)Lnet/minecraft/world/item/DyeColor;")();
+-        Function s_186 = __invokedynamic LambdaMetafactory.metafactory("apply", "(Ljava/lang/Object;)Ljava/lang/Object;", METHOD DyeColor.lambda$static$2, "(Lnet/minecraft/world/item/DyeColor;)Ljava/lang/Byte;")();
+-        Codec s_187 = s_184.xmap(s_185, s_186);
+-        LEGACY_ID_CODEC = s_187;
+-    }*/
++        VALUES = List.of(values());
++        BY_ID = ByIdMap.continuous(DyeColor::getId, VALUES.toArray(DyeColor[]::new), ByIdMap.OutOfBoundsStrategy.ZERO);
++        BY_FIREWORK_COLOR = new Int2ObjectOpenHashMap<>(VALUES.stream().collect(Collectors.toMap(v -> v.fireworkColor, v -> v)));
++        CODEC = StringRepresentable.fromEnum(DyeColor::values);
++        STREAM_CODEC = ByteBufCodecs.idMapper(BY_ID, DyeColor::getId);
++        LEGACY_ID_CODEC = Codec.BYTE.xmap(DyeColor::byId, color -> (byte) color.id);
++    }
+ }

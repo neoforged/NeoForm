@@ -1,0 +1,11 @@
+--- a/net/minecraft/util/valueproviders/TrapezoidFloat.java
++++ b/net/minecraft/util/valueproviders/TrapezoidFloat.java
+@@ -8,7 +_,7 @@
+ 
+ public class TrapezoidFloat extends FloatProvider {
+ 
+-    public static final MapCodec<TrapezoidFloat> CODEC = RecordCodecBuilder.mapCodec(i -> i.group(Codec.FLOAT.fieldOf("min").forGetter(t -> Float.valueOf(t.min)), Codec.FLOAT.fieldOf("max").forGetter(t -> Float.valueOf(t.max)), Codec.FLOAT.fieldOf("plateau").forGetter(t -> Float.valueOf(t.plateau))).apply(i, TrapezoidFloat::new)).validate(c -> {
++    public static final MapCodec<TrapezoidFloat> CODEC = RecordCodecBuilder.<TrapezoidFloat>mapCodec(i -> i.group(Codec.FLOAT.fieldOf("min").forGetter(t -> Float.valueOf(t.min)), Codec.FLOAT.fieldOf("max").forGetter(t -> Float.valueOf(t.max)), Codec.FLOAT.fieldOf("plateau").forGetter(t -> Float.valueOf(t.plateau))).apply(i, TrapezoidFloat::new)).validate(c -> {
+         if (c.max < c.min) {
+             return DataResult.error(() -> "Max must be larger than min: [" + c.min + ", " + c.max + "]");
+         }

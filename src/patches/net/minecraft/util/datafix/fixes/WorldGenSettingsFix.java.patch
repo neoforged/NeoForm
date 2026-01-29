@@ -1,0 +1,20 @@
+--- a/net/minecraft/util/datafix/fixes/WorldGenSettingsFix.java
++++ b/net/minecraft/util/datafix/fixes/WorldGenSettingsFix.java
+@@ -76,7 +_,7 @@
+                 case "flat": {
+                     OptionalDynamic<T> flatSettings = input.get("generatorOptions");
+                     Map<Dynamic<T>, Dynamic<T>> structureBuilder = fixFlatStructures(ops, flatSettings);
+-                    generator = input.createMap(ImmutableMap.of(input.createString("type"), input.createString("minecraft:flat"), input.createString("settings"), input.createMap(ImmutableMap.of(input.createString("structures"), input.createMap(structureBuilder), input.createString("layers"), flatSettings.get("layers").result().orElseGet(() -> input.createList(Stream.of(new Dynamic[] { input.createMap(ImmutableMap.of(input.createString("height"), input.createInt(1), input.createString("block"), input.createString("minecraft:bedrock"))), input.createMap(ImmutableMap.of(input.createString("height"), input.createInt(2), input.createString("block"), input.createString("minecraft:dirt"))), input.createMap(ImmutableMap.of(input.createString("height"), input.createInt(1), input.createString("block"), input.createString("minecraft:grass_block"))) }))), input.createString("biome"), input.createString(flatSettings.get("biome").asString("minecraft:plains"))))));
++                    generator = input.createMap(ImmutableMap.of(input.createString("type"), input.createString("minecraft:flat"), input.createString("settings"), input.createMap(ImmutableMap.of(input.createString("structures"), input.createMap(structureBuilder), input.createString("layers"), flatSettings.get("layers").result().orElseGet(() -> input.createList(Stream.of(input.createMap(ImmutableMap.of(input.createString("height"), input.createInt(1), input.createString("block"), input.createString("minecraft:bedrock"))), input.createMap(ImmutableMap.of(input.createString("height"), input.createInt(2), input.createString("block"), input.createString("minecraft:dirt"))), input.createMap(ImmutableMap.of(input.createString("height"), input.createInt(1), input.createString("block"), input.createString("minecraft:grass_block")))))), input.createString("biome"), input.createString(flatSettings.get("biome").asString("minecraft:plains"))))));
+                     break;
+                 }
+                 case "debug_all_block_states":
+@@ -148,7 +_,7 @@
+             hasStronghold.setTrue();
+             structureConfig.put("minecraft:village", DEFAULTS.get("minecraft:village"));
+         }
+-        settings.get("structures").<Map>flatMap(Dynamic::getMapValues).ifSuccess(map -> {
++        settings.get("structures").flatMap(Dynamic::getMapValues).ifSuccess(map -> {
+             map.forEach((structureKey, value1) -> {
+                 value1.getMapValues().result().ifPresent(m -> {
+                     m.forEach((optionKey, optionValue) -> {

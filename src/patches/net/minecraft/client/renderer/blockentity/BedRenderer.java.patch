@@ -1,0 +1,11 @@
+--- a/net/minecraft/client/renderer/blockentity/BedRenderer.java
++++ b/net/minecraft/client/renderer/blockentity/BedRenderer.java
+@@ -86,7 +_,7 @@
+         state.isHead = blockEntity.getBlockState().getValue(BedBlock.PART) == BedPart.HEAD;
+         if (blockEntity.getLevel() != null) {
+             DoubleBlockCombiner.NeighborCombineResult<? extends BedBlockEntity> combineResult = DoubleBlockCombiner.combineWithNeigbour(BlockEntityType.BED, BedBlock::getBlockType, BedBlock::getConnectedDirection, ChestBlock.FACING, blockEntity.getBlockState(), blockEntity.getLevel(), blockEntity.getBlockPos(), (levelAccessor, blockPos) -> false);
+-            state.lightCoords = combineResult.apply((DoubleBlockCombiner.Combiner) new BrightnessCombiner<>()).get(state.lightCoords);
++            state.lightCoords = combineResult.apply(new BrightnessCombiner<>()).get(state.lightCoords);
+         }
+     }
+ 

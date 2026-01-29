@@ -1,0 +1,11 @@
+--- a/net/minecraft/client/renderer/block/model/BlockModelDefinition.java
++++ b/net/minecraft/client/renderer/block/model/BlockModelDefinition.java
+@@ -27,7 +_,7 @@
+ public record BlockModelDefinition(Optional<SimpleModelSelectors> simpleModels, Optional<MultiPartDefinition> multiPart) {
+ 
+     private static final Logger LOGGER = LogUtils.getLogger();
+-    public static final Codec<BlockModelDefinition> CODEC = RecordCodecBuilder.create(i -> i.group(SimpleModelSelectors.CODEC.optionalFieldOf("variants").forGetter(BlockModelDefinition::simpleModels), MultiPartDefinition.CODEC.optionalFieldOf("multipart").forGetter(BlockModelDefinition::multiPart)).apply(i, BlockModelDefinition::new)).validate(o -> {
++    public static final Codec<BlockModelDefinition> CODEC = RecordCodecBuilder.<BlockModelDefinition>create(i -> i.group(SimpleModelSelectors.CODEC.optionalFieldOf("variants").forGetter(BlockModelDefinition::simpleModels), MultiPartDefinition.CODEC.optionalFieldOf("multipart").forGetter(BlockModelDefinition::multiPart)).apply(i, BlockModelDefinition::new)).validate(o -> {
+         if (o.simpleModels().isEmpty() && o.multiPart().isEmpty()) {
+             return DataResult.error(() -> "Neither 'variants' nor 'multipart' found");
+         }

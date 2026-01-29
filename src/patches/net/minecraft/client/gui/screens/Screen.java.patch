@@ -1,0 +1,99 @@
+--- a/net/minecraft/client/gui/screens/Screen.java
++++ b/net/minecraft/client/gui/screens/Screen.java
+@@ -277,75 +_,30 @@
+     }
+ 
+     protected static void defaultHandleClickEvent(final ClickEvent event, final Minecraft minecraft, final @Nullable Screen activeScreen) {
+-        boolean s_15;
+-        L0_L23:
+-        {
+-            String s_35;
+-            L0_L18:
+-            {
+-                String s_25;
+-                ClickEvent.SuggestCommand s_24;
+-                ClickEvent.CopyToClipboard s_34;
+-                switch (event) {
+-                    case ClickEvent.OpenUrl var_2: {
+-                        URI s_9;
+-                        L3_try:
+-                        try {
+-                            s_9 = var_2.uri();
+-                            break L3_try;
+-
+-                            L11:
+-                            {
+-                                s_25 = s_24.command();
+-                                break;
+-                            }
+-
+-                            L17:
+-                            {
+-                                s_35 = s_34.value();
+-                                break L0_L18;
+-                            }
+-                        } catch (Throwable var_13) {
+-                            throw new MatchException(var_13.toString(), var_13);
+-                        }
+-                        URI var_3 = s_9;
+-                        URI uri = var_3;
+-                        clickUrlAction(minecraft, activeScreen, uri);
+-                        s_15 = false;
+-                        break L0_L23;
+-                    }
+-                    case ClickEvent.OpenFile openFile: {
+-                        Util.getPlatform().openFile(openFile.file());
+-                        s_15 = true;
+-                        break L0_L23;
+-                    }
+-                    case ClickEvent.SuggestCommand var_6: {
+-                        s_24 = var_6;
+-                        goto L11;
+-                    }
+-                    case ClickEvent.CopyToClipboard var_9: {
+-                        s_34 = var_9;
+-                        goto L17;
+-                    }
+-                    default:
+-                        LOGGER.error("Don't know how to handle {}", event);
+-                        s_15 = true;
+-                        break L0_L23;
+-                }
+-                String var_7 = s_25;
+-                String command = var_7;
++        boolean shouldActivateScreen = switch (event) {
++            case ClickEvent.OpenUrl(URI uri) -> {
++                clickUrlAction(minecraft, activeScreen, uri);
++                yield false;
++            }
++            case ClickEvent.OpenFile openFile -> {
++                Util.getPlatform().openFile(openFile.file());
++                yield true;
++            }
++            case ClickEvent.SuggestCommand(String command) -> {
+                 if (activeScreen != null) {
+                     activeScreen.insertText(command, true);
+                 }
+-                s_15 = true;
+-                break L0_L23;
+-            }
+-            String var_10 = s_35;
+-            String value = var_10;
+-            minecraft.keyboardHandler.setClipboard(value);
+-            s_15 = true;
+-        }
+-        boolean shouldActivateScreen = s_15;
++                yield true;
++            }
++            case ClickEvent.CopyToClipboard(String value) -> {
++                minecraft.keyboardHandler.setClipboard(value);
++                yield true;
++            }
++            default -> {
++                LOGGER.error("Don't know how to handle {}", event);
++                yield true;
++            }
++        };
+         if (shouldActivateScreen && minecraft.screen != activeScreen) {
+             minecraft.setScreen(activeScreen);
+         }

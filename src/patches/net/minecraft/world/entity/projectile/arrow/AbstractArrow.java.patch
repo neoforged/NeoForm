@@ -1,0 +1,66 @@
+--- a/net/minecraft/world/entity/projectile/arrow/AbstractArrow.java
++++ b/net/minecraft/world/entity/projectile/arrow/AbstractArrow.java
+@@ -670,22 +_,12 @@
+         return true;
+     }
+ 
+-    public static enum Pickup {,,;
+-
+-        public static final Codec<Pickup> LEGACY_CODEC;
+-        private static final synthetic Pickup[] $VALUES;
+-
+-        public static Pickup[] values() {
+-            return $VALUES.clone();
+-        }
+-
+-        public static Pickup valueOf(mandated String name) {
+-            return Enum.valueOf(Pickup.class, name);
+-        }
+-
+-        private Pickup(synthetic String par_1, synthetic int par_2) {
+-            super(par_1, par_2);
+-        }
++    public static enum Pickup {
++        DISALLOWED,
++        ALLOWED,
++        CREATIVE_ONLY;
++
++        public static final Codec<Pickup> LEGACY_CODEC = Codec.BYTE.xmap(Pickup::byOrdinal, p -> (byte) p.ordinal());
+ 
+         public static Pickup byOrdinal(int ordinal) {
+             if (ordinal < 0 || ordinal > values().length) {
+@@ -693,34 +_,5 @@
+             }
+             return values()[ordinal];
+         }
+-
+-        /* Method skipped as requested
+-        static {
+-            Pickup s_0 = __newobject Pickup;
+-            String s_1 = "DISALLOWED";
+-            int_constant(0) s_2 = 0;
+-            s_0.<init>(s_1, s_2);
+-            Pickup s_3 = s_0;
+-            Pickup.DISALLOWED = s_3;
+-            Pickup s_4 = __newobject Pickup;
+-            String s_5 = "ALLOWED";
+-            int_constant(1) s_6 = 1;
+-            s_4.<init>(s_5, s_6);
+-            Pickup s_7 = s_4;
+-            Pickup.ALLOWED = s_7;
+-            Pickup s_8 = __newobject Pickup;
+-            String s_9 = "CREATIVE_ONLY";
+-            int_constant(2) s_10 = 2;
+-            s_8.<init>(s_9, s_10);
+-            Pickup s_11 = s_8;
+-            Pickup.CREATIVE_ONLY = s_11;
+-            Pickup[] s_12 = $values();
+-            $VALUES = s_12;
+-            PrimitiveCodec s_13 = Codec.BYTE;
+-            Function s_14 = __invokedynamic LambdaMetafactory.metafactory("apply", "(Ljava/lang/Object;)Ljava/lang/Object;", METHOD Pickup.byOrdinal, "(Ljava/lang/Byte;)Lnet/minecraft/world/entity/projectile/arrow/AbstractArrow$Pickup;")();
+-            Function s_15 = __invokedynamic LambdaMetafactory.metafactory("apply", "(Ljava/lang/Object;)Ljava/lang/Object;", METHOD Pickup.lambda$static$0, "(Lnet/minecraft/world/entity/projectile/arrow/AbstractArrow$Pickup;)Ljava/lang/Byte;")();
+-            Codec s_16 = s_13.xmap(s_14, s_15);
+-            LEGACY_CODEC = s_16;
+-        }*/
+     }
+ }

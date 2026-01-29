@@ -1,18 +1,29 @@
 --- a/net/minecraft/world/entity/ai/Brain.java
 +++ b/net/minecraft/world/entity/ai/Brain.java
-@@ -214,13 +_,13 @@
+@@ -91,7 +_,7 @@
+             }
+ 
+             private <T, U> DataResult<MemoryValue<U>> captureRead(final MemoryModuleType<U> type, final DynamicOps<T> ops, final T input) {
+-                return type.getCodec().<DataResult<? extends Codec>>map(DataResult::success).orElseGet(() -> DataResult.error(() -> "No codec for memory: " + type)).<ExpirableValue>flatMap(c -> (DataResult<ExpirableValue>) c.parse(ops, input)).map(v -> new MemoryValue<>(type, Optional.of(v)));
++                return type.getCodec().map(DataResult::success).orElseGet(() -> DataResult.error(() -> "No codec for memory: " + type)).flatMap(c -> c.parse(ops, input)).map(v -> new MemoryValue<>(type, Optional.of(v)));
+             }
+ 
+             public <T> RecordBuilder<T> encode(final Brain<E> input, final DynamicOps<T> ops, final RecordBuilder<T> prefix) {
+@@ -176,7 +_,7 @@
          if (expirableValue == null) {
              throw new IllegalStateException("Unregistered memory fetched: " + type);
-         } else {
--            return expirableValue.map(ExpirableValue::getValue);
-+            return (Optional<U>) expirableValue.map(ExpirableValue::getValue);
          }
+-        return expirableValue.map(ExpirableValue::getValue);
++        return (Optional<U>) expirableValue.map(ExpirableValue::getValue);
      }
  
-     public <U> @Nullable Optional<U> getMemoryInternal(MemoryModuleType<U> type) {
-         Optional<? extends ExpirableValue<?>> expirableValue = this.memories.get(type);
--        return expirableValue == null ? null : expirableValue.map(ExpirableValue::getValue);
-+        return expirableValue == null ? null : (Optional<U>)expirableValue.map(ExpirableValue::getValue);
+     public <U> @Nullable Optional<U> getMemoryInternal(final MemoryModuleType<U> type) {
+@@ -184,7 +_,7 @@
+         if (expirableValue == null) {
+             return null;
+         }
+-        return expirableValue.map(ExpirableValue::getValue);
++        return (Optional<U>) expirableValue.map(ExpirableValue::getValue);
      }
  
-     public <U> long getTimeUntilExpiry(MemoryModuleType<U> type) {
+     public <U> long getTimeUntilExpiry(final MemoryModuleType<U> type) {

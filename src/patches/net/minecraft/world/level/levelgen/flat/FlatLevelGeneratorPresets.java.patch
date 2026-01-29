@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/level/levelgen/flat/FlatLevelGeneratorPresets.java
++++ b/net/minecraft/world/level/levelgen/flat/FlatLevelGeneratorPresets.java
+@@ -52,7 +_,7 @@
+             HolderGetter<StructureSet> structureSets = context.lookup(Registries.STRUCTURE_SET);
+             HolderGetter<PlacedFeature> placedFeatures = context.lookup(Registries.PLACED_FEATURE);
+             HolderGetter<Biome> biomes = context.lookup(Registries.BIOME);
+-            HolderSet.Direct<StructureSet> structuresHolder = HolderSet.direct(structures.stream().map(structureSets::getOrThrow).collect((Collector) Collectors.toList()));
++            HolderSet.Direct<StructureSet> structuresHolder = HolderSet.direct(structures.stream().map(structureSets::getOrThrow).collect(Collectors.toList()));
+             FlatLevelGeneratorSettings generator = new FlatLevelGeneratorSettings(Optional.of(structuresHolder), biomes.getOrThrow(biome), FlatLevelGeneratorSettings.createLakesList(placedFeatures));
+             if (decoration) {
+                 generator.setDecoration();

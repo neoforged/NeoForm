@@ -1,0 +1,11 @@
+--- a/net/minecraft/util/valueproviders/ClampedNormalFloat.java
++++ b/net/minecraft/util/valueproviders/ClampedNormalFloat.java
+@@ -9,7 +_,7 @@
+ 
+ public class ClampedNormalFloat extends FloatProvider {
+ 
+-    public static final MapCodec<ClampedNormalFloat> CODEC = RecordCodecBuilder.mapCodec(i -> i.group(Codec.FLOAT.fieldOf("mean").forGetter(c -> Float.valueOf(c.mean)), Codec.FLOAT.fieldOf("deviation").forGetter(c -> Float.valueOf(c.deviation)), Codec.FLOAT.fieldOf("min").forGetter(c -> Float.valueOf(c.min)), Codec.FLOAT.fieldOf("max").forGetter(c -> Float.valueOf(c.max))).apply(i, ClampedNormalFloat::new)).validate(c -> {
++    public static final MapCodec<ClampedNormalFloat> CODEC = RecordCodecBuilder.<ClampedNormalFloat>mapCodec(i -> i.group(Codec.FLOAT.fieldOf("mean").forGetter(c -> Float.valueOf(c.mean)), Codec.FLOAT.fieldOf("deviation").forGetter(c -> Float.valueOf(c.deviation)), Codec.FLOAT.fieldOf("min").forGetter(c -> Float.valueOf(c.min)), Codec.FLOAT.fieldOf("max").forGetter(c -> Float.valueOf(c.max))).apply(i, ClampedNormalFloat::new)).validate(c -> {
+         if (c.max < c.min) {
+             return DataResult.error(() -> "Max must be larger than min: [" + c.min + ", " + c.max + "]");
+         }

@@ -1,11 +1,20 @@
 --- a/net/minecraft/util/datafix/fixes/LeavesFix.java
 +++ b/net/minecraft/util/datafix/fixes/LeavesFix.java
-@@ -347,7 +_,7 @@
-             return this.isSkippable()
-                 ? section
-                 : section.update(DSL.remainderFinder(), tag -> tag.set("BlockStates", tag.createLongList(Arrays.stream(this.storage.getRaw()))))
--                    .set(this.paletteFinder, this.palette.stream().map(b -> Pair.of(References.BLOCK_STATE.typeName(), b)).collect(Collectors.toList()));
-+                    .set(this.paletteFinder, this.palette.stream().<Pair<String,Dynamic<?>>>map(b -> Pair.of(References.BLOCK_STATE.typeName(), b)).collect(Collectors.toList()));
+@@ -203,7 +_,7 @@
+                 throw new IllegalStateException("Block state type is not what was expected.");
+             }
+             Optional<java.util.List<Pair<String, Dynamic<?>>>> typedPalette = section.getOptional(paletteFinder);
+-            palette = typedPalette.<ImmutableList<Dynamic<?>>>map(p -> p.stream().map(Pair::getSecond).collect((Collector) Collectors.toList())).orElse(ImmutableList.of());
++            palette = typedPalette.<java.util.List<Dynamic<?>>>map(p -> p.stream().map(Pair::getSecond).collect(Collectors.toList())).orElse(ImmutableList.of());
+             Dynamic<?> tag = section.get(DSL.remainderFinder());
+             index = tag.get("Y").asInt(0);
+             readStorage(tag);
+@@ -223,7 +_,7 @@
+             if (isSkippable()) {
+                 return section;
+             }
+-            return section.update(DSL.remainderFinder(), tag -> tag.set("BlockStates", tag.createLongList(Arrays.stream(storage.getRaw())))).set(paletteFinder, palette.stream().map(b -> Pair.of(References.BLOCK_STATE.typeName(), b)).collect((Collector) Collectors.toList()));
++            return section.update(DSL.remainderFinder(), tag -> tag.set("BlockStates", tag.createLongList(Arrays.stream(storage.getRaw())))).set(paletteFinder, palette.stream().map(b -> Pair.<String, Dynamic<?>>of(References.BLOCK_STATE.typeName(), b)).collect(Collectors.toList()));
          }
  
          public boolean isSkippable() {

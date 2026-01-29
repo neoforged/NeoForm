@@ -1,0 +1,494 @@
+--- a/net/minecraft/nbt/NbtOps.java
++++ b/net/minecraft/nbt/NbtOps.java
+@@ -44,474 +_,23 @@
+         return new CompoundTag();
+     }
+ 
+-    /* Method skipped as requested
+-    public <U> U convertTo(final DynamicOps outOps, final Tag input) {
+-        Tag s_0 = input;
+-        Object s_1 = Objects.requireNonNull(s_0);
+-        Tag var_0 = s_0;
+-        int_constant(0) s_2 = 0;
+-        int_constant(0) | int_constant(2) | int_constant(3) | int_constant(4) | int_constant(5) | int_constant(6) | int_constant(7) var_1 = s_2;
+-        goto L1;
+-
+-        L1:
+-        {
+-            Tag s_3 = var_0;
+-            int_constant(0) | int_constant(2) | int_constant(3) | int_constant(4) | int_constant(5) | int_constant(6) | int_constant(7) s_4 = var_1;
+-            int s_5 = __invokedynamic SwitchBootstraps.typeSwitch("typeSwitch", "Lnet/minecraft/nbt/EndTag;", "Lnet/minecraft/nbt/ByteTag;", "Lnet/minecraft/nbt/ShortTag;", "Lnet/minecraft/nbt/IntTag;", "Lnet/minecraft/nbt/LongTag;", "Lnet/minecraft/nbt/FloatTag;", "Lnet/minecraft/nbt/DoubleTag;", "Lnet/minecraft/nbt/ByteArrayTag;", "Lnet/minecraft/nbt/StringTag;", "Lnet/minecraft/nbt/ListTag;", "Lnet/minecraft/nbt/CompoundTag;", "Lnet/minecraft/nbt/IntArrayTag;", "Lnet/minecraft/nbt/LongArrayTag;")(s_3, s_4);
+-            default:
+-                goto L2;
+-            case 0:
+-                goto L3;
+-            case 1:
+-                goto L5;
+-            case 2:
+-                goto L11;
+-            case 3:
+-                goto L17;
+-            case 4:
+-                goto L23;
+-            case 5:
+-                goto L29;
+-            case 6:
+-                goto L35;
+-            case 7:
+-                goto L41;
+-            case 8:
+-                goto L43;
+-            case 9:
+-                goto L47;
+-            case 10:
+-                goto L49;
+-            case 11:
+-                goto L51;
+-            case 12:
+-                goto L53;
+-        }
+-
+-        L2:
+-        {
+-            MatchException s_6 = __newobject MatchException;
+-            null s_7 = null;
+-            null s_8 = null;
+-            s_6.<init>(s_7, s_8);
+-            MatchException s_9 = s_6;
+-            throw s_9;
+-        }
+-
+-        L3:
+-        {
+-            Tag s_10 = var_0;
+-            EndTag s_11 = (EndTag) s_10;
+-            EndTag ignored = s_11;
+-            DynamicOps s_12 = outOps;
+-            Object s_13 = s_12.empty();
+-            goto L55;
+-        }
+-
+-        L5:
+-        {
+-            Tag s_14 = var_0;
+-            ByteTag s_15 = (ByteTag) s_14;
+-            ByteTag var_3 = s_15;
+-            ByteTag s_16 = var_3;
+-            goto L6;
+-        }
+-
+-        L6:
+-        {
+-            try {
+-                byte s_17 = s_16.value();
+-                goto L7;
+-
+-                L12:
+-                {
+-                    short s_28 = ShortTag s_27.value();
+-                    goto L13;
+-                }
+-
+-                L18:
+-                {
+-                    int s_39 = IntTag s_38.value();
+-                    goto L19;
+-                }
+-
+-                L24:
+-                {
+-                    long s_50 = LongTag s_49.value();
+-                    goto L25;
+-                }
+-
+-                L30:
+-                {
+-                    float s_61 = FloatTag s_60.value();
+-                    goto L31;
+-                }
+-
+-                L36:
+-                {
+-                    double s_72 = DoubleTag s_71.value();
+-                    goto L37;
+-                }
+-
+-                L44:
+-                {
+-                    String s_90 = StringTag s_89.value();
+-                    goto L45;
+-                }
+-            } catch (Throwable e_0) {
+-                goto L56;
+-            }
+-        }
+-
+-        L7:
+-        {
+-            byte var_4 = byte s_17;
+-            byte s_18 = var_4;
+-            byte var_5 = s_18;
+-            int_constant(1) s_19 = 1;
+-            if (s_19 == 0) {
+-                goto L9;
+-            }
+-            goto L7_1;
+-        }
+-
+-        L7_1:
+-        {
+-            byte s_20 = var_4;
+-            byte value = s_20;
+-            goto L10;
+-        }
+-
+-        L9:
+-        {
+-            int_constant(2) s_21 = 2;
+-            var_1 = s_21;
+-            goto L1;
+-        }
+-
+-        L10:
+-        {
+-            DynamicOps s_22 = outOps;
+-            byte s_23 = value;
+-            s_13 = s_22.createByte(s_23);
+-            goto L55;
+-        }
+-
+-        L11:
+-        {
+-            Tag s_25 = var_0;
+-            ShortTag s_26 = (ShortTag) s_25;
+-            ShortTag var_8 = s_26;
+-            ShortTag s_27 = var_8;
+-            goto L12;
+-        }
+-
+-        L13:
+-        {
+-            short var_9 = short s_28;
+-            short s_29 = var_9;
+-            short var_10 = s_29;
+-            int_constant(1) s_30 = 1;
+-            if (s_30 == 0) {
+-                goto L15;
+-            }
+-            goto L13_1;
+-        }
+-
+-        L13_1:
+-        {
+-            short s_31 = var_9;
+-            short value$1 = s_31;
+-            goto L16;
+-        }
+-
+-        L15:
+-        {
+-            int_constant(3) s_32 = 3;
+-            var_1 = s_32;
+-            goto L1;
+-        }
+-
+-        L16:
+-        {
+-            DynamicOps s_33 = outOps;
+-            short s_34 = value$1;
+-            s_13 = s_33.createShort(s_34);
+-            goto L55;
+-        }
+-
+-        L17:
+-        {
+-            Tag s_36 = var_0;
+-            IntTag s_37 = (IntTag) s_36;
+-            IntTag var_13 = s_37;
+-            IntTag s_38 = var_13;
+-            goto L18;
+-        }
+-
+-        L19:
+-        {
+-            int var_14 = int s_39;
+-            int s_40 = var_14;
+-            int var_15 = s_40;
+-            int_constant(1) s_41 = 1;
+-            if (s_41 == 0) {
+-                goto L21;
+-            }
+-            goto L19_1;
+-        }
+-
+-        L19_1:
+-        {
+-            int s_42 = var_14;
+-            int value$2 = s_42;
+-            goto L22;
+-        }
+-
+-        L21:
+-        {
+-            int_constant(4) s_43 = 4;
+-            var_1 = s_43;
+-            goto L1;
+-        }
+-
+-        L22:
+-        {
+-            DynamicOps s_44 = outOps;
+-            int s_45 = value$2;
+-            s_13 = s_44.createInt(s_45);
+-            goto L55;
+-        }
+-
+-        L23:
+-        {
+-            Tag s_47 = var_0;
+-            LongTag s_48 = (LongTag) s_47;
+-            LongTag var_18 = s_48;
+-            LongTag s_49 = var_18;
+-            goto L24;
+-        }
+-
+-        L25:
+-        {
+-            long var_19 = long s_50;
+-            long s_51 = var_19;
+-            long var_20 = s_51;
+-            int_constant(1) s_52 = 1;
+-            if (s_52 == 0) {
+-                goto L27;
+-            }
+-            goto L25_1;
+-        }
+-
+-        L25_1:
+-        {
+-            long s_53 = var_19;
+-            long value$3 = s_53;
+-            goto L28;
+-        }
+-
+-        L27:
+-        {
+-            int_constant(5) s_54 = 5;
+-            var_1 = s_54;
+-            goto L1;
+-        }
+-
+-        L28:
+-        {
+-            DynamicOps s_55 = outOps;
+-            long s_56 = value$3;
+-            s_13 = s_55.createLong(s_56);
+-            goto L55;
+-        }
+-
+-        L29:
+-        {
+-            Tag s_58 = var_0;
+-            FloatTag s_59 = (FloatTag) s_58;
+-            FloatTag var_23 = s_59;
+-            FloatTag s_60 = var_23;
+-            goto L30;
+-        }
+-
+-        L31:
+-        {
+-            float var_24 = float s_61;
+-            float s_62 = var_24;
+-            float var_25 = s_62;
+-            int_constant(1) s_63 = 1;
+-            if (s_63 == 0) {
+-                goto L33;
+-            }
+-            goto L31_1;
+-        }
+-
+-        L31_1:
+-        {
+-            float s_64 = var_24;
+-            float value$4 = s_64;
+-            goto L34;
+-        }
+-
+-        L33:
+-        {
+-            int_constant(6) s_65 = 6;
+-            var_1 = s_65;
+-            goto L1;
+-        }
+-
+-        L34:
+-        {
+-            DynamicOps s_66 = outOps;
+-            float s_67 = value$4;
+-            s_13 = s_66.createFloat(s_67);
+-            goto L55;
+-        }
+-
+-        L35:
+-        {
+-            Tag s_69 = var_0;
+-            DoubleTag s_70 = (DoubleTag) s_69;
+-            DoubleTag var_28 = s_70;
+-            DoubleTag s_71 = var_28;
+-            goto L36;
+-        }
+-
+-        L37:
+-        {
+-            double var_29 = double s_72;
+-            double s_73 = var_29;
+-            double var_30 = s_73;
+-            int_constant(1) s_74 = 1;
+-            if (s_74 == 0) {
+-                goto L39;
+-            }
+-            goto L37_1;
+-        }
+-
+-        L37_1:
+-        {
+-            double s_75 = var_29;
+-            double value$5 = s_75;
+-            goto L40;
+-        }
+-
+-        L39:
+-        {
+-            int_constant(7) s_76 = 7;
+-            var_1 = s_76;
+-            goto L1;
+-        }
+-
+-        L40:
+-        {
+-            DynamicOps s_77 = outOps;
+-            double s_78 = value$5;
+-            s_13 = s_77.createDouble(s_78);
+-            goto L55;
+-        }
+-
+-        L41:
+-        {
+-            Tag s_80 = var_0;
+-            ByteArrayTag s_81 = (ByteArrayTag) s_80;
+-            ByteArrayTag byteArrayTag = s_81;
+-            DynamicOps s_82 = outOps;
+-            ByteArrayTag s_83 = byteArrayTag;
+-            byte[] s_84 = s_83.getAsByteArray();
+-            ByteBuffer s_85 = ByteBuffer.wrap(s_84);
+-            s_13 = s_82.createByteList(s_85);
+-            goto L55;
+-        }
+-
+-        L43:
+-        {
+-            Tag s_87 = var_0;
+-            StringTag s_88 = (StringTag) s_87;
+-            StringTag var_34 = s_88;
+-            StringTag s_89 = var_34;
+-            goto L44;
+-        }
+-
+-        L45:
+-        {
+-            String var_35 = String s_90;
+-            String s_91 = var_35;
+-            String value$6 = s_91;
+-            DynamicOps s_92 = outOps;
+-            String s_93 = value$6;
+-            s_13 = s_92.createString(s_93);
+-            goto L55;
+-        }
+-
+-        L47:
+-        {
+-            Tag s_95 = var_0;
+-            ListTag s_96 = (ListTag) s_95;
+-            ListTag listTag = s_96;
+-            NbtOps s_97 = this;
+-            DynamicOps s_98 = outOps;
+-            ListTag s_99 = listTag;
+-            s_13 = s_97.convertList(s_98, s_99);
+-            goto L55;
+-        }
+-
+-        L49:
+-        {
+-            Tag s_101 = var_0;
+-            CompoundTag s_102 = (CompoundTag) s_101;
+-            CompoundTag compoundTag = s_102;
+-            NbtOps s_103 = this;
+-            DynamicOps s_104 = outOps;
+-            CompoundTag s_105 = compoundTag;
+-            s_13 = s_103.convertMap(s_104, s_105);
+-            goto L55;
+-        }
+-
+-        L51:
+-        {
+-            Tag s_107 = var_0;
+-            IntArrayTag s_108 = (IntArrayTag) s_107;
+-            IntArrayTag intArrayTag = s_108;
+-            DynamicOps s_109 = outOps;
+-            IntArrayTag s_110 = intArrayTag;
+-            int[] s_111 = s_110.getAsIntArray();
+-            IntStream s_112 = Arrays.stream(s_111);
+-            s_13 = s_109.createIntList(s_112);
+-            goto L55;
+-        }
+-
+-        L53:
+-        {
+-            Tag s_114 = var_0;
+-            LongArrayTag s_115 = (LongArrayTag) s_114;
+-            LongArrayTag longArrayTag = s_115;
+-            DynamicOps s_116 = outOps;
+-            LongArrayTag s_117 = longArrayTag;
+-            long[] s_118 = s_117.getAsLongArray();
+-            LongStream s_119 = Arrays.stream(s_118);
+-            s_13 = s_116.createLongList(s_119);
+-            goto L55;
+-        }
+-
+-        L55:
+-        {
+-            return s_13;
+-        }
+-
+-        L56:
+-        {
+-            Throwable var_41 = Throwable e_0;
+-            MatchException s_121 = __newobject MatchException;
+-            Throwable s_122 = var_41;
+-            String s_123 = s_122.toString();
+-            Throwable s_124 = var_41;
+-            s_121.<init>(s_123, s_124);
+-            MatchException s_125 = s_121;
+-            throw s_125;
+-        }
+-    }*/
++    public <U> U convertTo(final DynamicOps<U> outOps, final Tag input) {
++        return switch (input) {
++            case EndTag ignored -> outOps.empty();
++            case ByteTag(byte value) -> outOps.createByte(value);
++            case ShortTag(short value) -> outOps.createShort(value);
++            case IntTag(int value) -> outOps.createInt(value);
++            case LongTag(long value) -> outOps.createLong(value);
++            case FloatTag(float value) -> outOps.createFloat(value);
++            case DoubleTag(double value) -> outOps.createDouble(value);
++            case ByteArrayTag byteArrayTag -> outOps.createByteList(ByteBuffer.wrap(byteArrayTag.getAsByteArray()));
++            case StringTag(String value) -> outOps.createString(value);
++            case ListTag listTag -> this.convertList(outOps, listTag);
++            case CompoundTag compoundTag -> this.convertMap(outOps, compoundTag);
++            case IntArrayTag intArrayTag -> outOps.createIntList(Arrays.stream(intArrayTag.getAsIntArray()));
++            case LongArrayTag longArrayTag -> outOps.createLongList(Arrays.stream(longArrayTag.getAsLongArray()));
++        };
++    }
+ 
+     public DataResult<Number> getNumberValue(final Tag input) {
+         return input.asNumber().<DataResult<Number>>map(DataResult::success).orElseGet(() -> DataResult.error(() -> "Not a number"));

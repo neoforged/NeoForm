@@ -1,0 +1,18 @@
+--- a/net/minecraft/client/gui/components/MultiLineEditBox.java
++++ b/net/minecraft/client/gui/components/MultiLineEditBox.java
+@@ -34,14 +_,8 @@
+     private long focusedTime = Util.getMillis();
+ 
+     private MultiLineEditBox(final Font font, final int x, final int y, final int width, final int height, final Component placeholder, final Component narration, final int textColor, final boolean textShadow, final int cursorColor, final boolean showBackground, final boolean showDecorations) {
+-        MultiLineEditBox s_0 = this;
+-        int s_1 = x;
+-        int s_2 = y;
+-        int s_3 = width;
+-        int s_4 = height;
+-        Component s_5 = narration;
++        super(x, y, width, height, narration, AbstractScrollArea.defaultSettings((int) (9 / 2.0)), showBackground, showDecorations);
+         Objects.requireNonNull(font);
+-        s_0.super(s_1, s_2, s_3, s_4, s_5, AbstractScrollArea.defaultSettings((int) (9 / 2.0)), showBackground, showDecorations);
+         this.font = font;
+         this.textShadow = textShadow;
+         this.textColor = textColor;

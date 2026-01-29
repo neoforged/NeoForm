@@ -1,11 +1,19 @@
 --- a/net/minecraft/server/jsonrpc/methods/DiscoveryService.java
 +++ b/net/minecraft/server/jsonrpc/methods/DiscoveryService.java
-@@ -40,7 +_,7 @@
+@@ -45,12 +_,11 @@
  
-         private static MapCodec<DiscoveryService.DiscoverComponents> typedSchema() {
-             return RecordCodecBuilder.mapCodec(
--                i -> i.group(Codec.unboundedMap(Codec.STRING, Schema.CODEC).fieldOf("schemas").forGetter(DiscoveryService.DiscoverComponents::schemas))
-+                i -> i.group(Codec.unboundedMap(Codec.STRING, (Codec<Schema<?>>) Schema.CODEC).fieldOf("schemas").forGetter(DiscoveryService.DiscoverComponents::schemas))
-                     .apply(i, DiscoveryService.DiscoverComponents::new)
-             );
-         }
+         public static final MapCodec<DiscoverComponents> CODEC = typedSchema();
+ 
+-        /* Method skipped as requested
+         private static MapCodec<DiscoverComponents> typedSchema() {
+-            Function s_0 = __invokedynamic LambdaMetafactory.metafactory("apply", "(Ljava/lang/Object;)Ljava/lang/Object;", METHOD DiscoverComponents.lambda$typedSchema$0, "(Lcom/mojang/serialization/codecs/RecordCodecBuilder$Instance;)Lcom/mojang/datafixers/kinds/App;")();
+-            MapCodec s_1 = RecordCodecBuilder.mapCodec(s_0);
+-            return s_1;
+-        }*/
++            return RecordCodecBuilder.mapCodec(i -> i.group(
++                    Codec.<String, Schema<?>>unboundedMap(Codec.STRING, (Codec<Schema<?>>) Schema.CODEC).fieldOf("schemas").forGetter(DiscoverComponents::schemas)
++            ).apply(i, DiscoverComponents::new));
++        }
+     }
+ 
+     public record DiscoverInfo(String title, String version) {

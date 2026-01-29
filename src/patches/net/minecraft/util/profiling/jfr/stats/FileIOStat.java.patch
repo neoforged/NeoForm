@@ -1,0 +1,11 @@
+--- a/net/minecraft/util/profiling/jfr/stats/FileIOStat.java
++++ b/net/minecraft/util/profiling/jfr/stats/FileIOStat.java
+@@ -12,7 +_,7 @@
+ 
+     public static Summary summary(final Duration recordingDuration, final List<FileIOStat> ioStats) {
+         long totalBytes = ioStats.stream().mapToLong(it -> it.bytes).sum();
+-        return new Summary(totalBytes, (double) totalBytes / (double) recordingDuration.getSeconds(), (long) ioStats.size(), (double) ioStats.size() / (double) recordingDuration.getSeconds(), ioStats.stream().map(FileIOStat::duration).reduce(Duration.ZERO, Duration::plus), ioStats.stream().filter(it -> it.path != null).collect(Collectors.groupingBy(stat -> stat.path, Collectors.summingLong(it -> it.bytes))).entrySet().stream().sorted((Comparator) Map.Entry.comparingByValue().reversed()).map(e -> Pair.of(e.getKey(), e.getValue())).limit(10L).toList());
++        return new Summary(totalBytes, (double) totalBytes / (double) recordingDuration.getSeconds(), (long) ioStats.size(), (double) ioStats.size() / (double) recordingDuration.getSeconds(), ioStats.stream().map(FileIOStat::duration).reduce(Duration.ZERO, Duration::plus), ioStats.stream().filter(it -> it.path != null).collect(Collectors.groupingBy(stat -> stat.path, Collectors.summingLong(it -> it.bytes))).entrySet().stream().sorted(Map.Entry.<String, Long>comparingByValue().reversed()).map(e -> Pair.of(e.getKey(), e.getValue())).limit(10L).toList());
+     }
+ 
+     public record Summary(long totalBytes, double bytesPerSecond, long counts, double countsPerSecond, Duration timeSpentInIO, List<Pair<String, Long>> topTenContributorsByTotalBytes) {

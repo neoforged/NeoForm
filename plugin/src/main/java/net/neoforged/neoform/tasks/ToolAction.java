@@ -154,7 +154,10 @@ public abstract class ToolAction extends DefaultTask {
             var dependencies = project.getDependencyFactory();
             spec.getDependencies().addAllLater(settings.getClasspath().map(i -> i.stream().<Dependency>map(notation -> {
                 var dependency = dependencies.create(notation);
-                dependency.setTransitive(false);
+                // TODO: hacky!
+                if (!taskName.equals("decompile")) {
+                    dependency.setTransitive(false);
+                }
                 return dependency;
             }).toList()));
         });

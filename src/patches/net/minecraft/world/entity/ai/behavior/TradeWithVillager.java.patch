@@ -1,0 +1,18 @@
+--- a/net/minecraft/world/entity/ai/behavior/TradeWithVillager.java
++++ b/net/minecraft/world/entity/ai/behavior/TradeWithVillager.java
+@@ -33,13 +_,13 @@
+     }
+ 
+     protected void start(final ServerLevel level, final Villager myBody, final long timestamp) {
+-        Villager target = myBody.getBrain().<Villager>getMemory((MemoryModuleType) MemoryModuleType.INTERACTION_TARGET).get();
++        Villager target = (Villager) myBody.getBrain().getMemory(MemoryModuleType.INTERACTION_TARGET).get();
+         BehaviorUtils.lockGazeAndWalkToEachOther(myBody, target, 0.5F, 2);
+         trades = figureOutWhatIAmWillingToTrade(myBody, target);
+     }
+ 
+     protected void tick(final ServerLevel level, final Villager body, final long timestamp) {
+-        Villager target = body.getBrain().<Villager>getMemory((MemoryModuleType) MemoryModuleType.INTERACTION_TARGET).get();
++        Villager target = (Villager) body.getBrain().getMemory(MemoryModuleType.INTERACTION_TARGET).get();
+         if (body.distanceToSqr(target) > 5.0) {
+             return;
+         }

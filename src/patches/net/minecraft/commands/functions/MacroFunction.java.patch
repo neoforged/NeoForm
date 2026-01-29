@@ -1,51 +1,344 @@
 --- a/net/minecraft/commands/functions/MacroFunction.java
 +++ b/net/minecraft/commands/functions/MacroFunction.java
-@@ -88,43 +_,33 @@
-         return switch (tag) {
-             case FloatTag(float var41) -> {
-                 float var25 = var41;
--                if (true) {
-+                {
-                     yield DECIMAL_FORMAT.format(var25);
-                 }
+@@ -74,331 +_,17 @@
+         return function;
+     }
+ 
+-    /* Method skipped as requested
+     private static String stringify(final Tag tag) {
+-        Tag s_0 = tag;
+-        Object s_1 = Objects.requireNonNull(s_0);
+-        Tag var_0 = s_0;
+-        int_constant(0) s_2 = 0;
+-        int_constant(0) | int_constant(1) | int_constant(2) | int_constant(3) | int_constant(4) | int_constant(5) var_1 = s_2;
+-        goto L1;
 -
--                byte var45 = 1;
-             }
-             case DoubleTag(double var39) -> {
-                 double var26 = var39;
--                if (true) {
-+                {
-                     yield DECIMAL_FORMAT.format(var26);
-                 }
+-        L1:
+-        {
+-            Tag s_3 = var_0;
+-            int_constant(0) | int_constant(1) | int_constant(2) | int_constant(3) | int_constant(4) | int_constant(5) s_4 = var_1;
+-            int s_5 = __invokedynamic SwitchBootstraps.typeSwitch("typeSwitch", "Lnet/minecraft/nbt/FloatTag;", "Lnet/minecraft/nbt/DoubleTag;", "Lnet/minecraft/nbt/ByteTag;", "Lnet/minecraft/nbt/ShortTag;", "Lnet/minecraft/nbt/LongTag;", "Lnet/minecraft/nbt/StringTag;")(s_3, s_4);
+-            case 0:
+-                goto L2;
+-            case 1:
+-                goto L8;
+-            case 2:
+-                goto L14;
+-            case 3:
+-                goto L20;
+-            case 4:
+-                goto L26;
+-            case 5:
+-                goto L32;
+-            default:
+-                goto L36;
+-        }
 -
--                byte var44 = 2;
-             }
-             case ByteTag(byte var37) -> {
-                 byte var27 = var37;
--                if (true) {
-+                {
-                     yield String.valueOf((int)var27);
-                 }
+-        L2:
+-        {
+-            Tag s_6 = var_0;
+-            FloatTag s_7 = (FloatTag) s_6;
+-            FloatTag var_2 = s_7;
+-            FloatTag s_8 = var_2;
+-            goto L3;
+-        }
 -
--                byte var43 = 3;
-             }
-             case ShortTag(short var35) -> {
-                 short var28 = var35;
--                if (true) {
-+                {
-                     yield String.valueOf((int)var28);
-                 }
+-        L3:
+-        {
+-            try {
+-                float s_9 = s_8.value();
+-                goto L4;
 -
--                byte var42 = 4;
-             }
-             case LongTag(long var33) -> {
-                 long var29 = var33;
--                if (true) {
-+                {
-                     yield String.valueOf(var29);
-                 }
+-                L9:
+-                {
+-                    double s_21 = DoubleTag s_20.value();
+-                    goto L10;
+-                }
 -
--                byte var2 = 5;
-             }
-             case StringTag(String var17) -> var17;
-             default -> tag.toString();
+-                L15:
+-                {
+-                    byte s_32 = ByteTag s_31.value();
+-                    goto L16;
+-                }
+-
+-                L21:
+-                {
+-                    short s_42 = ShortTag s_41.value();
+-                    goto L22;
+-                }
+-
+-                L27:
+-                {
+-                    long s_52 = LongTag s_51.value();
+-                    goto L28;
+-                }
+-
+-                L33:
+-                {
+-                    String s_62 = StringTag s_61.value();
+-                    goto L34;
+-                }
+-            } catch (Throwable e_0) {
+-                goto L38;
+-            }
+-        }
+-
+-        L4:
+-        {
+-            float var_3 = float s_9;
+-            float s_10 = var_3;
+-            float var_4 = s_10;
+-            int_constant(1) s_11 = 1;
+-            if (s_11 == 0) {
+-                goto L6;
+-            }
+-            goto L4_1;
+-        }
+-
+-        L4_1:
+-        {
+-            float s_12 = var_3;
+-            float value = s_12;
+-            goto L7;
+-        }
+-
+-        L6:
+-        {
+-            int_constant(1) s_13 = 1;
+-            var_1 = s_13;
+-            goto L1;
+-        }
+-
+-        L7:
+-        {
+-            DecimalFormat s_14 = DECIMAL_FORMAT;
+-            float s_15 = value;
+-            double s_16 = (double) s_15;
+-            String s_17 = s_14.format(s_16);
+-            goto L37;
+-        }
+-
+-        L8:
+-        {
+-            Tag s_18 = var_0;
+-            DoubleTag s_19 = (DoubleTag) s_18;
+-            DoubleTag var_7 = s_19;
+-            DoubleTag s_20 = var_7;
+-            goto L9;
+-        }
+-
+-        L10:
+-        {
+-            double var_8 = double s_21;
+-            double s_22 = var_8;
+-            double var_9 = s_22;
+-            int_constant(1) s_23 = 1;
+-            if (s_23 == 0) {
+-                goto L12;
+-            }
+-            goto L10_1;
+-        }
+-
+-        L10_1:
+-        {
+-            double s_24 = var_8;
+-            double value$1 = s_24;
+-            goto L13;
+-        }
+-
+-        L12:
+-        {
+-            int_constant(2) s_25 = 2;
+-            var_1 = s_25;
+-            goto L1;
+-        }
+-
+-        L13:
+-        {
+-            DecimalFormat s_26 = DECIMAL_FORMAT;
+-            double s_27 = value$1;
+-            s_17 = s_26.format(s_27);
+-            goto L37;
+-        }
+-
+-        L14:
+-        {
+-            Tag s_29 = var_0;
+-            ByteTag s_30 = (ByteTag) s_29;
+-            ByteTag var_12 = s_30;
+-            ByteTag s_31 = var_12;
+-            goto L15;
+-        }
+-
+-        L16:
+-        {
+-            byte var_13 = byte s_32;
+-            byte s_33 = var_13;
+-            byte var_14 = s_33;
+-            int_constant(1) s_34 = 1;
+-            if (s_34 == 0) {
+-                goto L18;
+-            }
+-            goto L16_1;
+-        }
+-
+-        L16_1:
+-        {
+-            byte s_35 = var_13;
+-            byte value$2 = s_35;
+-            goto L19;
+-        }
+-
+-        L18:
+-        {
+-            int_constant(3) s_36 = 3;
+-            var_1 = s_36;
+-            goto L1;
+-        }
+-
+-        L19:
+-        {
+-            byte s_37 = value$2;
+-            s_17 = String.valueOf(s_37);
+-            goto L37;
+-        }
+-
+-        L20:
+-        {
+-            Tag s_39 = var_0;
+-            ShortTag s_40 = (ShortTag) s_39;
+-            ShortTag var_17 = s_40;
+-            ShortTag s_41 = var_17;
+-            goto L21;
+-        }
+-
+-        L22:
+-        {
+-            short var_18 = short s_42;
+-            short s_43 = var_18;
+-            short var_19 = s_43;
+-            int_constant(1) s_44 = 1;
+-            if (s_44 == 0) {
+-                goto L24;
+-            }
+-            goto L22_1;
+-        }
+-
+-        L22_1:
+-        {
+-            short s_45 = var_18;
+-            short value$3 = s_45;
+-            goto L25;
+-        }
+-
+-        L24:
+-        {
+-            int_constant(4) s_46 = 4;
+-            var_1 = s_46;
+-            goto L1;
+-        }
+-
+-        L25:
+-        {
+-            short s_47 = value$3;
+-            s_17 = String.valueOf(s_47);
+-            goto L37;
+-        }
+-
+-        L26:
+-        {
+-            Tag s_49 = var_0;
+-            LongTag s_50 = (LongTag) s_49;
+-            LongTag var_22 = s_50;
+-            LongTag s_51 = var_22;
+-            goto L27;
+-        }
+-
+-        L28:
+-        {
+-            long var_23 = long s_52;
+-            long s_53 = var_23;
+-            long var_24 = s_53;
+-            int_constant(1) s_54 = 1;
+-            if (s_54 == 0) {
+-                goto L30;
+-            }
+-            goto L28_1;
+-        }
+-
+-        L28_1:
+-        {
+-            long s_55 = var_23;
+-            long value$4 = s_55;
+-            goto L31;
+-        }
+-
+-        L30:
+-        {
+-            int_constant(5) s_56 = 5;
+-            var_1 = s_56;
+-            goto L1;
+-        }
+-
+-        L31:
+-        {
+-            long s_57 = value$4;
+-            s_17 = String.valueOf(s_57);
+-            goto L37;
+-        }
+-
+-        L32:
+-        {
+-            Tag s_59 = var_0;
+-            StringTag s_60 = (StringTag) s_59;
+-            StringTag var_27 = s_60;
+-            StringTag s_61 = var_27;
+-            goto L33;
+-        }
+-
+-        L34:
+-        {
+-            String var_28 = String s_62;
+-            String s_63 = var_28;
+-            String value$5 = s_63;
+-            s_17 = value$5;
+-            goto L37;
+-        }
+-
+-        L36:
+-        {
+-            Tag s_65 = tag;
+-            s_17 = s_65.toString();
+-            goto L37;
+-        }
+-
+-        L37:
+-        {
+-            return s_17;
+-        }
+-
+-        L38:
+-        {
+-            Throwable var_30 = Throwable e_0;
+-            MatchException s_67 = __newobject MatchException;
+-            Throwable s_68 = var_30;
+-            String s_69 = s_68.toString();
+-            Throwable s_70 = var_30;
+-            s_67.<init>(s_69, s_70);
+-            MatchException s_71 = s_67;
+-            throw s_71;
+-        }
+-    }*/
++        return switch (tag) {
++            case FloatTag(float value) -> DECIMAL_FORMAT.format(value);
++            case DoubleTag(double value) -> DECIMAL_FORMAT.format(value);
++            case ByteTag(byte value) -> String.valueOf(value);
++            case ShortTag(short value) -> String.valueOf(value);
++            case LongTag(long value) -> String.valueOf(value);
++            case StringTag(String value) -> value;
++            default -> tag.toString();
++        };
++    }
+ 
+     private static void lookupValues(final List<String> values, final IntList indicesToSelect, final List<String> selectedValuesOutput) {
+         selectedValuesOutput.clear();

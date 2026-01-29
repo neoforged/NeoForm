@@ -1,0 +1,11 @@
+--- a/net/minecraft/client/gui/font/providers/BitmapProvider.java
++++ b/net/minecraft/client/gui/font/providers/BitmapProvider.java
+@@ -69,7 +_,7 @@
+             }
+             return result;
+         }).validate(Definition::validateDimensions);
+-        public static final MapCodec<Definition> CODEC = RecordCodecBuilder.mapCodec(i -> i.group(Identifier.CODEC.fieldOf("file").forGetter(Definition::file), Codec.INT.optionalFieldOf("height", Integer.valueOf(8)).forGetter(Definition::height), Codec.INT.fieldOf("ascent").forGetter(Definition::ascent), CODEPOINT_GRID_CODEC.fieldOf("chars").forGetter(Definition::codepointGrid)).apply(i, Definition::new)).validate(Definition::validate);
++        public static final MapCodec<Definition> CODEC = RecordCodecBuilder.<Definition>mapCodec(i -> i.group(Identifier.CODEC.fieldOf("file").forGetter(Definition::file), Codec.INT.optionalFieldOf("height", Integer.valueOf(8)).forGetter(Definition::height), Codec.INT.fieldOf("ascent").forGetter(Definition::ascent), CODEPOINT_GRID_CODEC.fieldOf("chars").forGetter(Definition::codepointGrid)).apply(i, Definition::new)).validate(Definition::validate);
+ 
+         private static DataResult<int[][]> validateDimensions(final int[][] grid) {
+             int lineCount = grid.length;

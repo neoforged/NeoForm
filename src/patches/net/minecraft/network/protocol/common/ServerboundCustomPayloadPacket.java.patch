@@ -1,0 +1,11 @@
+--- a/net/minecraft/network/protocol/common/ServerboundCustomPayloadPacket.java
++++ b/net/minecraft/network/protocol/common/ServerboundCustomPayloadPacket.java
+@@ -13,7 +_,7 @@
+ public record ServerboundCustomPayloadPacket(CustomPacketPayload payload) implements Packet<ServerCommonPacketListener> {
+ 
+     private static final int MAX_PAYLOAD_SIZE = 32767;
+-    public static final StreamCodec<FriendlyByteBuf, ServerboundCustomPayloadPacket> STREAM_CODEC = CustomPacketPayload.codec(id -> DiscardedPayload.codec(id, 32767), Util.make(Lists.newArrayList(new CustomPacketPayload.TypeAndCodec[] { new CustomPacketPayload.TypeAndCodec<>(BrandPayload.TYPE, BrandPayload.STREAM_CODEC) }), types -> { })).map(ServerboundCustomPayloadPacket::new, ServerboundCustomPayloadPacket::payload);
++    public static final StreamCodec<FriendlyByteBuf, ServerboundCustomPayloadPacket> STREAM_CODEC = CustomPacketPayload.codec(id -> DiscardedPayload.codec(id, 32767), Util.make(Lists.newArrayList(new CustomPacketPayload.TypeAndCodec<>(BrandPayload.TYPE, BrandPayload.STREAM_CODEC)), types -> { })).map(ServerboundCustomPayloadPacket::new, ServerboundCustomPayloadPacket::payload);
+ 
+     public PacketType<ServerboundCustomPayloadPacket> type() {
+         return CommonPacketTypes.SERVERBOUND_CUSTOM_PAYLOAD;

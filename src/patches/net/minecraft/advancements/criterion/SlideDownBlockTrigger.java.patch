@@ -1,0 +1,15 @@
+--- a/net/minecraft/advancements/criterion/SlideDownBlockTrigger.java
++++ b/net/minecraft/advancements/criterion/SlideDownBlockTrigger.java
+@@ -24,10 +_,10 @@
+ 
+     public record TriggerInstance(Optional<ContextAwarePredicate> player, Optional<Holder<Block>> block, Optional<StatePropertiesPredicate> state) implements SimpleCriterionTrigger.SimpleInstance {
+ 
+-        public static final Codec<TriggerInstance> CODEC = RecordCodecBuilder.create(i -> i.group(EntityPredicate.ADVANCEMENT_CODEC.optionalFieldOf("player").forGetter(TriggerInstance::player), BuiltInRegistries.BLOCK.holderByNameCodec().optionalFieldOf("block").forGetter(TriggerInstance::block), StatePropertiesPredicate.CODEC.optionalFieldOf("state").forGetter(TriggerInstance::state)).apply(i, TriggerInstance::new)).validate(TriggerInstance::validate);
++        public static final Codec<TriggerInstance> CODEC = RecordCodecBuilder.<TriggerInstance>create(i -> i.group(EntityPredicate.ADVANCEMENT_CODEC.optionalFieldOf("player").forGetter(TriggerInstance::player), BuiltInRegistries.BLOCK.holderByNameCodec().optionalFieldOf("block").forGetter(TriggerInstance::block), StatePropertiesPredicate.CODEC.optionalFieldOf("state").forGetter(TriggerInstance::state)).apply(i, TriggerInstance::new)).validate(TriggerInstance::validate);
+ 
+         private static DataResult<TriggerInstance> validate(final TriggerInstance trigger) {
+-            return trigger.block.flatMap(block -> trigger.state.flatMap(state -> state.checkState(block.value().getStateDefinition())).map(property -> DataResult.error(() -> "Block" + block + " has no property " + property))).orElseGet(() -> DataResult.success(trigger));
++            return trigger.block.flatMap(block -> trigger.state.flatMap(state -> state.checkState(block.value().getStateDefinition())).map(property -> DataResult.<TriggerInstance>error(() -> "Block" + block + " has no property " + property))).orElseGet(() -> DataResult.success(trigger));
+         }
+ 
+         public static Criterion<TriggerInstance> slidesDownBlock(final Block block) {

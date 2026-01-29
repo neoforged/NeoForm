@@ -1,11 +1,185 @@
 --- a/net/minecraft/client/gui/screens/inventory/BookViewScreen.java
 +++ b/net/minecraft/client/gui/screens/inventory/BookViewScreen.java
-@@ -281,7 +_,7 @@
-                 return new BookViewScreen.BookAccess(writtenContent.getPages(filterEnabled));
-             } else {
-                 WritableBookContent writableContent = itemStack.get(DataComponents.WRITABLE_BOOK_CONTENT);
--                return writableContent != null ? new BookViewScreen.BookAccess(writableContent.getPages(filterEnabled).map(Component::literal).toList()) : null;
-+                return writableContent != null ? new BookViewScreen.BookAccess(writableContent.getPages(filterEnabled).<Component>map(Component::literal).toList()) : null;
-             }
-         }
+@@ -219,162 +_,27 @@
+         return super.mouseClicked(event, doubleClick);
+     }
+ 
+-    /* Method skipped as requested
+     protected boolean handleClickEvent(final @Nullable ClickEvent event) {
+-        ClickEvent s_0 = event;
+-        if (s_0 != null) {
+-            goto L2;
+-        }
+-        goto L0_1;
+-
+-        L0_1:
+-        {
+-            int_constant(0) s_1 = 0;
+-            return s_1;
+-        }
+-
+-        L2:
+-        {
+-            BookViewScreen s_2 = this;
+-            Minecraft s_3 = s_2.minecraft;
+-            LocalPlayer s_4 = s_3.player;
+-            String s_5 = "Player not available";
+-            Object s_6 = Objects.requireNonNull(s_4, s_5);
+-            LocalPlayer s_7 = (LocalPlayer) s_6;
+-            LocalPlayer player = s_7;
+-            ClickEvent s_8 = event;
+-            Object s_9 = Objects.requireNonNull(s_8);
+-            ClickEvent var_1 = s_8;
+-            int_constant(0) s_10 = 0;
+-            int_constant(0) | int_constant(1) var_2 = s_10;
+-            goto L4;
+-        }
+-
+-        L4:
+-        {
+-            ClickEvent s_11 = var_1;
+-            int_constant(0) | int_constant(1) s_12 = var_2;
+-            int s_13 = __invokedynamic SwitchBootstraps.typeSwitch("typeSwitch", "Lnet/minecraft/network/chat/ClickEvent$ChangePage;", "Lnet/minecraft/network/chat/ClickEvent$RunCommand;")(s_11, s_12);
+-            case 0:
+-                goto L5;
+-            case 1:
+-                goto L11;
+-            default:
+-                goto L17;
+-        }
+-
+-        L5:
+-        {
+-            ClickEvent s_14 = var_1;
+-            ClickEvent.ChangePage s_15 = (ClickEvent.ChangePage) s_14;
+-            ClickEvent.ChangePage var_3 = s_15;
+-            ClickEvent.ChangePage s_16 = var_3;
+-            goto L6;
+-        }
+-
+-        L6:
+-        {
+-            try {
+-                int s_17 = s_16.page();
+-                goto L7;
+-
+-                L12:
+-                {
+-                    String s_30 = ClickEvent.RunCommand s_29.command();
+-                    goto L13;
+-                }
+-            } catch (Throwable e_0) {
+-                goto L19;
+-            }
+-        }
+-
+-        L7:
+-        {
+-            int var_4 = int s_17;
+-            int s_18 = var_4;
+-            int var_5 = s_18;
+-            int_constant(1) s_19 = 1;
+-            if (s_19 == 0) {
+-                goto L9;
+-            }
+-            goto L7_1;
+-        }
+-
+-        L7_1:
+-        {
+-            int s_20 = var_4;
+-            int page = s_20;
+-            goto L10;
+-        }
+-
+-        L9:
+-        {
+-            int_constant(1) s_21 = 1;
+-            var_2 = s_21;
+-            goto L4;
+-        }
+-
+-        L10:
+-        {
+-            BookViewScreen s_22 = this;
+-            int s_23 = page;
+-            int_constant(1) s_24 = 1;
+-            int s_25 = s_23 - s_24;
+-            boolean s_26 = s_22.forcePage(s_25);
+-            goto L18;
+-        }
+-
+-        L11:
+-        {
+-            ClickEvent s_27 = var_1;
+-            ClickEvent.RunCommand s_28 = (ClickEvent.RunCommand) s_27;
+-            ClickEvent.RunCommand var_8 = s_28;
+-            ClickEvent.RunCommand s_29 = var_8;
+-            goto L12;
+-        }
+-
+-        L13:
+-        {
+-            String var_9 = String s_30;
+-            String s_31 = var_9;
+-            String command = s_31;
+-            BookViewScreen s_32 = this;
+-            s_32.closeContainerOnServer();
+-            LocalPlayer s_33 = player;
+-            String s_34 = command;
+-            null s_35 = null;
+-            clickCommandAction(s_33, s_34, s_35);
+-            goto L18;
+-        }
+-
+-        L17:
+-        {
+-            ClickEvent s_36 = event;
+-            BookViewScreen s_37 = this;
+-            Minecraft s_38 = s_37.minecraft;
+-            BookViewScreen s_39 = this;
+-            defaultHandleGameClickEvent(s_36, s_38, s_39);
+-            goto L18;
+-        }
+-
+-        L18:
+-        {
+-            int_constant(1) s_40 = 1;
+-            return s_40;
+-        }
+-
+-        L19:
+-        {
+-            Throwable var_11 = Throwable e_0;
+-            MatchException s_41 = __newobject MatchException;
+-            Throwable s_42 = var_11;
+-            String s_43 = s_42.toString();
+-            Throwable s_44 = var_11;
+-            s_41.<init>(s_43, s_44);
+-            MatchException s_45 = s_41;
+-            throw s_45;
+-        }
+-    }*/
++        if (event == null) {
++            return false;
++        }
++
++        LocalPlayer player = Objects.requireNonNull(this.minecraft.player, "Player not available");
++
++        switch (event) {
++            case ClickEvent.ChangePage(int page) -> {
++                this.forcePage(page - 1);
++            }
++            case ClickEvent.RunCommand(String command) -> {
++                this.closeContainerOnServer();
++                clickCommandAction(player, command, null);
++            }
++            default -> {
++                defaultHandleGameClickEvent(event, this.minecraft, this);
++            }
++        }
++        return true;
++    }
+ 
+     protected void closeContainerOnServer() {
      }

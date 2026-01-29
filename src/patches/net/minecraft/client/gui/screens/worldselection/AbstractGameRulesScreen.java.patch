@@ -1,0 +1,17 @@
+--- a/net/minecraft/client/gui/screens/worldselection/AbstractGameRulesScreen.java
++++ b/net/minecraft/client/gui/screens/worldselection/AbstractGameRulesScreen.java
+@@ -59,13 +_,7 @@
+         super(TITLE);
+         this.gameRules = gameRules;
+         this.exitCallback = exitCallback;
+-        AbstractGameRulesScreen s_8 = this;
+-        HeaderAndFooterLayout s_9 = __newobject HeaderAndFooterLayout;
+-        AbstractGameRulesScreen s_10 = this;
+-        double s_11 = 12.0;
+-        Objects.requireNonNull(font);
+-        s_9.super(s_10, (int) (s_11 + 9 + 15), 33);
+-        s_8.layout = s_9;
++        this.layout = new HeaderAndFooterLayout(this, (int) (12.0 + 9 + 15), 33);
+     }
+ 
+     protected void createAndConfigureSearchBox(final LinearLayout headerLayout) {

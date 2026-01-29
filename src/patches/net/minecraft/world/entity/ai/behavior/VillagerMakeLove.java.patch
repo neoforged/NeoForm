@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/entity/ai/behavior/VillagerMakeLove.java
++++ b/net/minecraft/world/entity/ai/behavior/VillagerMakeLove.java
+@@ -42,7 +_,7 @@
+     }
+ 
+     protected void tick(final ServerLevel level, final Villager body, final long timestamp) {
+-        Villager target = body.getBrain().<Villager>getMemory((MemoryModuleType) MemoryModuleType.BREED_TARGET).get();
++        Villager target = (Villager) body.getBrain().getMemory(MemoryModuleType.BREED_TARGET).get();
+         if (body.distanceToSqr(target) > 5.0) {
+             return;
+         }

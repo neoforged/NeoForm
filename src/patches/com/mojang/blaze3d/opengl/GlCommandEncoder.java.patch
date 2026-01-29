@@ -1,138 +1,1263 @@
 --- a/com/mojang/blaze3d/opengl/GlCommandEncoder.java
 +++ b/com/mojang/blaze3d/opengl/GlCommandEncoder.java
-@@ -927,10 +_,10 @@
-             Uniform var10 = var10000;
-             byte var11 = 0;
+@@ -639,1097 +_,171 @@
+         }
+     }
  
--            while (true) {
--                switch (SwitchBootstraps.typeSwitch<"typeSwitch",Uniform.Ubo,Uniform.Utb,Uniform.Sampler>(var10, var11)) {
--                    case 0:
--                        Uniform.Ubo var12 = (Uniform.Ubo)var10;
+-    /* Method skipped as requested
+-    private boolean trySetup(final GlRenderPass renderPass, final Collection dynamicUniforms) {
+-        boolean s_0 = GlRenderPass.VALIDATION;
+-        if (s_0 == 0) {
+-            goto L40;
+-        }
+-        goto L0_1;
+-
+-        L0_1:
+-        {
+-            GlRenderPass s_1 = renderPass;
+-            GlRenderPipeline s_2 = s_1.pipeline;
+-            if (s_2 != null) {
+-                goto L3;
+-            }
+-            goto L0_2;
+-        }
+-
+-        L0_2:
+-        {
+-            IllegalStateException s_3 = __newobject IllegalStateException;
+-            String s_4 = "Can't draw without a render pipeline";
+-            s_3.<init>(s_4);
+-            IllegalStateException s_5 = s_3;
+-            throw s_5;
+-        }
+-
+-        L3:
+-        {
+-            GlRenderPass s_6 = renderPass;
+-            GlRenderPipeline s_7 = s_6.pipeline;
+-            GlProgram s_8 = s_7.program();
+-            GlProgram s_9 = GlProgram.INVALID_PROGRAM;
+-            if (s_8 != s_9) {
+-                goto L5;
+-            }
+-            goto L3_1;
+-        }
+-
+-        L3_1:
+-        {
+-            IllegalStateException s_10 = __newobject IllegalStateException;
+-            String s_11 = "Pipeline contains invalid shader program";
+-            s_10.<init>(s_11);
+-            IllegalStateException s_12 = s_10;
+-            throw s_12;
+-        }
+-
+-        L5:
+-        {
+-            GlRenderPass s_13 = renderPass;
+-            GlRenderPipeline s_14 = s_13.pipeline;
+-            RenderPipeline s_15 = s_14.info();
+-            List s_16 = s_15.getUniforms();
+-            Iterator s_17 = s_16.iterator();
+-            Iterator var_0 = s_17;
+-            goto L6;
+-        }
+-
+-        L6:
+-        {
+-            Iterator s_18 = var_0;
+-            boolean s_19 = s_18.hasNext();
+-            if (s_19 == 0) {
+-                goto L23;
+-            }
+-            goto L6_1;
+-        }
+-
+-        L6_1:
+-        {
+-            Iterator s_20 = var_0;
+-            Object s_21 = s_20.next();
+-            RenderPipeline.UniformDescription s_22 = (RenderPipeline.UniformDescription) s_21;
+-            RenderPipeline.UniformDescription uniform = s_22;
+-            GlRenderPass s_23 = renderPass;
+-            HashMap s_24 = s_23.uniforms;
+-            RenderPipeline.UniformDescription s_25 = uniform;
+-            String s_26 = s_25.name();
+-            Object s_27 = s_24.get(s_26);
+-            GpuBufferSlice s_28 = (GpuBufferSlice) s_27;
+-            GpuBufferSlice value = s_28;
+-            Collection s_29 = dynamicUniforms;
+-            RenderPipeline.UniformDescription s_30 = uniform;
+-            String s_31 = s_30.name();
+-            boolean s_32 = s_29.contains(s_31);
+-            if (s_32 == 0) {
+-                goto L10;
+-            }
+-            goto L6_2;
+-        }
+-
+-        L6_2:
+-        {
+-            goto L6;
+-        }
+-
+-        L10:
+-        {
+-            GpuBufferSlice s_33 = value;
+-            if (s_33 != null) {
+-                goto L12;
+-            }
+-            goto L10_1;
+-        }
+-
+-        L10_1:
+-        {
+-            IllegalStateException s_34 = __newobject IllegalStateException;
+-            RenderPipeline.UniformDescription s_35 = uniform;
+-            String s_36 = s_35.name();
+-            RenderPipeline.UniformDescription s_37 = uniform;
+-            UniformType s_38 = s_37.type();
+-            String s_39 = String.valueOf(s_38);
+-            String s_40 = __invokedynamic StringConcatFactory.makeConcatWithConstants("makeConcatWithConstants", "Missing uniform \u0001 (should be \u0001)")(s_36, s_39);
+-            s_34.<init>(s_40);
+-            IllegalStateException s_41 = s_34;
+-            throw s_41;
+-        }
+-
+-        L12:
+-        {
+-            RenderPipeline.UniformDescription s_42 = uniform;
+-            UniformType s_43 = s_42.type();
+-            UniformType s_44 = UniformType.UNIFORM_BUFFER;
+-            if (s_43 != s_44) {
+-                goto L17;
+-            }
+-            goto L12_1;
+-        }
+-
+-        L12_1:
+-        {
+-            GpuBufferSlice s_45 = value;
+-            GpuBuffer s_46 = s_45.buffer();
+-            boolean s_47 = s_46.isClosed();
+-            if (s_47 == 0) {
+-                goto L15;
+-            }
+-            goto L12_2;
+-        }
+-
+-        L12_2:
+-        {
+-            IllegalStateException s_48 = __newobject IllegalStateException;
+-            RenderPipeline.UniformDescription s_49 = uniform;
+-            String s_50 = s_49.name();
+-            String s_51 = __invokedynamic StringConcatFactory.makeConcatWithConstants("makeConcatWithConstants", "Uniform buffer \u0001 is already closed")(s_50);
+-            s_48.<init>(s_51);
+-            IllegalStateException s_52 = s_48;
+-            throw s_52;
+-        }
+-
+-        L15:
+-        {
+-            GpuBufferSlice s_53 = value;
+-            GpuBuffer s_54 = s_53.buffer();
+-            int s_55 = s_54.usage();
+-            int_constant(128) s_56 = 128;
+-            int s_57 = s_55 & s_56;
+-            if (s_57 != 0) {
+-                goto L17;
+-            }
+-            goto L15_1;
+-        }
+-
+-        L15_1:
+-        {
+-            IllegalStateException s_58 = __newobject IllegalStateException;
+-            RenderPipeline.UniformDescription s_59 = uniform;
+-            String s_60 = s_59.name();
+-            String s_61 = __invokedynamic StringConcatFactory.makeConcatWithConstants("makeConcatWithConstants", "Uniform buffer \u0001 must have GpuBuffer.USAGE_UNIFORM")(s_60);
+-            s_58.<init>(s_61);
+-            IllegalStateException s_62 = s_58;
+-            throw s_62;
+-        }
+-
+-        L17:
+-        {
+-            RenderPipeline.UniformDescription s_63 = uniform;
+-            UniformType s_64 = s_63.type();
+-            UniformType s_65 = UniformType.TEXEL_BUFFER;
+-            if (s_64 != s_65) {
+-                goto L22;
+-            }
+-            goto L17_1;
+-        }
+-
+-        L17_1:
+-        {
+-            GpuBufferSlice s_66 = value;
+-            long s_67 = s_66.offset();
+-            long s_68 = 0L;
+-            int s_69 = __compare.long(s_67 > s_68);
+-            if (s_69 != 0) {
+-                goto L19;
+-            }
+-            goto L17_2;
+-        }
+-
+-        L17_2:
+-        {
+-            GpuBufferSlice s_70 = value;
+-            long s_71 = s_70.length();
+-            GpuBufferSlice s_72 = value;
+-            GpuBuffer s_73 = s_72.buffer();
+-            long s_74 = s_73.size();
+-            int s_75 = __compare.long(s_71 > s_74);
+-            if (s_75 == 0) {
+-                goto L20;
+-            }
+-            goto L17_3;
+-        }
+-
+-        L17_3:
+-        {
+-            goto L19;
+-        }
+-
+-        L19:
+-        {
+-            IllegalStateException s_76 = __newobject IllegalStateException;
+-            String s_77 = "Uniform texel buffers do not support a slice of a buffer, must be entire buffer";
+-            s_76.<init>(s_77);
+-            IllegalStateException s_78 = s_76;
+-            throw s_78;
+-        }
+-
+-        L20:
+-        {
+-            RenderPipeline.UniformDescription s_79 = uniform;
+-            TextureFormat s_80 = s_79.textureFormat();
+-            if (s_80 != null) {
+-                goto L22;
+-            }
+-            goto L20_1;
+-        }
+-
+-        L20_1:
+-        {
+-            IllegalStateException s_81 = __newobject IllegalStateException;
+-            RenderPipeline.UniformDescription s_82 = uniform;
+-            String s_83 = s_82.name();
+-            String s_84 = __invokedynamic StringConcatFactory.makeConcatWithConstants("makeConcatWithConstants", "Invalid uniform texel buffer \u0001 (missing a texture format)")(s_83);
+-            s_81.<init>(s_84);
+-            IllegalStateException s_85 = s_81;
+-            throw s_85;
+-        }
+-
+-        L22:
+-        {
+-            goto L6;
+-        }
+-
+-        L23:
+-        {
+-            GlRenderPass s_86 = renderPass;
+-            GlRenderPipeline s_87 = s_86.pipeline;
+-            GlProgram s_88 = s_87.program();
+-            Map s_89 = s_88.getUniforms();
+-            Set s_90 = s_89.entrySet();
+-            Iterator s_91 = s_90.iterator();
+-            Iterator var_3 = s_91;
+-            goto L24;
+-        }
+-
+-        L24:
+-        {
+-            Iterator s_92 = var_3;
+-            boolean s_93 = s_92.hasNext();
+-            if (s_93 == 0) {
+-                goto L38;
+-            }
+-            goto L24_1;
+-        }
+-
+-        L24_1:
+-        {
+-            Iterator s_94 = var_3;
+-            Object s_95 = s_94.next();
+-            Map.Entry s_96 = (Map.Entry) s_95;
+-            Map.Entry entry = s_96;
+-            Map.Entry s_97 = entry;
+-            Object s_98 = s_97.getValue();
+-            boolean s_99 = s_98 instanceof Uniform.Sampler;
+-            if (s_99 == 0) {
+-                goto L37;
+-            }
+-            goto L24_2;
+-        }
+-
+-        L24_2:
+-        {
+-            Map.Entry s_100 = entry;
+-            Object s_101 = s_100.getKey();
+-            String s_102 = (String) s_101;
+-            String name = s_102;
+-            GlRenderPass s_103 = renderPass;
+-            HashMap s_104 = s_103.samplers;
+-            String s_105 = name;
+-            Object s_106 = s_104.get(s_105);
+-            GlRenderPass.TextureViewAndSampler s_107 = (GlRenderPass.TextureViewAndSampler) s_106;
+-            GlRenderPass.TextureViewAndSampler viewAndSampler = s_107;
+-            GlRenderPass.TextureViewAndSampler s_108 = viewAndSampler;
+-            if (s_108 != null) {
+-                goto L30;
+-            }
+-            goto L24_3;
+-        }
+-
+-        L24_3:
+-        {
+-            IllegalStateException s_109 = __newobject IllegalStateException;
+-            String s_110 = name;
+-            String s_111 = __invokedynamic StringConcatFactory.makeConcatWithConstants("makeConcatWithConstants", "Missing sampler \u0001")(s_110);
+-            s_109.<init>(s_111);
+-            IllegalStateException s_112 = s_109;
+-            throw s_112;
+-        }
+-
+-        L30:
+-        {
+-            GlRenderPass.TextureViewAndSampler s_113 = viewAndSampler;
+-            GlTextureView s_114 = s_113.view();
+-            GlTextureView textureView = s_114;
+-            GlTextureView s_115 = textureView;
+-            boolean s_116 = s_115.isClosed();
+-            if (s_116 == 0) {
+-                goto L33;
+-            }
+-            goto L30_1;
+-        }
+-
+-        L30_1:
+-        {
+-            IllegalStateException s_117 = __newobject IllegalStateException;
+-            String s_118 = name;
+-            GlTextureView s_119 = textureView;
+-            GlTexture s_120 = s_119.texture();
+-            String s_121 = s_120.getLabel();
+-            String s_122 = __invokedynamic StringConcatFactory.makeConcatWithConstants("makeConcatWithConstants", "Texture view \u0001 (\u0001) has been closed!")(s_118, s_121);
+-            s_117.<init>(s_122);
+-            IllegalStateException s_123 = s_117;
+-            throw s_123;
+-        }
+-
+-        L33:
+-        {
+-            GlTextureView s_124 = textureView;
+-            GlTexture s_125 = s_124.texture();
+-            int s_126 = s_125.usage();
+-            int_constant(4) s_127 = 4;
+-            int s_128 = s_126 & s_127;
+-            if (s_128 != 0) {
+-                goto L35;
+-            }
+-            goto L33_1;
+-        }
+-
+-        L33_1:
+-        {
+-            IllegalStateException s_129 = __newobject IllegalStateException;
+-            String s_130 = name;
+-            GlTextureView s_131 = textureView;
+-            GlTexture s_132 = s_131.texture();
+-            String s_133 = s_132.getLabel();
+-            String s_134 = __invokedynamic StringConcatFactory.makeConcatWithConstants("makeConcatWithConstants", "Texture view \u0001 (\u0001) must have USAGE_TEXTURE_BINDING!")(s_130, s_133);
+-            s_129.<init>(s_134);
+-            IllegalStateException s_135 = s_129;
+-            throw s_135;
+-        }
+-
+-        L35:
+-        {
+-            GlRenderPass.TextureViewAndSampler s_136 = viewAndSampler;
+-            GlSampler s_137 = s_136.sampler();
+-            boolean s_138 = s_137.isClosed();
+-            if (s_138 == 0) {
+-                goto L37;
+-            }
+-            goto L35_1;
+-        }
+-
+-        L35_1:
+-        {
+-            IllegalStateException s_139 = __newobject IllegalStateException;
+-            String s_140 = name;
+-            GlTextureView s_141 = textureView;
+-            GlTexture s_142 = s_141.texture();
+-            String s_143 = s_142.getLabel();
+-            String s_144 = __invokedynamic StringConcatFactory.makeConcatWithConstants("makeConcatWithConstants", "Sampler for \u0001 (\u0001) has been closed!")(s_140, s_143);
+-            s_139.<init>(s_144);
+-            IllegalStateException s_145 = s_139;
+-            throw s_145;
+-        }
+-
+-        L37:
+-        {
+-            goto L24;
+-        }
+-
+-        L38:
+-        {
+-            GlRenderPass s_146 = renderPass;
+-            GlRenderPipeline s_147 = s_146.pipeline;
+-            RenderPipeline s_148 = s_147.info();
+-            boolean s_149 = s_148.wantsDepthTexture();
+-            if (s_149 == 0) {
+-                goto L42;
+-            }
+-            goto L38_1;
+-        }
+-
+-        L38_1:
+-        {
+-            GlRenderPass s_150 = renderPass;
+-            boolean s_151 = s_150.hasDepthTexture();
+-            if (s_151 != 0) {
+-                goto L42;
+-            }
+-            goto L38_2;
+-        }
+-
+-        L38_2:
+-        {
+-            Logger s_152 = LOGGER;
+-            String s_153 = "Render pipeline {} wants a depth texture but none was provided - this is probably a bug";
+-            GlRenderPass s_154 = renderPass;
+-            GlRenderPipeline s_155 = s_154.pipeline;
+-            RenderPipeline s_156 = s_155.info();
+-            Identifier s_157 = s_156.getLocation();
+-            s_152.warn(s_153, s_157);
+-            goto L42;
+-        }
+-
+-        L40:
+-        {
+-            GlRenderPass s_158 = renderPass;
+-            GlRenderPipeline s_159 = s_158.pipeline;
+-            if (s_159 == null) {
+-                goto L41;
+-            }
+-            goto L40_1;
+-        }
+-
+-        L40_1:
+-        {
+-            GlRenderPass s_160 = renderPass;
+-            GlRenderPipeline s_161 = s_160.pipeline;
+-            GlProgram s_162 = s_161.program();
+-            GlProgram s_163 = GlProgram.INVALID_PROGRAM;
+-            if (s_162 != s_163) {
+-                goto L42;
+-            }
+-            goto L40_2;
+-        }
+-
+-        L40_2:
+-        {
+-            goto L41;
+-        }
+-
+-        L41:
+-        {
+-            int_constant(0) s_164 = 0;
+-            return s_164;
+-        }
+-
+-        L42:
+-        {
+-            GlRenderPass s_165 = renderPass;
+-            GlRenderPipeline s_166 = s_165.pipeline;
+-            RenderPipeline s_167 = s_166.info();
+-            RenderPipeline pipeline = s_167;
+-            GlRenderPass s_168 = renderPass;
+-            GlRenderPipeline s_169 = s_168.pipeline;
+-            GlProgram s_170 = s_169.program();
+-            GlProgram glProgram = s_170;
+-            GlCommandEncoder s_171 = this;
+-            RenderPipeline s_172 = pipeline;
+-            s_171.applyPipelineState(s_172);
+-            GlCommandEncoder s_173 = this;
+-            GlProgram s_174 = s_173.lastProgram;
+-            GlProgram s_175 = glProgram;
+-            if (s_174 == s_175) {
+-                goto L46;
+-            }
+-            goto L42_1;
+-        }
+-
+-        L42_1:
+-        {
+-            int_constant(1) | int_constant(0) s_176 = 1;
+-            goto L47;
+-        }
+-
+-        L46:
+-        {
+-            s_176 = 0;
+-            goto L47;
+-        }
+-
+-        L47:
+-        {
+-            boolean differentProgram = s_176;
+-            boolean s_178 = differentProgram;
+-            if (s_178 == 0) {
+-                goto L51;
+-            }
+-            goto L47_1;
+-        }
+-
+-        L47_1:
+-        {
+-            GlProgram s_179 = glProgram;
+-            int s_180 = s_179.getProgramId();
+-            GlStateManager._glUseProgram(s_180);
+-            GlCommandEncoder s_181 = this;
+-            GlProgram s_182 = glProgram;
+-            s_181.lastProgram = s_182;
+-            goto L51;
+-        }
+-
+-        L51:
+-        {
+-            GlProgram s_183 = glProgram;
+-            Map s_184 = s_183.getUniforms();
+-            Set s_185 = s_184.entrySet();
+-            Iterator s_186 = s_185.iterator();
+-            Iterator var_11 = s_186;
+-            goto L52;
+-        }
+-
+-        L52:
+-        {
+-            Iterator s_187 = var_11;
+-            boolean s_188 = s_187.hasNext();
+-            if (s_188 == 0) {
+-                goto L116;
+-            }
+-            goto L52_1;
+-        }
+-
+-        L52_1:
+-        {
+-            Iterator s_189 = var_11;
+-            Object s_190 = s_189.next();
+-            Map.Entry s_191 = (Map.Entry) s_190;
+-            Map.Entry entry$1 = s_191;
+-            Map.Entry s_192 = entry$1;
+-            Object s_193 = s_192.getKey();
+-            String s_194 = (String) s_193;
+-            String name$1 = s_194;
+-            GlRenderPass s_195 = renderPass;
+-            Set s_196 = s_195.dirtyUniforms;
+-            String s_197 = name$1;
+-            boolean s_198 = s_196.contains(s_197);
+-            boolean isDirty = s_198;
+-            Map.Entry s_199 = entry$1;
+-            Object s_200 = s_199.getValue();
+-            Uniform s_201 = (Uniform) s_200;
+-            Object s_202 = Objects.requireNonNull(s_201);
+-            Uniform var_15 = s_201;
+-            int_constant(0) s_203 = 0;
+-            int_constant(0) | int_constant(1) | int_constant(2) | int_constant(3) var_16 = s_203;
+-            goto L56;
+-        }
+-
+-        L56:
+-        {
+-            Uniform s_204 = var_15;
+-            int_constant(0) | int_constant(1) | int_constant(2) | int_constant(3) s_205 = var_16;
+-            int s_206 = __invokedynamic SwitchBootstraps.typeSwitch("typeSwitch", "Lcom/mojang/blaze3d/opengl/Uniform$Ubo;", "Lcom/mojang/blaze3d/opengl/Uniform$Utb;", "Lcom/mojang/blaze3d/opengl/Uniform$Sampler;")(s_204, s_205);
+-            default:
+-                goto L57;
+-            case 0:
+-                goto L58;
+-            case 1:
+-                goto L68;
+-            case 2:
+-                goto L90;
+-        }
+-
+-        L57:
+-        {
+-            MatchException s_207 = __newobject MatchException;
+-            null s_208 = null;
+-            null s_209 = null;
+-            s_207.<init>(s_208, s_209);
+-            MatchException s_210 = s_207;
+-            throw s_210;
+-        }
+-
+-        L58:
+-        {
+-            Uniform s_211 = var_15;
+-            Uniform.Ubo s_212 = (Uniform.Ubo) s_211;
+-            Uniform.Ubo var_17 = s_212;
+-            Uniform.Ubo s_213 = var_17;
+-            goto L59;
+-        }
+-
+-        L59:
+-        {
+-            try {
+-                int s_214 = s_213.blockBinding();
+-                goto L60;
+-
+-                L69:
+-                {
+-                    int s_238 = Uniform.Utb s_237.location();
+-                    goto L70;
+-                }
+-
+-                L72:
+-                {
+-                    int s_243 = Uniform.Utb s_242.samplerIndex();
+-                    goto L73;
+-                }
+-
+-                L75:
+-                {
+-                    TextureFormat s_248 = Uniform.Utb s_247.format();
+-                    goto L76;
+-                }
+-
+-                L78:
+-                {
+-                    int s_251 = Uniform.Utb s_250.texture();
+-                    goto L79;
+-                }
+-
+-                L91:
+-                {
+-                    int s_281 = Uniform.Sampler s_280.location();
+-                    goto L92;
+-                }
+-
+-                L94:
+-                {
+-                    int s_286 = Uniform.Sampler s_285.samplerIndex();
+-                    goto L95;
+-                }
+-            } catch (Throwable e_0) {
+-                goto L122;
+-            }
+-        }
+-
+-        L60:
+-        {
+-            int var_18 = int s_214;
+-            int s_215 = var_18;
+-            int var_19 = s_215;
+-            int_constant(1) s_216 = 1;
+-            if (s_216 == 0) {
+-                goto L62;
+-            }
+-            goto L60_1;
+-        }
+-
+-        L60_1:
+-        {
+-            int s_217 = var_18;
+-            int blockBinding = s_217;
+-            goto L63;
+-        }
+-
+-        L62:
+-        {
+-            int_constant(1) s_218 = 1;
+-            var_16 = s_218;
+-            goto L56;
+-        }
+-
+-        L63:
+-        {
+-            boolean s_219 = isDirty;
+-            if (s_219 != 0) {
+-                goto L65;
+-            }
+-            goto L63_1;
+-        }
+-
+-        L63_1:
+-        {
+-            goto L52;
+-        }
+-
+-        L65:
+-        {
+-            GlRenderPass s_220 = renderPass;
+-            HashMap s_221 = s_220.uniforms;
+-            String s_222 = name$1;
+-            Object s_223 = s_221.get(s_222);
+-            GpuBufferSlice s_224 = (GpuBufferSlice) s_223;
+-            GpuBufferSlice bufferView = s_224;
+-            int_constant(35345) s_225 = 35345;
+-            int s_226 = blockBinding;
+-            GpuBufferSlice s_227 = bufferView;
+-            GpuBuffer s_228 = s_227.buffer();
+-            GlBuffer s_229 = (GlBuffer) s_228;
+-            int s_230 = s_229.handle;
+-            GpuBufferSlice s_231 = bufferView;
+-            long s_232 = s_231.offset();
+-            GpuBufferSlice s_233 = bufferView;
+-            long s_234 = s_233.length();
+-            GL32.glBindBufferRange(s_225, s_226, s_230, s_232, s_234);
+-            goto L115;
+-        }
+-
+-        L68:
+-        {
+-            Uniform s_235 = var_15;
+-            Uniform.Utb s_236 = (Uniform.Utb) s_235;
+-            Uniform.Utb var_23 = s_236;
+-            Uniform.Utb s_237 = var_23;
+-            goto L69;
+-        }
+-
+-        L70:
+-        {
+-            int var_24 = int s_238;
+-            int s_239 = var_24;
+-            int var_25 = s_239;
+-            int_constant(1) s_240 = 1;
+-            if (s_240 == 0) {
+-                goto L81;
+-            }
+-            goto L70_1;
+-        }
+-
+-        L70_1:
+-        {
+-            int s_241 = var_24;
+-            int location = s_241;
+-            Uniform.Utb s_242 = var_23;
+-            goto L72;
+-        }
+-
+-        L73:
+-        {
+-            int var_27 = int s_243;
+-            int s_244 = var_27;
+-            int var_28 = s_244;
+-            int_constant(1) s_245 = 1;
+-            if (s_245 == 0) {
+-                goto L81;
+-            }
+-            goto L73_1;
+-        }
+-
+-        L73_1:
+-        {
+-            int s_246 = var_27;
+-            int samplerIndex = s_246;
+-            Uniform.Utb s_247 = var_23;
+-            goto L75;
+-        }
+-
+-        L76:
+-        {
+-            TextureFormat var_30 = TextureFormat s_248;
+-            TextureFormat s_249 = var_30;
+-            TextureFormat format = s_249;
+-            Uniform.Utb s_250 = var_23;
+-            goto L78;
+-        }
+-
+-        L79:
+-        {
+-            int var_32 = int s_251;
+-            int s_252 = var_32;
+-            int var_33 = s_252;
+-            int_constant(1) s_253 = 1;
+-            if (s_253 == 0) {
+-                goto L81;
+-            }
+-            goto L79_1;
+-        }
+-
+-        L79_1:
+-        {
+-            int s_254 = var_32;
+-            int texture = s_254;
+-            goto L82;
+-        }
+-
+-        L81:
+-        {
+-            int_constant(2) s_255 = 2;
+-            var_16 = s_255;
+-            goto L56;
+-        }
+-
+-        L82:
+-        {
+-            boolean s_256 = differentProgram;
+-            if (s_256 != 0) {
+-                goto L83;
+-            }
+-            goto L82_1;
+-        }
+-
+-        L82_1:
+-        {
+-            boolean s_257 = isDirty;
+-            if (s_257 == 0) {
+-                goto L84;
+-            }
+-            goto L82_2;
+-        }
+-
+-        L82_2:
+-        {
+-            goto L83;
+-        }
+-
+-        L83:
+-        {
+-            int s_258 = location;
+-            int s_259 = samplerIndex;
+-            GlStateManager._glUniform1i(s_258, s_259);
+-            goto L84;
+-        }
+-
+-        L84:
+-        {
+-            int_constant(33984) s_260 = 33984;
+-            int s_261 = samplerIndex;
+-            int s_262 = s_260 + s_261;
+-            GlStateManager._activeTexture(s_262);
+-            int_constant(35882) s_263 = 35882;
+-            int s_264 = texture;
+-            GL11C.glBindTexture(s_263, s_264);
+-            boolean s_265 = isDirty;
+-            if (s_265 == 0) {
+-                goto L115;
+-            }
+-            goto L84_1;
+-        }
+-
+-        L84_1:
+-        {
+-            GlRenderPass s_266 = renderPass;
+-            HashMap s_267 = s_266.uniforms;
+-            String s_268 = name$1;
+-            Object s_269 = s_267.get(s_268);
+-            GpuBufferSlice s_270 = (GpuBufferSlice) s_269;
+-            GpuBufferSlice bufferView$1 = s_270;
+-            int_constant(35882) s_271 = 35882;
+-            TextureFormat s_272 = format;
+-            int s_273 = GlConst.toGlInternalId(s_272);
+-            GpuBufferSlice s_274 = bufferView$1;
+-            GpuBuffer s_275 = s_274.buffer();
+-            GlBuffer s_276 = (GlBuffer) s_275;
+-            int s_277 = s_276.handle;
+-            GL31.glTexBuffer(s_271, s_273, s_277);
+-            goto L115;
+-        }
+-
+-        L90:
+-        {
+-            Uniform s_278 = var_15;
+-            Uniform.Sampler s_279 = (Uniform.Sampler) s_278;
+-            Uniform.Sampler var_37 = s_279;
+-            Uniform.Sampler s_280 = var_37;
+-            goto L91;
+-        }
+-
+-        L92:
+-        {
+-            int var_38 = int s_281;
+-            int s_282 = var_38;
+-            int var_39 = s_282;
+-            int_constant(1) s_283 = 1;
+-            if (s_283 == 0) {
+-                goto L97;
+-            }
+-            goto L92_1;
+-        }
+-
+-        L92_1:
+-        {
+-            int s_284 = var_38;
+-            int location$1 = s_284;
+-            Uniform.Sampler s_285 = var_37;
+-            goto L94;
+-        }
+-
+-        L95:
+-        {
+-            int var_41 = int s_286;
+-            int s_287 = var_41;
+-            int var_42 = s_287;
+-            int_constant(1) s_288 = 1;
+-            if (s_288 == 0) {
+-                goto L97;
+-            }
+-            goto L95_1;
+-        }
+-
+-        L95_1:
+-        {
+-            int s_289 = var_41;
+-            int samplerIndex$1 = s_289;
+-            goto L98;
+-        }
+-
+-        L97:
+-        {
+-            int_constant(3) s_290 = 3;
+-            var_16 = s_290;
+-            goto L56;
+-        }
+-
+-        L98:
+-        {
+-            GlRenderPass s_291 = renderPass;
+-            HashMap s_292 = s_291.samplers;
+-            String s_293 = name$1;
+-            Object s_294 = s_292.get(s_293);
+-            GlRenderPass.TextureViewAndSampler s_295 = (GlRenderPass.TextureViewAndSampler) s_294;
+-            GlRenderPass.TextureViewAndSampler viewAndSampler$1 = s_295;
+-            GlRenderPass.TextureViewAndSampler s_296 = viewAndSampler$1;
+-            if (s_296 != null) {
+-                goto L101;
+-            }
+-            goto L98_1;
+-        }
+-
+-        L98_1:
+-        {
+-            goto L52;
+-        }
+-
+-        L101:
+-        {
+-            GlRenderPass.TextureViewAndSampler s_297 = viewAndSampler$1;
+-            GlTextureView s_298 = s_297.view();
+-            GlTextureView textureView$1 = s_298;
+-            boolean s_299 = differentProgram;
+-            if (s_299 != 0) {
+-                goto L103;
+-            }
+-            goto L101_1;
+-        }
+-
+-        L101_1:
+-        {
+-            boolean s_300 = isDirty;
+-            if (s_300 == 0) {
+-                goto L104;
+-            }
+-            goto L101_2;
+-        }
+-
+-        L101_2:
+-        {
+-            goto L103;
+-        }
+-
+-        L103:
+-        {
+-            int s_301 = location$1;
+-            int s_302 = samplerIndex$1;
+-            GlStateManager._glUniform1i(s_301, s_302);
+-            goto L104;
+-        }
+-
+-        L104:
+-        {
+-            int_constant(33984) s_303 = 33984;
+-            int s_304 = samplerIndex$1;
+-            int s_305 = s_303 + s_304;
+-            GlStateManager._activeTexture(s_305);
+-            GlTextureView s_306 = textureView$1;
+-            GlTexture s_307 = s_306.texture();
+-            GlTexture texture$1 = s_307;
+-            GlTexture s_308 = texture$1;
+-            int s_309 = s_308.usage();
+-            int_constant(16) s_310 = 16;
+-            int s_311 = s_309 & s_310;
+-            if (s_311 == 0) {
+-                goto L109;
+-            }
+-            goto L104_1;
+-        }
+-
+-        L104_1:
+-        {
+-            int_constant(34067) s_312 = 34067;
+-            int target = s_312;
+-            int_constant(34067) s_313 = 34067;
+-            GlTexture s_314 = texture$1;
+-            int s_315 = s_314.id;
+-            GL11.glBindTexture(s_313, s_315);
+-            goto L111;
+-        }
+-
+-        L109:
+-        {
+-            int_constant(3553) s_316 = 3553;
+-            target = s_316;
+-            GlTexture s_317 = texture$1;
+-            int s_318 = s_317.id;
+-            GlStateManager._bindTexture(s_318);
+-            goto L111;
+-        }
+-
+-        L111:
+-        {
+-            int s_319 = samplerIndex$1;
+-            GlRenderPass.TextureViewAndSampler s_320 = viewAndSampler$1;
+-            GlSampler s_321 = s_320.sampler();
+-            int s_322 = s_321.getId();
+-            GL33C.glBindSampler(s_319, s_322);
+-            int s_323 = target;
+-            int_constant(33084) s_324 = 33084;
+-            GlTextureView s_325 = textureView$1;
+-            int s_326 = s_325.baseMipLevel();
+-            GlStateManager._texParameter(s_323, s_324, s_326);
+-            int s_327 = target;
+-            int_constant(33085) s_328 = 33085;
+-            GlTextureView s_329 = textureView$1;
+-            int s_330 = s_329.baseMipLevel();
+-            GlTextureView s_331 = textureView$1;
+-            int s_332 = s_331.mipLevels();
+-            int s_333 = s_330 + s_332;
+-            int_constant(1) s_334 = 1;
+-            int s_335 = s_333 - s_334;
+-            GlStateManager._texParameter(s_327, s_328, s_335);
+-            goto L115;
+-        }
+-
+-        L115:
+-        {
+-            goto L52;
+-        }
+-
+-        L116:
+-        {
+-            GlRenderPass s_336 = renderPass;
+-            Set s_337 = s_336.dirtyUniforms;
+-            s_337.clear();
+-            GlRenderPass s_338 = renderPass;
+-            boolean s_339 = s_338.isScissorEnabled();
+-            if (s_339 == 0) {
+-                goto L120;
+-            }
+-            goto L116_1;
+-        }
+-
+-        L116_1:
+-        {
++    private boolean trySetup(final GlRenderPass renderPass, final Collection<String> dynamicUniforms) {
++        // TODO: unfortunately I had to copy/paste this from the VF output
++        if (GlRenderPass.VALIDATION) {
++            if (renderPass.pipeline == null) {
++                throw new IllegalStateException("Can't draw without a render pipeline");
++            }
++
++            if (renderPass.pipeline.program() == GlProgram.INVALID_PROGRAM) {
++                throw new IllegalStateException("Pipeline contains invalid shader program");
++            }
++
++            for (RenderPipeline.UniformDescription uniform : renderPass.pipeline.info().getUniforms()) {
++                GpuBufferSlice value = renderPass.uniforms.get(uniform.name());
++                if (!dynamicUniforms.contains(uniform.name())) {
++                    if (value == null) {
++                        throw new IllegalStateException("Missing uniform " + uniform.name() + " (should be " + uniform.type() + ")");
++                    }
++
++                    if (uniform.type() == UniformType.UNIFORM_BUFFER) {
++                        if (value.buffer().isClosed()) {
++                            throw new IllegalStateException("Uniform buffer " + uniform.name() + " is already closed");
++                        }
++
++                        if ((value.buffer().usage() & 128) == 0) {
++                            throw new IllegalStateException("Uniform buffer " + uniform.name() + " must have GpuBuffer.USAGE_UNIFORM");
++                        }
++                    }
++
++                    if (uniform.type() == UniformType.TEXEL_BUFFER) {
++                        if (value.offset() != 0L || value.length() != value.buffer().size()) {
++                            throw new IllegalStateException("Uniform texel buffers do not support a slice of a buffer, must be entire buffer");
++                        }
++
++                        if (uniform.textureFormat() == null) {
++                            throw new IllegalStateException("Invalid uniform texel buffer " + uniform.name() + " (missing a texture format)");
++                        }
++                    }
++                }
++            }
++
++            for (Map.Entry<String, Uniform> entry : renderPass.pipeline.program().getUniforms().entrySet()) {
++                if (entry.getValue() instanceof Uniform.Sampler) {
++                    String name = entry.getKey();
++                    GlRenderPass.TextureViewAndSampler viewAndSampler = renderPass.samplers.get(name);
++                    if (viewAndSampler == null) {
++                        throw new IllegalStateException("Missing sampler " + name);
++                    }
++
++                    GlTextureView textureView = viewAndSampler.view();
++                    if (textureView.isClosed()) {
++                        throw new IllegalStateException("Texture view " + name + " (" + textureView.texture().getLabel() + ") has been closed!");
++                    }
++
++                    if ((textureView.texture().usage() & 4) == 0) {
++                        throw new IllegalStateException("Texture view " + name + " (" + textureView.texture().getLabel() + ") must have USAGE_TEXTURE_BINDING!");
++                    }
++
++                    if (viewAndSampler.sampler().isClosed()) {
++                        throw new IllegalStateException("Sampler for " + name + " (" + textureView.texture().getLabel() + ") has been closed!");
++                    }
++                }
++            }
++
++            if (renderPass.pipeline.info().wantsDepthTexture() && !renderPass.hasDepthTexture()) {
++                LOGGER.warn("Render pipeline {} wants a depth texture but none was provided - this is probably a bug", renderPass.pipeline.info().getLocation());
++            }
++        } else if (renderPass.pipeline == null || renderPass.pipeline.program() == GlProgram.INVALID_PROGRAM) {
++            return false;
++        }
++
++        RenderPipeline pipeline = renderPass.pipeline.info();
++        GlProgram glProgram = renderPass.pipeline.program();
++        this.applyPipelineState(pipeline);
++        boolean differentProgram = this.lastProgram != glProgram;
++        if (differentProgram) {
++            GlStateManager._glUseProgram(glProgram.getProgramId());
++            this.lastProgram = glProgram;
++        }
++
++        label200:
++        for (Map.Entry<String, Uniform> entryx : glProgram.getUniforms().entrySet()) {
++            String namex = entryx.getKey();
++            boolean isDirty = renderPass.dirtyUniforms.contains(namex);
++            Uniform var10000 = entryx.getValue();
++            Objects.requireNonNull(var10000);
++            Uniform var10 = var10000;
++            byte var11 = 0;
++
 +            {
 +                switch (var10) {
 +                    case Uniform.Ubo var12:
 +                        int var63;
-                         Uniform.Ubo var62 = var12;
- 
-                         try {
-@@ -950,86 +_,19 @@
- 
-                         var11 = 1;
-                         break;
--                    case 1:
--                        Uniform.Utb bufferView = (Uniform.Utb)var10;
--                        Uniform.Utb var54 = bufferView;
--
--                        try {
--                            var55 = var54.location();
--                        } catch (Throwable var31) {
--                            throw new MatchException(var31.toString(), var31);
--                        }
--
--                        int var43 = var55;
--                        if (true) {
--                            Uniform.Utb var56 = bufferView;
--
--                            try {
--                                var57 = var56.samplerIndex();
--                            } catch (Throwable var30) {
--                                throw new MatchException(var30.toString(), var30);
--                            }
--
--                            var43 = var57;
--                            if (true) {
--                                Uniform.Utb var58 = bufferView;
--
--                                try {
--                                    var59 = var58.format();
--                                } catch (Throwable var29) {
--                                    throw new MatchException(var29.toString(), var29);
--                                }
--
--                                TextureFormat var45 = var59;
--                                Uniform.Utb var60 = bufferView;
--
--                                try {
--                                    var61 = var60.texture();
--                                } catch (Throwable var28) {
--                                    throw new MatchException(var28.toString(), var28);
--                                }
--
--                                var43 = var61;
--                                if (true) {
++                        Uniform.Ubo var62 = var12;
++
++                        try {
++                            var63 = var62.blockBinding();
++                        } catch (Throwable var32) {
++                            throw new MatchException(var32.toString(), var32);
++                        }
++
++                        int var41 = var63;
++                        if (true) {
++                            if (isDirty) {
++                                GpuBufferSlice bufferView = renderPass.uniforms.get(namex);
++                                GL32.glBindBufferRange(35345, var41, ((GlBuffer)bufferView.buffer()).handle, bufferView.offset(), bufferView.length());
++                            }
++                            continue label200;
++                        }
++
++                        var11 = 1;
++                        break;
 +                    case Uniform.Utb(int location, int samplerIdx, TextureFormat var45, int var43):
-                                     if (differentProgram || isDirty) {
--                                        GlStateManager._glUniform1i(var43, var43);
-+                                        GlStateManager._glUniform1i(location, samplerIdx);
-                                     }
- 
--                                    GlStateManager._activeTexture(33984 + var43);
-+                                    GlStateManager._activeTexture(33984 + samplerIdx);
-                                     GL11C.glBindTexture(35882, var43);
-                                     if (isDirty) {
-                                         GpuBufferSlice bufferViewx = renderPass.uniforms.get(namex);
-                                         GL31.glTexBuffer(35882, GlConst.toGlInternalId(var45), ((GlBuffer)bufferViewx.buffer()).handle);
-                                     }
-                                     continue label200;
--                                }
--                            }
--                        }
--
--                        var11 = 2;
--                        break;
--                    case 2:
--                        Uniform.Sampler bufferView = (Uniform.Sampler)var10;
--                        Uniform.Sampler var50 = bufferView;
--
--                        try {
--                            var51 = var50.location();
--                        } catch (Throwable var27) {
--                            throw new MatchException(var27.toString(), var27);
--                        }
--
--                        int viewAndSamplerx = var51;
--                        if (true) {
--                            Uniform.Sampler var52 = bufferView;
--
--                            try {
--                                var53 = var52.samplerIndex();
--                            } catch (Throwable var26) {
--                                throw new MatchException(var26.toString(), var26);
--                            }
--
--                            viewAndSamplerx = var53;
--                            if (true) {
++                        if (differentProgram || isDirty) {
++                            GlStateManager._glUniform1i(location, samplerIdx);
++                        }
++
++                        GlStateManager._activeTexture(33984 + samplerIdx);
++                        GL11C.glBindTexture(35882, var43);
++                        if (isDirty) {
++                            GpuBufferSlice bufferViewx = renderPass.uniforms.get(namex);
++                            GL31.glTexBuffer(35882, GlConst.toGlInternalId(var45), ((GlBuffer)bufferViewx.buffer()).handle);
++                        }
++                        continue label200;
 +                    case Uniform.Sampler(int location, int samplerIndex):
-                                 GlRenderPass.TextureViewAndSampler viewAndSamplerxx = renderPass.samplers.get(namex);
-                                 if (viewAndSamplerxx == null) {
-                                     continue label200;
-@@ -1037,10 +_,10 @@
- 
-                                 GlTextureView textureViewx = viewAndSamplerxx.view();
-                                 if (differentProgram || isDirty) {
--                                    GlStateManager._glUniform1i(viewAndSamplerx, viewAndSamplerx);
-+                                    GlStateManager._glUniform1i(location, samplerIndex);
-                                 }
- 
--                                GlStateManager._activeTexture(33984 + viewAndSamplerx);
-+                                GlStateManager._activeTexture(33984 + samplerIndex);
-                                 GlTexture texture = textureViewx.texture();
-                                 int target;
-                                 if ((texture.usage() & 16) != 0) {
-@@ -1051,15 +_,10 @@
-                                     GlStateManager._bindTexture(texture.id);
-                                 }
- 
--                                GL33C.glBindSampler(viewAndSamplerx, viewAndSamplerxx.sampler().getId());
-+                                GL33C.glBindSampler(samplerIndex, viewAndSamplerxx.sampler().getId());
-                                 GlStateManager._texParameter(target, 33084, textureViewx.baseMipLevel());
-                                 GlStateManager._texParameter(target, 33085, textureViewx.baseMipLevel() + textureViewx.mipLevels() - 1);
-                                 continue label200;
--                            }
--                        }
++                        GlRenderPass.TextureViewAndSampler viewAndSamplerxx = renderPass.samplers.get(namex);
++                        if (viewAndSamplerxx == null) {
++                            continue label200;
++                        }
++
++                        GlTextureView textureViewx = viewAndSamplerxx.view();
++                        if (differentProgram || isDirty) {
++                            GlStateManager._glUniform1i(location, samplerIndex);
++                        }
++
++                        GlStateManager._activeTexture(33984 + samplerIndex);
++                        GlTexture texture = textureViewx.texture();
++                        int target;
++                        if ((texture.usage() & 16) != 0) {
++                            target = 34067;
++                            GL11.glBindTexture(34067, texture.id);
++                        } else {
++                            target = 3553;
++                            GlStateManager._bindTexture(texture.id);
++                        }
++
++                        GL33C.glBindSampler(samplerIndex, viewAndSamplerxx.sampler().getId());
++                        GlStateManager._texParameter(target, 33084, textureViewx.baseMipLevel());
++                        GlStateManager._texParameter(target, 33085, textureViewx.baseMipLevel() + textureViewx.mipLevels() - 1);
++                        continue label200;
++                    default:
++                        throw new MatchException(null, null);
++                }
++            }
++        }
++
++        renderPass.dirtyUniforms.clear();
++        if (renderPass.isScissorEnabled()) {
+             GlStateManager._enableScissorTest();
+-            GlRenderPass s_340 = renderPass;
+-            int s_341 = s_340.getScissorX();
+-            GlRenderPass s_342 = renderPass;
+-            int s_343 = s_342.getScissorY();
+-            GlRenderPass s_344 = renderPass;
+-            int s_345 = s_344.getScissorWidth();
+-            GlRenderPass s_346 = renderPass;
+-            int s_347 = s_346.getScissorHeight();
+-            GlStateManager._scissorBox(s_341, s_343, s_345, s_347);
+-            goto L121;
+-        }
 -
--                        var11 = 3;
--                        break;
-                     default:
-                         throw new MatchException(null, null);
-                 }
+-        L120:
+-        {
++            GlStateManager._scissorBox(renderPass.getScissorX(), renderPass.getScissorY(), renderPass.getScissorWidth(), renderPass.getScissorHeight());
++        } else {
+             GlStateManager._disableScissorTest();
+-            goto L121;
+-        }
+-
+-        L121:
+-        {
+-            int_constant(1) s_348 = 1;
+-            return s_348;
+-        }
+-
+-        L122:
+-        {
+-            Throwable var_50 = Throwable e_0;
+-            MatchException s_349 = __newobject MatchException;
+-            Throwable s_350 = var_50;
+-            String s_351 = s_350.toString();
+-            Throwable s_352 = var_50;
+-            s_349.<init>(s_351, s_352);
+-            MatchException s_353 = s_349;
+-            throw s_353;
+-        }
+-    }*/
++        }
++
++        return true;
++    }
+ 
+     private void applyPipelineState(final RenderPipeline pipeline) {
+         if (lastPipeline == pipeline) {

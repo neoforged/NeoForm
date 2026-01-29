@@ -1,11 +1,75 @@
 --- a/net/minecraft/client/gui/GuiGraphics.java
 +++ b/net/minecraft/client/gui/GuiGraphics.java
-@@ -1237,7 +_,7 @@
-         private final @Nullable Consumer<Style> additionalConsumer;
- 
-         private RenderingTextCollector(
--            ActiveTextCollector.Parameters initialParameters, GuiGraphics.@Nullable HoveredTextEffects hoveredTextEffects, Consumer<Style> additonalConsumer
-+            ActiveTextCollector.Parameters initialParameters, GuiGraphics.HoveredTextEffects hoveredTextEffects, @Nullable Consumer<Style> additonalConsumer
-         ) {
-             Objects.requireNonNull(GuiGraphics.this);
-             super();
+@@ -644,62 +_,19 @@
+             return;
+         }
+         if (hoveredStyle.getHoverEvent() != null) {
+-            L2_1_L18:
+-            {
+-                Component s_39;
+-                L2_1_L16:
+-                {
+-                    HoverEvent.EntityTooltipInfo s_24;
+-                    HoverEvent.ShowEntity s_23;
+-                    HoverEvent.ShowText s_38;
+-                    switch (hoveredStyle.getHoverEvent()) {
+-                        case HoverEvent.ShowItem var_2: {
+-                            ItemStackTemplate s_13;
+-                            L6_try:
+-                            try {
+-                                s_13 = var_2.item();
+-                                break L6_try;
+-
+-                                L10:
+-                                {
+-                                    s_24 = s_23.entity();
+-                                    break;
+-                                }
+-
+-                                L15:
+-                                {
+-                                    s_39 = s_38.value();
+-                                    break L2_1_L16;
+-                                }
+-                            } catch (Throwable var_11) {
+-                                throw new MatchException(var_11.toString(), var_11);
+-                            }
+-                            ItemStackTemplate var_3 = s_13;
+-                            ItemStackTemplate item = var_3;
+-                            setTooltipForNextFrame(font, item.create(), xMouse, yMouse);
+-                            break L2_1_L18;
+-                        }
+-                        case HoverEvent.ShowEntity var_5: {
+-                            s_23 = var_5;
+-                            goto L10;
+-                        }
+-                        case HoverEvent.ShowText var_8: {
+-                            s_38 = var_8;
+-                            goto L15;
+-                        }
+-                        default:
+-                            break L2_1_L18;
+-                    }
+-                    HoverEvent.EntityTooltipInfo var_6 = s_24;
+-                    HoverEvent.EntityTooltipInfo entity = var_6;
++            switch (hoveredStyle.getHoverEvent()) {
++                case HoverEvent.ShowItem(ItemStackTemplate item) -> {
++                    setTooltipForNextFrame(font, item.create(), xMouse, yMouse);
++                }
++                case HoverEvent.ShowEntity(HoverEvent.EntityTooltipInfo entity) -> {
+                     if (minecraft.options.advancedItemTooltips) {
+                         setComponentTooltipForNextFrame(font, entity.getTooltipLines(), xMouse, yMouse);
+                     }
+-                    break L2_1_L18;
+-                }
+-                Component var_9 = s_39;
+-                Component text = var_9;
+-                setTooltipForNextFrame(font, font.split(text, Math.max(guiWidth() / 2, 200)), xMouse, yMouse);
++                }
++                case HoverEvent.ShowText(Component text) -> {
++                    setTooltipForNextFrame(font, font.split(text, Math.max(guiWidth() / 2, 200)), xMouse, yMouse);
++                }
++                default -> {}
+             }
+         }
+     }

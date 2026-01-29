@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/entity/monster/Phantom.java
++++ b/net/minecraft/world/entity/monster/Phantom.java
+@@ -435,7 +_,7 @@
+             ServerLevel level = getServerLevel(level());
+             List<Player> players = level.getNearbyPlayers(attackTargeting, Phantom.this, getBoundingBox().inflate(16.0, 64.0, 16.0));
+             if (!players.isEmpty()) {
+-                players.sort(Comparator.comparing(Entity::getY).reversed());
++                players.sort(Comparator.<Entity, Double>comparing(Entity::getY).reversed());
+                 for (Player player : players) {
+                     if (canAttack(level, player, TargetingConditions.DEFAULT)) {
+                         setTarget(player);

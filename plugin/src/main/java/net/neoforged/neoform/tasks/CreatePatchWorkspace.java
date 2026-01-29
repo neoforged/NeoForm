@@ -46,6 +46,10 @@ public abstract class CreatePatchWorkspace extends DefaultTask {
     @InputFile
     public abstract RegularFileProperty getSourcesZip();
 
+    // TODO: temporary hack since CG doesn't preserve the resources in the jar...
+    @InputFile
+    public abstract RegularFileProperty getResourcesZip();
+
     @InputDirectory
     public abstract DirectoryProperty getPatchesDir();
 
@@ -112,69 +116,78 @@ public abstract class CreatePatchWorkspace extends DefaultTask {
         var failedPatches = new HashSet<String>();
         var successfulPatches = 0;
         var dirsCreated = new HashSet<Path>();
-        try (var zip = new ZipFile(getSourcesZip().getAsFile().get())) {
-            var entries = zip.entries();
-            while (entries.hasMoreElements()) {
-                var entry = entries.nextElement();
-                if (entry.isDirectory()) {
-                    continue;
-                }
+        for (var inzip : List.of(getSourcesZip(), getResourcesZip())) {
+            try (var zip = new ZipFile(inzip.getAsFile().get())) {
+                var entries = zip.entries();
+                while (entries.hasMoreElements()) {
+                    var entry = entries.nextElement();
+                    if (entry.isDirectory()) {
+                        continue;
+                    }
 
-                Path destination;
-                if (entry.getName().endsWith(".java")) {
-                    destination = sourcesDir;
-                } else {
-                    destination = resourcesDir;
-                }
-                destination = destination.resolve(entry.getName());
+                    // TODO: CG should normalize the paths to / when writing the resulting zip entries
+                    var entryName = entry.getName().replace('\\', '/');
 
-                if (dirsCreated.add(destination.getParent())) {
-                    Files.createDirectories(destination.getParent());
-                }
-
-                try (var input = zip.getInputStream(entry)) {
-                    var patch = patches.remove(entry.getName());
-                    if (patch != null) {
-                        var rejectsOutput = new ByteArrayOutputStream();
-                        var builder = PatchOperation.builder()
-                                .logTo(line -> getLogger().lifecycle("{}", line))
-                                .baseInput(Input.SingleInput.pipe(input, entry.getName()))
-                                .patchesInput(Input.SingleInput.pipe(new ByteArrayInputStream(patch.content), patch.patchPath.toString()))
-                                .patchedOutput(Output.SingleOutput.path(destination))
-                                .level(LogLevel.WARN)
-                                .mode(PatchMode.OFFSET);
-
-                        if (updateMode) {
-                            builder.mode(PatchMode.OFFSET)
-                                    .level(io.codechicken.diffpatch.util.LogLevel.INFO)
-                                    .rejectsOutput(Output.SingleOutput.pipe(rejectsOutput));
+                    Path destination;
+                    if (entry.getName().endsWith(".java")) {
+                        if (inzip == getResourcesZip()) {
+                            // Hackkkk
+                            continue;
                         }
+                        destination = sourcesDir;
+                    } else {
+                        destination = resourcesDir;
+                    }
+                    destination = destination.resolve(entry.getName());
 
-                        var result = builder.build().operate();
+                    if (dirsCreated.add(destination.getParent())) {
+                        Files.createDirectories(destination.getParent());
+                    }
 
-                        if (result.exit != 0) {
-                            problems.add(reporter.create(PATCH_FAILED, problem -> {
-                                problem
-                                        .details("Applying the patch to " + entry.getName() + " failed.")
-                                        .fileLocation(patch.patchPath.toAbsolutePath().toString())
-                                        .severity(Severity.ERROR);
-                            }));
-                            getLogger().error("Applying the patch to {}} failed.", entry.getName());
+                    try (var input = zip.getInputStream(entry)) {
+                        var patch = patches.remove(entryName);
+                        if (patch != null) {
+                            var rejectsOutput = new ByteArrayOutputStream();
+                            var builder = PatchOperation.builder()
+                                    .logTo(line -> getLogger().lifecycle("{}", line))
+                                    .baseInput(Input.SingleInput.pipe(input, entryName))
+                                    .patchesInput(Input.SingleInput.pipe(new ByteArrayInputStream(patch.content), patch.patchPath.toString()))
+                                    .patchedOutput(Output.SingleOutput.path(destination))
+                                    .level(LogLevel.WARN)
+                                    .mode(PatchMode.OFFSET);
 
-                            if (updateMode && rejectsOutput.size() > 0) {
-                                Path rejectsPath = rejectsDir.resolve(entry.getName() + ".patch");
-                                if (dirsCreated.add(rejectsPath.getParent())) {
-                                    Files.createDirectories(rejectsPath.getParent());
-                                }
-                                Files.write(rejectsPath, rejectsOutput.toByteArray());
+                            if (updateMode) {
+                                builder.mode(PatchMode.OFFSET)
+                                        .level(io.codechicken.diffpatch.util.LogLevel.INFO)
+                                        .rejectsOutput(Output.SingleOutput.pipe(rejectsOutput));
                             }
 
-                            failedPatches.add(entry.getName());
+                            var result = builder.build().operate();
+
+                            if (result.exit != 0) {
+                                problems.add(reporter.create(PATCH_FAILED, problem -> {
+                                    problem
+                                            .details("Applying the patch to " + entryName + " failed.")
+                                            .fileLocation(patch.patchPath.toAbsolutePath().toString())
+                                            .severity(Severity.ERROR);
+                                }));
+                                getLogger().error("Applying the patch to {}} failed.", entryName);
+
+                                if (updateMode && rejectsOutput.size() > 0) {
+                                    Path rejectsPath = rejectsDir.resolve(entryName + ".patch");
+                                    if (dirsCreated.add(rejectsPath.getParent())) {
+                                        Files.createDirectories(rejectsPath.getParent());
+                                    }
+                                    Files.write(rejectsPath, rejectsOutput.toByteArray());
+                                }
+
+                                failedPatches.add(entryName);
+                            } else {
+                                successfulPatches++;
+                            }
                         } else {
-                            successfulPatches++;
+                            Files.copy(input, destination, StandardCopyOption.REPLACE_EXISTING);
                         }
-                    } else {
-                        Files.copy(input, destination, StandardCopyOption.REPLACE_EXISTING);
                     }
                 }
             }

@@ -1,0 +1,10 @@
+--- a/net/minecraft/util/datafix/fixes/BlockEntitySignDoubleSidedEditableTextFix.java
++++ b/net/minecraft/util/datafix/fixes/BlockEntitySignDoubleSidedEditableTextFix.java
+@@ -50,6 +_,6 @@
+ 
+     private static <T> Dynamic<T> createEmptyLines(final Dynamic<T> tag) {
+         Dynamic<T> emptyComponent = LegacyComponentDataFixUtils.createEmptyComponent(tag.getOps());
+-        return tag.createList(Stream.of(new Dynamic[] { emptyComponent, emptyComponent, emptyComponent, emptyComponent }));
++        return tag.createList(Stream.of(emptyComponent, emptyComponent, emptyComponent, emptyComponent));
+     }
+ }

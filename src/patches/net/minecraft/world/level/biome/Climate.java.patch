@@ -1,11 +1,29 @@
 --- a/net/minecraft/world/level/biome/Climate.java
 +++ b/net/minecraft/world/level/biome/Climate.java
-@@ -260,7 +_,7 @@
-                     throw new IllegalStateException("Expecting parameter space to be 7, got " + dimensions);
-                 } else {
-                     List<Climate.RTree.Leaf<T>> leaves = values.stream()
--                        .map(p -> new Climate.RTree.Leaf(p.getFirst(), p.getSecond()))
-+                        .map(p -> new Climate.RTree.Leaf<>(p.getFirst(), p.getSecond()))
-                         .collect(Collectors.toCollection(ArrayList::new));
-                     return new Climate.RTree<>(build(dimensions, leaves));
+@@ -95,7 +_,7 @@
+                 return children.get(0);
+             }
+             if (children.size() <= 6) {
+-                children.sort((Comparator) Comparator.comparingLong(leaf -> {
++                children.sort(Comparator.comparingLong(leaf -> {
+                     long totalMagnitude = 0L;
+                     for (int d = 0; d < dimensions; d++) {
+                         Parameter parameter = leaf.parameterSpace[d];
+@@ -122,7 +_,7 @@
                  }
+             }
+             sort(minBuckets, dimensions, minDimension, true);
+-            return new SubTree<>(minBuckets.stream().map(b -> build(dimensions, Arrays.asList(b.children))).collect((Collector) Collectors.toList()));
++            return new SubTree<>(minBuckets.stream().map(b -> build(dimensions, Arrays.asList(b.children))).collect(Collectors.toList()));
+         }
+ 
+         private static <T> void sort(final List<? extends Node<T>> children, final int dimensions, final int dimension, final boolean absolute) {
+@@ -265,7 +_,7 @@
+         private final RTree<T> index;
+ 
+         public static <T> Codec<ParameterList<T>> codec(final MapCodec<T> valueCodec) {
+-            return ExtraCodecs.nonEmptyList(RecordCodecBuilder.create(i -> i.group(ParameterPoint.CODEC.fieldOf("parameters").forGetter(Pair::getFirst), valueCodec.forGetter(Pair::getSecond)).apply(i, Pair::of)).listOf()).xmap(ParameterList::new, ParameterList::values);
++            return ExtraCodecs.nonEmptyList(RecordCodecBuilder.<Pair<ParameterPoint, T>>create(i -> i.group(ParameterPoint.CODEC.fieldOf("parameters").forGetter(Pair::getFirst), valueCodec.forGetter(Pair::getSecond)).apply(i, Pair::of)).listOf()).xmap(ParameterList::new, ParameterList::values);
+         }
+ 
+         public ParameterList(final List<Pair<ParameterPoint, T>> values) {

@@ -1,0 +1,11 @@
+--- a/net/minecraft/data/registries/VanillaRegistries.java
++++ b/net/minecraft/data/registries/VanillaRegistries.java
+@@ -69,7 +_,7 @@
+         biomes.listElements().forEach(biome -> {
+             Identifier biomeKey = biome.key().identifier();
+             List<HolderSet<PlacedFeature>> biomeFeatures = biome.value().getGenerationSettings().features();
+-            biomeFeatures.stream().<Holder>flatMap(HolderSet::stream).forEach(feature -> {
++            biomeFeatures.stream().flatMap(HolderSet::stream).forEach(feature -> {
+                 feature.unwrap().ifLeft(key -> {
+                     Holder.Reference<PlacedFeature> value = placedFeatures.getOrThrow((ResourceKey<PlacedFeature>) key);
+                     if (!validatePlacedFeature(value.value())) {

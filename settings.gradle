@@ -28,26 +28,49 @@ neoForm {
 
     decompiler {
         classpath = [
-                'org.vineflower:vineflower:1.11.2',
-                'net.neoforged:vineflower-plugins:0.1.5'
+                // TODO: excessive deps
+                'net.javasauce:Decompiler:0.0-SNAPSHOT',
+//                'org.vineflower:vineflower:1.11.2',
+//                'net.neoforged:vineflower-plugins:0.1.5'
         ]
-        mainClass = 'org.jetbrains.java.decompiler.main.decompiler.ConsoleDecompiler'
-        jvmArgs = ['-Xmx4g']
+        mainClass = 'net.covers1624.coffeegrinder.CoffeeGrinder'
+        jvmArgs = [
+                // TODO: should probably scale with the number of threads...
+                '-Xmx4g',
+                // TODO: enabling things triggers more failures
+//                '-ea',
+        ]
         args = [
-                '--decompile-inner',
-                '--remove-bridge',
-                '--decompile-generics',
-                '--ascii-strings',
-                '--remove-synthetic',
-                '--include-classpath',
-                '--ignore-invalid-bytecode',
-                '--bytecode-source-mapping',
-                '--dump-code-lines',
-                '--indent-string=    ',
-                '--log-level=WARN',
-                '-cfg={inputLibraries}',
-                '{input}',
-                '{output}'
+//                '--decompile-inner',
+//                '--remove-bridge',
+//                '--decompile-generics',
+//                '--ascii-strings',
+//                '--remove-synthetic',
+//                '--include-classpath',
+//                '--ignore-invalid-bytecode',
+//                '--bytecode-source-mapping',
+//                '--dump-code-lines',
+//                '--indent-string=    ',
+//                '--log-level=WARN',
+//                '-cfg={inputLibraries}',
+                '-l={inputLibraries}',
+                '-i={input}',
+                '-o={output}',
+                '-a={output}-ast',
+                // Record deconstruction in switch:
+                '-s=com.mojang.blaze3d.opengl.GlCommandEncoder#trySetup(Lcom/mojang/blaze3d/opengl/GlRenderPass;Ljava/util/Collection;)Z',
+                '-s=net.minecraft.client.gui.screens.inventory.BookViewScreen#handleClickEvent(Lnet/minecraft/network/chat/ClickEvent;)Z',
+                '-s=net.minecraft.client.renderer.PostChain#createPass(Lnet/minecraft/client/renderer/texture/TextureManager;Lnet/minecraft/client/renderer/PostChainConfig$Pass;Lnet/minecraft/resources/Identifier;)Lnet/minecraft/client/renderer/PostPass;',
+                '-s=net.minecraft.commands.functions.MacroFunction#stringify(Lnet/minecraft/nbt/Tag;)Ljava/lang/String;',
+                '-s=net.minecraft.nbt.NbtOps#convertTo(Lcom/mojang/serialization/DynamicOps;Lnet/minecraft/nbt/Tag;)Ljava/lang/Object;',
+                // Generic inference problems:
+                '-s=net.minecraft.core.Direction#<clinit>()V',
+                '-s=net.minecraft.network.protocol.game.ClientboundLevelChunkPacketData#<init>(Lnet/minecraft/world/level/chunk/LevelChunk;)V',
+                '-s=net.minecraft.server.jsonrpc.methods.DiscoveryService$DiscoverComponents#typedSchema()Lcom/mojang/serialization/MapCodec;',
+                '-s=net.minecraft.world.entity.Leashable#checkElasticInteractions(Lnet/minecraft/world/entity/Entity;Lnet/minecraft/world/entity/Leashable$LeashData;)Z',
+                '-s=net.minecraft.world.entity.Leashable#getLeashHolder()Lnet/minecraft/world/entity/Entity;',
+                '-s=net.minecraft.world.entity.projectile.arrow.AbstractArrow$Pickup#<clinit>()V',
+                '-s=net.minecraft.world.item.DyeColor#<clinit>()V',
         ]
     }
 }

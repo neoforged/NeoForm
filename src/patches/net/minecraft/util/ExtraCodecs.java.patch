@@ -1,20 +1,11 @@
 --- a/net/minecraft/util/ExtraCodecs.java
 +++ b/net/minecraft/util/ExtraCodecs.java
-@@ -286,7 +_,7 @@
+@@ -231,7 +_,7 @@
              P max = l.get(1);
              return makeInterval.apply(min, max);
-         }), p -> ImmutableList.of(getMin.apply((I)p), getMax.apply((I)p)));
--        Codec<I> objectCodec = RecordCodecBuilder.<Pair>create(
-+        Codec<I> objectCodec = RecordCodecBuilder.<Pair<P, P>>create(
-                 i -> i.group(pointCodec.fieldOf(lowerBoundName).forGetter(Pair::getFirst), pointCodec.fieldOf(upperBoundName).forGetter(Pair::getSecond))
-                     .apply(i, Pair::of)
-             )
-@@ -609,7 +_,7 @@
-             public <T> RecordBuilder<T> encode(V input, DynamicOps<T> ops, RecordBuilder<T> builder) {
-                 K type = (K)typeGetter.apply(input);
-                 builder.add(typeKey, typeCodec.encodeStart(ops, type));
--                DataResult<T> parameters = this.encode(valueCodec.apply(type), input, ops);
-+                DataResult<T> parameters = this.encode((Codec<? extends V>)valueCodec.apply(type), input, ops);
-                 if (parameters.result().isEmpty() || !Objects.equals(parameters.result().get(), ops.emptyMap())) {
-                     builder.add(valueKey, parameters);
-                 }
+         }), p -> ImmutableList.of(getMin.apply(p), getMax.apply(p)));
+-        Codec<I> objectCodec = RecordCodecBuilder.create(i -> i.group(pointCodec.fieldOf(lowerBoundName).forGetter(Pair::getFirst), pointCodec.fieldOf(upperBoundName).forGetter(Pair::getSecond)).apply(i, Pair::of)).comapFlatMap(p -> makeInterval.apply((P) p.getFirst(), (P) p.getSecond()), i -> Pair.of(getMin.apply(i), getMax.apply(i)));
++        Codec<I> objectCodec = RecordCodecBuilder.<Pair<P, P>>create(i -> i.group(pointCodec.fieldOf(lowerBoundName).forGetter(Pair::getFirst), pointCodec.fieldOf(upperBoundName).forGetter(Pair::getSecond)).apply(i, Pair::of)).comapFlatMap(p -> makeInterval.apply((P) p.getFirst(), (P) p.getSecond()), i -> Pair.of(getMin.apply(i), getMax.apply(i)));
+         Codec<I> arrayOrObjectCodec = Codec.withAlternative(arrayCodec, objectCodec);
+         return Codec.either(pointCodec, arrayOrObjectCodec).comapFlatMap(either -> either.map(min -> makeInterval.apply(min, min), DataResult::success), p -> {
+             P min = getMin.apply(p);

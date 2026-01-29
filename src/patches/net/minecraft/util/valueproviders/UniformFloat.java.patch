@@ -1,0 +1,11 @@
+--- a/net/minecraft/util/valueproviders/UniformFloat.java
++++ b/net/minecraft/util/valueproviders/UniformFloat.java
+@@ -9,7 +_,7 @@
+ 
+ public class UniformFloat extends FloatProvider {
+ 
+-    public static final MapCodec<UniformFloat> CODEC = RecordCodecBuilder.mapCodec(i -> i.group(Codec.FLOAT.fieldOf("min_inclusive").forGetter(u -> Float.valueOf(u.minInclusive)), Codec.FLOAT.fieldOf("max_exclusive").forGetter(u -> Float.valueOf(u.maxExclusive))).apply(i, UniformFloat::new)).validate(u -> {
++    public static final MapCodec<UniformFloat> CODEC = RecordCodecBuilder.<UniformFloat>mapCodec(i -> i.group(Codec.FLOAT.fieldOf("min_inclusive").forGetter(u -> Float.valueOf(u.minInclusive)), Codec.FLOAT.fieldOf("max_exclusive").forGetter(u -> Float.valueOf(u.maxExclusive))).apply(i, UniformFloat::new)).validate(u -> {
+         if (u.maxExclusive <= u.minInclusive) {
+             return DataResult.error(() -> "Max must be larger than min, min_inclusive: " + u.minInclusive + ", max_exclusive: " + u.maxExclusive);
+         }

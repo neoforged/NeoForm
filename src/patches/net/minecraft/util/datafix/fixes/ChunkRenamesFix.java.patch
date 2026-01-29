@@ -1,0 +1,11 @@
+--- a/net/minecraft/util/datafix/fixes/ChunkRenamesFix.java
++++ b/net/minecraft/util/datafix/fixes/ChunkRenamesFix.java
+@@ -30,7 +_,7 @@
+         return fixTypeEverywhereTyped("Chunk Renames; purge Level-tag", chunkType, newChunkType, chunk -> {
+             Typed<?> level = chunk.getTyped(levelFinder);
+             Typed<?> chunkTyped = appendChunkName(level);
+-            chunkTyped = chunkTyped.set(DSL.remainderFinder(), mergeRemainders(chunk, level.get((OpticFinder) DSL.remainderFinder())));
++            chunkTyped = chunkTyped.set(DSL.remainderFinder(), mergeRemainders(chunk, level.get(DSL.remainderFinder())));
+             chunkTyped = renameField(chunkTyped, "TileEntities", "block_entities");
+             chunkTyped = renameField(chunkTyped, "TileTicks", "block_ticks");
+             chunkTyped = renameField(chunkTyped, "Entities", "entities");

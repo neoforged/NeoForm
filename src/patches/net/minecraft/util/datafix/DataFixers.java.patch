@@ -1,20 +1,20 @@
 --- a/net/minecraft/util/datafix/DataFixers.java
 +++ b/net/minecraft/util/datafix/DataFixers.java
-@@ -1154,7 +_,7 @@
-         );
-         Schema v3086 = fixerUpper.addSchema(3086, SAME_NAMESPACED);
-         fixerUpper.addFixer(
--            new EntityVariantFix(v3086, "Change cat variant type", References.ENTITY, "minecraft:cat", "CatType", Util.make(new Int2ObjectOpenHashMap(), m -> {
-+            new EntityVariantFix(v3086, "Change cat variant type", References.ENTITY, "minecraft:cat", "CatType", Util.make(new Int2ObjectOpenHashMap<String>(), m -> {
-                 m.defaultReturnValue("minecraft:tabby");
-                 m.put(0, "minecraft:tabby");
-                 m.put(1, "minecraft:black");
-@@ -1190,7 +_,7 @@
+@@ -861,7 +_,7 @@
+             m.put(8, "minecraft:white");
+             m.put(9, "minecraft:jellie");
+             m.put(10, "minecraft:all_black");
+-        })::get));
++        })));
+         ImmutableMap<String, String> catAdvancementMigrationMap = ImmutableMap.<String, String>builder().put("textures/entity/cat/tabby.png", "minecraft:tabby").put("textures/entity/cat/black.png", "minecraft:black").put("textures/entity/cat/red.png", "minecraft:red").put("textures/entity/cat/siamese.png", "minecraft:siamese").put("textures/entity/cat/british_shorthair.png", "minecraft:british").put("textures/entity/cat/calico.png", "minecraft:calico").put("textures/entity/cat/persian.png", "minecraft:persian").put("textures/entity/cat/ragdoll.png", "minecraft:ragdoll").put("textures/entity/cat/white.png", "minecraft:white").put("textures/entity/cat/jellie.png", "minecraft:jellie").put("textures/entity/cat/all_black.png", "minecraft:all_black").build();
+         fixerUpper.addFixer(new CriteriaRenameFix(v3086, "Migrate cat variant advancement", "minecraft:husbandry/complete_catalogue", s -> catAdvancementMigrationMap.getOrDefault(s, s)));
          Schema v3087 = fixerUpper.addSchema(3087, SAME_NAMESPACED);
-         fixerUpper.addFixer(
-             new EntityVariantFix(
--                v3087, "Change frog variant type", References.ENTITY, "minecraft:frog", "Variant", Util.make(new Int2ObjectOpenHashMap(), m -> {
-+                v3087, "Change frog variant type", References.ENTITY, "minecraft:frog", "Variant", Util.make(new Int2ObjectOpenHashMap<String>(), m -> {
-                     m.put(0, "minecraft:temperate");
-                     m.put(1, "minecraft:warm");
-                     m.put(2, "minecraft:cold");
+@@ -869,7 +_,7 @@
+             m.put(0, "minecraft:temperate");
+             m.put(1, "minecraft:warm");
+             m.put(2, "minecraft:cold");
+-        })::get));
++        })));
+         Schema v3090 = fixerUpper.addSchema(3090, SAME_NAMESPACED);
+         fixerUpper.addFixer(new EntityFieldsRenameFix(v3090, "EntityPaintingFieldsRenameFix", "minecraft:painting", Map.of("Motive", "variant", "Facing", "facing")));
+         Schema v3093 = fixerUpper.addSchema(3093, SAME_NAMESPACED);
