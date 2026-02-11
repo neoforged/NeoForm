@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/entity/npc/villager/Villager.java
 +++ b/net/minecraft/world/entity/npc/villager/Villager.java
-@@ -123,7 +_,7 @@
+@@ -126,7 +_,7 @@
      private int numberOfRestocksToday = 0;
      private long lastRestockCheckDay;
      private boolean assignProfessionWhenSpawned = false;
@@ -9,7 +9,7 @@
          List.of(
              SensorType.NEAREST_LIVING_ENTITIES,
              SensorType.NEAREST_PLAYERS,
-@@ -197,7 +_,7 @@
+@@ -200,7 +_,7 @@
  
      @Override
      public Brain<Villager> getBrain() {

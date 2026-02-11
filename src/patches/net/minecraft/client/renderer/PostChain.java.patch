@@ -1,6 +1,6 @@
 --- a/net/minecraft/client/renderer/PostChain.java
 +++ b/net/minecraft/client/renderer/PostChain.java
-@@ -99,114 +_,15 @@
+@@ -103,114 +_,15 @@
              PostChainConfig.Input var8 = input;
              byte var9 = 0;
  
