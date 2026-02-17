@@ -1,6 +1,6 @@
 --- a/net/minecraft/client/gui/GuiGraphics.java
 +++ b/net/minecraft/client/gui/GuiGraphics.java
-@@ -1237,7 +_,7 @@
+@@ -1248,7 +_,7 @@
          private final @Nullable Consumer<Style> additionalConsumer;
  
          private RenderingTextCollector(
