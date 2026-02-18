@@ -7,7 +7,7 @@ plugins {
 }
 
 neoForm {
-    minecraftVersion = '26.1-snapshot-8'
+    minecraftVersion = '26.1-snapshot-9'
 
     additionalCompileDependencies = [
             'net.neoforged:mergetool:2.0.7:api',
@@ -22,7 +22,7 @@ neoForm {
     testJavaVersions = [] // Additional Java versions to test with
 
     preProcessJar {
-        classpath = ['net.neoforged.installertools:installertools:4.0.14:fatjar']
+        classpath = ['net.neoforged.installertools:installertools:4.0.16:fatjar']
         args = ['--task', 'PROCESS_MINECRAFT_JAR', '--input', '{inputClientJar}', '--input', '{inputServerJar}', '--output', '{output}', '--no-mod-manifest']
     }
 
