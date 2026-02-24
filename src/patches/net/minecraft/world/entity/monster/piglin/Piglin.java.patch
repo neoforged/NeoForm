@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/entity/monster/piglin/Piglin.java
 +++ b/net/minecraft/world/entity/monster/piglin/Piglin.java
-@@ -80,7 +_,7 @@
+@@ -84,7 +_,7 @@
      private static final int INVENTORY_SIZE = 8;
      private final SimpleContainer inventory = new SimpleContainer(8);
      private boolean cannotHunt = false;
@@ -9,7 +9,7 @@
          List.of(
              MemoryModuleType.UNIVERSAL_ANGER,
              MemoryModuleType.ATE_RECENTLY,
-@@ -211,7 +_,7 @@
+@@ -215,7 +_,7 @@
  
      @Override
      public Brain<Piglin> getBrain() {
