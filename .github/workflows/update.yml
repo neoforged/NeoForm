@@ -59,10 +59,10 @@ jobs:
       NEW_VERSION: ${{ inputs.new_version }}
     steps:
       - uses: actions/checkout@v4
-      - name: Setup Java 21
+      - name: Setup Java 25
         uses: neoforged/actions/setup-java@main
         with:
-          java-version: 21
+          java-version: 25
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
       - name: Create new Branch
@@ -75,7 +75,9 @@ jobs:
         if: ${{ inputs.new_version }}
         run: ./gradlew -- updateMinecraft "--version=$NEW_VERSION"
       - name: Update Patches
-        run: ./gradlew createPatchWorkspaceForUpdate && ./gradlew createPatches
+        id: update-patches
+        continue-on-error: true
+        run: ./gradlew createPatchWorkspace && ./gradlew createPatches
       - name: Commit Changes
         # See https://github.com/actions/checkout?tab=readme-ov-file#push-a-commit-using-the-built-in-token
         id: commit-changes
@@ -90,12 +92,12 @@ jobs:
             echo "changed=true" >> $GITHUB_OUTPUT
           fi
         env:
-          COMMIT_MESSAGE: ${{ inputs.new_version && format('Update to {0}', inputs.new_version) || (inputs.update_tools && 'Update Tools' || 'Update') }}
+          COMMIT_MESSAGE: ${{ format('{0}{1}', case(steps.update-patches.outcome == 'failure', 'Start update', 'Update'), case(inputs.new_version != null, format(' to {0}', inputs.new_version), inputs.update_tools, ' Tools', '')) }}
       - name: Push Changes
         if: steps.commit-changes.outputs.changed
         run: git push -u origin HEAD
       - name: Trigger Publish Workflow
-        if: inputs.publish && steps.commit-changes.outputs.changed
+        if: inputs.publish && steps.commit-changes.outputs.changed && steps.update-patches.outcome == 'success'
         uses: actions/github-script@v8
         # We need to use environment variables here to avoid untrusted input injection into the javascript code below.
         env:

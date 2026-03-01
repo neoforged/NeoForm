@@ -5,6 +5,7 @@ import net.neoforged.neoform.dsl.NeoFormExtension;
 import net.neoforged.neoform.dsl.ToolSettings;
 import net.neoforged.nfrtgradle.NeoFormRuntimeExtension;
 import net.neoforged.nfrtgradle.NeoFormRuntimePlugin;
+import org.gradle.api.GradleException;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
 import org.gradle.api.artifacts.repositories.MavenArtifactRepository;
@@ -13,8 +14,10 @@ import org.gradle.api.initialization.resolve.DependencyResolutionManagement;
 import org.gradle.api.initialization.resolve.RepositoriesMode;
 import org.gradle.toolchains.foojay.FoojayToolchainsConventionPlugin;
 
-import java.io.File;
+import java.io.IOException;
 import java.net.URI;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 public class NeoFormSettingsPlugin implements Plugin<Settings> {
     @Override
@@ -60,22 +63,31 @@ public class NeoFormSettingsPlugin implements Plugin<Settings> {
 
         // Add tool repositories once the settings have been evaluated
         settings.getGradle().settingsEvaluated(ignored -> {
-            addToolRepository(settings.getDependencyResolutionManagement(), neoForm.getPreProcessJar());
+//            addToolRepository(settings.getDependencyResolutionManagement(), neoForm.getClient().getPreProcessJar());
+//            addToolRepository(settings.getDependencyResolutionManagement(), neoForm.getJoined().getPreProcessJar());
+//            addToolRepository(settings.getDependencyResolutionManagement(), neoForm.getServer().getPreProcessJar());
             addToolRepository(settings.getDependencyResolutionManagement(), neoForm.getDecompiler());
         });
 
-        var workspaceDir = new File(settings.getRootDir(), "workspace");
-        if (workspaceDir.isDirectory()) {
-            settings.include("workspace");
+        try {
+            Path workspace = settings.getRootDir().toPath().resolve("workspace");
+            for (String side : new String[] { "client", "joined", "server" }) {
+                settings.include(side);
+                Path sidePath = workspace.resolve(side);
+                settings.project(":" + side).setProjectDir(sidePath.toFile());
+                Files.createDirectories(sidePath);
+            }
+        } catch (IOException e) {
+            throw new GradleException("Error creating side directory", e);
         }
 
         settings.getGradle().getLifecycle().beforeProject(project -> {
             configureNFRT(project);
 
-            if (project.getPath().equals(":workspace")) {
-                project.getPlugins().apply(NeoFormWorkspacePlugin.class);
-            } else {
+            if (project.getPath().equals(":")) {
                 project.getPlugins().apply(NeoFormProjectPlugin.class);
+            } else {
+                project.getPlugins().apply(NeoFormWorkspacePlugin.class);
             }
         });
     }
@@ -93,6 +105,9 @@ public class NeoFormSettingsPlugin implements Plugin<Settings> {
     }
 
     private static void addToolRepository(DependencyResolutionManagement resolutionManagement, ToolSettings toolSettings) {
+        if (toolSettings == null) {
+            return;
+        }
         var repositoryUrl = toolSettings.getRepositoryUrl().getOrNull();
         if (repositoryUrl == null) {
             return;
