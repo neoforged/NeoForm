@@ -48,7 +48,7 @@ public abstract class DeduplicateSources extends DefaultTask {
                     for (Path path : Files.walk(root).filter(Files::isRegularFile).toList()) {
                         byte[] bytes = Files.readAllBytes(path);
                         Path relative = root.relativize(path);
-                        if (path.startsWith("/META-INF")) {
+                        if (path.startsWith("/META-INF/") || entry.getValue().getRequired().get().stream().anyMatch(path::startsWith)) {
                             output.putNextEntry(new ZipEntry(relative.toString()));
                             output.write(bytes);
                             continue;
@@ -101,5 +101,8 @@ public abstract class DeduplicateSources extends DefaultTask {
 
         @Input
         public abstract ListProperty<String> getContains();
+
+        @Input
+        public abstract ListProperty<String> getRequired();
     }
 }
