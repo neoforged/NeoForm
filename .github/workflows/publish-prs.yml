@@ -5,7 +5,7 @@ name: Publish PRs to GitHub Packages
 
 on:
   workflow_run:
-    workflows: [Check PRs]
+    workflows: [Build and Test]
     types:
       - completed
   issue_comment:
@@ -24,7 +24,7 @@ jobs:
     uses: neoforged/actions/.github/workflows/publish-prs.yml@main
     with:
       artifact_base_path: net/neoforged/neoform/
-      uploader_workflow_name: "Check PRs"
+      uploader_workflow_name: "Build and Test"
     secrets:
       PR_PUBLISHING_GH_APP_ID: ${{ secrets.PR_PUBLISHING_GH_APP_ID }}
       PR_PUBLISHING_GH_APP_KEY: ${{ secrets.PR_PUBLISHING_GH_APP_KEY }}
