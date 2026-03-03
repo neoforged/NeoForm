@@ -191,7 +191,6 @@ public abstract class NeoFormWorkspacePlugin implements Plugin<Project> {
             deduplicateSource.getInput().set(decompiled);
             deduplicateSource.getOutput().set(deduplicatedProvider);
             deduplicateSource.getContains().set(side.getContains().map(list -> list.stream().map(Project::getPath).toList()));
-            deduplicateSource.getRequired().set(side.getUseClient().map(client -> client ? List.of("/assets/") : List.of()));
         });
         Provider<RegularFile> deduplicated = deduplicateSources.flatMap(task -> task.getSides().getting(project.getPath()).flatMap(DeduplicateSources.Source::getOutput));
 
