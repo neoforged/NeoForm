@@ -10,12 +10,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
-
 import java.util.ArrayList;
 import java.util.List;
 
 public abstract class NeoFormExtension {
     private static final Logger LOG = LoggerFactory.getLogger(NeoFormExtension.class);
+
+    /**
+     * Settings for the tool used to pre-process the jar file.
+     */
+    private final ToolSettings preProcessJar;
 
     /**
      * Settings for the tool used to decompile the pre-processed jar.
@@ -49,6 +53,9 @@ public abstract class NeoFormExtension {
         getMinecraftDependencies().convention(getMinecraftVersion().map(minecraftVersion -> {
             return new ArrayList<>(List.of("net.neoforged:minecraft-dependencies:" + minecraftVersion));
         }));
+
+        preProcessJar = objects.newInstance(ToolSettings.class);
+        preProcessJar.getJavaVersion().convention(getJavaVersion());
         decompiler = objects.newInstance(ToolSettings.class);
         decompiler.getJavaVersion().convention(getJavaVersion());
 
@@ -71,6 +78,14 @@ public abstract class NeoFormExtension {
         action.execute(decompiler);
     }
 
+    public ToolSettings getPreProcessJar() {
+        return preProcessJar;
+    }
+
+    public void preProcessJar(Action<? super ToolSettings> action) {
+        action.execute(preProcessJar);
+    }
+
     private static String getVersionFromBranchName(String branchName) {
         var branchSegments = branchName.split("/");
         if (branchSegments[0].equals("snapshot") && branchSegments.length == 3) {
@@ -86,6 +101,10 @@ public abstract class NeoFormExtension {
     public abstract Property<String> getMinecraftVersion();
 
     public abstract ListProperty<String> getMinecraftDependencies();
+
+    public abstract ListProperty<String> getAdditionalCompileDependencies();
+
+    public abstract ListProperty<String> getAdditionalRuntimeDependencies();
 
     public abstract Property<Integer> getJavaVersion();
 

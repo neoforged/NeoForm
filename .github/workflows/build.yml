@@ -9,7 +9,6 @@ on:
       - reopened
   push:
   workflow_dispatch:
-  workflow_call:
 
 jobs:
   build:
@@ -18,21 +17,15 @@ jobs:
       - name: Checkout repository
         uses: neoforged/actions/checkout@main
 
-      - name: Setup JDK 25
+      - name: Setup JDK 21
         uses: neoforged/actions/setup-java@main
         with:
-          java-version: 25
+          java-version: 21
 
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
-        env:
-          # Gradle by default prioritizes same job id and same workflow over same commit
-          GRADLE_BUILD_ACTION_CACHE_KEY_JOB_INSTANCE: build
         with:
           cache-read-only: false
-
-      - name: Setup
-        run: ./gradlew :createPatchWorkspace
 
       - name: Test
         run: ./gradlew :check

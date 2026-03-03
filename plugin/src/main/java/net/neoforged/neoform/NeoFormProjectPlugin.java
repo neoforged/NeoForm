@@ -3,21 +3,31 @@ package net.neoforged.neoform;
 import net.neoforged.gradleutils.GradleUtilsExtension;
 import net.neoforged.gradleutils.PomUtilsExtension;
 import net.neoforged.neoform.dsl.NeoFormExtension;
+import net.neoforged.neoform.dsl.ToolSettings;
+import net.neoforged.neoform.tasks.CheckForMinecraftUpdate;
 import net.neoforged.neoform.tasks.CreateConfig;
-import net.neoforged.neoform.tasks.DeduplicateSources;
+import net.neoforged.neoform.tasks.CreatePatchWorkspace;
+import net.neoforged.neoform.tasks.CreatePatches;
+import net.neoforged.neoform.tasks.Decompile;
 import net.neoforged.neoform.tasks.DownloadVersionArtifacts;
+import net.neoforged.neoform.tasks.PrepareJarForDecompiler;
+import net.neoforged.neoform.tasks.TestWithEclipseCompiler;
+import net.neoforged.neoform.tasks.TestWithNeoFormRuntime;
+import net.neoforged.neoform.tasks.ToolAction;
 import net.neoforged.neoform.tasks.UpdateMinecraft;
 import net.neoforged.neoform.tasks.UpdateTools;
-import net.neoforged.nfrtgradle.DownloadAssets;
+import net.neoforged.nfrtgradle.CreateMinecraftArtifacts;
+import net.neoforged.nfrtgradle.NeoFormRuntimeTask;
+import org.gradle.api.Action;
 import org.gradle.api.InvalidUserCodeException;
-import org.gradle.api.NamedDomainObjectProvider;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
-import org.gradle.api.Task;
-import org.gradle.api.artifacts.ConsumableConfiguration;
+import org.gradle.api.artifacts.Configuration;
+import org.gradle.api.artifacts.Dependency;
 import org.gradle.api.attributes.Usage;
 import org.gradle.api.attributes.java.TargetJvmVersion;
 import org.gradle.api.component.SoftwareComponentFactory;
+import org.gradle.api.file.Directory;
 import org.gradle.api.file.RegularFile;
 import org.gradle.api.plugins.BasePlugin;
 import org.gradle.api.plugins.JvmEcosystemPlugin;
@@ -25,27 +35,18 @@ import org.gradle.api.provider.Provider;
 import org.gradle.api.publish.PublishingExtension;
 import org.gradle.api.publish.maven.MavenPublication;
 import org.gradle.api.publish.maven.plugins.MavenPublishPlugin;
-import org.gradle.api.tasks.TaskProvider;
+import org.gradle.api.tasks.Delete;
 import org.gradle.api.tasks.bundling.Zip;
+import org.gradle.jvm.toolchain.JavaLanguageVersion;
 import org.gradle.jvm.toolchain.JavaToolchainService;
 import org.gradle.language.base.plugins.LifecycleBasePlugin;
 
 import javax.inject.Inject;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Stream;
 
 public abstract class NeoFormProjectPlugin implements Plugin<Project> {
-
-    private TaskProvider<DownloadVersionArtifacts> downloadVersionArtifacts;
-    private TaskProvider<Task> cleanPatchWorkspace;
-    private TaskProvider<Task> createPatchWorkspace;
-    private TaskProvider<Task> createPatches;
-    private TaskProvider<DeduplicateSources> deduplicateSources;
-    private TaskProvider<DownloadAssets> downloadAssets;
-    private TaskProvider<CreateConfig> createConfig;
-    private TaskProvider<UpdateTools> updateTools;
-    private Provider<RegularFile> dataZip;
-    private NamedDomainObjectProvider<ConsumableConfiguration> neoformData;
-    private NamedDomainObjectProvider<ConsumableConfiguration> neoformRuntimeElements;
-    private NamedDomainObjectProvider<ConsumableConfiguration> neoformApiElements;
 
     @Inject
     protected abstract JavaToolchainService getJavaToolchains();
@@ -66,58 +67,108 @@ public abstract class NeoFormProjectPlugin implements Plugin<Project> {
         var buildDir = project.getLayout().getBuildDirectory();
 
         var neoForm = NeoFormExtension.fromProject(project);
-        var inputsDir = buildDir.dir("neoform/inputs/" + neoForm.getMinecraftVersion().get());
+        var inputsDir = buildDir.dir("neoform/inputs");
         var minecraftVersion = neoForm.getMinecraftVersion();
 
         project.setGroup("net.neoforged");
         TagBasedVersioning.configureVersion(project, minecraftVersion.get());
 
+        // Configuration that declares any additional compile-time libraries needed by NeoForm
+        var dependencyFactory = project.getDependencyFactory();
+        var neoFormLibraries = configurations.dependencyScope("neoFormLibraries", spec -> {
+            spec.getDependencies().addAllLater(neoForm.getAdditionalCompileDependencies().map(depStrings -> {
+                var deps = new ArrayList<Dependency>();
+                for (var depString : depStrings) {
+                    deps.add(dependencyFactory.create(depString));
+                }
+                return deps;
+            }));
+            spec.setTransitive(false);
+        });
+        var neoFormLibrariesClasspath = configurations.resolvable("neoFormLibrariesClasspath", spec -> {
+            spec.extendsFrom(neoFormLibraries.get());
+            spec.setTransitive(false);
+        });
+        var neoFormTools = configurations.dependencyScope("neoFormTools", spec -> {
+            spec.setDescription("Tools that are declared in this projects NeoForm config file.");
+            spec.getDependencies().addAll(createDependencies(project, neoForm.getPreProcessJar()));
+            spec.getDependencies().addAll(createDependencies(project, neoForm.getDecompiler()));
+        });
+
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // Download Version Manifest and Artifacts using NFRT
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        downloadVersionArtifacts = tasks.register("downloadVersionArtifacts", DownloadVersionArtifacts.class, task -> {
+        var downloadVersionArtifacts = tasks.register("downloadVersionArtifacts", DownloadVersionArtifacts.class, task -> {
             task.setGroup("neoform/internal");
             task.setDescription("Downloads the version manifest, client and server jar for the Minecraft version");
             task.getMinecraftVersion().set(minecraftVersion);
-            task.getVersionManifest().set(inputsDir.map(dir -> dir.file("version.json")));
-            task.getClient().set(inputsDir.map(dir -> dir.file("client.jar")));
-            task.getServer().set(inputsDir.map(dir -> dir.file("server.jar")));
+            task.getVersionManifest().set(prefixFilenameWithVersion(neoForm, inputsDir, "version.json"));
+            task.getClient().set(prefixFilenameWithVersion(neoForm, inputsDir, "client.jar"));
+            task.getServer().set(prefixFilenameWithVersion(neoForm, inputsDir, "server.jar"));
         });
 
-        deduplicateSources = tasks.register("deduplicateSources", DeduplicateSources.class, task -> {
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        // Merge the client and server to get the input for the decompiler
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        var prepareJarForDecompiler = tasks.register("prepareJarForDecompiler", PrepareJarForDecompiler.class, task -> {
             task.setGroup("neoform/internal");
+            task.getClient().set(downloadVersionArtifacts.flatMap(DownloadVersionArtifacts::getClient));
+            task.getServer().set(downloadVersionArtifacts.flatMap(DownloadVersionArtifacts::getServer));
+            task.getOutput().set(prefixFilenameWithVersion(neoForm, inputsDir, "joined.jar"));
         });
+        ToolAction.configure(project, prepareJarForDecompiler, neoForm.getPreProcessJar());
+
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        // Decompile
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        var minecraftLibrariesClasspath = MinecraftLibraries.createConfiguration(project);
+        var decompile = tasks.register("decompile", Decompile.class, task -> {
+            task.setGroup("neoform/internal");
+            task.getInput().set(prepareJarForDecompiler.flatMap(PrepareJarForDecompiler::getOutput));
+            task.getInputClasspath().from(minecraftLibrariesClasspath);
+            task.getOutput().set(prefixFilenameWithVersion(neoForm, inputsDir, "sources.zip"));
+        });
+        ToolAction.configure(project, decompile, neoForm.getDecompiler());
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // Workflow Tasks
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////
         var workspaceDir = project.getLayout().getProjectDirectory().dir("workspace");
-        cleanPatchWorkspace = tasks.register("cleanPatchWorkspace", task -> {
+        var cleanPatchWorkspace = tasks.register("cleanPatchWorkspace", Delete.class, task -> {
             task.setGroup("neoform");
             task.setDescription("Removes the current patch workspace, if it exists.");
+            task.delete(workspaceDir);
         });
-        createPatchWorkspace = tasks.register("createPatchWorkspace", task -> {
+        var createPatchWorkspace = tasks.register("createPatchWorkspace", CreatePatchWorkspace.class, task -> {
             task.setGroup("neoform");
             task.setDescription("Creates a Gradle subproject under 'workspace' that contains the patched Minecraft sources to work on modifying the patches easily. Run the createPatches task to generate new patches from this workspace.");
+            task.getPatchesDir().set(project.getLayout().getProjectDirectory().dir("src/patches"));
+            task.getSourcesZip().set(decompile.flatMap(Decompile::getOutput));
+            task.getWorkspace().set(workspaceDir);
         });
-        createPatches = tasks.register("createPatches", task -> {
+        var createPatchWorkspaceForUpdate = tasks.register("createPatchWorkspaceForUpdate", CreatePatchWorkspace.class, task -> {
             task.setGroup("neoform");
+            task.setDescription("Same as the createWorkspace task, but patches are applied fuzzily and rejected patches will be stored in the 'rejects' folder.");
+            task.getPatchesDir().set(project.getLayout().getProjectDirectory().dir("src/patches"));
+            task.getSourcesZip().set(decompile.flatMap(Decompile::getOutput));
+            task.getWorkspace().set(workspaceDir);
+            task.getUpdateMode().set(true);
         });
-        var assetsResourceDir = project.getLayout().getBuildDirectory().dir("assets");
-        downloadAssets = tasks.register("downloadAssets", DownloadAssets.class, task -> {
-            task.setGroup("neoform/internal");
-            task.setDescription("Download the client-side assets to be able to run the game.");
-            task.getMinecraftVersion().set(neoForm.getMinecraftVersion());
-
-            task.getAssetPropertiesFile().set(assetsResourceDir.map(dir -> dir.file("neoform_assets.properties")));
-            task.getOutputs().dir(assetsResourceDir);
+        var createPatches = tasks.register("createPatches", CreatePatches.class, task -> {
+            task.setGroup("neoform");
+            task.getPatchesDir().set(project.getLayout().getProjectDirectory().dir("src/patches"));
+            task.getSourcesZip().set(decompile.flatMap(Decompile::getOutput));
+            task.getModifiedSources().set(project.getLayout().getProjectDirectory().dir("workspace/src/main/java"));
         });
-        createConfig = tasks.register("createConfig", CreateConfig.class, task -> {
+        var createConfig = tasks.register("createConfig", CreateConfig.class, task -> {
             task.setGroup("neoform");
             task.setDescription("Creates the NeoForm config JSON for use by tooling from the configuration in the current project");
             task.getOutput().set(project.getLayout().getBuildDirectory().file("neoform/config.json"));
             task.getMinecraftVersion().set(neoForm.getMinecraftVersion());
             task.getDecompiler().set(neoForm.getDecompiler());
+            task.getPreProcessJar().set(neoForm.getPreProcessJar());
+            task.getAdditionalCompileDependencies().set(neoForm.getAdditionalCompileDependencies());
+            task.getAdditionalRuntimeDependencies().set(neoForm.getAdditionalRuntimeDependencies());
             task.getEncoding().set("UTF-8");
             task.getJavaVersion().set(neoForm.getJavaVersion());
         });
@@ -125,45 +176,76 @@ public abstract class NeoFormProjectPlugin implements Plugin<Project> {
             task.setGroup("neoform");
             task.setDescription("Builds the data archive containing NeoForm patches and configuration");
             task.from(createConfig, spec -> spec.into("/").rename(".*", "config.json"));
-            task.from(project.files("src/client/patches"), spec -> spec.into("/patches/client"));
-            task.from(project.files("src/joined/patches"), spec -> spec.into("/patches/joined"));
-
-            task.from(project.files("src/server/patches"), spec -> spec.into("/patches/client"));
-            task.from(project.files("src/server/patches"), spec -> spec.into("/patches/joined"));
-            task.from(project.files("src/server/patches"), spec -> spec.into("/patches/server"));
+            task.from(project.files("src/patches"), spec -> spec.into("/patches"));
             task.getArchiveBaseName().set("neoform");
             task.getDestinationDirectory().set(project.getLayout().getBuildDirectory().dir("libs"));
         });
         tasks.named(LifecycleBasePlugin.ASSEMBLE_TASK_NAME).configure(task -> task.dependsOn(createDataZip));
-        dataZip = createDataZip.flatMap(Zip::getArchiveFile);
+        var dataZip = createDataZip.flatMap(Zip::getArchiveFile);
         tasks.register("updateMinecraft", UpdateMinecraft.class);
-        updateTools = tasks.register("updateTools", UpdateTools.class);
+        tasks.register("updateTools", UpdateTools.class);
+        tasks.register("checkForMinecraftUpdate", CheckForMinecraftUpdate.class);
+
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        // Testing Tasks
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        var neoFormRuntimeLibrariesClasspath = configurations.resolvable("neoFormRuntimeLibrariesClasspath", spec -> {
+            spec.setDescription("Classpath used to pre-resolve tools and libraries for NFRT");
+            spec.extendsFrom(neoFormTools.get());
+            spec.extendsFrom(neoFormLibraries.get());
+        });
+
+        Action<NeoFormRuntimeTask> nfrtConfigurer = task -> {
+            task.addArtifactsToManifest(neoFormRuntimeLibrariesClasspath.get());
+            task.addArtifactsToManifest(minecraftLibrariesClasspath.get());
+        };
+
+        // Explicitly test with a variety of different JDKs, this tests both running the decompile & recompile using that JDK.
+        var javaVersions = Stream.concat(Stream.of(neoForm.getJavaVersion().get()), neoForm.getTestJavaVersions().get().stream()).toList();
+        for (int testJavaVersion : javaVersions) {
+            String taskName = testJavaVersion == neoForm.getJavaVersion().get() ? "testData" : "testDataJava" + testJavaVersion;
+
+            var testData = tasks.register(taskName, TestWithNeoFormRuntime.class, task -> {
+                task.setGroup("verification");
+                task.setDescription("Tests that the data produced by this project can be consumed by NFRT to generate compilable sources and compile them.");
+                nfrtConfigurer.execute(task);
+                task.getNeoFormDataArchive().set(dataZip);
+                task.getResultsDirectory().set(project.getLayout().getBuildDirectory().dir("test-results/" + taskName));
+                task.getJavaExecutable().convention(getJavaToolchains()
+                        .launcherFor(spec -> spec.getLanguageVersion().set(JavaLanguageVersion.of(neoForm.getJavaVersion().get())))
+                        .map(javaLauncher -> javaLauncher.getExecutablePath().getAsFile().getAbsolutePath()));
+            });
+            tasks.named(LifecycleBasePlugin.CHECK_TASK_NAME).configure(task -> task.dependsOn(testData));
+        }
+        configureEclipseTestTask(project, neoForm, dataZip, neoFormLibrariesClasspath.get(), minecraftLibrariesClasspath.get(), nfrtConfigurer);
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // Publishing Tasks
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        neoformData = configurations.consumable("neoformData", configuration -> {
+        var neoformData = configurations.consumable("neoformData", configuration -> {
             configuration.getAttributes().attributeProvider(TargetJvmVersion.TARGET_JVM_VERSION_ATTRIBUTE, neoForm.getJavaVersion());
             configuration.getOutgoing().capability("net.neoforged:neoform:" + project.getVersion());
+            configuration.extendsFrom(neoFormTools.get());
         });
         project.getArtifacts().add(neoformData.getName(), createDataZip);
 
-        MinecraftLibraries.createConfiguration(project);
-        neoformRuntimeElements = configurations.consumable("neoformRuntimeElements", configuration -> {
+        var neoformRuntimeElements = configurations.consumable("neoformRuntimeElements", configuration -> {
             configuration.attributes(attributes -> {
                 attributes.attributeProvider(TargetJvmVersion.TARGET_JVM_VERSION_ATTRIBUTE, neoForm.getJavaVersion());
                 attributes.attribute(Usage.USAGE_ATTRIBUTE, objects.named(Usage.class, Usage.JAVA_RUNTIME));
             });
             configuration.getOutgoing().capability("net.neoforged:neoform-dependencies:" + project.getVersion());
             configuration.extendsFrom(configurations.named(MinecraftLibraries.DEPENDENCY_SCOPE).get());
+            configuration.extendsFrom(neoFormLibraries.get());
         });
-        neoformApiElements = configurations.consumable("neoformApiElements", configuration -> {
+        var neoformApiElements = configurations.consumable("neoformApiElements", configuration -> {
             configuration.attributes(attributes -> {
                 attributes.attributeProvider(TargetJvmVersion.TARGET_JVM_VERSION_ATTRIBUTE, neoForm.getJavaVersion());
                 attributes.attribute(Usage.USAGE_ATTRIBUTE, objects.named(Usage.class, Usage.JAVA_API));
             });
             configuration.getOutgoing().capability("net.neoforged:neoform-dependencies:" + project.getVersion());
             configuration.extendsFrom(configurations.named(MinecraftLibraries.DEPENDENCY_SCOPE).get());
+            configuration.extendsFrom(neoFormLibraries.get());
         });
 
         var neoformComponent = getComponentFactory().adhoc("neoform");
@@ -199,54 +281,55 @@ public abstract class NeoFormProjectPlugin implements Plugin<Project> {
         });
     }
 
-    public TaskProvider<DownloadVersionArtifacts> downloadVersionArtifacts() {
-        return downloadVersionArtifacts;
+    private void configureEclipseTestTask(Project project,
+                                          NeoFormExtension neoForm,
+                                          Provider<RegularFile> dataZip,
+                                          Configuration additionalCompileDependencies,
+                                          Configuration minecraftLibraries,
+                                          Action<NeoFormRuntimeTask> nfrtConfigurer) {
+
+        var eclipseCompiler = project.getConfigurations().dependencyScope("eclipseCompiler", spec -> {
+            spec.getDependencies().add(project.getDependencyFactory().create("org.eclipse.jdt:ecj:3.44.0"));
+        });
+        var eclipseCompilerClasspath = project.getConfigurations().resolvable("eclipseCompilerClasspath", spec -> {
+            spec.extendsFrom(eclipseCompiler.get());
+        });
+
+        var tasks = project.getTasks();
+
+        // Use NFRT to produce a source zip we can then compile with ECJ
+        var sourcesZip = tasks.register("createSourceZip", CreateMinecraftArtifacts.class, task -> {
+            task.setGroup("neoform/internal");
+            task.setDescription("Creates a patched sources zip with NFRT to test further compilers.");
+            nfrtConfigurer.execute(task);
+            task.getInputs().file(dataZip); // Ensure there's a task dependency.
+            task.getNeoFormArtifact().set(dataZip.map(f -> f.getAsFile().getAbsolutePath()));
+            task.getGameSourcesArtifact().set(project.getLayout().getBuildDirectory().file("test-data/sources.zip"));
+        });
+
+        var testTask = tasks.register("testDataWithEclipseCompiler", TestWithEclipseCompiler.class, task -> {
+            task.setGroup("verification");
+            task.getSourcesZip().set(sourcesZip.flatMap(CreateMinecraftArtifacts::getGameSourcesArtifact));
+            task.getEclipseCompilerClasspath().from(eclipseCompilerClasspath);
+            task.getCompileClasspath().from(minecraftLibraries);
+            task.getCompileClasspath().from(additionalCompileDependencies);
+            task.getJavaVersion().set(neoForm.getJavaVersion());
+            task.getJavaExecutable().convention(getJavaToolchains()
+                    .launcherFor(spec -> spec.getLanguageVersion().set(JavaLanguageVersion.of(neoForm.getJavaVersion().get())))
+                    .map(javaLauncher -> javaLauncher.getExecutablePath().getAsFile().getAbsolutePath()));
+        });
+        project.getTasks().named("check").configure(check -> check.dependsOn(testTask));
     }
 
-    public TaskProvider<Task> getCleanPatchWorkspace() {
-        return cleanPatchWorkspace;
-    }
-
-    public TaskProvider<Task> getCreatePatchWorkspace() {
-        return createPatchWorkspace;
-    }
-
-    public TaskProvider<Task> getCreatePatches() {
-        return createPatches;
-    }
-
-    public TaskProvider<DeduplicateSources> getDeduplicateSources() {
-        return deduplicateSources;
-    }
-
-    public TaskProvider<DownloadAssets> getDownloadAssets() {
-        return downloadAssets;
-    }
-
-    public TaskProvider<CreateConfig> getCreateConfig() {
-        return createConfig;
-    }
-
-    public TaskProvider<UpdateTools> getUpdateTools() {
-        return updateTools;
-    }
-
-    public Provider<RegularFile> getDataZip() {
-        return dataZip;
-    }
-
-    public NamedDomainObjectProvider<ConsumableConfiguration> getNeoformData() {
-        return neoformData;
-    }
-
-    public NamedDomainObjectProvider<ConsumableConfiguration> getNeoformRuntimeElements() {
-        return neoformRuntimeElements;
-    }
-
-    public NamedDomainObjectProvider<ConsumableConfiguration> getNeoformApiElements() {
-        return neoformApiElements;
+    static Provider<RegularFile> prefixFilenameWithVersion(NeoFormExtension neoForm, Provider<Directory> dirProvider, String suffix) {
+        return dirProvider.zip(neoForm.getMinecraftVersion(), (dir, version) -> dir.file(version + "_" + suffix));
     }
 
     @Inject
     protected abstract SoftwareComponentFactory getComponentFactory();
+
+    private static List<? extends Dependency> createDependencies(Project project, ToolSettings toolSettings) {
+        var dependencyFactory = project.getDependencyFactory();
+        return toolSettings.getClasspath().get().stream().map(dependencyFactory::create).toList();
+    }
 }

@@ -22,14 +22,19 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Check for Minecraft Updates
-        id: check_for_update
-        run: |
-          LATEST_SNAPSHOT=$(wget -O - https://piston-meta.mojang.com/mc/game/version_manifest_v2.json | jq -r '.latest.snapshot as $latest_snapshot | .versions[] | select(.id == $latest_snapshot)')
-          echo "release_type=$(jq -r 'if .type == "release" then "release" elif .id | test("^\\d+\\.\\d+(\\.\\d+)?-(snapshot|pre|rc)-\\d+$") then "snapshot" else "special" end' <<< $LATEST_SNAPSHOT)" >> $GITHUB_OUTPUT
-          echo "latest_version=$(jq -r .id <<< $LATEST_SNAPSHOT)" >> $GITHUB_OUTPUT
-          # https://stackoverflow.com/questions/35475432/read-versionname-from-build-gradle-in-bash
-          echo "current_version=$(grep "minecraftVersion" settings.gradle | awk '{print $3}' | tr -d "\'\r")" >> $GITHUB_OUTPUT
+      - name: Setup Java 21
+        uses: neoforged/actions/setup-java@main
+        with:
+          java-version: 21
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v5
+      # This job will create outputs:
+      # - release_type ('special' for anything that's not mainline)
+      # - latest_version
+      # - current_version
+      - id: check_for_update
+        name: Check for Minecraft Updates
+        run: ./gradlew :checkForMinecraftUpdate
       - id: postprocess
         name: Post-Process Update Variables
         uses: actions/github-script@v8

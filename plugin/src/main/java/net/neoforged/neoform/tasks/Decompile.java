@@ -2,12 +2,9 @@ package net.neoforged.neoform.tasks;
 
 import org.gradle.api.file.ConfigurableFileCollection;
 import org.gradle.api.file.RegularFileProperty;
-import org.gradle.api.tasks.CacheableTask;
 import org.gradle.api.tasks.Classpath;
 import org.gradle.api.tasks.InputFile;
 import org.gradle.api.tasks.OutputFile;
-import org.gradle.api.tasks.PathSensitive;
-import org.gradle.api.tasks.PathSensitivity;
 import org.gradle.api.tasks.TaskAction;
 
 import javax.inject.Inject;
@@ -18,9 +15,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
-@CacheableTask
 public abstract class Decompile extends ToolAction {
-    @PathSensitive(PathSensitivity.NONE)
     @InputFile
     public abstract RegularFileProperty getInput();
 
