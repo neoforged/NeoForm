@@ -1,15 +1,5 @@
 --- a/net/minecraft/client/renderer/block/dispatch/VariantSelector.java
 +++ b/net/minecraft/client/renderer/block/dispatch/VariantSelector.java
-@@ -4,8 +_,8 @@
- import java.util.HashMap;
- import java.util.Iterator;
- import java.util.Map;
--import java.util.Objects;
- import java.util.Map.Entry;
-+import java.util.Objects;
- import java.util.function.Predicate;
- import net.minecraft.world.level.block.state.StateDefinition;
- import net.minecraft.world.level.block.state.StateHolder;
 @@ -29,7 +_,7 @@
                  Property<?> property = stateDefinition.getProperty(propertyName);
                  if (property != null && iterator.hasNext()) {
