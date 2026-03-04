@@ -14,9 +14,8 @@ have a corresponding tag as well.
 A typical workflow to change the patches would be:
 
 - Run `gradlew :createPatchWorkspace` in the root, when the patches are already correct for the targeted Minecraft
-  version,
-  or `gradlew :createPatchWorkspaceForUpdate` for performing an update.
-- Reload the gradle project in your IDE, there will now be a subproject at `/workspace` containing the patched Minecraft
+  version.
+- Reload the gradle project in your IDE, there will now be subprojects in `/workspace` containing the patched Minecraft
   code.
 - Make any desired changes to the source code
 - Run `gradlew :createPatches` to create new patch files from the sources currently contained in the workspace.
@@ -26,8 +25,7 @@ A typical workflow to change the patches would be:
 | Task                             | Description                                                                                                                                                   |
 |----------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | `:createPatchWorkspace`          | Decompile Minecraft, apply patches from `src/patches` and place the code in `workspace`.                                                                      |
-| `:createPatchWorkspaceForUpdate` | Same as `:createPatchWorkspace`, but patches will be applied partially and rejects stored in the `rejects` folder. Used to update to a new Minecraft version. |
-| `:workspace:runClient`           | Runs the client in the workspace subproject.                                                                                                                  |
+| `:<distribution>:runClient`           | Runs the client in the <distribution> subproject.                                                                                                                  |
 | `:check`                         | Runs the data contained in the current branch through [NeoFormRuntime](https://github.com/neoforged/NeoFormRuntime/), as well as the Eclipse Compiler.        |
 
 ## GitHub Actions Workflows
