@@ -1,7 +1,8 @@
 /.idea
 /.gradle
 /**/build
-/workspace
+/workspace/*/*
+!/workspace/*/build.gradle
 /plugin/.gradle
 
 # Eclipse Files

@@ -23,6 +23,7 @@ import org.gradle.api.tasks.OutputDirectory;
 import org.gradle.api.tasks.TaskAction;
 
 import javax.inject.Inject;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -92,6 +93,8 @@ public abstract class CreatePatchWorkspace extends DefaultTask {
         var resourcesDir = workspace.resolve("src/main/resources");
         Files.createDirectories(sourcesDir);
         Files.createDirectories(resourcesDir);
+        DirectoryCleaner.cleanDirectory(sourcesDir, path -> true);
+        DirectoryCleaner.cleanDirectory(resourcesDir, path -> true);
 
         // Gather all patches
         Map<String, Patch> patches = new HashMap<>();

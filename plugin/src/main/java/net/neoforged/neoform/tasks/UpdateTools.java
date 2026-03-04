@@ -1,13 +1,15 @@
 package net.neoforged.neoform.tasks;
 
 import net.neoforged.neoform.dsl.NeoFormExtension;
+import net.neoforged.neoform.dsl.NeoFormSideExtension;
 import org.gradle.api.DefaultTask;
 import org.gradle.api.GradleException;
 import org.gradle.api.Project;
 import org.gradle.api.artifacts.Dependency;
 import org.gradle.api.artifacts.ExternalModuleDependency;
 import org.gradle.api.artifacts.component.ModuleComponentIdentifier;
-import org.gradle.api.file.RegularFileProperty;
+import org.gradle.api.artifacts.dsl.DependencyFactory;
+import org.gradle.api.provider.ListProperty;
 import org.gradle.api.provider.MapProperty;
 import org.gradle.api.tasks.Input;
 import org.gradle.api.tasks.Internal;
@@ -15,10 +17,12 @@ import org.gradle.api.tasks.TaskAction;
 import org.gradle.internal.component.external.model.ModuleComponentArtifactIdentifier;
 
 import javax.inject.Inject;
+
 import java.io.File;
 import java.nio.file.Files;
-import java.util.ArrayList;
+import java.nio.file.Path;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
@@ -29,23 +33,33 @@ public abstract class UpdateTools extends DefaultTask {
         setDescription("Update the tool versions used in the project.");
 
         var neoForm = NeoFormExtension.fromProject(project);
-        getSettingsScript().set(new File(project.getRootDir(), "settings.gradle"));
+        getScripts().add(new File(project.getRootDir(), "settings.gradle"));
 
         var dependencyFactory = project.getDependencyFactory();
-        var tools = new ArrayList<ExternalModuleDependency>();
-        tools.addAll(neoForm.getPreProcessJar().getClasspath().map(i -> i.stream().map(dependencyFactory::create).toList()).get());
-        tools.addAll(neoForm.getDecompiler().getClasspath().map(i -> i.stream().map(dependencyFactory::create).toList()).get());
-        getCurrentVersions().set(tools.stream().collect(Collectors.toMap(
+        addToLatestVersions(neoForm.getDecompiler().getClasspath().map(i -> i.stream().map(dependencyFactory::create).toList()).get());
+    }
+
+    public void addSubProject(Project project) {
+        DependencyFactory dependencyFactory = project.getDependencyFactory();
+        NeoFormSideExtension side = project.getExtensions().getByType(NeoFormSideExtension.class);
+        if (side.getPreProcessJar() != null) {
+            addToLatestVersions(side.getPreProcessJar().getClasspath().get().stream().map(dependencyFactory::create).toList());
+        }
+        getScripts().add(new File(project.getProjectDir(), "build.gradle"));
+    }
+
+    private void addToLatestVersions(List<ExternalModuleDependency> tools) {
+        getCurrentVersions().putAll(tools.stream().collect(Collectors.toMap(
                 tool -> tool.getModule().toString(),
                 Dependency::getVersion
         )));
 
         // Slightly tricky. We use a configuration to figure out the latest versions of all tools
-        var latestToolsConfiguration = project.getConfigurations().detachedConfiguration(
+        var latestToolsConfiguration = getProject().getConfigurations().detachedConfiguration(
                 tools.stream().map(this::getLatestVersionDependency).toArray(Dependency[]::new)
         );
         latestToolsConfiguration.setTransitive(false);
-        getLatestVersions().set(latestToolsConfiguration.getIncoming().getArtifacts().getResolvedArtifacts().map(resolvedArtifacts -> {
+        getLatestVersions().putAll(latestToolsConfiguration.getIncoming().getArtifacts().getResolvedArtifacts().map(resolvedArtifacts -> {
             var result = new HashMap<String, String>();
             for (var resolvedArtifact : resolvedArtifacts) {
                 var id = resolvedArtifact.getId();
@@ -70,7 +84,7 @@ public abstract class UpdateTools extends DefaultTask {
     }
 
     @Internal
-    public abstract RegularFileProperty getSettingsScript();
+    public abstract ListProperty<File> getScripts();
 
     /**
      * Map from group:artifact to the latest version we can find of that.
@@ -83,29 +97,36 @@ public abstract class UpdateTools extends DefaultTask {
 
     @TaskAction
     public void update() throws Exception {
-        var settingsScriptPath = getSettingsScript().get().getAsFile().toPath();
-        String settingsScript = Files.readString(settingsScriptPath);
-        String originalSettingsScript = settingsScript;
-
-        var currentVersions = getCurrentVersions().get();
-        var latestVersions = getLatestVersions().get();
-
-        // Perform tool updates
-        for (var entry : latestVersions.entrySet()) {
+        for (var entry : getLatestVersions().get().entrySet()) {
             var latestVersion = entry.getValue();
-            var currentVersion = currentVersions.get(entry.getKey());
+            var currentVersion = getCurrentVersions().get().get(entry.getKey());
             if (!Objects.equals(currentVersion, latestVersion)) {
                 getLogger().lifecycle("Updating {} from {} to {}", entry.getKey(), currentVersion, latestVersion);
-                settingsScript = settingsScript.replace(entry.getKey() + ":" + currentVersion, entry.getKey() + ":" + latestVersion);
             } else {
                 getLogger().lifecycle("No update available for {}. Latest version is {}.", entry.getKey(), latestVersion);
             }
         }
+        for (Path path : getScripts().get().stream().map(File::toPath).toList()) {
+            String settingsScript = Files.readString(path);
+            String originalSettingsScript = settingsScript;
 
-        if (!settingsScript.equals(originalSettingsScript)) {
-            Files.writeString(settingsScriptPath, settingsScript);
-        } else {
-            setDidWork(false);
+            var currentVersions = getCurrentVersions().get();
+            var latestVersions = getLatestVersions().get();
+
+            // Perform tool updates
+            for (var entry : latestVersions.entrySet()) {
+                var latestVersion = entry.getValue();
+                var currentVersion = currentVersions.get(entry.getKey());
+                if (!Objects.equals(currentVersion, latestVersion)) {
+                    settingsScript = settingsScript.replace(entry.getKey() + ":" + currentVersion, entry.getKey() + ":" + latestVersion);
+                }
+            }
+
+            if (!settingsScript.equals(originalSettingsScript)) {
+                Files.writeString(path, settingsScript);
+            } else {
+                setDidWork(false);
+            }
         }
     }
 }
