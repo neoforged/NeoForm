@@ -1,0 +1,25 @@
+neoForm {
+    additionalCompileDependencies = [
+        'net.neoforged:mergetool:2.0.7:api',
+        'com.google.code.findbugs:jsr305:3.0.2',
+        'org.jetbrains:annotations:26.0.2-1',
+        // In the Minecraft libraries list, this is MacOS X specific since it only contains runtime dependencies
+        // But the MacOS X specific code referencing this will be compiled on all platforms.
+        'ca.weblite:java-objc-bridge:1.1'
+    ]
+
+    preProcessJar {
+        classpath = ['net.neoforged.installertools:installertools:4.0.16:fatjar']
+        args = ['--task', 'PROCESS_MINECRAFT_JAR', '--input', '{inputClientJar}', '--input', '{inputServerJar}', '--output', '{output}', '--no-mod-manifest']
+    }
+    
+    useClient = true
+    
+    useServer = true
+    
+    contains = [
+        project(':server')
+    ]
+    
+    patchSource = project(':client')
+}

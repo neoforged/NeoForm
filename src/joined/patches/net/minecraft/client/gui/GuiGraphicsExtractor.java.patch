@@ -1,0 +1,13 @@
+--- a/net/minecraft/client/gui/GuiGraphicsExtractor.java
++++ b/net/minecraft/client/gui/GuiGraphicsExtractor.java
+@@ -1241,8 +_,8 @@
+ 
+         private RenderingTextCollector(
+             ActiveTextCollector.Parameters initialParameters,
+-            GuiGraphicsExtractor.@Nullable HoveredTextEffects hoveredTextEffects,
+-            Consumer<Style> additonalConsumer
++            GuiGraphicsExtractor.HoveredTextEffects hoveredTextEffects,
++            @Nullable Consumer<Style> additonalConsumer
+         ) {
+             Objects.requireNonNull(GuiGraphicsExtractor.this);
+             super();
