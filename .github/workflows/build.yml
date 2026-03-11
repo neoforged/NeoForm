@@ -37,6 +37,15 @@ jobs:
       - name: Test
         run: ./gradlew :check
 
+      - name: Create build
+        run: ./gradlew :createDataArchive
+
+      - name: Upload build
+        uses: actions/upload-artifact@v7
+        with:
+          path: build/libs/neoform-*.zip
+          archive: false
+
       - name: Publish PR artifacts
         if: ${{ github.event_name == 'pull_request' }}
         uses: neoforged/action-pr-publishing/upload@v1
