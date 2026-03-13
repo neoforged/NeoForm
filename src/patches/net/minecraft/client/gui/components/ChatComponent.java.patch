@@ -1,6 +1,6 @@
 --- a/net/minecraft/client/gui/components/ChatComponent.java
 +++ b/net/minecraft/client/gui/components/ChatComponent.java
-@@ -440,7 +_,7 @@
+@@ -448,7 +_,7 @@
      }
  
      public void openScreen(ChatComponent.ChatMethod chatMethod, ChatScreen.ChatConstructor<?> chat) {
