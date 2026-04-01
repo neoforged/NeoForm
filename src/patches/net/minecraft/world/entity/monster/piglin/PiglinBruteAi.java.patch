@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/entity/monster/piglin/PiglinBruteAi.java
 +++ b/net/minecraft/world/entity/monster/piglin/PiglinBruteAi.java
-@@ -52,7 +_,7 @@
+@@ -53,7 +_,7 @@
      }
  
      private static ActivityData<PiglinBrute> initCoreActivity() {
@@ -9,7 +9,7 @@
              Activity.CORE,
              0,
              ImmutableList.of(new LookAtTargetSink(45, 90), new MoveToTargetSink(), InteractWithDoor.create(), StopBeingAngryIfTargetDead.create())
-@@ -60,7 +_,7 @@
+@@ -61,7 +_,7 @@
      }
  
      private static ActivityData<PiglinBrute> initIdleActivity() {
@@ -18,7 +18,7 @@
              Activity.IDLE,
              10,
              ImmutableList.of(
-@@ -73,7 +_,7 @@
+@@ -74,7 +_,7 @@
      }
  
      private static ActivityData<PiglinBrute> initFightActivity(PiglinBrute body) {
