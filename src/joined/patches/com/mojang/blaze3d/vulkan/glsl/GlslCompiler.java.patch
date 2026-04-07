@@ -1,0 +1,27 @@
+--- a/com/mojang/blaze3d/vulkan/glsl/GlslCompiler.java
++++ b/com/mojang/blaze3d/vulkan/glsl/GlslCompiler.java
+@@ -95,13 +_,13 @@
+ 
+         for (SpvSampler sampler : shader.samplers()) {
+             String namex = sampler.name();
+-            Optional<RenderPipeline.UniformDescription> uniformDescriptionx = pipeline.getUniforms().stream().filter(d -> d.name().equals(name)).findFirst();
++            Optional<RenderPipeline.UniformDescription> uniformDescriptionx = pipeline.getUniforms().stream().filter(d -> d.name().equals(namex)).findFirst();
+             if (uniformDescriptionx.isPresent()) {
+                 if (sampler.dimensions() != 5) {
+                     throw new ShaderCompileException("UTB (" + namex + ") must have type of SpvDimBuffer");
+                 }
+ 
+-                if (entries.stream().noneMatch(e -> e.type() == VulkanBindGroupLayout.VulkanBindGroupEntryType.TEXEL_BUFFER && e.name().equals(name))) {
++                if (entries.stream().noneMatch(e -> e.type() == VulkanBindGroupLayout.VulkanBindGroupEntryType.TEXEL_BUFFER && e.name().equals(namex))) {
+                     entries.add(
+                         new VulkanBindGroupLayout.Entry(
+                             VulkanBindGroupLayout.VulkanBindGroupEntryType.TEXEL_BUFFER, namex, uniformDescriptionx.get().gpuFormat()
+@@ -117,7 +_,7 @@
+                     throw new ShaderCompileException("Sampled texture (" + namex + ") must have type of SpvDim2D or SpvDimCube");
+                 }
+ 
+-                if (entries.stream().noneMatch(e -> e.type() == VulkanBindGroupLayout.VulkanBindGroupEntryType.SAMPLED_IMAGE && e.name().equals(name))) {
++                if (entries.stream().noneMatch(e -> e.type() == VulkanBindGroupLayout.VulkanBindGroupEntryType.SAMPLED_IMAGE && e.name().equals(namex))) {
+                     entries.add(new VulkanBindGroupLayout.Entry(VulkanBindGroupLayout.VulkanBindGroupEntryType.SAMPLED_IMAGE, namex, null));
+                 }
+             }

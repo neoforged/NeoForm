@@ -1,6 +1,6 @@
 --- a/com/mojang/blaze3d/opengl/GlCommandEncoder.java
 +++ b/com/mojang/blaze3d/opengl/GlCommandEncoder.java
-@@ -529,10 +_,10 @@
+@@ -523,109 +_,26 @@
              Uniform var10 = var10000;
              byte var11 = 0;
  
@@ -8,17 +8,28 @@
 -                switch (SwitchBootstraps.typeSwitch<"typeSwitch",Uniform.Ubo,Uniform.Utb,Uniform.Sampler>(var10, var11)) {
 -                    case 0:
 -                        Uniform.Ubo var12 = (Uniform.Ubo)var10;
-+            {
-+                switch (var10) {
-+                    case Uniform.Ubo var12:
-+                        int var63;
-                         Uniform.Ubo var62 = var12;
- 
-                         try {
-@@ -552,86 +_,19 @@
- 
-                         var11 = 1;
-                         break;
+-                        Uniform.Ubo var62 = var12;
+-
+-                        try {
+-                            var63 = var62.blockBinding();
+-                        } catch (Throwable var32) {
+-                            throw new MatchException(var32.toString(), var32);
+-                        }
+-
+-                        int var41 = var63;
+-                        if (true) {
++            switch (var10) {
++                    case Uniform.Ubo(int blockBinding):
+                             if (isDirty) {
+                                 GpuBufferSlice bufferView = renderPass.uniforms.get(namex);
+-                                GL32.glBindBufferRange(35345, var41, ((GlBuffer)bufferView.buffer()).handle, bufferView.offset(), bufferView.length());
++                                GL32.glBindBufferRange(35345, blockBinding, ((GlBuffer)bufferView.buffer()).handle, bufferView.offset(), bufferView.length());
+                             }
+                             continue label200;
+-                        }
+-
+-                        var11 = 1;
+-                        break;
 -                    case 1:
 -                        Uniform.Utb bufferView = (Uniform.Utb)var10;
 -                        Uniform.Utb var54 = bufferView;
@@ -49,7 +60,7 @@
 -                                    throw new MatchException(var29.toString(), var29);
 -                                }
 -
--                                TextureFormat var45 = var59;
+-                                GpuFormat var45 = var59;
 -                                Uniform.Utb var60 = bufferView;
 -
 -                                try {
@@ -60,18 +71,20 @@
 -
 -                                var43 = var61;
 -                                if (true) {
-+                    case Uniform.Utb(int location, int samplerIdx, TextureFormat var45, int var43):
++                    case Uniform.Utb(int location, int samplerIndex, GpuFormat format, int texture):
                                      if (differentProgram || isDirty) {
 -                                        GlStateManager._glUniform1i(var43, var43);
-+                                        GlStateManager._glUniform1i(location, samplerIdx);
++                                        GlStateManager._glUniform1i(location, samplerIndex);
                                      }
  
 -                                    GlStateManager._activeTexture(33984 + var43);
-+                                    GlStateManager._activeTexture(33984 + samplerIdx);
-                                     GL11C.glBindTexture(35882, var43);
+-                                    GL11C.glBindTexture(35882, var43);
++                                    GlStateManager._activeTexture(33984 + samplerIndex);
++                                    GL11C.glBindTexture(35882, texture);
                                      if (isDirty) {
                                          GpuBufferSlice bufferViewx = renderPass.uniforms.get(namex);
-                                         GL31.glTexBuffer(35882, GlConst.toGlInternalId(var45), ((GlBuffer)bufferViewx.buffer()).handle);
+-                                        GL31.glTexBuffer(35882, GlConst.toGlInternalId(var45), ((GlBuffer)bufferViewx.buffer()).handle);
++                                        GL31.glTexBuffer(35882, GlConst.toGlInternalId(format), ((GlBuffer)bufferViewx.buffer()).handle);
                                      }
                                      continue label200;
 -                                }
@@ -106,7 +119,7 @@
                                  GlRenderPass.TextureViewAndSampler viewAndSamplerxx = renderPass.samplers.get(namex);
                                  if (viewAndSamplerxx == null) {
                                      continue label200;
-@@ -639,10 +_,10 @@
+@@ -633,10 +_,10 @@
  
                                  GlTextureView textureViewx = viewAndSamplerxx.view();
                                  if (differentProgram || isDirty) {
@@ -119,7 +132,7 @@
                                  GlTexture texture = textureViewx.texture();
                                  int target;
                                  if ((texture.usage() & 16) != 0) {
-@@ -653,15 +_,10 @@
+@@ -647,19 +_,13 @@
                                      GlStateManager._bindTexture(texture.id);
                                  }
  
@@ -136,3 +149,7 @@
                      default:
                          throw new MatchException(null, null);
                  }
+-            }
+         }
+ 
+         renderPass.dirtyUniforms.clear();
