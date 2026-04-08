@@ -1,19 +1,11 @@
 --- a/net/minecraft/world/entity/ai/behavior/SocializeAtBell.java
 +++ b/net/minecraft/world/entity/ai/behavior/SocializeAtBell.java
-@@ -7,6 +_,7 @@
- import net.minecraft.world.entity.ai.memory.MemoryModuleType;
- import net.minecraft.world.entity.ai.memory.NearestVisibleLivingEntities;
- import net.minecraft.world.entity.ai.memory.WalkTarget;
-+import net.minecraft.world.entity.npc.villager.Villager;
- 
- public class SocializeAtBell {
-     private static final float SPEED_MODIFIER = 0.3F;
 @@ -30,7 +_,7 @@
                              && memory.pos().closerToCenterThan(body.position(), 4.0)
                              && visibleEntities.contains(mob -> mob.is(EntityType.VILLAGER))) {
                              visibleEntities.findClosest(mob -> mob.is(EntityType.VILLAGER) && mob.distanceToSqr(body) <= 32.0).ifPresent(mob -> {
 -                                interactionTarget.set(mob);
-+                                interactionTarget.set((Villager)mob);
++                                interactionTarget.set((net.minecraft.world.entity.npc.villager.Villager)mob);
                                  lookTarget.set(new EntityTracker(mob, true));
                                  walkTarget.set(new WalkTarget(new EntityTracker(mob, false), 0.3F, 1));
                              });
