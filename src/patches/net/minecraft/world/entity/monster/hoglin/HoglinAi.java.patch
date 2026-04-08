@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/entity/monster/hoglin/HoglinAi.java
 +++ b/net/minecraft/world/entity/monster/hoglin/HoglinAi.java
-@@ -64,7 +_,7 @@
+@@ -65,7 +_,7 @@
      }
  
      private static ActivityData<Hoglin> initIdleActivity() {
@@ -9,7 +9,7 @@
              Activity.IDLE,
              10,
              ImmutableList.of(
-@@ -81,7 +_,7 @@
+@@ -82,7 +_,7 @@
      }
  
      private static ActivityData<Hoglin> initFightActivity() {
@@ -18,7 +18,7 @@
              Activity.FIGHT,
              10,
              ImmutableList.of(
-@@ -98,14 +_,14 @@
+@@ -99,14 +_,14 @@
      }
  
      private static ActivityData<Hoglin> initRetreatActivity() {

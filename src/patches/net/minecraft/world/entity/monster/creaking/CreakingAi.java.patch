@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/entity/monster/creaking/CreakingAi.java
 +++ b/net/minecraft/world/entity/monster/creaking/CreakingAi.java
-@@ -28,15 +_,15 @@
+@@ -29,15 +_,15 @@
  
  public class CreakingAi {
      static ActivityData<Creaking> initCoreActivity() {
@@ -19,7 +19,7 @@
              Activity.IDLE,
              10,
              ImmutableList.of(
-@@ -55,7 +_,7 @@
+@@ -56,7 +_,7 @@
      }
  
      static ActivityData<Creaking> initFightActivity(Creaking body) {

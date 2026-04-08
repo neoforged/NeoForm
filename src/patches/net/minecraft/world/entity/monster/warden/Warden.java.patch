@@ -18,7 +18,7 @@
      }
  
      @Override
-@@ -550,7 +_,7 @@
+@@ -548,7 +_,7 @@
                  this.nodeEvaluator = new WalkNodeEvaluator();
                  return new PathFinder(this.nodeEvaluator, maxVisitedNodes) {
                      {

@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/entity/ai/behavior/SocializeAtBell.java
++++ b/net/minecraft/world/entity/ai/behavior/SocializeAtBell.java
+@@ -30,7 +_,7 @@
+                             && memory.pos().closerToCenterThan(body.position(), 4.0)
+                             && visibleEntities.contains(mob -> mob.is(EntityType.VILLAGER))) {
+                             visibleEntities.findClosest(mob -> mob.is(EntityType.VILLAGER) && mob.distanceToSqr(body) <= 32.0).ifPresent(mob -> {
+-                                interactionTarget.set(mob);
++                                interactionTarget.set((net.minecraft.world.entity.npc.villager.Villager)mob);
+                                 lookTarget.set(new EntityTracker(mob, true));
+                                 walkTarget.set(new WalkTarget(new EntityTracker(mob, false), 0.3F, 1));
+                             });

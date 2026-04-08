@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/entity/animal/frog/Frog.java
 +++ b/net/minecraft/world/entity/animal/frog/Frog.java
-@@ -68,7 +_,7 @@
+@@ -67,7 +_,7 @@
  import org.jspecify.annotations.Nullable;
  
  public class Frog extends Animal {
@@ -9,7 +9,7 @@
          List.of(SensorType.NEAREST_LIVING_ENTITIES, SensorType.HURT_BY, SensorType.FROG_ATTACKABLES, SensorType.FROG_TEMPTATIONS, SensorType.IS_IN_WATER),
          var0 -> FrogAi.getActivities()
      );
-@@ -98,7 +_,7 @@
+@@ -97,7 +_,7 @@
  
      @Override
      public Brain<Frog> getBrain() {

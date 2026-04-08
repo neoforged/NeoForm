@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/entity/monster/piglin/PiglinBrute.java
 +++ b/net/minecraft/world/entity/monster/piglin/PiglinBrute.java
-@@ -33,7 +_,7 @@
+@@ -32,7 +_,7 @@
      private static final float MOVEMENT_SPEED_WHEN_FIGHTING = 0.35F;
      private static final int ATTACK_DAMAGE = 7;
      private static final double TARGETING_RANGE = 12.0;
@@ -9,7 +9,7 @@
          List.of(MemoryModuleType.NEAREST_VISIBLE_ADULT_PIGLINS),
          List.of(
              SensorType.NEAREST_LIVING_ENTITIES,
-@@ -79,7 +_,7 @@
+@@ -78,7 +_,7 @@
  
      @Override
      public Brain<PiglinBrute> getBrain() {

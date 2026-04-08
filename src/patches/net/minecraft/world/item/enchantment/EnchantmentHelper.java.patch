@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/item/enchantment/EnchantmentHelper.java
++++ b/net/minecraft/world/item/enchantment/EnchantmentHelper.java
+@@ -243,7 +_,7 @@
+                 EnchantedItemInUse itemx = new EnchantedItemInUse(source, null, null, attackerlessOnBreak);
+                 runIterationOnItem(
+                     source,
+-                    (enchantment, level) -> enchantment.value().doPostAttack(serverLevel, level, item, EnchantmentTarget.ATTACKER, victim, damageSource)
++                    (enchantment, level) -> enchantment.value().doPostAttack(serverLevel, level, itemx, EnchantmentTarget.ATTACKER, victim, damageSource)
+                 );
+             }
+         }
