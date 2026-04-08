@@ -1,6 +1,6 @@
 --- a/com/mojang/blaze3d/opengl/GlCommandEncoder.java
 +++ b/com/mojang/blaze3d/opengl/GlCommandEncoder.java
-@@ -529,10 +_,10 @@
+@@ -523,10 +_,10 @@
              Uniform var10 = var10000;
              byte var11 = 0;
  
@@ -15,7 +15,7 @@
                          Uniform.Ubo var62 = var12;
  
                          try {
-@@ -552,86 +_,19 @@
+@@ -546,86 +_,19 @@
  
                          var11 = 1;
                          break;
@@ -49,7 +49,7 @@
 -                                    throw new MatchException(var29.toString(), var29);
 -                                }
 -
--                                TextureFormat var45 = var59;
+-                                GpuFormat var45 = var59;
 -                                Uniform.Utb var60 = bufferView;
 -
 -                                try {
@@ -60,7 +60,7 @@
 -
 -                                var43 = var61;
 -                                if (true) {
-+                    case Uniform.Utb(int location, int samplerIdx, TextureFormat var45, int var43):
++                    case Uniform.Utb(int location, int samplerIdx, GpuFormat var45, int var43):
                                      if (differentProgram || isDirty) {
 -                                        GlStateManager._glUniform1i(var43, var43);
 +                                        GlStateManager._glUniform1i(location, samplerIdx);
@@ -106,7 +106,7 @@
                                  GlRenderPass.TextureViewAndSampler viewAndSamplerxx = renderPass.samplers.get(namex);
                                  if (viewAndSamplerxx == null) {
                                      continue label200;
-@@ -639,10 +_,10 @@
+@@ -633,10 +_,10 @@
  
                                  GlTextureView textureViewx = viewAndSamplerxx.view();
                                  if (differentProgram || isDirty) {
@@ -119,7 +119,7 @@
                                  GlTexture texture = textureViewx.texture();
                                  int target;
                                  if ((texture.usage() & 16) != 0) {
-@@ -653,15 +_,10 @@
+@@ -647,15 +_,10 @@
                                      GlStateManager._bindTexture(texture.id);
                                  }
  
