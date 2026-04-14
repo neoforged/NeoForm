@@ -17,4 +17,4 @@
 +        return ActivityData.<Nautilus>create(
              Activity.IDLE,
              ImmutableList.of(
-                 Pair.of(1, new AnimalMakeLove(EntityType.NAUTILUS, 0.4F, 2)),
+                 Pair.of(1, new AnimalMakeLove(EntityTypes.NAUTILUS, 0.4F, 2)),

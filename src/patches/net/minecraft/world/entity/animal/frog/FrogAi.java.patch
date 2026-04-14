@@ -17,7 +17,7 @@
 +        return ActivityData.<Frog>create(
              Activity.IDLE,
              ImmutableList.of(
-                 Pair.of(0, SetEntityLookTargetSometimes.create(EntityType.PLAYER, 6.0F, UniformInt.of(30, 60))),
+                 Pair.of(0, SetEntityLookTargetSometimes.create(EntityTypes.PLAYER, 6.0F, UniformInt.of(30, 60))),
 @@ -113,7 +_,7 @@
      }
  
@@ -26,7 +26,7 @@
 +        return ActivityData.<Frog>create(
              Activity.SWIM,
              ImmutableList.of(
-                 Pair.of(0, SetEntityLookTargetSometimes.create(EntityType.PLAYER, 6.0F, UniformInt.of(30, 60))),
+                 Pair.of(0, SetEntityLookTargetSometimes.create(EntityTypes.PLAYER, 6.0F, UniformInt.of(30, 60))),
 @@ -145,7 +_,7 @@
      }
  
@@ -35,7 +35,7 @@
 +        return ActivityData.<Frog>create(
              Activity.LAY_SPAWN,
              ImmutableList.of(
-                 Pair.of(0, SetEntityLookTargetSometimes.create(EntityType.PLAYER, 6.0F, UniformInt.of(30, 60))),
+                 Pair.of(0, SetEntityLookTargetSometimes.create(EntityTypes.PLAYER, 6.0F, UniformInt.of(30, 60))),
 @@ -173,7 +_,7 @@
      }
  

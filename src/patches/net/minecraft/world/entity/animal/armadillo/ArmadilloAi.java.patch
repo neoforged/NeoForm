@@ -17,4 +17,4 @@
 +        return ActivityData.<Armadillo>create(
              Activity.IDLE,
              ImmutableList.of(
-                 Pair.of(0, SetEntityLookTargetSometimes.create(EntityType.PLAYER, 6.0F, UniformInt.of(30, 60))),
+                 Pair.of(0, SetEntityLookTargetSometimes.create(EntityTypes.PLAYER, 6.0F, UniformInt.of(30, 60))),

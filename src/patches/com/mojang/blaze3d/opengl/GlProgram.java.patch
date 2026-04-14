@@ -1,7 +1,7 @@
 --- a/com/mojang/blaze3d/opengl/GlProgram.java
 +++ b/com/mojang/blaze3d/opengl/GlProgram.java
-@@ -77,7 +_,7 @@
-         for (RenderPipeline.UniformDescription uniformDescription : uniforms) {
+@@ -80,7 +_,7 @@
+         for (BindGroupLayout.UniformDescription uniformDescription : uniforms) {
              String uniformName = uniformDescription.name();
  
 -            Object var10000_1 = switch (uniformDescription.type()) {

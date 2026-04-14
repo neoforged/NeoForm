@@ -1,120 +1,120 @@
 --- a/net/minecraft/client/renderer/PostChain.java
 +++ b/net/minecraft/client/renderer/PostChain.java
-@@ -103,114 +_,15 @@
-             PostChainConfig.Input var8 = input;
-             byte var9 = 0;
+@@ -106,114 +_,15 @@
+             PostChainConfig.Input var9 = input;
+             byte var10 = 0;
  
 -            while (true) {
--                switch (SwitchBootstraps.typeSwitch<"typeSwitch",PostChainConfig.TextureInput,PostChainConfig.TargetInput>(var8, var9)) {
+-                switch (SwitchBootstraps.typeSwitch<"typeSwitch",PostChainConfig.TextureInput,PostChainConfig.TargetInput>(var9, var10)) {
 -                    case 0:
--                        PostChainConfig.TextureInput var10 = (PostChainConfig.TextureInput)var8;
--                        PostChainConfig.TextureInput var52 = var10;
+-                        PostChainConfig.TextureInput var11 = (PostChainConfig.TextureInput)var9;
+-                        PostChainConfig.TextureInput var53 = var11;
 -
 -                        try {
--                            var53 = var52.samplerName();
+-                            var54 = var53.samplerName();
+-                        } catch (Throwable var32) {
+-                            throw new MatchException(var32.toString(), var32);
+-                        }
+-
+-                        String var37 = var54;
+-                        var53 = var11;
+-
+-                        try {
+-                            var56 = var53.location();
 -                        } catch (Throwable var31) {
 -                            throw new MatchException(var31.toString(), var31);
 -                        }
 -
--                        String var36 = var53;
--                        var52 = var10;
+-                        Identifier var38 = var56;
+-                        var53 = var11;
 -
 -                        try {
--                            var55 = var52.location();
+-                            var58 = var53.width();
 -                        } catch (Throwable var30) {
 -                            throw new MatchException(var30.toString(), var30);
 -                        }
 -
--                        Identifier var37 = var55;
--                        var52 = var10;
--
--                        try {
--                            var57 = var52.width();
--                        } catch (Throwable var29) {
--                            throw new MatchException(var29.toString(), var29);
--                        }
--
--                        int var38 = var57;
+-                        int var39 = var58;
 -                        if (true) {
--                            var52 = var10;
+-                            var53 = var11;
 -
 -                            try {
--                                var59 = var52.height();
--                            } catch (Throwable var28) {
--                                throw new MatchException(var28.toString(), var28);
+-                                var60 = var53.height();
+-                            } catch (Throwable var29) {
+-                                throw new MatchException(var29.toString(), var29);
 -                            }
 -
--                            int var39 = var59;
+-                            int var40 = var60;
 -                            if (true) {
--                                var52 = var10;
+-                                var53 = var11;
 -
 -                                try {
--                                    var61 = var52.bilinear();
--                                } catch (Throwable var27) {
--                                    throw new MatchException(var27.toString(), var27);
+-                                    var62 = var53.bilinear();
+-                                } catch (Throwable var28) {
+-                                    throw new MatchException(var28.toString(), var28);
 -                                }
 -
--                                boolean var40 = var61;
+-                                boolean var41 = var62;
 -                                if (true) {
 +            {
-+                switch (var8) {
-+                    case PostChainConfig.TextureInput(String var36, Identifier var37, int var38, int var39, boolean var40):
-                                     AbstractTexture var41 = textureManager.getTexture(var37.withPath(path -> "textures/effect/" + path + ".png"));
-                                     inputs.add(new PostPass.TextureInput(var36, var41, var38, var39, var40));
++                switch (var9) {
++                    case PostChainConfig.TextureInput(String var37, Identifier var38, int var39, int var40, boolean var41):
+                                     AbstractTexture var42 = textureManager.getTexture(var38.withPath(path -> "textures/effect/" + path + ".png"));
+                                     inputs.add(new PostPass.TextureInput(var37, var42, var39, var40, var41));
                                      continue label110;
 -                                }
 -                            }
 -                        }
 -
--                        var9 = 1;
+-                        var10 = 1;
 -                        break;
 -                    case 1:
--                        PostChainConfig.TargetInput texture = (PostChainConfig.TargetInput)var8;
+-                        PostChainConfig.TargetInput texture = (PostChainConfig.TargetInput)var9;
 -                        PostChainConfig.TargetInput var10000 = texture;
 -
 -                        try {
--                            var45 = var10000.samplerName();
+-                            var46 = var10000.samplerName();
+-                        } catch (Throwable var27) {
+-                            throw new MatchException(var27.toString(), var27);
+-                        }
+-
+-                        String var22 = var46;
+-                        var10000 = texture;
+-
+-                        try {
+-                            var48 = var10000.targetId();
 -                        } catch (Throwable var26) {
 -                            throw new MatchException(var26.toString(), var26);
 -                        }
 -
--                        String var21 = var45;
+-                        Identifier var43 = var48;
 -                        var10000 = texture;
 -
 -                        try {
--                            var47 = var10000.targetId();
+-                            var50 = var10000.useDepthBuffer();
 -                        } catch (Throwable var25) {
 -                            throw new MatchException(var25.toString(), var25);
 -                        }
 -
--                        Identifier var42 = var47;
--                        var10000 = texture;
--
--                        try {
--                            var49 = var10000.useDepthBuffer();
--                        } catch (Throwable var24) {
--                            throw new MatchException(var24.toString(), var24);
--                        }
--
--                        boolean var43 = var49;
+-                        boolean var44 = var50;
 -                        if (true) {
 -                            var10000 = texture;
 -
 -                            try {
--                                var51 = var10000.bilinear();
--                            } catch (Throwable var23) {
--                                throw new MatchException(var23.toString(), var23);
+-                                var52 = var10000.bilinear();
+-                            } catch (Throwable var24) {
+-                                throw new MatchException(var24.toString(), var24);
 -                            }
 -
--                            boolean var44 = var51;
+-                            boolean var45 = var52;
 -                            if (true) {
-+                    case PostChainConfig.TargetInput(String var21, Identifier var42, boolean var43, boolean var44):
-                                 inputs.add(new PostPass.TargetInput(var21, var42, var43, var44));
++                    case PostChainConfig.TargetInput(String var22, Identifier var43, boolean var44, boolean var45):
+                                 inputs.add(new PostPass.TargetInput(var22, var43, var44, var45));
                                  continue label110;
 -                            }
 -                        }
 -
--                        var9 = 2;
+-                        var10 = 2;
 -                        break;
                      default:
                          throw new MatchException(null, null);
