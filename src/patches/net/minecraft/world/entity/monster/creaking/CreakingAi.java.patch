@@ -19,7 +19,7 @@
              Activity.IDLE,
              10,
              ImmutableList.of(
-@@ -55,7 +_,7 @@
+@@ -54,7 +_,7 @@
      }
  
      static ActivityData<Creaking> initFightActivity(Creaking body) {

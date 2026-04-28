@@ -27,27 +27,25 @@
                  StopAttackingIfTargetInvalid.create((level, target) -> !isNearestValidAttackTarget(level, body, target)),
                  BehaviorBuilder.triggerIf(PiglinAi::hasCrossbow, BackUpIfTooClose.create(5, 0.75F)),
                  SetWalkTargetFromAttackTargetIfTargetOutOfReach.create(1.0F),
-@@ -192,15 +_,15 @@
-         return ActivityData.create(
+@@ -189,7 +_,7 @@
+     }
+ 
+     private static ActivityData<Piglin> initCelebrateActivity() {
+-        return ActivityData.create(
++        return ActivityData.<Piglin>create(
              Activity.CELEBRATE,
              10,
--            ImmutableList.of(
-+            ImmutableList.<net.minecraft.world.entity.ai.behavior.BehaviorControl<? super Piglin>>of(
-                 avoidRepellent(),
-                 SetEntityLookTarget.create(PiglinAi::isPlayerHoldingLovedItem, 14.0F),
+             ImmutableList.of(
+@@ -198,7 +_,7 @@
                  StartAttacking.<Piglin>create((level, piglin) -> piglin.isAdult(), PiglinAi::findNearestValidAttackTarget),
--                BehaviorBuilder.triggerIf(
-+                BehaviorBuilder.<Piglin>triggerIf(
-                     body -> body instanceof Piglin && !body.isDancing(), GoToTargetLocation.create(MemoryModuleType.CELEBRATE_LOCATION, 2, 1.0F)
-                 ),
--                BehaviorBuilder.triggerIf(Piglin::isDancing, GoToTargetLocation.create(MemoryModuleType.CELEBRATE_LOCATION, 4, 0.6F)),
+                 BehaviorBuilder.triggerIf(piglin -> !piglin.isDancing(), GoToTargetLocation.create(MemoryModuleType.CELEBRATE_LOCATION, 2, 1.0F)),
+                 BehaviorBuilder.triggerIf(Piglin::isDancing, GoToTargetLocation.create(MemoryModuleType.CELEBRATE_LOCATION, 4, 0.6F)),
 -                new RunOne<LivingEntity>(
-+                BehaviorBuilder.<Piglin>triggerIf(Piglin::isDancing, GoToTargetLocation.create(MemoryModuleType.CELEBRATE_LOCATION, 4, 0.6F)),
-+                new RunOne<Piglin>(
++                new RunOne<>(
                      ImmutableList.of(
                          Pair.of(SetEntityLookTarget.create(EntityTypes.PIGLIN, 8.0F), 1),
                          Pair.of(RandomStroll.stroll(0.6F, 2, 1), 1),
-@@ -213,7 +_,7 @@
+@@ -211,7 +_,7 @@
      }
  
      private static ActivityData<Piglin> initAdmireItemActivity() {
@@ -56,7 +54,7 @@
              Activity.ADMIRE_ITEM,
              10,
              ImmutableList.of(
-@@ -226,21 +_,21 @@
+@@ -224,21 +_,21 @@
      }
  
      private static ActivityData<Piglin> initRetreatActivity() {
@@ -81,7 +79,7 @@
              Activity.RIDE,
              10,
              ImmutableList.of(
-@@ -255,7 +_,7 @@
+@@ -253,7 +_,7 @@
                              .build()
                      )
                  ),

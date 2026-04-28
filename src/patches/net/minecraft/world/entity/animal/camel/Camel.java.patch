@@ -9,7 +9,7 @@
          List.of(SensorType.NEAREST_LIVING_ENTITIES, SensorType.HURT_BY, SensorType.FOOD_TEMPTATIONS, SensorType.NEAREST_ADULT), var0 -> CamelAi.getActivities()
      );
      public static final EntityDataAccessor<Boolean> DASH = SynchedEntityData.defineId(Camel.class, EntityDataSerializers.BOOLEAN);
-@@ -149,7 +_,7 @@
+@@ -153,7 +_,7 @@
  
      @Override
      public Brain<Camel> getBrain() {
