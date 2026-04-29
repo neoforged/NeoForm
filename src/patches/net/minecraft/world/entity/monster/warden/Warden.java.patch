@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/entity/monster/warden/Warden.java
 +++ b/net/minecraft/world/entity/monster/warden/Warden.java
-@@ -98,7 +_,7 @@
+@@ -97,7 +_,7 @@
      private static final float DIGGING_PARTICLES_DURATION = 4.5F;
      private static final float DIGGING_PARTICLES_OFFSET = 0.7F;
      private static final int PROJECTILE_ANGER_DISTANCE = 30;
@@ -9,7 +9,7 @@
          List.of(
              MemoryModuleType.NEAREST_VISIBLE_NEMESIS, MemoryModuleType.RECENT_PROJECTILE, MemoryModuleType.TOUCH_COOLDOWN, MemoryModuleType.VIBRATION_COOLDOWN
          ),
-@@ -379,7 +_,7 @@
+@@ -378,7 +_,7 @@
  
      @Override
      public Brain<Warden> getBrain() {
@@ -18,12 +18,3 @@
      }
  
      @Override
-@@ -551,7 +_,7 @@
-                 this.nodeEvaluator = new WalkNodeEvaluator();
-                 return new PathFinder(this.nodeEvaluator, maxVisitedNodes) {
-                     {
--                        Objects.requireNonNull(<VAR_NAMELESS_ENCLOSURE>);
-+                        
-                     }
- 
-                     @Override

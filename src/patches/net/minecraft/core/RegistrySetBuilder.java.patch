@@ -1,15 +1,6 @@
 --- a/net/minecraft/core/RegistrySetBuilder.java
 +++ b/net/minecraft/core/RegistrySetBuilder.java
-@@ -116,7 +_,7 @@
-             public <V> RegistryOps<V> createSerializationContext(DynamicOps<V> parent) {
-                 return RegistryOps.create(parent, new RegistryOps.RegistryInfoLookup() {
-                     {
--                        Objects.requireNonNull(<VAR_NAMELESS_ENCLOSURE>);
-+                        
-                     }
- 
-                     @Override
-@@ -422,13 +_,13 @@
+@@ -414,13 +_,13 @@
          }
  
          private <T> Holder.Reference<T> getOrCreate(ResourceKey<T> id) {

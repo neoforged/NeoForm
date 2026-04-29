@@ -8,4 +8,4 @@
 +        return (EntityDataSerializer.ForValueType<T>)() -> codec;
      }
  
-     public interface ForValueType<T> extends EntityDataSerializer<T> {
+     interface ForValueType<T> extends EntityDataSerializer<T> {

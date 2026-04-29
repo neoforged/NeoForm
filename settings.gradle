@@ -28,8 +28,8 @@ neoForm {
 
     decompiler {
         classpath = [
-                'org.vineflower:vineflower:1.11.2',
-                'net.neoforged:vineflower-plugins:0.1.5'
+                'org.vineflower:vineflower:1.12.0',
+                'net.neoforged:vineflower-plugins:0.1.6'
         ]
         mainClass = 'org.jetbrains.java.decompiler.main.decompiler.ConsoleDecompiler'
         jvmArgs = ['-Xmx4g']

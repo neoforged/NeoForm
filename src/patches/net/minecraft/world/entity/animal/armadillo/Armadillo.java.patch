@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/entity/animal/armadillo/Armadillo.java
 +++ b/net/minecraft/world/entity/animal/armadillo/Armadillo.java
-@@ -62,7 +_,7 @@
+@@ -61,7 +_,7 @@
      private static final double SCARE_DISTANCE_HORIZONTAL = 7.0;
      private static final double SCARE_DISTANCE_VERTICAL = 2.0;
      private static final EntityDimensions BABY_DIMENSIONS = EntityTypes.ARMADILLO.getDimensions().scale(0.6F).withEyeHeight(0.21875F);
@@ -9,7 +9,7 @@
          List.of(
              SensorType.NEAREST_LIVING_ENTITIES, SensorType.HURT_BY, SensorType.FOOD_TEMPTATIONS, SensorType.NEAREST_ADULT, SensorType.ARMADILLO_SCARE_DETECTED
          ),
-@@ -135,7 +_,7 @@
+@@ -134,7 +_,7 @@
  
      @Override
      public Brain<Armadillo> getBrain() {
