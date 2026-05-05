@@ -3,7 +3,7 @@
 @@ -28,7 +_,7 @@
  
  public class CreakingAi {
-     static ActivityData<Creaking> initCoreActivity() {
+     private static ActivityData<Creaking> initCoreActivity() {
 -        return ActivityData.create(Activity.CORE, 0, ImmutableList.of(new Swim<Creaking>(0.8F) {
 +        return ActivityData.<Creaking>create(Activity.CORE, 0, ImmutableList.of(new Swim<Creaking>(0.8F) {
              protected boolean checkExtraStartConditions(ServerLevel level, Creaking body) {
@@ -12,7 +12,7 @@
 @@ -36,7 +_,7 @@
      }
  
-     static ActivityData<Creaking> initIdleActivity() {
+     private static ActivityData<Creaking> initIdleActivity() {
 -        return ActivityData.create(
 +        return ActivityData.<Creaking>create(
              Activity.IDLE,
@@ -21,7 +21,7 @@
 @@ -54,7 +_,7 @@
      }
  
-     static ActivityData<Creaking> initFightActivity(Creaking body) {
+     private static ActivityData<Creaking> initFightActivity(Creaking body) {
 -        return ActivityData.create(
 +        return ActivityData.<Creaking>create(
              Activity.FIGHT,
