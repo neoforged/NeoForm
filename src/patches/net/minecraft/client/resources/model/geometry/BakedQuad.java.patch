@@ -3,7 +3,7 @@
 @@ -55,6 +_,7 @@
  
      @Retention(RetentionPolicy.CLASS)
-     @Target({ElementType.FIELD, ElementType.PARAMETER, ElementType.LOCAL_VARIABLE, ElementType.METHOD, ElementType.TYPE_USE})
+     @Target(ElementType.TYPE_USE)
 +    @org.intellij.lang.annotations.MagicConstant(flags = {FLAG_TRANSLUCENT, FLAG_ANIMATED})
      public @interface MaterialFlags {
      }

@@ -3,7 +3,7 @@
 @@ -43,6 +_,7 @@
  
      @Retention(RetentionPolicy.CLASS)
-     @Target({ElementType.FIELD, ElementType.PARAMETER, ElementType.LOCAL_VARIABLE, ElementType.METHOD, ElementType.TYPE_USE})
+     @Target(ElementType.TYPE_USE)
 +    @org.intellij.lang.annotations.MagicConstant(flags = {WRITE_RED, WRITE_GREEN, WRITE_BLUE, WRITE_ALPHA, WRITE_COLOR, WRITE_ALL, WRITE_NONE})
      public @interface WriteMask {
      }

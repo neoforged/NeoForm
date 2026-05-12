@@ -1,9 +1,9 @@
 --- a/net/minecraft/client/input/MouseButtonInfo.java
 +++ b/net/minecraft/client/input/MouseButtonInfo.java
-@@ -17,11 +_,25 @@
+@@ -16,11 +_,25 @@
  
      @Retention(RetentionPolicy.CLASS)
-     @Target({ElementType.FIELD, ElementType.PARAMETER, ElementType.LOCAL_VARIABLE, ElementType.METHOD, ElementType.TYPE_USE})
+     @Target(ElementType.TYPE_USE)
 +    @org.intellij.lang.annotations.MagicConstant(intValues = {
 +        com.mojang.blaze3d.platform.InputConstants.PRESS, 
 +        com.mojang.blaze3d.platform.InputConstants.RELEASE
@@ -12,7 +12,7 @@
      }
  
      @Retention(RetentionPolicy.CLASS)
-     @Target({ElementType.FIELD, ElementType.PARAMETER, ElementType.LOCAL_VARIABLE, ElementType.METHOD, ElementType.TYPE_USE})
+     @Target(ElementType.TYPE_USE)
 +    @org.intellij.lang.annotations.MagicConstant(intValues = {
 +        com.mojang.blaze3d.platform.InputConstants.MOUSE_BUTTON_LEFT, 
 +        com.mojang.blaze3d.platform.InputConstants.MOUSE_BUTTON_MIDDLE,
