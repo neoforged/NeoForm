@@ -1,0 +1,10 @@
+--- a/net/minecraft/world/entity/Entity.java
++++ b/net/minecraft/world/entity/Entity.java
+@@ -4000,6 +_,7 @@
+ 
+     @Retention(RetentionPolicy.CLASS)
+     @Target({ElementType.FIELD, ElementType.PARAMETER, ElementType.LOCAL_VARIABLE, ElementType.METHOD, ElementType.TYPE_USE})
++    @org.intellij.lang.annotations.MagicConstant(intValues = {FLAG_ONFIRE, FLAG_SHIFT_KEY_DOWN, FLAG_SPRINTING, FLAG_SWIMMING, FLAG_INVISIBLE, FLAG_GLOWING, FLAG_FALL_FLYING})
+     public @interface Flags {
+     }
+ 
