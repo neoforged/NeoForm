@@ -1,6 +1,6 @@
 --- a/com/mojang/renderpearl/frontend/FrontendRenderPass.java
 +++ b/com/mojang/renderpearl/frontend/FrontendRenderPass.java
-@@ -555,30 +_,10 @@
+@@ -581,30 +_,10 @@
                              }
                              break;
                          case COMBINED_IMAGE_SAMPLER:

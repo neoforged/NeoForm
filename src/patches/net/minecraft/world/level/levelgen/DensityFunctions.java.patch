@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/levelgen/DensityFunctions.java
 +++ b/net/minecraft/world/level/levelgen/DensityFunctions.java
-@@ -279,7 +_,7 @@
+@@ -306,7 +_,7 @@
          public void fillArray(double[] output, DensityFunction.ContextProvider contextProvider) {
              this.left.fillArray(output, contextProvider);
              switch (this.type) {
@@ -9,7 +9,7 @@
                      double[] right = new double[output.length];
                      this.right.fillArray(right, contextProvider);
  
-@@ -287,7 +_,8 @@
+@@ -314,7 +_,8 @@
                          output[i] += right[i];
                      }
                      break;
@@ -19,7 +19,7 @@
                      double[] right = new double[output.length];
                      this.right.fillArray(right, contextProvider);
  
-@@ -295,6 +_,7 @@
+@@ -322,6 +_,7 @@
                          output[i] -= right[i];
                      }
                      break;

@@ -1,6 +1,6 @@
 --- a/net/minecraft/client/input/InputWithModifiers.java
 +++ b/net/minecraft/client/input/InputWithModifiers.java
-@@ -91,6 +_,7 @@
+@@ -84,6 +_,7 @@
  
      @Retention(RetentionPolicy.CLASS)
      @Target(ElementType.TYPE_USE)
