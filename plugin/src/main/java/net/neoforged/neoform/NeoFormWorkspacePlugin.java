@@ -127,6 +127,7 @@ public class NeoFormWorkspacePlugin implements Plugin<Project> {
             task.setDescription("Runs the client for testing.");
             task.getMainClass().set("StartClient");
             task.setClasspath(clientSourceSet.get().getRuntimeClasspath());
+            task.jvmArgs("--enable-native-access=ALL-UNNAMED");
         });
     }
 }
