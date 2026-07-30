@@ -20,7 +20,7 @@ neoForm {
         "org.jetbrains:annotations:26.1.0",
         // In the Minecraft libraries list, this is MacOS X specific since it only contains runtime dependencies
         // But the MacOS X specific code referencing this will be compiled on all platforms.
-        "ca.weblite:java-objc-bridge:1.2"
+        "ca.weblite:java-objc-bridge:1.1"
     )
 
     javaVersion = 25
