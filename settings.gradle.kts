@@ -39,17 +39,18 @@ neoForm {
         mainClass = "org.jetbrains.java.decompiler.main.decompiler.ConsoleDecompiler"
         jvmArgs = listOf("-Xmx4g")
         args = listOf(
+            "--decompile-inner",
+            "--remove-bridge",
+            "--decompile-generics",
+            "--ascii-strings",
+            "--remove-synthetic",
             "--include-classpath",
             "--ignore-invalid-bytecode",
+            "--bytecode-source-mapping",
+            "--dump-code-lines",
             "--indent-string=    ",
             "--log-level=WARN",
             "--thread-count=$threadCount",
-            "--ternary-constant-simplification=1",
-            "--decompile-complex-constant-dynamic=1",
-            "--preferred-line-length=240",
-            "--verify-anonymous-classes=1",
-            "--verify-merges=1",
-            "--verify-pre-post-merges=1",
             "-cfg={inputLibraries}",
             "{input}",
             "{output}"
