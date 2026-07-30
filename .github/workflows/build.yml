@@ -17,15 +17,17 @@ jobs:
       - name: Checkout repository
         uses: neoforged/actions/checkout@main
 
-      - name: Setup JDK 21
+      - name: Setup JDK 25
         uses: neoforged/actions/setup-java@main
         with:
-          java-version: 21
+          java-version: 25
 
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
         with:
-          cache-read-only: false
+          # PR builds: read-only cache (don't pollute); main push: read-write (seed the cache)
+          cache-read-only: ${{ github.ref != 'refs/heads/main' }}
+          gradle-home-cache-cleanup: true
 
       - name: Test
         run: ./gradlew :check

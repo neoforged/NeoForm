@@ -59,12 +59,15 @@ jobs:
       NEW_VERSION: ${{ inputs.new_version }}
     steps:
       - uses: actions/checkout@v4
-      - name: Setup Java 21
+      - name: Setup Java 25
         uses: neoforged/actions/setup-java@main
         with:
-          java-version: 21
+          java-version: 25
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
+        with:
+          cache-read-only: ${{ github.ref != 'refs/heads/main' }}
+          gradle-home-cache-cleanup: true
       - name: Create new Branch
         if: ${{ inputs.new_branch }}
         run: git checkout -b "$NEW_BRANCH" || git checkout -B ${{ inputs.new_branch }} HEAD
