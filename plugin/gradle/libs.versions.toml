@@ -1,0 +1,15 @@
+[versions]
+gson = "2.14.0"
+gradleDownloadTask = "5.7.0"
+diffpatch = "2.1.0.43"
+gradleutils = "6.0.0"
+foojay = "1.0.0"
+moddev = "2.0.142"
+
+[libraries]
+gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
+gradleDownloadTask = { module = "de.undercouch:gradle-download-task", version.ref = "gradleDownloadTask" }
+diffpatch = { module = "io.codechicken:DiffPatch", version.ref = "diffpatch" }
+gradleutils = { module = "net.neoforged.gradleutils:net.neoforged.gradleutils.gradle.plugin", version.ref = "gradleutils" }
+foojay = { module = "org.gradle.toolchains.foojay-resolver-convention:org.gradle.toolchains.foojay-resolver-convention.gradle.plugin", version.ref = "foojay" }
+moddev = { module = "net.neoforged.moddev:net.neoforged.moddev.gradle.plugin", version.ref = "moddev" }

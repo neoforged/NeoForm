@@ -1,5 +1,6 @@
 /.idea
 /.gradle
+/AGENTS.md
 /**/build
 /workspace
 /plugin/.gradle
