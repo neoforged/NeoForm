@@ -7,6 +7,7 @@ import org.gradle.api.tasks.Input;
 import org.gradle.api.tasks.Optional;
 import org.gradle.api.tasks.OutputFile;
 import org.gradle.api.tasks.TaskAction;
+import org.gradle.api.tasks.UntrackedTask;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -14,6 +15,7 @@ import java.util.Collections;
 /**
  * Downloads one of the files from the artifacts section of a Minecraft version manifest.
  */
+@UntrackedTask(because = "Network download, not cacheable")
 public abstract class DownloadVersionArtifacts extends NeoFormRuntimeTask {
     @Input
     public abstract Property<String> getMinecraftVersion();

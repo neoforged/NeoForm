@@ -5,7 +5,10 @@ import org.gradle.api.file.RegularFileProperty;
 import org.gradle.api.tasks.Classpath;
 import org.gradle.api.tasks.InputFile;
 import org.gradle.api.tasks.OutputFile;
+import org.gradle.api.tasks.PathSensitive;
+import org.gradle.api.tasks.PathSensitivity;
 import org.gradle.api.tasks.TaskAction;
+import org.gradle.api.tasks.UntrackedTask;
 
 import javax.inject.Inject;
 import java.io.BufferedWriter;
@@ -15,8 +18,10 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
+@UntrackedTask(because = "Executes external decompiler tool, not cacheable")
 public abstract class Decompile extends ToolAction {
     @InputFile
+    @PathSensitive(PathSensitivity.NONE)
     public abstract RegularFileProperty getInput();
 
     @OutputFile

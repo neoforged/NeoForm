@@ -11,7 +11,10 @@ import org.gradle.api.file.RegularFileProperty;
 import org.gradle.api.tasks.InputDirectory;
 import org.gradle.api.tasks.InputFile;
 import org.gradle.api.tasks.OutputDirectory;
+import org.gradle.api.tasks.PathSensitive;
+import org.gradle.api.tasks.PathSensitivity;
 import org.gradle.api.tasks.TaskAction;
+import org.gradle.api.tasks.UntrackedTask;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.BufferedOutputStream;
@@ -34,11 +37,14 @@ import java.util.zip.ZipOutputStream;
  * This task compares the modified sources in the workspace against the original source zip produced
  * by the decompiler, and updates the patches stored in the src/patches directory accordingly.
  */
+@UntrackedTask(because = "Reads modified sources from workspace, always needs to regenerate")
 public abstract class CreatePatches extends DefaultTask {
     @InputFile
+    @PathSensitive(PathSensitivity.NONE)
     public abstract RegularFileProperty getSourcesZip();
 
     @InputDirectory
+    @PathSensitive(PathSensitivity.RELATIVE)
     public abstract DirectoryProperty getModifiedSources();
 
     @OutputDirectory
@@ -63,7 +69,8 @@ public abstract class CreatePatches extends DefaultTask {
                 .summary(false)
                 .aPrefix("a/")
                 .bPrefix("b/")
-                .lineEnding("\n");
+                .lineEnding("\n")
+                .context(10);
 
         var result = builder.build().operate();
 

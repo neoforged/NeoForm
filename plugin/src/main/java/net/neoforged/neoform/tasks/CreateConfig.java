@@ -14,6 +14,7 @@ import org.gradle.api.tasks.Input;
 import org.gradle.api.tasks.Optional;
 import org.gradle.api.tasks.OutputFile;
 import org.gradle.api.tasks.TaskAction;
+import org.gradle.api.tasks.UntrackedTask;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -22,6 +23,7 @@ import java.util.Map;
 /**
  * Writes the NeoForm config based on the information in the settings.
  */
+@UntrackedTask(because = "Produces a single-use config JSON for NFRT consumption")
 public abstract class CreateConfig extends DefaultTask {
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 

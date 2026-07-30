@@ -5,14 +5,14 @@ import org.gradle.api.Project;
 import org.gradle.api.provider.Property;
 import org.gradle.api.tasks.Internal;
 import org.gradle.api.tasks.TaskAction;
-import org.gradle.work.DisableCachingByDefault;
+import org.gradle.api.tasks.UntrackedTask;
 
 import javax.inject.Inject;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-@DisableCachingByDefault
+@UntrackedTask(because = "Always prints the version, never cacheable")
 public abstract class GetVersion extends DefaultTask {
     @Internal
     protected abstract Property<String> getVersion();

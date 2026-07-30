@@ -12,6 +12,7 @@ import org.gradle.api.provider.MapProperty;
 import org.gradle.api.tasks.Input;
 import org.gradle.api.tasks.Internal;
 import org.gradle.api.tasks.TaskAction;
+import org.gradle.api.tasks.UntrackedTask;
 import org.gradle.internal.component.external.model.ModuleComponentArtifactIdentifier;
 
 import javax.inject.Inject;
@@ -22,6 +23,7 @@ import java.util.HashMap;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+@UntrackedTask(because = "Resolves latest tool versions, not cacheable")
 public abstract class UpdateTools extends DefaultTask {
     @Inject
     public UpdateTools(Project project) {
@@ -29,7 +31,7 @@ public abstract class UpdateTools extends DefaultTask {
         setDescription("Update the tool versions used in the project.");
 
         var neoForm = NeoFormExtension.fromProject(project);
-        getSettingsScript().set(new File(project.getRootDir(), "settings.gradle"));
+        getSettingsScript().set(new File(project.getRootDir(), "settings.gradle.kts"));
 
         var dependencyFactory = project.getDependencyFactory();
         var tools = new ArrayList<ExternalModuleDependency>();

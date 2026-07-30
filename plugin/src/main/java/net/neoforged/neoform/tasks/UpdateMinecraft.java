@@ -10,12 +10,14 @@ import org.gradle.api.tasks.Input;
 import org.gradle.api.tasks.Internal;
 import org.gradle.api.tasks.Optional;
 import org.gradle.api.tasks.TaskAction;
+import org.gradle.api.tasks.UntrackedTask;
 import org.gradle.api.tasks.options.Option;
 
 import javax.inject.Inject;
 import java.io.File;
 import java.nio.file.Files;
 
+@UntrackedTask(because = "Updates settings.gradle.kts, not cacheable")
 public abstract class UpdateMinecraft extends DefaultTask {
     private String newVersion;
 
@@ -26,7 +28,7 @@ public abstract class UpdateMinecraft extends DefaultTask {
 
         var neoForm = NeoFormExtension.fromProject(project);
         getCurrentVersion().set(neoForm.getMinecraftVersion());
-        getSettingsScript().set(new File(project.getRootDir(), "settings.gradle"));
+        getSettingsScript().set(new File(project.getRootDir(), "settings.gradle.kts"));
 
         getOutputs().upToDateWhen(task -> {
             var updateTask = (UpdateMinecraft) task;
@@ -66,7 +68,7 @@ public abstract class UpdateMinecraft extends DefaultTask {
         var settingsScriptPath = getSettingsScript().get().getAsFile().toPath();
         String settingsScript = Files.readString(settingsScriptPath);
 
-        // Replace the Minecraft version in settings.gradle, which is a simple search&replace
+        // Replace the Minecraft version in settings.gradle.kts, which is a simple search&replace
         settingsScript = settingsScript.replace(currentVersion, newVersion);
 
         Files.writeString(settingsScriptPath, settingsScript);

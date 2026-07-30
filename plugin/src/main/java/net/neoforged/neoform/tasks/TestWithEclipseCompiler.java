@@ -8,7 +8,10 @@ import org.gradle.api.provider.Property;
 import org.gradle.api.tasks.Classpath;
 import org.gradle.api.tasks.Input;
 import org.gradle.api.tasks.InputFile;
+import org.gradle.api.tasks.PathSensitive;
+import org.gradle.api.tasks.PathSensitivity;
 import org.gradle.api.tasks.TaskAction;
+import org.gradle.api.tasks.UntrackedTask;
 import org.gradle.process.ExecOperations;
 
 import javax.inject.Inject;
@@ -19,12 +22,14 @@ import java.util.HashSet;
 import java.util.stream.Collectors;
 import java.util.zip.ZipFile;
 
+@UntrackedTask(because = "Compiles with external ECJ compiler, not cacheable")
 public abstract class TestWithEclipseCompiler extends DefaultTask {
 
     @Classpath
     public abstract ConfigurableFileCollection getEclipseCompilerClasspath();
 
     @InputFile
+    @PathSensitive(PathSensitivity.NONE)
     public abstract RegularFileProperty getSourcesZip();
 
     @Classpath

@@ -179,6 +179,8 @@ public abstract class NeoFormProjectPlugin implements Plugin<Project> {
             task.from(project.files("src/patches"), spec -> spec.into("/patches"));
             task.getArchiveBaseName().set("neoform");
             task.getDestinationDirectory().set(project.getLayout().getBuildDirectory().dir("libs"));
+            task.setReproducibleFileOrder(true);
+            task.setPreserveFileTimestamps(false);
         });
         tasks.named(LifecycleBasePlugin.ASSEMBLE_TASK_NAME).configure(task -> task.dependsOn(createDataZip));
         var dataZip = createDataZip.flatMap(Zip::getArchiveFile);
@@ -289,7 +291,7 @@ public abstract class NeoFormProjectPlugin implements Plugin<Project> {
                                           Action<NeoFormRuntimeTask> nfrtConfigurer) {
 
         var eclipseCompiler = project.getConfigurations().dependencyScope("eclipseCompiler", spec -> {
-            spec.getDependencies().add(project.getDependencyFactory().create("org.eclipse.jdt:ecj:3.45.0"));
+            spec.getDependencies().add(project.getDependencyFactory().create("org.eclipse.jdt:ecj:3.46.0"));
         });
         var eclipseCompilerClasspath = project.getConfigurations().resolvable("eclipseCompilerClasspath", spec -> {
             spec.extendsFrom(eclipseCompiler.get());

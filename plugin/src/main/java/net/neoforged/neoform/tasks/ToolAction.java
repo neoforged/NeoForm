@@ -15,6 +15,7 @@ import org.gradle.api.tasks.Internal;
 import org.gradle.api.tasks.Optional;
 import org.gradle.api.tasks.OutputFile;
 import org.gradle.api.tasks.TaskProvider;
+import org.gradle.api.tasks.UntrackedTask;
 import org.gradle.jvm.toolchain.JavaLanguageVersion;
 import org.gradle.jvm.toolchain.JavaLauncher;
 import org.gradle.jvm.toolchain.JavaToolchainService;
@@ -38,6 +39,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+@UntrackedTask(because = "Executes external tools, not cacheable")
 public abstract class ToolAction extends DefaultTask {
     @Inject
     protected abstract ExecOperations getExecOps();

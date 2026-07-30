@@ -5,7 +5,7 @@ import net.neoforged.neoform.manifests.LauncherManifest;
 import org.gradle.api.DefaultTask;
 import org.gradle.api.GradleException;
 import org.gradle.api.tasks.TaskAction;
-import org.gradle.work.DisableCachingByDefault;
+import org.gradle.api.tasks.UntrackedTask;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -17,7 +17,7 @@ import java.nio.file.Path;
 import java.util.Comparator;
 import java.util.HashMap;
 
-@DisableCachingByDefault(because = "it checks for updates")
+@UntrackedTask(because = "Checks for remote updates, never cacheable")
 public abstract class CheckForMinecraftUpdate extends DefaultTask {
     private final String currentVersion;
     private final String manifestUrl;

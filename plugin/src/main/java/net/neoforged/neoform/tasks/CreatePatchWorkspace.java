@@ -20,7 +20,10 @@ import org.gradle.api.provider.Property;
 import org.gradle.api.tasks.InputDirectory;
 import org.gradle.api.tasks.InputFile;
 import org.gradle.api.tasks.OutputDirectory;
+import org.gradle.api.tasks.PathSensitive;
+import org.gradle.api.tasks.PathSensitivity;
 import org.gradle.api.tasks.TaskAction;
+import org.gradle.api.tasks.UntrackedTask;
 
 import javax.inject.Inject;
 import java.io.ByteArrayInputStream;
@@ -36,6 +39,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.zip.ZipFile;
 
+@UntrackedTask(because = "Applies patches from src/patches to decompiled sources, always needs to run")
 public abstract class CreatePatchWorkspace extends DefaultTask {
 
     public static final ProblemGroup PROBLEM_GROUP = ProblemGroup.create("neoform", "NeoForm");
@@ -44,9 +48,11 @@ public abstract class CreatePatchWorkspace extends DefaultTask {
     private static final ProblemId PATCH_TARGET_MISSING = ProblemId.create("patch-target-missing", "Patch targets missing file", PROBLEM_GROUP);
 
     @InputFile
+    @PathSensitive(PathSensitivity.NONE)
     public abstract RegularFileProperty getSourcesZip();
 
     @InputDirectory
+    @PathSensitive(PathSensitivity.RELATIVE)
     public abstract DirectoryProperty getPatchesDir();
 
     @org.gradle.api.tasks.Input

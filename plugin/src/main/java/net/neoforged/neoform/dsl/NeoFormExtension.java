@@ -119,7 +119,7 @@ public abstract class NeoFormExtension {
     public abstract Property<String> getNeoFormRuntimeVersion();
 
     /**
-     * The Java versions that the decompile & recompile cycle should be explicitly tested with. Note that
+     * The Java versions that the decompile &amp; recompile cycle should be explicitly tested with. Note that
      * only javac from these JDKs is really used, not the runtime behavior.
      */
     public abstract ListProperty<Integer> getTestJavaVersions();

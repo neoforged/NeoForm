@@ -7,15 +7,20 @@ import org.gradle.api.file.RegularFileProperty;
 import org.gradle.api.provider.Property;
 import org.gradle.api.tasks.InputFile;
 import org.gradle.api.tasks.OutputDirectory;
+import org.gradle.api.tasks.PathSensitive;
+import org.gradle.api.tasks.PathSensitivity;
 import org.gradle.api.tasks.TaskAction;
+import org.gradle.api.tasks.UntrackedTask;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Map;
 
+@UntrackedTask(because = "Executes NFRT test, not cacheable")
 public abstract class TestWithNeoFormRuntime extends NeoFormRuntimeTask {
     @InputFile
+    @PathSensitive(PathSensitivity.NONE)
     public abstract RegularFileProperty getNeoFormDataArchive();
 
     @OutputDirectory

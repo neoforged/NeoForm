@@ -8,7 +8,10 @@ import org.gradle.api.file.DirectoryProperty;
 import org.gradle.api.file.RegularFileProperty;
 import org.gradle.api.tasks.InputFile;
 import org.gradle.api.tasks.OutputDirectory;
+import org.gradle.api.tasks.PathSensitive;
+import org.gradle.api.tasks.PathSensitivity;
 import org.gradle.api.tasks.TaskAction;
+import org.gradle.api.tasks.UntrackedTask;
 
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -21,13 +24,16 @@ import java.util.regex.Pattern;
 /**
  * Creates the class used to start the client for testing purposes.
  */
+@UntrackedTask(because = "Generates start client class from version manifest, not cacheable")
 public abstract class GenerateRunClientClass extends DefaultTask {
     private static final Pattern PLACEHOLDER_PATTERN = Pattern.compile("\\$\\{([^}]+)}");
 
     @InputFile
+    @PathSensitive(PathSensitivity.NONE)
     public abstract RegularFileProperty getVersionManifest();
 
     @InputFile
+    @PathSensitive(PathSensitivity.NONE)
     public abstract RegularFileProperty getAssetProperties();
 
     @OutputDirectory
