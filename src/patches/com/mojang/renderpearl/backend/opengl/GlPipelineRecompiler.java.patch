@@ -1,0 +1,36 @@
+--- a/com/mojang/renderpearl/backend/opengl/GlPipelineRecompiler.java
++++ b/com/mojang/renderpearl/backend/opengl/GlPipelineRecompiler.java
+@@ -141,7 +_,7 @@
+                 int binding = Spvc.spvc_compiler_get_decoration(compiler, resource.id(), 33);
+                 switch (resourceType) {
+                     case 1:
+-                    case 2:
++                    case 2: {
+                         String blockName = String.format(Locale.ROOT, "_uniform_instance_%02d_%02d", descriptorSet, binding);
+                         if (SHADER_DEBUG_MODE) {
+                             String existingBlockName = Spvc.spvc_compiler_get_name(compiler, resource.base_type_id());
+@@ -152,6 +_,7 @@
+ 
+                         Spvc.spvc_compiler_set_name(compiler, resource.id(), blockName);
+                         Spvc.spvc_compiler_set_name(compiler, resource.base_type_id(), String.format(Locale.ROOT, "_uniform_%02d_%02d", descriptorSet, binding));
++                    }
+                     case 3:
+                     case 4:
+                     case 5:
+@@ -164,7 +_,7 @@
+                     case 11:
+                         Spvc.spvc_compiler_set_name(compiler, resource.id(), String.format(Locale.ROOT, "_uniform_%02d_%02d", descriptorSet, binding));
+                         break;
+-                    case 9:
++                    case 9: {
+                         String blockName = "_push_constants_instance";
+                         if (SHADER_DEBUG_MODE) {
+                             String existingBlockName = Spvc.spvc_compiler_get_name(compiler, resource.base_type_id());
+@@ -175,6 +_,7 @@
+ 
+                         Spvc.spvc_compiler_set_name(compiler, resource.id(), blockName);
+                         Spvc.spvc_compiler_set_name(compiler, resource.base_type_id(), "_push_constants");
++                    }
+                 }
+             }
+         }

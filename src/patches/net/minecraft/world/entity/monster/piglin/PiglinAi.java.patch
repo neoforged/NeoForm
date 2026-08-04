@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/entity/monster/piglin/PiglinAi.java
 +++ b/net/minecraft/world/entity/monster/piglin/PiglinAi.java
-@@ -134,7 +_,7 @@
+@@ -135,7 +_,7 @@
      }
  
      private static ActivityData<Piglin> initCoreActivity() {
@@ -9,7 +9,7 @@
              Activity.CORE,
              0,
              ImmutableList.of(
-@@ -152,7 +_,7 @@
+@@ -153,7 +_,7 @@
      }
  
      private static ActivityData<Piglin> initIdleActivity() {
@@ -18,7 +18,7 @@
              Activity.IDLE,
              10,
              ImmutableList.of(
-@@ -172,7 +_,7 @@
+@@ -173,7 +_,7 @@
          return ActivityData.create(
              Activity.FIGHT,
              10,
@@ -27,7 +27,7 @@
                  StopAttackingIfTargetInvalid.create((level, target) -> !isNearestValidAttackTarget(level, body, target)),
                  BehaviorBuilder.triggerIf(PiglinAi::hasCrossbow, BackUpIfTooClose.create(5, 0.75F)),
                  SetWalkTargetFromAttackTargetIfTargetOutOfReach.create(1.0F),
-@@ -189,7 +_,7 @@
+@@ -190,7 +_,7 @@
      }
  
      private static ActivityData<Piglin> initCelebrateActivity() {
@@ -36,7 +36,7 @@
              Activity.CELEBRATE,
              10,
              ImmutableList.of(
-@@ -198,7 +_,7 @@
+@@ -199,7 +_,7 @@
                  StartAttacking.<Piglin>create((level, piglin) -> piglin.isAdult(), PiglinAi::findNearestValidAttackTarget),
                  BehaviorBuilder.triggerIf(piglin -> !piglin.isDancing(), GoToTargetLocation.create(MemoryModuleType.CELEBRATE_LOCATION, 2, 1.0F)),
                  BehaviorBuilder.triggerIf(Piglin::isDancing, GoToTargetLocation.create(MemoryModuleType.CELEBRATE_LOCATION, 4, 0.6F)),
@@ -45,7 +45,7 @@
                      ImmutableList.of(
                          Pair.of(SetEntityLookTarget.create(EntityTypes.PIGLIN, 8.0F), 1),
                          Pair.of(RandomStroll.stroll(0.6F, 2, 1), 1),
-@@ -211,7 +_,7 @@
+@@ -212,7 +_,7 @@
      }
  
      private static ActivityData<Piglin> initAdmireItemActivity() {
@@ -54,7 +54,7 @@
              Activity.ADMIRE_ITEM,
              10,
              ImmutableList.of(
-@@ -224,21 +_,21 @@
+@@ -225,21 +_,21 @@
      }
  
      private static ActivityData<Piglin> initRetreatActivity() {
@@ -79,7 +79,7 @@
              Activity.RIDE,
              10,
              ImmutableList.of(
-@@ -253,7 +_,7 @@
+@@ -254,7 +_,7 @@
                              .build()
                      )
                  ),

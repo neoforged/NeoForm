@@ -1,8 +1,8 @@
 --- a/com/mojang/renderpearl/frontend/FrontendRenderPass.java
 +++ b/com/mojang/renderpearl/frontend/FrontendRenderPass.java
-@@ -581,30 +_,10 @@
-                             }
-                             break;
+@@ -583,30 +_,10 @@
+ 
+                             throw new IllegalArgumentException("UTB value must be GpuBufferSlice");
                          case COMBINED_IMAGE_SAMPLER:
 -                            if (!(value instanceof TextureViewAndSampler var9)) {
 +                            if (!(value instanceof TextureViewAndSampler(GpuTextureView textureView, GpuSampler sampler))) {
@@ -12,23 +12,23 @@
 -                            TextureViewAndSampler var10000 = var9;
 -
 -                            try {
--                                var17 = var10000.view();
--                            } catch (Throwable var12) {
--                                throw new MatchException(var12.toString(), var12);
+-                                var30 = var10000.view();
+-                            } catch (Throwable var18) {
+-                                throw new MatchException(var18.toString(), var18);
 -                            }
 -
--                            GpuTextureView var10 = var17;
--                            GpuTextureView textureView = var10;
+-                            GpuTextureView length = var30;
+-                            GpuTextureView textureView = length;
 -                            var10000 = var9;
 -
 -                            try {
--                                var19 = var10000.sampler();
--                            } catch (Throwable var11) {
--                                throw new MatchException(var11.toString(), var11);
+-                                var32 = var10000.sampler();
+-                            } catch (Throwable var17) {
+-                                throw new MatchException(var17.toString(), var17);
 -                            }
 -
--                            GpuSampler var16 = var19;
--                            GpuSampler sampler = var16;
+-                            GpuSampler var26 = var32;
+-                            GpuSampler sampler = var26;
                              if (textureView.isClosed()) {
                                  throw new IllegalStateException(
                                      "Texture view " + uniform.name() + " (" + textureView.texture().getLabel() + ") has been closed!"
