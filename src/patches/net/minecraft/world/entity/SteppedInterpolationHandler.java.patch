@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/entity/SteppedInterpolationHandler.java
 +++ b/net/minecraft/world/entity/SteppedInterpolationHandler.java
-@@ -133,25 +_,7 @@
+@@ -122,25 +_,7 @@
                  case PositionPath.Linear(Vec3 pos):
                      this.addStep(pos, yRot, xRot, interpolationSteps);
                      break;
