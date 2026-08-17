@@ -1,6 +1,6 @@
 --- a/com/mojang/blaze3d/platform/InputConstants.java
 +++ b/com/mojang/blaze3d/platform/InputConstants.java
-@@ -497,6 +_,7 @@
+@@ -604,6 +_,7 @@
  
      @Retention(RetentionPolicy.CLASS)
      @Target(ElementType.TYPE_USE)
