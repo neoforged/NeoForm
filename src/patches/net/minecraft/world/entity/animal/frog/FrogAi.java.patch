@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/entity/animal/frog/FrogAi.java
 +++ b/net/minecraft/world/entity/animal/frog/FrogAi.java
-@@ -69,7 +_,7 @@
+@@ -70,7 +_,7 @@
      }
  
      private static ActivityData<Frog> initCoreActivity() {
@@ -9,7 +9,7 @@
              Activity.CORE,
              0,
              ImmutableList.of(
-@@ -83,7 +_,7 @@
+@@ -84,7 +_,7 @@
      }
  
      private static ActivityData<Frog> initIdleActivity() {
@@ -18,7 +18,7 @@
              Activity.IDLE,
              ImmutableList.of(
                  Pair.of(0, SetEntityLookTargetSometimes.create(EntityTypes.PLAYER, 6.0F, UniformInt.of(30, 60))),
-@@ -113,7 +_,7 @@
+@@ -114,7 +_,7 @@
      }
  
      private static ActivityData<Frog> initSwimActivity() {
@@ -27,7 +27,7 @@
              Activity.SWIM,
              ImmutableList.of(
                  Pair.of(0, SetEntityLookTargetSometimes.create(EntityTypes.PLAYER, 6.0F, UniformInt.of(30, 60))),
-@@ -145,7 +_,7 @@
+@@ -146,7 +_,7 @@
      }
  
      private static ActivityData<Frog> initLaySpawnActivity() {
@@ -36,7 +36,7 @@
              Activity.LAY_SPAWN,
              ImmutableList.of(
                  Pair.of(0, SetEntityLookTargetSometimes.create(EntityTypes.PLAYER, 6.0F, UniformInt.of(30, 60))),
-@@ -173,7 +_,7 @@
+@@ -174,7 +_,7 @@
      }
  
      private static ActivityData<Frog> initJumpActivity() {
@@ -45,7 +45,7 @@
              Activity.LONG_JUMP,
              ImmutableList.of(
                  Pair.of(0, new LongJumpMidJump(TIME_BETWEEN_LONG_JUMPS, SoundEvents.FROG_STEP)),
-@@ -201,7 +_,7 @@
+@@ -202,7 +_,7 @@
      }
  
      private static ActivityData<Frog> initTongueActivity() {

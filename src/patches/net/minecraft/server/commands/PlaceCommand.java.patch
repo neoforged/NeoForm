@@ -1,6 +1,6 @@
 --- a/net/minecraft/server/commands/PlaceCommand.java
 +++ b/net/minecraft/server/commands/PlaceCommand.java
-@@ -70,7 +_,7 @@
+@@ -71,7 +_,7 @@
                  .then(
                      Commands.literal("feature")
                          .then(

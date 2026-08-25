@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/entity/animal/axolotl/AxolotlAi.java
 +++ b/net/minecraft/world/entity/animal/axolotl/AxolotlAi.java
-@@ -52,7 +_,7 @@
+@@ -53,7 +_,7 @@
      }
  
      protected static ActivityData<Axolotl> initPlayDeadActivity() {
@@ -9,7 +9,7 @@
              Activity.PLAY_DEAD,
              ImmutableList.of(Pair.of(0, new PlayDead()), Pair.of(1, EraseMemoryIf.create(BehaviorUtils::isBreeding, MemoryModuleType.PLAY_DEAD_TICKS))),
              ImmutableSet.of(Pair.of(MemoryModuleType.PLAY_DEAD_TICKS, MemoryStatus.VALUE_PRESENT)),
-@@ -61,7 +_,7 @@
+@@ -62,7 +_,7 @@
      }
  
      protected static ActivityData<Axolotl> initFightActivity() {
@@ -18,7 +18,7 @@
              Activity.FIGHT,
              0,
              ImmutableList.of(
-@@ -75,7 +_,7 @@
+@@ -76,7 +_,7 @@
      }
  
      protected static ActivityData<Axolotl> initCoreActivity() {
@@ -27,7 +27,7 @@
              Activity.CORE,
              0,
              ImmutableList.of(
-@@ -88,7 +_,7 @@
+@@ -89,7 +_,7 @@
      }
  
      protected static ActivityData<Axolotl> initIdleActivity() {

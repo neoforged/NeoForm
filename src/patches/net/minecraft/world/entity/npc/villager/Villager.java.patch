@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/entity/npc/villager/Villager.java
 +++ b/net/minecraft/world/entity/npc/villager/Villager.java
-@@ -125,7 +_,7 @@
+@@ -123,7 +_,7 @@
      private long lastRestockGameTime = 0L;
      private int numberOfRestocksToday = 0;
      private long lastRestockCheckDay;
@@ -9,7 +9,7 @@
          List.of(
              SensorType.NEAREST_LIVING_ENTITIES,
              SensorType.NEAREST_PLAYERS,
-@@ -190,7 +_,7 @@
+@@ -188,7 +_,7 @@
  
      @Override
      public Brain<Villager> getBrain() {

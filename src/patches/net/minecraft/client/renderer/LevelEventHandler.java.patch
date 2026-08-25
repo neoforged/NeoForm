@@ -1,6 +1,6 @@
 --- a/net/minecraft/client/renderer/LevelEventHandler.java
 +++ b/net/minecraft/client/renderer/LevelEventHandler.java
-@@ -322,7 +_,7 @@
+@@ -324,7 +_,7 @@
              case 2002:
                  this.potionSplashParticles(ParticleTypes.EFFECT, pos, data, random);
                  break;
@@ -9,7 +9,7 @@
                  double x = pos.getX() + 0.5;
                  double y = pos.getY();
                  double z = pos.getZ() + 0.5;
-@@ -355,13 +_,14 @@
+@@ -357,13 +_,14 @@
                          );
                  }
                  break;
@@ -29,20 +29,3 @@
                  }
                  break;
              case 2006:
-@@ -414,7 +_,7 @@
-             case 2014:
-                 this.level.addDestroyBlockEffect(pos, Block.stateById(data));
-                 break;
--            case 2015:
-+            case 2015: {
-                 int xDiff = (data >> 16 & 0xFF) - 16;
-                 int yDiff = (data >> 8 & 0xFF) - 8;
-                 int zDiff = (data & 0xFF) - 16;
-@@ -431,6 +_,7 @@
-                     this.level.addParticle(ParticleTypes.PORTAL, x, y, z, xa, ya, za);
-                 }
-                 break;
-+            }
-             case 3000:
-                 this.level.addAlwaysVisibleParticle(ParticleTypes.EXPLOSION_EMITTER, true, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 0.0, 0.0, 0.0);
-                 this.level

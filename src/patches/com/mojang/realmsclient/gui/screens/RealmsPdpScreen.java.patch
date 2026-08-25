@@ -1,0 +1,11 @@
+--- a/com/mojang/realmsclient/gui/screens/RealmsPdpScreen.java
++++ b/com/mojang/realmsclient/gui/screens/RealmsPdpScreen.java
+@@ -277,7 +_,7 @@
+             );
+         }
+ 
+-        private void addHeader(Component title, @Nullable RealmsPdpScreen.PdpHeaderEntry.Subtitle subTitle) {
++        private void addHeader(Component title, RealmsPdpScreen.PdpHeaderEntry.@Nullable Subtitle subTitle) {
+             RealmsPdpScreen.PdpHeaderEntry entry = RealmsPdpScreen.this.new PdpHeaderEntry(title, subTitle);
+             this.addEntry(entry, entry.entryHeight());
+         }
