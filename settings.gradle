@@ -7,7 +7,7 @@ plugins {
 }
 
 neoForm {
-    minecraftVersion = '26.3-snapshot-10'
+    minecraftVersion = '26.3-pre-1'
 
     additionalCompileDependencies = [
             'net.neoforged:mergetool:2.0.7:api',
