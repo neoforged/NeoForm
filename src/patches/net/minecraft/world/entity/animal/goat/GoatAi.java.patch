@@ -24,7 +24,7 @@
              Activity.IDLE,
              ImmutableList.of(
                  Pair.of(0, SetEntityLookTargetSometimes.create(EntityTypes.PLAYER, 6.0F, UniformInt.of(30, 60))),
-@@ -107,7 +_,7 @@
+@@ -108,7 +_,7 @@
      }
  
      private static ActivityData<Goat> initLongJumpActivity() {
@@ -33,7 +33,7 @@
              Activity.LONG_JUMP,
              ImmutableList.of(
                  Pair.of(0, new LongJumpMidJump(TIME_BETWEEN_LONG_JUMPS, SoundEvents.GOAT_STEP)),
-@@ -132,7 +_,7 @@
+@@ -133,7 +_,7 @@
      }
  
      private static ActivityData<Goat> initRamActivity() {
