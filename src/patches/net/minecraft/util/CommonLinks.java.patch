@@ -1,0 +1,10 @@
+--- a/net/minecraft/util/CommonLinks.java
++++ b/net/minecraft/util/CommonLinks.java
+@@ -39,6 +_,7 @@
+         String uri = EXTEND_REALMS_LINK + "?subscriptionId=" + subscriptionId + "&profileId=" + UndashedUuid.toString(profileId);
+ 
+         return URI.create(switch (reference) {
++            case NONE -> uri;
+             case EXPIRED_TRIAL -> uri + "&ref=expiredTrial";
+             case EXPIRED_REALM -> uri + "&ref=expiredRealm";
+         });
