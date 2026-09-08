@@ -1,6 +1,6 @@
 --- a/net/minecraft/client/gui/screens/packs/PackSelectionScreen.java
 +++ b/net/minecraft/client/gui/screens/packs/PackSelectionScreen.java
-@@ -226,7 +_,7 @@
+@@ -225,7 +_,7 @@
                      try {
                          Util.copyBetweenDirs(pack.getParent(), targetDir, path);
                      } catch (IOException e) {
