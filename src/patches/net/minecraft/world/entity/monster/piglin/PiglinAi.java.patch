@@ -18,15 +18,24 @@
              Activity.IDLE,
              10,
              ImmutableList.of(
-@@ -173,7 +_,7 @@
-         return ActivityData.create(
+@@ -170,7 +_,7 @@
+     }
+ 
+     private static ActivityData<Piglin> initFightActivity(Piglin body) {
+-        return ActivityData.create(
++        return ActivityData.<Piglin>create(
              Activity.FIGHT,
              10,
--            ImmutableList.of(
-+            ImmutableList.<net.minecraft.world.entity.ai.behavior.BehaviorControl<? super Piglin>>of(
-                 StopAttackingIfTargetInvalid.create((level, target) -> !isNearestValidAttackTarget(level, body, target)),
-                 BehaviorBuilder.triggerIf(PiglinAi::hasCrossbow, BackUpIfTooClose.create(5, 0.75F)),
-                 SetWalkTargetFromAttackTargetIfTargetOutOfReach.create(1.0F),
+             ImmutableList.of(
+@@ -181,7 +_,7 @@
+                 new SpearAttack(1.0, 1.0, 2.0F),
+                 new SpearRetreat(1.0),
+                 MeleeAttack.create(20),
+-                new CrossbowAttack(),
++                new CrossbowAttack<>(),
+                 RememberIfHoglinWasKilled.create(),
+                 EraseMemoryIf.create(PiglinAi::isNearZombified, MemoryModuleType.ATTACK_TARGET)
+             ),
 @@ -190,7 +_,7 @@
      }
  
