@@ -1,0 +1,34 @@
+--- a/com/mojang/renderpearl/frontend/FrontendRenderPass.java
++++ b/com/mojang/renderpearl/frontend/FrontendRenderPass.java
+@@ -599,30 +_,10 @@
+ 
+                             throw new IllegalArgumentException("UTB value must be GpuBufferSlice");
+                         case COMBINED_IMAGE_SAMPLER:
+-                            if (!(value instanceof TextureViewAndSampler var9)) {
++                            if (!(value instanceof TextureViewAndSampler(GpuTextureView textureView, GpuSampler sampler))) {
+                                 throw new IllegalArgumentException("Sampler value must be TextureViewAndSampler");
+                             }
+ 
+-                            TextureViewAndSampler var10000 = var9;
+-
+-                            try {
+-                                var32 = var10000.view();
+-                            } catch (Throwable var18) {
+-                                throw new MatchException(var18.toString(), var18);
+-                            }
+-
+-                            GpuTextureView length = var32;
+-                            GpuTextureView textureView = length;
+-                            var10000 = var9;
+-
+-                            try {
+-                                var34 = var10000.sampler();
+-                            } catch (Throwable var17) {
+-                                throw new MatchException(var17.toString(), var17);
+-                            }
+-
+-                            GpuSampler var28 = var34;
+-                            GpuSampler sampler = var28;
+                             if (textureView.isClosed()) {
+                                 throw new IllegalStateException(
+                                     "Texture view " + uniform.name() + " (" + textureView.texture().getLabel() + ") has been closed!"
