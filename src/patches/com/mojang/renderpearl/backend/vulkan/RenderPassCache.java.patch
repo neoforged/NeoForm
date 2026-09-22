@@ -1,0 +1,11 @@
+--- a/com/mojang/renderpearl/backend/vulkan/RenderPassCache.java
++++ b/com/mojang/renderpearl/backend/vulkan/RenderPassCache.java
+@@ -94,7 +_,7 @@
+     }
+ 
+     private synchronized long getRenderPass(RenderPassCache.RenderPassDescription description) {
+-        return this.renderpasses.computeIfAbsent(description, this::createRenderPass);
++        return this.renderpasses.computeIfAbsent(description, (java.util.function.ToLongFunction<RenderPassCache.RenderPassDescription>)this::createRenderPass);
+     }
+ 
+     public long getRenderPass(int depthFormat, List<@Nullable ColorTargetState> colorFormats) {

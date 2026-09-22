@@ -1,23 +1,5 @@
 --- a/net/minecraft/world/entity/monster/Zoglin.java
 +++ b/net/minecraft/world/entity/monster/Zoglin.java
-@@ -98,7 +_,7 @@
-     }
- 
-     private static ActivityData<Zoglin> initIdleActivity() {
--        return ActivityData.create(
-+        return ActivityData.<Zoglin>create(
-             Activity.IDLE,
-             10,
-             ImmutableList.of(
-@@ -119,7 +_,7 @@
-     }
- 
-     private static ActivityData<Zoglin> initFightActivity() {
--        return ActivityData.create(
-+        return ActivityData.<Zoglin>create(
-             Activity.FIGHT,
-             10,
-             ImmutableList.of(
 @@ -222,7 +_,7 @@
  
      @Override
