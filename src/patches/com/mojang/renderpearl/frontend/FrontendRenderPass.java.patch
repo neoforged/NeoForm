@@ -1,6 +1,6 @@
 --- a/com/mojang/renderpearl/frontend/FrontendRenderPass.java
 +++ b/com/mojang/renderpearl/frontend/FrontendRenderPass.java
-@@ -599,30 +_,10 @@
+@@ -604,30 +_,10 @@
  
                              throw new IllegalArgumentException("UTB value must be GpuBufferSlice");
                          case COMBINED_IMAGE_SAMPLER:
