@@ -1,6 +1,6 @@
 --- a/net/minecraft/client/resources/palette/PalettedTextureManager.java
 +++ b/net/minecraft/client/resources/palette/PalettedTextureManager.java
-@@ -57,7 +_,7 @@
+@@ -56,7 +_,7 @@
          this.baseTextureCache = CacheBuilder.newBuilder()
              .expireAfterAccess(Duration.ofMinutes(5L))
              .maximumSize(64L)

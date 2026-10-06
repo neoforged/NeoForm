@@ -1,6 +1,6 @@
 --- a/net/minecraft/client/renderer/LevelEventHandler.java
 +++ b/net/minecraft/client/renderer/LevelEventHandler.java
-@@ -324,7 +_,7 @@
+@@ -341,7 +_,7 @@
              case 2002:
                  this.potionSplashParticles(ParticleTypes.EFFECT, pos, data, random);
                  break;
@@ -9,7 +9,7 @@
                  double x = pos.getX() + 0.5;
                  double y = pos.getY();
                  double z = pos.getZ() + 0.5;
-@@ -357,13 +_,14 @@
+@@ -374,13 +_,14 @@
                          );
                  }
                  break;

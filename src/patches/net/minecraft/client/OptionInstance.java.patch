@@ -1,11 +1,20 @@
 --- a/net/minecraft/client/OptionInstance.java
 +++ b/net/minecraft/client/OptionInstance.java
-@@ -231,7 +_,7 @@
-         default Function<OptionInstance<T>, AbstractWidget> createButton(
-             OptionInstance.TooltipSupplier<T> tooltip, Options options, int x, int y, int width, OptionInstance.ValueUpdateListener<? super T> onValueChanged
-         ) {
--            return instance -> CycleButton.builder(instance.toString, instance::get)
-+            return instance -> CycleButton.<T>builder(instance.toString, instance::get)
-                 .withValues(this.valueListSupplier())
+@@ -214,7 +_,7 @@
+         }
+ 
+         static <T> OptionInstance.ButtonFactory<T> textCycleButton(OptionInstance.CycleableValueSet<T> valueSet) {
+-            return (instance, tooltip, options, x, y, width, onValueChanged) -> CycleButton.builder(instance.toString, instance::get)
++            return (instance, tooltip, options, x, y, width, onValueChanged) -> CycleButton.<T>builder(instance.toString, instance::get)
+                 .withValues(valueSet.valueListSupplier())
                  .withTooltip(tooltip)
-                 .create(x, y, width, 20, instance.caption, (var4x, value) -> {
+                 .create(x, y, width, 20, instance.caption, (var3x, value) -> {
+@@ -225,7 +_,7 @@
+         }
+ 
+         static <T> OptionInstance.ButtonFactory<T> iconCycleButton(OptionInstance.CycleableValueSet<T> valueSet, Function<T, ScaledWidgetSprites> iconProvider) {
+-            return (instance, tooltip, options, x, y, width, onValueChanged) -> SpriteIconCycleButton.builder(
++            return (instance, tooltip, options, x, y, width, onValueChanged) -> SpriteIconCycleButton.<T>builder(
+                     instance.caption, instance.toString, instance::get
+                 )
+                 .withValues(valueSet.valueListSupplier())
