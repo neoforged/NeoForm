@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/entity/ai/Brain.java
 +++ b/net/minecraft/world/entity/ai/Brain.java
-@@ -231,7 +_,7 @@
+@@ -234,7 +_,7 @@
      }
  
      private static <U> void callVisitor(Brain.Visitor visitor, MemoryModuleType<U> memoryModuleType, MemorySlot<?> slot) {

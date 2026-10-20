@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/entity/SpawnPlacements.java
 +++ b/net/minecraft/world/entity/SpawnPlacements.java
-@@ -81,7 +_,7 @@
+@@ -80,7 +_,7 @@
          }
  
          SpawnPlacements.Data data = DATA_BY_TYPE.get(type);
