@@ -305,6 +305,9 @@ public abstract class NeoFormProjectPlugin implements Plugin<Project> {
             task.getInputs().file(dataZip); // Ensure there's a task dependency.
             task.getNeoFormArtifact().set(dataZip.map(f -> f.getAsFile().getAbsolutePath()));
             task.getGameSourcesArtifact().set(project.getLayout().getBuildDirectory().file("test-data/sources.zip"));
+            task.getJavaExecutable().convention(getJavaToolchains()
+                    .launcherFor(spec -> spec.getLanguageVersion().set(JavaLanguageVersion.of(neoForm.getJavaVersion().get())))
+                    .map(javaLauncher -> javaLauncher.getExecutablePath().getAsFile().getAbsolutePath()));
         });
 
         var testTask = tasks.register("testDataWithEclipseCompiler", TestWithEclipseCompiler.class, task -> {
