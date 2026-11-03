@@ -1,6 +1,6 @@
 --- a/com/mojang/renderpearl/backend/opengl/GlCommandEncoder.java
 +++ b/com/mojang/renderpearl/backend/opengl/GlCommandEncoder.java
-@@ -529,96 +_,18 @@
+@@ -572,96 +_,18 @@
                      renderPass.dirtyUniforms.set(i, false);
                      Uniform dirtyUniform = glProgram.getUniform(i);
                      if (dirtyUniform != null) {
@@ -103,7 +103,7 @@
                                          TextureViewAndSampler viewAndSampler = (TextureViewAndSampler)renderPass.uniforms.get(i);
                                          if (viewAndSampler != null) {
                                              GlTextureView textureView = (GlTextureView)viewAndSampler.view();
-@@ -637,24 +_,8 @@
+@@ -680,24 +_,8 @@
                                              GL33C.glTexParameteri(target, 33084, textureView.baseMipLevel());
                                              GL33C.glTexParameteri(target, 33085, textureView.baseMipLevel() + textureView.mipLevels() - 1);
                                          }
@@ -130,7 +130,7 @@
                                          GlTextureView textureViewx = (GlTextureView)renderPass.uniforms.get(i);
                                          if (textureViewx != null) {
                                              this.stateManager._activeTexture(33984 + samplerIndex);
-@@ -664,14 +_,8 @@
+@@ -707,14 +_,8 @@
                                              GL33C.glTexParameteri(3553, 33084, textureViewx.baseMipLevel());
                                              GL33C.glTexParameteri(3553, 33085, textureViewx.baseMipLevel() + textureViewx.mipLevels() - 1);
                                          }
