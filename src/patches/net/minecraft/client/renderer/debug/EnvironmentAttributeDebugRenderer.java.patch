@@ -1,0 +1,99 @@
+--- a/net/minecraft/client/renderer/debug/EnvironmentAttributeDebugRenderer.java
++++ b/net/minecraft/client/renderer/debug/EnvironmentAttributeDebugRenderer.java
+@@ -109,85 +_,17 @@
+     }
+ 
+     private static int colorFromValue(Object value) {
+-        // $VF: Couldn't be decompiled
+-        // Please report this to the Vineflower issue tracker, at https://github.com/Vineflower/vineflower/issues with a copy of the class file (if you have the rights to distribute it!)
+-        // java.lang.RuntimeException: invalid constant type: Ljava/lang/Object; with value 4
+-        //   at org.jetbrains.java.decompiler.modules.decompiler.exps.ConstExprent.toJava(ConstExprent.java:364)
+-        //   at org.jetbrains.java.decompiler.modules.decompiler.exps.SwitchExprent.toJava(SwitchExprent.java:105)
+-        //   at org.jetbrains.java.decompiler.modules.decompiler.ExprProcessor.getCastedExprent(ExprProcessor.java:1054)
+-        //   at org.jetbrains.java.decompiler.modules.decompiler.exps.ExitExprent.toJava(ExitExprent.java:85)
+-        //   at org.jetbrains.java.decompiler.modules.decompiler.ExprProcessor.listToJava(ExprProcessor.java:925)
+-        //   at org.jetbrains.java.decompiler.modules.decompiler.stats.BasicBlockStatement.toJava(BasicBlockStatement.java:87)
+-        //   at org.jetbrains.java.decompiler.modules.decompiler.ExprProcessor.jmpWrapper(ExprProcessor.java:860)
+-        //   at org.jetbrains.java.decompiler.modules.decompiler.stats.SequenceStatement.toJava(SequenceStatement.java:107)
+-        //   at org.jetbrains.java.decompiler.modules.decompiler.stats.RootStatement.toJava(RootStatement.java:36)
+-        //   at org.jetbrains.java.decompiler.main.ClassWriter.writeMethod(ClassWriter.java:1351)
+-        //
+-        // Bytecode:
+-        // 00: aload 0
+-        // 01: dup
+-        // 02: invokestatic java/util/Objects.requireNonNull (Ljava/lang/Object;)Ljava/lang/Object;
+-        // 05: pop
+-        // 06: astore 1
+-        // 07: bipush 0
+-        // 08: istore 2
+-        // 09: aload 1
+-        // 0a: iload 2
+-        // 0b: invokedynamic typeSwitch (Ljava/lang/Object;I)I bsm=java/lang/runtime/SwitchBootstraps.typeSwitch (Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;[Ljava/lang/Object;)Ljava/lang/invoke/CallSite; args=[ org/joml/Vector3fc, org/joml/Vector4fc, java/lang/Boolean, java/lang/Number, java/util/List ]
+-        // 10: tableswitch 119 0 4 36 48 62 88 88
+-        // 34: aload 1
+-        // 35: checkcast org/joml/Vector3fc
+-        // 38: astore 3
+-        // 39: aload 3
+-        // 3a: invokestatic net/minecraft/util/ARGB.colorFromVector3f (Lorg/joml/Vector3fc;)I
+-        // 3d: goto ac
+-        // 40: aload 1
+-        // 41: checkcast org/joml/Vector4fc
+-        // 44: astore 4
+-        // 46: aload 4
+-        // 48: invokestatic net/minecraft/util/ARGB.colorFromVector4f (Lorg/joml/Vector4fc;)I
+-        // 4b: goto ac
+-        // 4e: aload 1
+-        // 4f: checkcast java/lang/Boolean
+-        // 52: astore 5
+-        // 54: aload 5
+-        // 56: invokevirtual java/lang/Boolean.booleanValue ()Z
+-        // 59: ifeq 62
+-        // 5c: ldc_w -16711936
+-        // 5f: goto ac
+-        // 62: ldc_w -65536
+-        // 65: goto ac
+-        // 68: aload 1
+-        // 69: instanceof java/lang/Number
+-        // 6c: ifeq 72
+-        // 6f: goto 81
+-        // 72: aload 1
+-        // 73: instanceof java/util/List
+-        // 76: ifeq 7c
+-        // 79: goto 81
+-        // 7c: bipush 5
+-        // 7d: istore 2
+-        // 7e: goto 09
+-        // 81: ldc_w -8355712
+-        // 84: goto ac
+-        // 87: aload 0
+-        // 88: invokestatic java/lang/String.valueOf (Ljava/lang/Object;)Ljava/lang/String;
+-        // 8b: invokevirtual java/lang/String.hashCode ()I
+-        // 8e: istore 6
+-        // 90: iload 6
+-        // 92: ldc_w 65535
+-        // 95: iand
+-        // 96: i2f
+-        // 97: ldc_w 65535.0
+-        // 9a: fdiv
+-        // 9b: fstore 7
+-        // 9d: fload 7
+-        // 9f: ldc_w 0.65
+-        // a2: fconst_1
+-        // a3: sipush 255
+-        // a6: invokestatic net/minecraft/util/Mth.hsvToArgb (FFFI)I
+-        // a9: goto ac
+-        // ac: ireturn
++        return switch (value) {
++            case Vector3fc rgb -> ARGB.colorFromVector3f(rgb);
++            case Vector4fc argb -> ARGB.colorFromVector4f(argb);
++            case Boolean enabled -> enabled ? 0xFF00FF00 : 0xFFFF0000;
++            case Number _, List<?> _ -> 0xFF808080;
++            default -> {
++                int hash = String.valueOf(value).hashCode();
++                float hue = (hash & 65535) / 65535f;
++                yield net.minecraft.util.Mth.hsvToRgb(hue, 0.65f, 1f);
++            }
++        };
+     }
+ 
+     private record HeatmapSample(BlockPos pos, int color) {
