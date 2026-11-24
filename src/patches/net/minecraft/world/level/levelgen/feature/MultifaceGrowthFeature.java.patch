@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/levelgen/feature/MultifaceGrowthFeature.java
 +++ b/net/minecraft/world/level/levelgen/feature/MultifaceGrowthFeature.java
-@@ -65,7 +_,7 @@
+@@ -66,7 +_,7 @@
          } else if (!(this.placeBlock instanceof MultifaceSpreadeableBlock placerBlock)) {
              return false;
          } else {

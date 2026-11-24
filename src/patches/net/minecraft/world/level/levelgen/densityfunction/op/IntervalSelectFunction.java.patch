@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/levelgen/densityfunction/op/IntervalSelectFunction.java
 +++ b/net/minecraft/world/level/levelgen/densityfunction/op/IntervalSelectFunction.java
-@@ -133,20 +_,9 @@
+@@ -134,20 +_,9 @@
                          i++;
                      }
                  } finally {

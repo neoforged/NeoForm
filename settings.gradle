@@ -7,7 +7,7 @@ plugins {
 }
 
 neoForm {
-    minecraftVersion = '26.4-snapshot-10'
+    minecraftVersion = '26.4-pre-1'
 
     additionalCompileDependencies = [
             'net.neoforged:mergetool:2.0.7:api',
@@ -29,7 +29,7 @@ neoForm {
     decompiler {
         classpath = [
                 'org.vineflower:vineflower:1.12.0',
-                'net.neoforged:vineflower-plugins:0.1.6'
+                'net.neoforged:vineflower-plugins:0.1.7'
         ]
         mainClass = 'org.jetbrains.java.decompiler.main.decompiler.ConsoleDecompiler'
         jvmArgs = ['-Xmx4g']

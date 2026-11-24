@@ -1,6 +1,6 @@
 --- a/net/minecraft/util/monomorphizer/MonomorphicDelegateTemplate.java
 +++ b/net/minecraft/util/monomorphizer/MonomorphicDelegateTemplate.java
-@@ -149,52 +_,13 @@
+@@ -150,52 +_,13 @@
          }
  
          public void accept(final ClassBuilder builder, final ClassElement element) {
@@ -60,7 +60,7 @@
          }
  
          private void acceptMethod(ClassBuilder builder, MethodModel method) {
-@@ -214,95 +_,13 @@
+@@ -215,95 +_,13 @@
          }
  
          private void transformCodeElement(CodeBuilder code, CodeElement element) {

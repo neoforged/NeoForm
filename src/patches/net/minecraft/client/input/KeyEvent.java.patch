@@ -1,6 +1,6 @@
 --- a/net/minecraft/client/input/KeyEvent.java
 +++ b/net/minecraft/client/input/KeyEvent.java
-@@ -22,6 +_,7 @@
+@@ -23,6 +_,7 @@
  
      @Retention(RetentionPolicy.CLASS)
      @Target(ElementType.TYPE_USE)

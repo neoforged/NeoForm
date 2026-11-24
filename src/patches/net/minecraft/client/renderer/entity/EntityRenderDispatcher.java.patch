@@ -1,6 +1,6 @@
 --- a/net/minecraft/client/renderer/entity/EntityRenderDispatcher.java
 +++ b/net/minecraft/client/renderer/entity/EntityRenderDispatcher.java
-@@ -91,11 +_,11 @@
+@@ -93,11 +_,11 @@
      }
  
      public <T extends Entity> EntityRenderer<? super T, ?> getRenderer(T entity) {
@@ -16,7 +16,7 @@
      }
  
      private <T extends Avatar & ClientAvatarEntity> AvatarRenderer<T> getAvatarRenderer(Map<PlayerModelType, AvatarRenderer<T>> renderers, T entity) {
-@@ -111,7 +_,7 @@
+@@ -113,7 +_,7 @@
  
      public <S extends EntityRenderState> EntityRenderer<?, ? super S> getRenderer(S entityRenderState) {
          return entityRenderState instanceof AvatarRenderState avatarRenderState

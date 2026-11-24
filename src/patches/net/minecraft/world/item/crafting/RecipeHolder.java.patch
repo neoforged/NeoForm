@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/item/crafting/RecipeHolder.java
 +++ b/net/minecraft/world/item/crafting/RecipeHolder.java
-@@ -12,7 +_,7 @@
+@@ -13,7 +_,7 @@
      );
  
      public static <T extends Recipe<?>> RecipeHolder<T> wrap(Holder.Reference<T> holder) {
