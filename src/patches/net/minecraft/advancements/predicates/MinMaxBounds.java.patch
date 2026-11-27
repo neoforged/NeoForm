@@ -1,6 +1,6 @@
 --- a/net/minecraft/advancements/predicates/MinMaxBounds.java
 +++ b/net/minecraft/advancements/predicates/MinMaxBounds.java
-@@ -78,7 +_,7 @@
+@@ -77,7 +_,7 @@
          }
  
          public static <T extends Comparable<T>> MinMaxBounds.Bounds<T> any() {

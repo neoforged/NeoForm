@@ -1,6 +1,6 @@
 --- a/com/mojang/renderpearl/backend/vulkan/init/FeatureSet.java
 +++ b/com/mojang/renderpearl/backend/vulkan/init/FeatureSet.java
-@@ -16,6 +_,13 @@
+@@ -15,6 +_,13 @@
  
  @OnlyIn(Dist.CLIENT)
  public record FeatureSet(String name, Set<String> extensions, Set<VulkanFeature> features, FeatureSet.Condition condition) {

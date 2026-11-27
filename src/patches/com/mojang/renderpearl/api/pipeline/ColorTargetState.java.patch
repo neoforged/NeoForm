@@ -1,6 +1,6 @@
 --- a/com/mojang/renderpearl/api/pipeline/ColorTargetState.java
 +++ b/com/mojang/renderpearl/api/pipeline/ColorTargetState.java
-@@ -43,6 +_,7 @@
+@@ -42,6 +_,7 @@
  
      @Retention(RetentionPolicy.CLASS)
      @Target(ElementType.TYPE_USE)
